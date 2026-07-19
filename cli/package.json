@@ -1,0 +1,16 @@
+{
+  "name": "@interactivewriter/cli",
+  "version": "0.0.2",
+  "description": "CLI 'iw' per validare e giocare storie .iwstory da terminale.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "bin": {
+    "iw": "./src/iw.ts"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

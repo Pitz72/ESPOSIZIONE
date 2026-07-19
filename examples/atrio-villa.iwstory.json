@@ -1,0 +1,282 @@
+{
+  "meta": {
+    "id": "atrio_villa",
+    "title": "L'atrio della villa",
+    "version": "0.1.0",
+    "formatVersion": "0.3",
+    "locale": "it",
+    "authors": ["Simone"],
+    "description": "Micro-storia dimostrativa del formato .iwstory: una scena investigativa con check attivi, una voce interiore e un thread di indagine."
+  },
+
+  "ruleset": {
+    "attributes": [
+      { "id": "intelletto", "name": "Intelletto", "default": 2, "min": 1, "max": 6 },
+      { "id": "fisico", "name": "Fisico", "default": 2, "min": 1, "max": 6 },
+      { "id": "psiche", "name": "Psiche", "default": 2, "min": 1, "max": 6 }
+    ],
+    "skills": [
+      { "id": "logica", "name": "Logica", "attribute": "intelletto", "canSpeak": true },
+      { "id": "empatia", "name": "Empatia", "attribute": "psiche", "canSpeak": true },
+      { "id": "forza", "name": "Forza", "attribute": "fisico", "canSpeak": false }
+    ],
+    "resources": [
+      { "id": "morale", "name": "Morale", "default": 3, "min": 0, "max": 3, "onDepleted": "crollo" }
+    ],
+    "check": {
+      "dice": "2d6",
+      "adds": ["skill", "modifiers"],
+      "compare": ">=",
+      "critSuccess": 12,
+      "critFailure": 2
+    },
+    "outcomeModel": {
+      "partial": true,
+      "partialBand": 2,
+      "crits": "natural"
+    },
+    "characterCreation": { "attributePoints": 6, "skillPoints": 4 }
+  },
+
+  "stateSchema": {
+    "haChiave": { "type": "boolean", "default": false, "label": "Ha la chiave dello zerbino" },
+    "notatoOdore": { "type": "boolean", "default": false, "label": "Ha notato l'odore di sale" },
+    "fiducia": { "type": "number", "default": 0, "min": 0, "max": 5, "label": "Fiducia verso la villa" },
+    "approccio": {
+      "type": "enum",
+      "values": ["cauto", "diretto"],
+      "default": "cauto",
+      "label": "Stile d'approccio del protagonista"
+    }
+  },
+
+  "items": {
+    "grimaldello": {
+      "name": "Grimaldello",
+      "description": "Un ferro sottile, buono per serrature vecchie.",
+      "tags": ["strumento"],
+      "stackable": false
+    }
+  },
+
+  "threads": {
+    "indagine_villa": {
+      "name": "Cosa è successo alla villa",
+      "type": "quest",
+      "stages": ["avviata", "indizio_chiave", "risolta"]
+    },
+    "sospetto_abbandono": {
+      "name": "Questa casa è stata lasciata di fretta",
+      "type": "thought",
+      "stages": ["intuizione", "interiorizzato"],
+      "onComplete": [{ "kind": "add", "var": "fiducia", "value": 1 }]
+    }
+  },
+
+  "entry": "atrio",
+
+  "nodes": {
+    "atrio": {
+      "id": "atrio",
+      "title": "Ingresso della villa",
+      "tags": ["atto1", "villa"],
+      "onEnter": [{ "kind": "startThread", "thread": "indagine_villa" }],
+      "content": [
+        {
+          "speaker": "Narratore",
+          "text": "La porta cede con un gemito. L'atrio è buio, l'aria ferma. Sotto la polvere, un odore di sale."
+        },
+        {
+          "speaker": "@skill:empatia",
+          "text": "Qualcuno ha vissuto qui l'ultimo giorno come una ferita. Se ne sente ancora l'eco.",
+          "requires": { "check": { "skill": "empatia", "difficulty": 9, "mode": "passive" } }
+        },
+        {
+          "speaker": "@skill:logica",
+          "text": "Nessun bagaglio, nessuna valigia. Ma i cassetti sono aperti. Sono partiti di fretta.",
+          "requires": {
+            "all": [
+              { "check": { "skill": "logica", "difficulty": 10, "mode": "passive" } },
+              { "lhs": "approccio", "op": "==", "rhs": "cauto" }
+            ]
+          }
+        }
+      ],
+      "choices": [
+        {
+          "id": "annusa",
+          "text": "Segui l'odore di sale verso il retro.",
+          "effects": [
+            { "kind": "set", "var": "notatoOdore", "value": true },
+            { "kind": "startThread", "thread": "sospetto_abbandono" }
+          ],
+          "goto": "corridoio"
+        },
+        {
+          "id": "forza_porta",
+          "text": "Forza la porta sul retro con il grimaldello.",
+          "requires": { "lhs": "@item:grimaldello", "op": ">=", "rhs": 1 },
+          "whenLocked": "hide",
+          "check": {
+            "skill": "forza",
+            "difficulty": 11,
+            "mode": "active",
+            "retryable": true,
+            "modifiers": [
+              {
+                "when": { "lhs": "notatoOdore", "op": "==", "rhs": true },
+                "value": 1,
+                "label": "Sai già dov'è lo spiffero"
+              }
+            ],
+            "outcomes": {
+              "critSuccess": {
+                "goto": "retro_aperto",
+                "text": "La porta salta via dai cardini come se non avesse mai opposto resistenza."
+              },
+              "success": { "goto": "retro_aperto" },
+              "partial": {
+                "goto": "retro_aperto",
+                "effects": [{ "kind": "adjustResource", "resource": "morale", "value": -1 }],
+                "text": "Cede, ma con uno schianto che rimbomba per tutta la villa. Ora sanno che sei qui."
+              },
+              "failure": { "goto": "retro_resiste" },
+              "critFailure": {
+                "goto": "retro_resiste",
+                "effects": [{ "kind": "adjustResource", "resource": "morale", "value": -1 }],
+                "text": "La spalla urta il legno con un dolore sordo. Il grimaldello ti sfugge e tintinna sul pavimento."
+              }
+            }
+          }
+        },
+        {
+          "id": "sali",
+          "text": "Sali le scale verso il piano superiore.",
+          "goto": "piano_superiore"
+        }
+      ]
+    },
+
+    "corridoio": {
+      "id": "corridoio",
+      "title": "Il corridoio",
+      "tags": ["atto1", "villa"],
+      "content": [
+        {
+          "speaker": "Narratore",
+          "text": "Il corridoio finisce in una porta di servizio. Sotto lo zerbino, il luccichio di una chiave."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prendi_chiave",
+          "text": "Raccogli la chiave sotto lo zerbino.",
+          "effects": [
+            { "kind": "set", "var": "haChiave", "value": true },
+            { "kind": "advanceThread", "thread": "indagine_villa", "to": "indizio_chiave" }
+          ],
+          "goto": "retro_aperto"
+        },
+        {
+          "id": "ignora",
+          "text": "Lascia stare e torna indietro.",
+          "effects": [{ "kind": "adjustResource", "resource": "morale", "value": -1 }],
+          "goto": "atrio"
+        }
+      ]
+    },
+
+    "retro_aperto": {
+      "id": "retro_aperto",
+      "title": "Il retro si apre",
+      "tags": ["atto1"],
+      "content": [
+        {
+          "speaker": "Narratore",
+          "text": "La porta sul retro si spalanca sul giardino. La luce entra per la prima volta da mesi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "esci",
+          "text": "Esci nel giardino.",
+          "effects": [{ "kind": "completeThread", "thread": "indagine_villa" }],
+          "goto": "fine_capitolo"
+        }
+      ]
+    },
+
+    "retro_resiste": {
+      "id": "retro_resiste",
+      "title": "La porta resiste",
+      "tags": ["atto1"],
+      "content": [
+        {
+          "speaker": "@skill:forza",
+          "text": "Il legno è gonfio d'umidità. Non basta la mano: serve un punto d'appoggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "riprova",
+          "text": "Cerca un appiglio migliore e riprova.",
+          "goto": "atrio"
+        }
+      ]
+    },
+
+    "piano_superiore": {
+      "id": "piano_superiore",
+      "title": "Il piano superiore",
+      "tags": ["atto1", "villa"],
+      "content": [
+        {
+          "speaker": "Narratore",
+          "text": "Le camere sono vuote, i letti disfatti. Dalla finestra, il mare batte contro la scogliera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cambia_approccio",
+          "text": "Decidi di non aver più pazienza: da ora agisci senza esitare.",
+          "effects": [{ "kind": "set", "var": "approccio", "value": "diretto" }],
+          "goto": "fine_capitolo"
+        },
+        {
+          "id": "scendi",
+          "text": "Torna nell'atrio.",
+          "goto": "atrio"
+        }
+      ]
+    },
+
+    "fine_capitolo": {
+      "id": "fine_capitolo",
+      "title": "Fine del capitolo",
+      "tags": ["finale"],
+      "content": [
+        {
+          "speaker": "Narratore",
+          "text": "Qualunque strada tu abbia preso, la villa non è più un enigma chiuso. È l'inizio di qualcosa."
+        },
+        {
+          "speaker": "@skill:empatia",
+          "text": "E adesso lo sai: non sei venuto qui per la casa. Sei venuto per chi non c'è più.",
+          "requires": { "lhs": "fiducia", "op": ">=", "rhs": 1 }
+        }
+      ]
+    },
+
+    "crollo": {
+      "id": "crollo",
+      "title": "Crollo",
+      "tags": ["finale", "morte"],
+      "content": [
+        {
+          "speaker": "Narratore",
+          "text": "Il peso di questo posto ti schiaccia. Ti siedi sul pavimento e non ti rialzi. Non oggi."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# Dipendenze
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+**/dist/
+build/
+.vite/
+
+# Rust / Tauri
+target/
+**/target/
+**/gen/schemas/
+
+# Log e temporanei
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Editor/IDE
+.idea/
+*.swp

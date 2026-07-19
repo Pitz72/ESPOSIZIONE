@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "id": "corridor_act1",
+    "title": "Corridor 2193 — Atto 1 (migrazione di collaudo)",
+    "version": "0.2.0",
+    "formatVersion": "0.3",
+    "authors": ["Simone"],
+    "description": "Slice reale dell'Atto 1 di Corridor2193 (risveglio + Hub) migrato in .iwstory. Aggiornato a 0.3: statistiche come attributi diretti (G1), tags sulle scelte (G3), hints di presentazione (G2), stress della console in onFirstEnter (G4)."
+  },
+
+  "ruleset": {
+    "attributes": [
+      { "id": "strength", "name": "Forza", "default": 4, "min": 1, "max": 20 },
+      { "id": "agility", "name": "Agilità", "default": 3, "min": 1, "max": 20 },
+      { "id": "tech", "name": "Tecnica", "default": 5, "min": 1, "max": 20 }
+    ],
+    "resources": [
+      { "id": "hp", "name": "HP", "default": 80, "min": 0, "max": 100, "onDepleted": "game_over" },
+      { "id": "stress", "name": "Stress", "default": 25, "min": 0, "max": 100 },
+      { "id": "ammo_pistol", "name": "Munizioni pistola", "default": 12, "min": 0, "max": 96 },
+      { "id": "ammo_rifle", "name": "Munizioni fucile", "default": 0, "min": 0, "max": 96 },
+      { "id": "credits", "name": "Crediti", "default": 0, "min": 0 }
+    ],
+    "check": {
+      "dice": "1d20",
+      "adds": ["modifiers"],
+      "compare": ">="
+    },
+    "outcomeModel": {
+      "partial": false,
+      "crits": "off"
+    }
+  },
+
+  "stateSchema": {
+    "intro_played": { "type": "boolean", "default": false, "label": "Intro riprodotta" },
+    "has_weapon": { "type": "boolean", "default": true, "label": "Possiede un'arma" },
+    "red_static_triggered": { "type": "boolean", "default": false, "label": "Visione statico rosso" },
+    "hub_unlocked": { "type": "boolean", "default": false, "label": "Hub sbloccato" },
+    "knows_xibalba": { "type": "boolean", "default": false, "label": "Conosce Xibalba" },
+    "key_beta_labs": { "type": "boolean", "default": false, "label": "Ha la chiave del Settore Beta" }
+  },
+
+  "entry": "boot_sequence",
+
+  "nodes": {
+    "boot_sequence": {
+      "id": "boot_sequence",
+      "title": "Boot sequence",
+      "tags": ["atto1"],
+      "content": [
+        { "speaker": "System", "text": "INIZIALIZZAZIONE SISTEMI NEURALI...", "hints": { "typingSpeed": 50 } },
+        { "speaker": "Narratore", "text": "Buio. Un buio denso, pesante, come catrame liquido versato sulle retine. Non è il buio del sonno. È il vuoto." },
+        { "speaker": "Narratore", "text": "Il silenzio è pressurizzato. Ti schiaccia i timpani, rotto solo da un ronzio fantasma. Il tuo sistema nervoso frigge." },
+        { "speaker": "Sconosciuto", "text": "...rgente...", "hints": { "glitch": true, "typingSpeed": 100 } }
+      ],
+      "choices": [
+        { "id": "wake_up", "text": "CERCA DI APRIRE GLI OCCHI", "goto": "red_static_vision" }
+      ]
+    },
+
+    "red_static_vision": {
+      "id": "red_static_vision",
+      "title": "Statico rosso",
+      "tags": ["atto1"],
+      "onFirstEnter": [
+        { "kind": "set", "var": "red_static_triggered", "value": true },
+        { "kind": "adjustResource", "resource": "stress", "value": 10 }
+      ],
+      "content": [
+        { "speaker": "Narratore", "text": "FZZZT— Una scossa. Non fisica. Dietro gli occhi." },
+        { "speaker": "Narratore", "text": "STATICO ROSSO. Per un istante vedi il volto di tua figlia, Freja. Sorride. Ha in mano quel ridicolo modellino di astronave che le hai costruito." },
+        { "speaker": "Narratore", "text": "I suoi occhi si spalancano di terrore. Il modellino cade. Si frantuma al rallentatore sul pavimento della cucina." },
+        { "speaker": "A.R.I.A.", "text": "Sergente Ransome. I miei sensori indicano attività corticale. Sei cosciente?" }
+      ],
+      "choices": [
+        { "id": "who_are_you", "text": "\"Chi cazzo sei?\" [Gola bruciata]", "tags": ["aggressive"], "goto": "wreckage_reality" },
+        { "id": "report", "text": "\"Rapporto.\" [Ignora il dolore]", "tags": ["professional"], "goto": "wreckage_reality" }
+      ]
+    },
+
+    "wreckage_reality": {
+      "id": "wreckage_reality",
+      "title": "Relitto",
+      "tags": ["atto1"],
+      "content": [
+        { "speaker": "A.R.I.A.", "text": "Sono A.R.I.A. Unità di supporto tattico. Protocolli attivati all'impatto." },
+        { "speaker": "Narratore", "text": "Sei appeso a testa in giù, le cinture che ti tagliano il petto. Fuori dall'oblò incrinato: Theta-7. Un paesaggio grigio e desolato." },
+        { "speaker": "A.R.I.A.", "text": "Integrità scafo: 12%. Fusione del nucleo stimata in 9 minuti. Sei l'unico segno di vita a bordo, Sergente." },
+        { "speaker": "Rex", "text": "\"Tipico. Semplicemente tipico.\"" }
+      ],
+      "choices": [
+        {
+          "id": "escape_force",
+          "text": "Sgancia la cintura e forza il portellone [FORZA]",
+          "tags": ["combat"],
+          "check": {
+            "attribute": "strength",
+            "difficulty": 10,
+            "mode": "active",
+            "onSuccess": "outside_impact",
+            "onFailure": "escape_fail"
+          }
+        },
+        { "id": "check_body", "text": "Analizza le tue ferite prima di muoverti", "tags": ["neutral"], "goto": "self_check" }
+      ]
+    },
+
+    "escape_fail": {
+      "id": "escape_fail",
+      "title": "Fallimento fuga",
+      "tags": ["atto1"],
+      "content": [
+        { "speaker": "System", "text": "FALLIMENTO CRITICO. DANNI STRUTTURALI ALLA TUTA." }
+      ],
+      "choices": [
+        {
+          "id": "ef_retry",
+          "text": "Riprova (HP -10)",
+          "effects": [{ "kind": "adjustResource", "resource": "hp", "value": -10 }],
+          "goto": "outside_impact"
+        }
+      ]
+    },
+
+    "self_check": {
+      "id": "self_check",
+      "title": "Auto-analisi",
+      "tags": ["atto1"],
+      "content": [
+        { "speaker": "System", "text": "ANALISI BIOMETRICA COMPLETA. NESSUNA FRATTURA CRITICA." }
+      ],
+      "choices": [
+        { "id": "sc_back", "text": "Procedi", "goto": "wreckage_reality" }
+      ]
+    },
+
+    "outside_impact": {
+      "id": "outside_impact",
+      "title": "Fuori dal relitto",
+      "tags": ["atto1"],
+      "content": [
+        { "speaker": "Narratore", "text": "Cadi sul soffitto che ora è pavimento. La gamba urla. Ignori il dolore. Qui c'è solo la missione." },
+        { "speaker": "Narratore", "text": "Con un calcio divelgi il portello. L'aria esterna sa di ozono e pietra umida. Non è un pianeta. È una cicatrice." },
+        { "speaker": "A.R.I.A.", "text": "Rilevo la fonte energetica del Complesso Xibalba a due chilometri nord-est." }
+      ],
+      "choices": [
+        { "id": "move_out", "text": "Inizia la marcia verso Xibalba", "goto": "first_encounter" }
+      ]
+    },
+
+    "first_encounter": {
+      "id": "first_encounter",
+      "title": "[ponte] Verso l'Hub",
+      "tags": ["atto1", "ponte"],
+      "content": [
+        { "speaker": "Narratore", "text": "(Frammento migrato: qui si innesterebbe scene_02_stalker. Ponte diretto all'Hub per il collaudo.)" }
+      ],
+      "choices": [
+        { "id": "to_hub", "text": "Raggiungi l'Hub Centrale", "goto": "hub_central" }
+      ]
+    },
+
+    "hub_central": {
+      "id": "hub_central",
+      "title": "Hub Centrale",
+      "tags": ["atto1", "hub"],
+      "onFirstEnter": [{ "kind": "set", "var": "hub_unlocked", "value": true }],
+      "content": [
+        { "speaker": "Narratore", "text": "Le porte si aprono su un abisso di silenzio. L'Hub Centrale. Ora è una cattedrale di ombre." },
+        { "speaker": "Narratore", "text": "Al centro, una struttura non umana pulsa di luce violacea: la Console Aliena." },
+        { "speaker": "A.R.I.A.", "text": "Rilevo tracce energetiche residue. La console centrale sembra... viva." }
+      ],
+      "choices": [
+        {
+          "id": "examine_console",
+          "text": "Interfaccia A.R.I.A. con la Console Aliena [TECNICA]",
+          "tags": ["tech"],
+          "check": {
+            "attribute": "tech",
+            "difficulty": 10,
+            "mode": "active",
+            "onSuccess": "hub_console_success",
+            "onFailure": "hub_console_fail"
+          }
+        },
+        { "id": "look_around", "text": "Esamina i percorsi prima di toccare nulla", "tags": ["neutral"], "goto": "hub_paths_survey" }
+      ]
+    },
+
+    "hub_paths_survey": {
+      "id": "hub_paths_survey",
+      "title": "Ricognizione settori",
+      "tags": ["atto1", "hub"],
+      "content": [
+        { "speaker": "A.R.I.A.", "text": "A SINISTRA: Settore Gamma, logistica e armeria. Rilevo scorte belliche." },
+        { "speaker": "A.R.I.A.", "text": "AL CENTRO: Settore Alpha, alloggi. Bio-segnali deboli e distorti." },
+        { "speaker": "A.R.I.A.", "text": "A DESTRA: Settore Beta, ricerca. Radiazioni elevate. È lì che operava Tannhäuser." },
+        { "speaker": "Rex", "text": "\"Se c'è una risposta, è nel Settore Beta. Ma mi servono armi per arrivarci.\"" }
+      ],
+      "choices": [
+        { "id": "back_to_console", "text": "Torna alla Console Aliena", "goto": "hub_central" }
+      ]
+    },
+
+    "hub_console_success": {
+      "id": "hub_console_success",
+      "title": "Console: accesso forzato",
+      "tags": ["atto1", "hub"],
+      "onFirstEnter": [
+        { "kind": "set", "var": "knows_xibalba", "value": true },
+        { "kind": "adjustResource", "resource": "stress", "value": 10 }
+      ],
+      "content": [
+        { "speaker": "Narratore", "text": "A.R.I.A. si connette. Un urlo stridulo attraversa i tuoi impianti audio. Non è digitale. È rabbia." },
+        { "speaker": "A.R.I.A.", "text": "Accesso forzato. Mappa scaricata. Ho toccato qualcosa. O qualcosa ha toccato me. Rilevo dati sul \"Progetto Amrita\"." },
+        { "speaker": "System", "text": "ALLARME: QUARANTENA VIOLATA. SETTORI APERTI." }
+      ],
+      "choices": [
+        { "id": "go_armory", "text": "VIA A: Depositi/Armeria (armi pesanti)", "tags": ["combat"], "goto": "act2_b1_start" },
+        { "id": "go_residential", "text": "VIA B: Settore Residenziale (indizi su Carolina)", "tags": ["stealth"], "goto": "act2_b2_start" },
+        {
+          "id": "go_labs_unlocked",
+          "text": "VIA C: Laboratori [ACCESSO CONSENTITO]",
+          "tags": ["tech"],
+          "requires": { "lhs": "key_beta_labs", "op": "==", "rhs": true },
+          "whenLocked": "hide",
+          "goto": "act2_b3_start"
+        },
+        {
+          "id": "go_labs_locked",
+          "text": "VIA C: Laboratori [ACCESSO NEGATO - QUARANTENA]",
+          "tags": ["locked"],
+          "requires": { "lhs": "key_beta_labs", "op": "==", "rhs": false },
+          "whenLocked": "hide",
+          "goto": "hub_labs_denied"
+        }
+      ]
+    },
+
+    "hub_labs_denied": {
+      "id": "hub_labs_denied",
+      "title": "Laboratori: accesso negato",
+      "tags": ["atto1", "hub"],
+      "content": [
+        { "speaker": "System", "text": "ERRORE BIOMETRICO. ACCESSO RISERVATO AL PERSONALE SENIOR." },
+        { "speaker": "A.R.I.A.", "text": "Serve un codice biometrico di livello Direttore. Tannhäuser viveva nel Settore Residenziale (Alpha). Cerchiamo lì." }
+      ],
+      "choices": [
+        { "id": "back_to_choices", "text": "Torna alla selezione dei settori", "goto": "hub_console_success" }
+      ]
+    },
+
+    "hub_console_fail": {
+      "id": "hub_console_fail",
+      "title": "Console: reazione violenta",
+      "tags": ["atto1", "hub"],
+      "onEnter": [
+        { "kind": "adjustResource", "resource": "hp", "value": -10 },
+        { "kind": "adjustResource", "resource": "stress", "value": 20 }
+      ],
+      "content": [
+        { "speaker": "Narratore", "text": "La console reagisce. Una scarica di energia nera ti lancia attraverso la stanza (-10 HP)." },
+        { "speaker": "A.R.I.A.", "text": "Tentativo fallito! Sistemi di difesa attivati! L'allarme ha attirato attenzione!" }
+      ],
+      "choices": [
+        { "id": "panic_armory", "text": "Corri verso l'Armeria prima di essere sopraffatto", "tags": ["aggressive"], "goto": "act2_b1_start" },
+        { "id": "panic_residential", "text": "Rifugiati nel Settore Residenziale", "tags": ["stealth"], "goto": "act2_b2_start" },
+        {
+          "id": "panic_labs",
+          "text": "Corri ai Laboratori [RICHIEDE CHIAVE]",
+          "tags": ["tech"],
+          "requires": { "lhs": "key_beta_labs", "op": "==", "rhs": true },
+          "whenLocked": "hide",
+          "goto": "act2_b3_start"
+        }
+      ]
+    },
+
+    "game_over": {
+      "id": "game_over",
+      "title": "Game Over",
+      "tags": ["finale"],
+      "content": [
+        { "speaker": "System", "text": "SEGNALI VITALI CESSATI. LA MISSIONE MUORE CON TE, SERGENTE." }
+      ]
+    },
+
+    "act2_b1_start": {
+      "id": "act2_b1_start",
+      "title": "[confine] Settore Gamma",
+      "tags": ["confine"],
+      "content": [{ "speaker": "System", "text": "(Confine del frammento migrato: prosegue in scene_gamma_armory.)" }]
+    },
+    "act2_b2_start": {
+      "id": "act2_b2_start",
+      "title": "[confine] Settore Alpha",
+      "tags": ["confine"],
+      "content": [{ "speaker": "System", "text": "(Confine del frammento migrato: prosegue in scene_alpha_residential.)" }]
+    },
+    "act2_b3_start": {
+      "id": "act2_b3_start",
+      "title": "[confine] Settore Beta",
+      "tags": ["confine"],
+      "content": [{ "speaker": "System", "text": "(Confine del frammento migrato: prosegue in scene_beta_labs.)" }]
+    }
+  }
+}
