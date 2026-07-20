@@ -68,7 +68,7 @@ tutta l'interfaccia.
 Serve **Node ≥ 22.6** (type-stripping nativo, i test girano senza build). Per l'editor Tauri serve **Rust**.
 
 ```bash
-# Test (49 verdi)
+# Test (60 verdi)
 cd core && node --test
 cd ../cli && node --test
 cd ../editor && node --test        # riconoscitore delle conseguenze (14)
@@ -112,13 +112,26 @@ prova cambia anche il personaggio):
    toglie l'ultimo ripiego (l'oggetto non dichiarato modellato come fatto «ha X»). Con **archetipi**
    (`extends`) e un **catalogo di modelli** fornito con l'editor e *copiato* dentro la storia: il motore
    non conosce nessun oggetto predefinito, o smetterebbe di essere configurabile.
+   *Dalla revisione 0.5.1:* con ~100 modelli nel catalogo il riconoscimento per contenimento di
+   `resolveRef` («lampada» → «Lampada a olio») rischierà falsi positivi → l'anteprima deve sempre dire
+   *che cosa* ha riconosciuto («intendevi: Lampada a olio?») prima di confermare.
 6. ⬜ **Playtest incorporato** (riuso motore) con stato in lingua naturale e **diff per turno**
    (*«📍 sei andato in…», «⚙ Forza 2 → 3», «＋ lampada»*) — vedi [`docs/analisi-favella.md`](docs/analisi-favella.md) §5.
    Salvataggio della prova come **elenco di scelte**, non come stato (§4): il motore è deterministico,
    quindi regala replay e walkthrough.
+   *Dalla revisione 0.5.1, da progettare qui perché è qui che serve il segnale:* `addItem` con inventario
+   pieno (`overflow: "block"`) oggi scarta l'oggetto **senza dirlo allo shell** — il testo può raccontare
+   «prendi la lampada» mentre l'inventario resta vuoto. Serve un canale di ritorno in `ChooseResult`
+   (es. `dropped`), che il playtest mostrerà nel diff («✗ lampada — non c'era spazio»). Nella stessa
+   occasione: `history` cresce senza limiti nei cicli hub — col salvataggio a elenco di scelte si può
+   ripensare.
 7. ⬜ Costruttore di condizioni composte a frase ("e anche / oppure / tranne quando").
 8. ⬜ Wizard **Prova di abilità** con difficoltà a parole e **% dal vivo** (la matematica è già in
    `editor/src/lib/authorLang.ts` → `successChance`), con esiti che toccano anche il personaggio.
+   *Dalla revisione 0.5.1, buchi di UI da chiudere qui:* delle prove si vedono solo i rami
+   riesce/fallisce anche quando esistono parziale e critici; `whenLocked` (scelta nascosta vs. in grigio
+   col motivo) non è editabile; la condizione «appare se» sui blocchi di testo si vede ma non si può
+   creare da interfaccia.
 9. ⬜ **Sentinelle** "ogni volta che X" / "quando X diventa vera" (analisi FAVELLA §2–3): effetti legati
    allo *stato del mondo*, non al nodo. Una sola valutazione per passo, in ordine di dichiarazione.
 10. ⬜ Livelli 1–3 (Racconto / Con conseguenze / Ruolistico) + template d'avvio.
@@ -128,6 +141,27 @@ prova cambia anche il personaggio):
 
 Più avanti (non-editor): **ponte LLM** (skill che genera nodi schema-validi nel vicinato, in ciclo col
 validatore), importer da Corridor/TUBO/Respiro.
+
+### 6-bis. Coda di manutenzione (dalla revisione 0.5.1)
+
+Voci piccole, senza una tappa dedicata: si agganciano alla prima occasione utile. Dettaglio in
+[`CHANGELOG/CHANGELOG_v0.5.1.md`](CHANGELOG/CHANGELOG_v0.5.1.md).
+
+- **W02 (softlock)** — il warning più prezioso ancora mancante: scena le cui scelte sono tutte
+  condizionate può diventare un vicolo cieco invisibile. Il messaggio amichevole esiste già in
+  `friendlyFinding`; manca la regola nel validatore. Candidata naturale: insieme alle condizioni
+  composte (punto 7) o al playtest (punto 6). W06 (scelta sempre nascosta) è parente e può nascere insieme.
+- **Rete di sicurezza sul lavoro nell'editor** — oggi si salva solo scaricando il file: serve un
+  autosalvataggio (localStorage in browser, file di recupero in Tauri) + avviso di modifiche non salvate
+  alla chiusura. Da fare al più tardi coi dialog nativi Tauri (punto 12), prima se capita.
+- **Campi morti `CheckFormula.critSuccess/critFailure`** — dichiarati in schema e tipi ma mai letti dal
+  motore (i critici vivono in `outcomeModel`): da togliere alla **prossima revisione del formato**
+  (quella del pannello Oggetti, che già tocca lo schema per le proprietà).
+- **`Skill.canSpeak` è dichiarato ma inerte** — per il modello *Disco Elysium* (le voci che parlano) o si
+  usa (es. l'editor suggerisce lo speaker `@skill:` solo per le skill che parlano) o si toglie. Decidere
+  al wizard Prova (punto 8).
+- **Seed di default 0 nella CLI** — due partite senza `--seed` sono identiche: giusto per il playtest,
+  ma quando nascerà uno shell di gioco vero va documentato che è lo shell a dover scegliere il seed.
 
 ## 7. Prossimo passo concreto (raccomandato)
 
