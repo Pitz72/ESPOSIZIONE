@@ -4,6 +4,7 @@
 > **qual è il prossimo passo concreto**. Chi riprende (umano o AI) parte da qui.
 
 Ultimo aggiornamento: 2026-07-20 · Versione progetto: **0.2.0**
+Repository: <https://github.com/Ecosystem-Runtime/InteractiveWriter> (privata)
 
 ---
 

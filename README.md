@@ -1,5 +1,7 @@
 # InteractiveWriter
 
+Repository: <https://github.com/Ecosystem-Runtime/InteractiveWriter> · Continuità tra sessioni: [ROADMAP.md](ROADMAP.md)
+
 Framework per scrivere **storie interattive con elementi ruolistici** (stile *Disco Elysium*): modella
 tutta la logica, la complessità e le meccaniche della parte narrativa. **Non** produce il gioco
 multimediale — produce la *logica narrativa* come pacchetto dati portabile, il motore che la esegue e
