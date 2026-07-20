@@ -44,8 +44,9 @@ tutta l'interfaccia.
 
 - **Formato `.iwstory`**: `formatVersion` **0.4** (lo schema accetta ancora 0.3). Collaudato su due
   migrazioni reali. La 0.4 aggiunge ciò che serve al modello *Disco Elysium*: le prove non cambiano solo
-  dove va la storia, cambiano **chi sei** (`adjustSkill`/`adjustAttribute`); l'inventario ha una capacità
-  che dipende da cosa indossi (`ruleset.inventory` + `size`/`capacityBonus`, refs `@free/@carried/@capacity`);
+  dove va la storia, cambiano **il personaggio** (`adjustSkill`/`adjustAttribute`); l'inventario ha una
+  capacità che dipende da cosa si indossa (`ruleset.inventory` + `size`/`capacityBonus`, refs
+  `@free`/`@carried`/`@capacity`);
   esistono **personaggi pronti** (`ruleset.presets`) e una **configurazione generale** (`setting`).
 - **Collaudi**: [Corridor](docs/collaudo-01-corridor.md) (funzioni-condizione, skill check, risorse) e
   [lemmons](docs/collaudo-02-lemmons.md) (logica imperativa in HTML, stato piatto, zero dadi). Entrambi
@@ -57,6 +58,9 @@ tutta l'interfaccia.
 - **Fatti creati scrivendo**: l'autore scrive *«ora ha la chiave»* fra le conseguenze e il fatto nasce da
   solo (riconoscitore in `editor/src/lib/factLang.ts`); i riferimenti già esistenti vengono riconosciuti per
   nome, senza doppioni. Nessuna dichiarazione preliminare, nessun id a schermo.
+- **Configurazione iniziale**: tab *Impostazioni* con La storia · Il personaggio · Oggetti trasportabili ·
+  La scheda (`editor/src/components/SetupPanel.tsx`). La scheda del personaggio, prima in sola lettura, è
+  modificabile.
 
 ## 4. Come si esegue
 
@@ -150,6 +154,10 @@ Sarà la **0.6.0**. Subito dopo: il **playtest incorporato** con diff per turno.
 ## 8. Convenzioni di lavoro
 
 - Ogni tappa apre un file `CHANGELOG/CHANGELOG_vX.Y.Z.md` + riga indice in [`CHANGELOG.md`](CHANGELOG.md).
+- **L'interfaccia parla del protagonista in terza persona** («Il personaggio», «Oggetti trasportabili»),
+  mai in seconda: la storia potrebbe essere scritta in prima, seconda o terza persona e l'editor non deve
+  deciderlo. Il "tu" è ammesso solo quando l'interfaccia parla *all'autore*. Vedi
+  [`docs/author-experience.md`](docs/author-experience.md) §4 e §8.
 - `formatVersion` del formato è versionato separatamente dalla versione del progetto.
 - Ogni modifica al formato deve mantenere validi i 3 esempi (rivalidare con lo schema).
 - Zero dipendenze runtime nel core e nella CLI; l'editor usa solo pacchetti già in cache (React/Vite/Tauri).
