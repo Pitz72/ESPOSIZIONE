@@ -1,6 +1,10 @@
+import { useState } from "react";
 import type { Story, StoryNode, Condition, ComparisonOp, Literal } from "../../../core/src/index.ts";
-import { summarizeCondition, summarizeEffects } from "../lib/summarize.ts";
-import { effectsToAuthor, checkToAuthor, friendlyRef, sceneTitle, conditionToAuthor } from "../lib/authorLang.ts";
+import type { VarDecl } from "../../../core/src/index.ts";
+import { summarizeCondition } from "../lib/summarize.ts";
+import { checkToAuthor, friendlyRef, sceneTitle, conditionToAuthor } from "../lib/authorLang.ts";
+import { slugify, uniqueKey } from "../lib/factLang.ts";
+import { EffectsEditor } from "./EffectsEditor.tsx";
 import { useView, type View } from "../view.ts";
 
 interface Props {
@@ -59,18 +63,23 @@ export function NodeInspector({ story, nodeId, update }: Props) {
         />
       </div>
 
-      {(node.onFirstEnter?.length || node.onEnter?.length) && (
-        <div className="summary" style={{ marginBottom: 12 }}>
-          {node.onFirstEnter?.length ? (
-            <div>{view === "autore" ? "Solo la prima volta: " : "onFirstEnter: "}
-              <code>{view === "autore" ? effectsToAuthor(node.onFirstEnter, story) : summarizeEffects(node.onFirstEnter)}</code></div>
-          ) : null}
-          {node.onEnter?.length ? (
-            <div>{view === "autore" ? "Ogni volta che entri: " : "onEnter: "}
-              <code>{view === "autore" ? effectsToAuthor(node.onEnter, story) : summarizeEffects(node.onEnter)}</code></div>
-          ) : null}
-        </div>
-      )}
+      <div className="card" style={{ marginBottom: 12 }}>
+        <EffectsEditor
+          story={story}
+          update={update}
+          read={(s) => s.nodes[nodeId]?.onFirstEnter}
+          write={(s, e) => { s.nodes[nodeId].onFirstEnter = e; }}
+          title={view === "autore" ? "Cosa cambia entrando qui — solo la prima volta" : "onFirstEnter"}
+        />
+        <div style={{ height: 10 }} />
+        <EffectsEditor
+          story={story}
+          update={update}
+          read={(s) => s.nodes[nodeId]?.onEnter}
+          write={(s, e) => { s.nodes[nodeId].onEnter = e; }}
+          title={view === "autore" ? "…e ogni volta che ci si torna" : "onEnter"}
+        />
+      </div>
 
       {/* RACCONTO */}
       <div className="section">
@@ -157,15 +166,18 @@ export function NodeInspector({ story, nodeId, update }: Props) {
                 <LeafRequires
                   story={story}
                   view={view}
+                  update={update}
                   requires={c.requires}
                   onChange={(cond) => mut((n) => { if (cond) n.choices![i].requires = cond; else delete n.choices![i].requires; })}
                 />
               </div>
 
-              {c.effects?.length ? (
-                <div className="summary">{view === "autore" ? "Cosa cambia: " : "effetti: "}
-                  <code>{view === "autore" ? effectsToAuthor(c.effects, story) : summarizeEffects(c.effects)}</code></div>
-              ) : null}
+              <EffectsEditor
+                story={story}
+                update={update}
+                read={(s) => s.nodes[nodeId].choices?.[i]?.effects}
+                write={(s, e) => { s.nodes[nodeId].choices![i].effects = e; }}
+              />
             </div>
           );
         })}
@@ -186,14 +198,48 @@ function refOptions(story: Story): string[] {
   return opts;
 }
 
-function LeafRequires({ story, view, requires, onChange }: {
+function LeafRequires({ story, view, update, requires, onChange }: {
   story: Story;
   view: View;
+  update: (fn: (s: Story) => void) => void;
   requires: Condition | undefined;
   onChange: (c: Condition | undefined) => void;
 }) {
   const isLeaf = requires && "lhs" in requires;
   const complex = requires && !isLeaf;
+  const [newName, setNewName] = useState<string | null>(null);
+
+  // Fatti creati scrivendo (§5.1): il fatto può nascere anche qui, mentre si pone la condizione.
+  // Niente window.prompt: nella webview di Tauri non è affidabile — si scrive in linea.
+  const createFact = () => {
+    const name = (newName ?? "").trim();
+    if (!name) return;
+    const key = uniqueKey(story, slugify(name));
+    const decl: VarDecl = { type: "boolean", default: false, label: name };
+    update((s) => { s.stateSchema[key] = decl; });
+    onChange({ lhs: key, op: "==", rhs: true });
+    setNewName(null);
+  };
+
+  if (newName !== null) {
+    return (
+      <div className="row">
+        <input
+          autoFocus
+          value={newName}
+          placeholder={view === "autore" ? "Che cosa ricorda la storia? Es. «ha la chiave»" : "nome della nuova variabile"}
+          onChange={(e) => setNewName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") { e.preventDefault(); createFact(); }
+            if (e.key === "Escape") setNewName(null);
+          }}
+          style={{ flex: 1 }}
+        />
+        <button className="small primary" disabled={!newName.trim()} onClick={createFact}>Crea</button>
+        <button className="small ghost" onClick={() => setNewName(null)}>annulla</button>
+      </div>
+    );
+  }
 
   if (complex) {
     return (
@@ -208,9 +254,18 @@ function LeafRequires({ story, view, requires, onChange }: {
   const opts = refOptions(story);
   if (!isLeaf) {
     return (
-      <button className="small ghost" onClick={() => onChange({ lhs: opts[0] ?? "", op: "==", rhs: true })}>
-        {view === "autore" ? "+ aggiungi una condizione" : "+ aggiungi condizione"}
-      </button>
+      <div className="row">
+        <button
+          className="small ghost"
+          disabled={opts.length === 0}
+          onClick={() => onChange({ lhs: opts[0] ?? "", op: "==", rhs: true })}
+        >
+          {view === "autore" ? "+ aggiungi una condizione" : "+ aggiungi condizione"}
+        </button>
+        <button className="small ghost" onClick={() => setNewName("")}>
+          {view === "autore" ? "+ nuovo fatto" : "+ nuova variabile"}
+        </button>
+      </div>
     );
   }
 
@@ -243,6 +298,7 @@ function LeafRequires({ story, view, requires, onChange }: {
           <RhsInput decl={decl} value={leaf.rhs} onChange={(rhs) => onChange({ ...leaf, rhs })} />
         </>
       )}
+      <button className="small ghost" onClick={() => setNewName("")} title={view === "autore" ? "Crea un fatto nuovo e usalo qui" : "Nuova variabile"}>+</button>
       <button className="small ghost danger" onClick={() => onChange(undefined)}>×</button>
     </div>
   );

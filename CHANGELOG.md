@@ -6,6 +6,7 @@ formato possono cambiare in modo incompatibile tra minori).
 
 | Versione | Fase | Stato | Dettaglio |
 |---|---|---|---|
+| 0.3.0 | Editor writer-first — fatti creati scrivendo e conseguenze "Cosa cambia" | Completata | [CHANGELOG_v0.3.0.md](CHANGELOG/CHANGELOG_v0.3.0.md) |
 | 0.2.0 | Editor writer-first — layer linguistico e doppia vista | Completata | [CHANGELOG_v0.2.0.md](CHANGELOG/CHANGELOG_v0.2.0.md) |
 | 0.1.0 | Fase 3 — Editor GUI (MVP editing-first, Tauri) | MVP completato | [CHANGELOG_v0.1.0.md](CHANGELOG/CHANGELOG_v0.1.0.md) |
 | 0.0.4 | Formato checkless/statless + Collaudo #02 (lemmons) | Completata | [CHANGELOG_v0.0.4.md](CHANGELOG/CHANGELOG_v0.0.4.md) |

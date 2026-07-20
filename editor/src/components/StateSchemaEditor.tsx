@@ -54,15 +54,30 @@ export function StateSchemaEditor({ story, update }: Props) {
       {entries.map(([key, decl]) => (
         <div className="card" key={key}>
           <div className="row">
-            <input
-              className="mono"
-              defaultValue={key}
-              onBlur={(e) => rename(key, e.target.value.trim())}
-              style={{ flex: "0 0 200px" }}
-            />
+            {/* In vista Autore si modifica il NOME (etichetta); la chiave tecnica resta sotto. */}
+            {view === "autore" ? (
+              <input
+                defaultValue={decl.label || key.replace(/_/g, " ")}
+                onBlur={(e) => update((s) => {
+                  const name = e.target.value.trim();
+                  s.stateSchema[key] = { ...s.stateSchema[key], label: name || undefined };
+                })}
+                style={{ flex: "0 0 240px" }}
+              />
+            ) : (
+              <input
+                className="mono"
+                defaultValue={key}
+                onBlur={(e) => rename(key, e.target.value.trim())}
+                style={{ flex: "0 0 200px" }}
+              />
+            )}
             <select
               value={decl.type}
-              onChange={(e) => update((s) => { s.stateSchema[key] = freshDecl(e.target.value as VarDecl["type"]); })}
+              onChange={(e) => update((s) => {
+                const label = s.stateSchema[key].label;
+                s.stateSchema[key] = { ...freshDecl(e.target.value as VarDecl["type"]), label };
+              })}
               style={{ flex: view === "autore" ? "0 0 180px" : "0 0 120px" }}
             >
               {TYPES.map((t) => <option key={t} value={t}>{view === "autore" ? FACT_KIND_LABEL[t] : t}</option>)}
