@@ -6,11 +6,16 @@ import { slugify } from "../lib/factLang.ts";
 /**
  * CONFIGURAZIONE INIZIALE — il lavoro che l'autore fa PRIMA di scrivere le scene
  * (docs/author-experience.md §7, ROADMAP §6.4). Quattro domande in fila:
- *   1. Di che storia si tratta?   → story.setting
- *   2. Chi è il personaggio?      → ruleset.presets (personaggi pronti)
- *   3. Cosa può portare?          → ruleset.inventory
- *   4. Di che cosa è fatto?       → ruleset.attributes/skills/resources/check
+ *   1. Di che storia si tratta?      → story.setting
+ *   2. Chi è il personaggio?         → ruleset.presets (personaggi pronti)
+ *   3. Quanto può portare addosso?   → ruleset.inventory
+ *   4. Di che cosa è fatto?          → ruleset.attributes/skills/resources/check
  * Prima era tutto invisibile: il formato 0.4 lo prevede, l'interfaccia no.
+ *
+ * NOTA DI LINGUA: tutte le etichette sono in TERZA PERSONA. L'autore può scrivere
+ * la sua storia in prima, seconda o terza persona: l'editor non deve decidere per lui.
+ * Il "tu" è ammesso solo quando l'interfaccia parla ALL'AUTORE ("se accendi questo limite"),
+ * mai quando parla del protagonista.
  */
 interface Props {
   story: Story;
@@ -32,9 +37,9 @@ export function SetupPanel({ story, update }: Props) {
     <div>
       <div className="tabs" style={{ padding: 0, border: "none", marginBottom: 16 }}>
         {tab("storia", L("La storia", "Meta"))}
-        {tab("chi", L("Chi sei", "Presets"))}
-        {tab("porta", L("Cosa puoi portare", "Inventory"))}
-        {tab("scheda", L("Di che cosa sei fatto", "Ruleset"))}
+        {tab("chi", L("Il personaggio", "Presets"))}
+        {tab("porta", L("Oggetti trasportabili", "Inventory"))}
+        {tab("scheda", L("La scheda", "Ruleset"))}
       </div>
 
       {open === "storia" && <StorySection story={story} update={update} />}
@@ -277,7 +282,7 @@ function InventorySection({ story, update }: Props) {
 
   return (
     <div className="section">
-      <h3>{view === "autore" ? "Cosa puoi portare addosso" : "ruleset.inventory"}</h3>
+      <h3>{view === "autore" ? "Quanto può portare addosso il personaggio" : "ruleset.inventory"}</h3>
       <p className="summary" style={{ marginTop: -4 }}>
         {view === "autore"
           ? "Se accendi questo limite, ogni oggetto occupa dello spazio e chi porta uno zaino o un cappotto ne ha di più. Se lo lasci spento, il personaggio può portare qualsiasi cosa."
@@ -303,14 +308,14 @@ function InventorySection({ story, update }: Props) {
         <div className="card">
           <div className="row">
             <div className="field" style={{ flex: "0 0 200px", marginBottom: 0 }}>
-              <label>{view === "autore" ? "Posti a mani nude" : "baseCapacity"}</label>
+              <label>{view === "autore" ? "Posti senza contenitori" : "baseCapacity"}</label>
               <input
                 type="number" min={0} value={inv.baseCapacity}
                 onChange={(e) => update((s) => { s.ruleset.inventory!.baseCapacity = Math.max(0, Number(e.target.value)); })}
               />
             </div>
             <div className="field" style={{ flex: 1, marginBottom: 0 }}>
-              <label>{view === "autore" ? "Come li chiami" : "unitLabel"}</label>
+              <label>{view === "autore" ? "Come si chiamano" : "unitLabel"}</label>
               <input
                 defaultValue={inv.unitLabel ?? ""}
                 placeholder="tasche, posti, slot…"
@@ -330,7 +335,7 @@ function InventorySection({ story, update }: Props) {
           </div>
           <p className="summary" style={{ marginBottom: 0, marginTop: 10 }}>
             {view === "autore"
-              ? "Nelle condizioni puoi chiedere «lo spazio libero è almeno 2» per far apparire una scelta solo a chi ha posto."
+              ? "Nelle condizioni puoi chiedere «lo spazio libero è almeno 2» per far apparire una scelta solo quando il personaggio ha posto."
               : "Refs disponibili nelle condizioni: @free, @carried, @capacity."}
           </p>
         </div>
@@ -422,7 +427,7 @@ function SheetSection({ story, update }: Props) {
     <div>
       <p className="summary" style={{ marginTop: 0 }}>
         {view === "autore"
-          ? "Di che cosa è fatto un personaggio in questa storia. Se la tua storia non ha prove di abilità, puoi lasciare tutto vuoto."
+          ? "Di che cosa è fatto un personaggio in questa storia. Se la storia non ha prove di abilità, si può lasciare tutto vuoto."
           : "ruleset — tutto opzionale (storie checkless/statless)."}
       </p>
 

@@ -10,7 +10,7 @@ import type { Story, Condition, Effect, ActiveCheck, Finding, VarDecl } from "..
 /** Nome amichevole di un riferimento (fatto, indicatore, abilità). */
 /** I riferimenti d'ingombro non hanno id: sono grandezze dell'inventario. */
 const SPACE_LABEL: Record<string, string> = {
-  "@capacity": "lo spazio che puoi portare",
+  "@capacity": "lo spazio trasportabile",
   "@carried": "lo spazio occupato",
   "@free": "lo spazio libero",
 };

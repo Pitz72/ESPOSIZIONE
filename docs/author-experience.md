@@ -74,6 +74,13 @@ Termini ufficiali dell'UI. Il lato tecnico (colonna destra) non appare mai nell'
 Regole di scrittura UI (dallo stile della casa): sentence case ovunque, niente punto sui pulsanti/etichette,
 niente "!", verbi all'inizio ("Crea scena", non "Creazione scena"), niente id in vista.
 
+**Terza persona, sempre** *(decisione dell'autore, 2026-07-20)*. L'interfaccia parla del protagonista in
+**terza persona**: *«Il personaggio»*, *«Oggetti trasportabili»*, *«Quanto può portare addosso»* — mai
+*«Chi sei»*, *«Cosa puoi portare»*. Motivo: **non è detto che la storia sia scritta in prima o in seconda
+persona**, e l'editor non deve deciderlo al posto di chi scrive. Il "tu" resta ammesso in un solo caso:
+quando l'interfaccia parla **all'autore** (*«se accendi questo limite…»*, *«non hai ancora creato nessun
+oggetto»*), mai quando parla del protagonista.
+
 ## 5. Pattern d'interazione fondamentali
 
 ### 5.1 Fatti creati scrivendo *(la leva più importante)*
@@ -180,6 +187,8 @@ non la aprirà mai.
 4. **Le probabilità sempre visibili** dove c'è del rischio (§5.3).
 5. **Complessità a scomparsa**: nulla del livello superiore è visibile finché non serve (§3).
 6. **Numeri sempre in parole** dove possibile (difficoltà, e più avanti tempo/turni).
+6-bis. **Mai la seconda persona per il protagonista** (§4): la storia potrebbe essere scritta in prima,
+   seconda o terza persona, e l'interfaccia non deve suggerire una scelta narrativa.
 7. **La prosa è al centro**, il grafo è una *vista*, non la superficie primaria di scrittura.
 8. **Reversibilità**: annulla/ripeti ovunque; nessuna azione distruttiva senza rete.
 
