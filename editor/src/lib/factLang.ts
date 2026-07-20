@@ -51,9 +51,16 @@ function stripLead(s: string): string {
   }
 }
 
-/** Toglie l'articolo iniziale dal nome di un oggetto/fatto ("la chiave" -> "chiave"). */
+/**
+ * Toglie l'articolo iniziale dal nome di un oggetto/fatto ("la chiave" -> "chiave").
+ * Le forme con apostrofo si delimitano da sole; quelle in lettere richiedono uno
+ * spazio, altrimenti "lampada" perderebbe la "la" e "lettera" la "le".
+ */
 function stripArticle(s: string): string {
-  return s.replace(/^(il|lo|la|i|gli|le|un|uno|una|l'|dell'|del|della)\s*/, "").trim();
+  return s
+    .replace(/^(l'|un'|dell')\s*/, "")
+    .replace(/^(il|lo|la|i|gli|le|un|uno|una|del|dello|della|dei|degli|delle)\s+/, "")
+    .trim();
 }
 
 // --- Risoluzione di un riferimento esistente ------------------------------

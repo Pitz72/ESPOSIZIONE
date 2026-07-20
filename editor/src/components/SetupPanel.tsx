@@ -219,7 +219,7 @@ function PresetsSection({ story, update }: Props) {
                         key={id}
                         className={"small" + (qty ? " primary" : " ghost")}
                         title={it.description}
-                        onClick={() => mut(i, (x) => { x.items = setOrDelete(x.items, id, qty ? 0 : 1); })}
+                        onClick={() => mut(i, (x) => { x.items = setOrDelete(x.items, id, qty ? Number.NaN : 1); })}
                       >{it.name}{qty > 1 ? ` ×${qty}` : ""}</button>
                     );
                   })}
@@ -233,9 +233,10 @@ function PresetsSection({ story, update }: Props) {
   );
 }
 
+/** NaN = togli l'override (0 e' un valore legittimo: "questa abilita' parte da zero"). */
 function setOrDelete(map: Record<string, number> | undefined, id: string, v: number) {
   const next = { ...(map ?? {}) };
-  if (v === 0) delete next[id]; else next[id] = v;
+  if (Number.isNaN(v)) delete next[id]; else next[id] = v;
   return Object.keys(next).length ? next : undefined;
 }
 
@@ -256,12 +257,14 @@ function StatGrid({ label, decls, values, onSet }: {
           return (
             <label key={d.id} className="summary" style={{ display: "flex", alignItems: "center", gap: 5 }}>
               {d.name}
+              {/* Campo vuoto = niente override (vale il default, mostrato in filigrana). */}
               <input
                 type="number"
-                value={v ?? d.default ?? 0}
+                value={v ?? ""}
+                placeholder={String(d.default ?? 0)}
                 min={d.min}
                 max={d.max}
-                onChange={(e) => onSet(d.id, Number(e.target.value))}
+                onChange={(e) => onSet(d.id, e.target.value === "" ? Number.NaN : Number(e.target.value))}
                 style={{ width: 62 }}
               />
             </label>

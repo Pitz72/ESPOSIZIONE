@@ -339,16 +339,27 @@ function applyEffect(effect: Effect, state: RuntimeState, story: Story): void {
       }
       break;
     }
-    case "advanceThread":
+    case "advanceThread": {
+      const decl = story.threads?.[effect.thread];
+      if (!decl) { state.threads[effect.thread] = effect.to; break; }
+      const last = decl.stages[decl.stages.length - 1];
+      const wasComplete = state.threads[effect.thread] === last;
       state.threads[effect.thread] = effect.to;
+      // Arrivare all'ultimo stage completa il thread, da qualunque effetto ci si arrivi.
+      if (effect.to === last && !wasComplete && decl.onComplete) {
+        for (const e of decl.onComplete) applyEffect(e, state, story);
+      }
       break;
+    }
     case "completeThread": {
       const decl = story.threads?.[effect.thread];
       if (!decl) break;
       const last = decl.stages[decl.stages.length - 1];
       const wasComplete = state.threads[effect.thread] === last;
       state.threads[effect.thread] = last;
-      if (!wasComplete && decl.onComplete) applyEffects(decl.onComplete, state, story);
+      if (!wasComplete && decl.onComplete) {
+        for (const e of decl.onComplete) applyEffect(e, state, story);
+      }
       break;
     }
     case "unlockThought": {

@@ -8,9 +8,13 @@
  *   E05 enum/stage fuori dominio E06 entry mancante
  *   E07 formula di check mancante
  *   E08 preset di personaggio incoerente
+ *   E09 scelta senza destinazione (ne' goto ne' check, o entrambi)
+ *   E10 check senza alcun esito  E11 notazione dadi invalida
+ *   E12 skill che dipende da un attributo non dichiarato
  *   W01 nodo irraggiungibile    W03 check impossibile
  *   W04 flag orfano (mai letto) W05 thread mai completato
  *   W07 equipaggiamento iniziale oltre la capacita' di trasporto
+ *   W08 check senza esito di fallimento (il fallimento userebbe un esito di successo)
  */
 
 import type {
@@ -205,6 +209,12 @@ export function validateStory(story: Story): Finding[] {
       const cp = `nodes.${nid}.choices.${c.id}`;
       if (c.requires) walkCondition(c.requires, `${cp}.requires`);
       walkEffects(c.effects, `${cp}.effects`);
+      // E09: una scelta deve avere ESATTAMENTE una via d'uscita (goto oppure check).
+      if (c.check && c.goto) {
+        add("E09", "error", cp, `La scelta "${c.id}" ha sia goto sia check: il goto verrebbe ignorato.`);
+      } else if (!c.check && !c.goto) {
+        add("E09", "error", cp, `La scelta "${c.id}" non porta da nessuna parte (ne' goto ne' check).`);
+      }
       if (c.check) validateActiveCheck(c.check, nid, cp);
       else if (c.goto) addEdge(nid, c.goto, `${cp}.goto`);
     });
@@ -215,14 +225,24 @@ export function validateStory(story: Story): Finding[] {
     (check.modifiers ?? []).forEach((m, i) => walkCondition(m.when, `${cp}.check.mod[${i}]`));
 
     // gotos delle fasce di esito (o forma breve)
+    const tiers = new Set<string>();
     if (check.outcomes) {
       for (const [tier, res] of Object.entries(check.outcomes)) {
+        tiers.add(tier);
         addEdge(nid, res.goto, `${cp}.check.outcomes.${tier}.goto`);
         walkEffects(res.effects, `${cp}.check.outcomes.${tier}.effects`);
       }
     } else {
-      if (check.onSuccess) addEdge(nid, check.onSuccess, `${cp}.check.onSuccess`);
-      if (check.onFailure) addEdge(nid, check.onFailure, `${cp}.check.onFailure`);
+      if (check.onSuccess) { tiers.add("success"); addEdge(nid, check.onSuccess, `${cp}.check.onSuccess`); }
+      if (check.onFailure) { tiers.add("failure"); addEdge(nid, check.onFailure, `${cp}.check.onFailure`); }
+    }
+    // E10: senza nemmeno un esito il motore non saprebbe dove andare.
+    if (tiers.size === 0) {
+      add("E10", "error", `${cp}.check`, `Il check non ha alcun esito (outcomes vuoto, niente onSuccess/onFailure).`);
+    } else if (!tiers.has("failure") && !tiers.has("critFailure")) {
+      // W08: il degrado risale verso l'alto -> un fallimento userebbe l'esito di un successo.
+      add("W08", "warning", `${cp}.check`,
+        `Il check non ha un esito di fallimento: se il tiro fallisce verra' usato l'esito di successo piu' vicino.`);
     }
 
     // W03 check impossibile / banale
@@ -241,11 +261,11 @@ export function validateStory(story: Story): Finding[] {
       const skill = rs.skills?.find((s) => s.id === check.skill);
       if (adds.includes("skill")) { statMin += skill?.min ?? 0; statMax += skill?.max ?? 6; }
       if (adds.includes("attribute")) {
-        const attr = skill ? rs.attributes.find((a) => a.id === skill.attribute) : undefined;
+        const attr = skill ? rs.attributes?.find((a) => a.id === skill.attribute) : undefined;
         statMin += attr?.min ?? 1; statMax += attr?.max ?? 6;
       }
     } else if (check.attribute) {
-      const attr = rs.attributes.find((a) => a.id === check.attribute);
+      const attr = rs.attributes?.find((a) => a.id === check.attribute);
       statMin += attr?.min ?? 1; statMax += attr?.max ?? 6;
     }
 
@@ -312,6 +332,20 @@ export function validateStory(story: Story): Finding[] {
   if (usesChecks && !story.ruleset.check) {
     add("E07", "error", "ruleset.check", "La storia usa dei check ma manca ruleset.check (formula dei dadi).");
   }
+
+  // --- E11 la notazione dadi deve essere leggibile (altrimenti il motore crasha al primo tiro)
+  if (story.ruleset.check) {
+    try { parseDice(story.ruleset.check.dice); }
+    catch { add("E11", "error", "ruleset.check.dice", `Notazione dadi non valida: "${story.ruleset.check.dice}" (attesa NdM, es. 2d6).`); }
+  }
+
+  // --- E12 ogni skill deve dipendere da un attributo dichiarato
+  (story.ruleset.skills ?? []).forEach((s, i) => {
+    if (!attrIds.has(s.attribute)) {
+      add("E12", "error", `ruleset.skills[${i}].attribute`,
+        `L'abilita' "${s.id}" dipende dall'attributo "${s.attribute}" che non e' dichiarato.`);
+    }
+  });
 
   // --- W01 irraggiungibili (BFS da entry + nodi onDepleted come radici)
   const roots = [story.entry];

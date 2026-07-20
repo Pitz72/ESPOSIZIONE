@@ -88,7 +88,7 @@ export function App() {
   if (!story) {
     return (
       <div className="app">
-        <div className="topbar"><span className="title">InteractiveWriter <small>Editor 0.5.0</small></span></div>
+        <div className="topbar"><span className="title">InteractiveWriter <small>Editor 0.5.1</small></span></div>
         <div className="empty" style={{ marginTop: 80 }}>
           <p>Apri un file <span className="mono">.iwstory</span> o parti da un esempio.</p>
           <div className="row" style={{ justifyContent: "center", gap: 8, marginTop: 16, flexWrap: "wrap" }}>

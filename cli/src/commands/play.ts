@@ -159,12 +159,12 @@ export async function cmdPlay(file: string, opts: PlayOpts): Promise<number> {
         if (!choiceId) { console.log(c.red("scelta non valida.")); continue; }
       }
 
-      // la scelta scelta puo' avere un check: recupero la skill per il rendering
+      // la scelta scelta puo' avere un check: recupero la statistica per il rendering
       const rawChoice = (story.nodes[state.currentNodeId].choices ?? []).find((ch) => ch.id === choiceId);
-      const skill = rawChoice?.check?.skill;
+      const stat = rawChoice?.check?.skill ?? rawChoice?.check?.attribute;
 
       const result = choose(story, state, choiceId);
-      if (result.check && skill) renderCheck(skill, result.check);
+      if (result.check && stat) renderCheck(stat, result.check);
       state = result.state;
     }
   } finally {

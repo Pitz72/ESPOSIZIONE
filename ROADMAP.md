@@ -3,7 +3,7 @@
 > Documento di passaggio tra sessioni di lavoro. Dice **dove siamo**, **come si esegue**, **dove si va** e
 > **qual è il prossimo passo concreto**. Chi riprende (umano o AI) parte da qui.
 
-Ultimo aggiornamento: 2026-07-20 · Versione progetto: **0.5.0**
+Ultimo aggiornamento: 2026-07-20 · Versione progetto: **0.5.1**
 Repository: <https://github.com/Ecosystem-Runtime/InteractiveWriter> (privata)
 
 ---
@@ -41,6 +41,7 @@ tutta l'interfaccia.
 | 0.3.0 | Fatti creati scrivendo + editor delle conseguenze "Cosa cambia" |
 | 0.4.0 | Formato 0.4: crescita del personaggio, ingombro, personaggi pronti |
 | 0.5.0 | **Editor: pannello Configurazione iniziale** + analisi di FAVELLA 1 |
+| 0.5.1 | Revisione totale: fix `onComplete` dei thread, validatore anti-crash + E09–E12/W08, rinomina propagata dei fatti, articoli in factLang |
 
 - **Formato `.iwstory`**: `formatVersion` **0.4** (lo schema accetta ancora 0.3). Collaudato su due
   migrazioni reali. La 0.4 aggiunge ciò che serve al modello *Disco Elysium*: le prove non cambiano solo
@@ -51,7 +52,7 @@ tutta l'interfaccia.
 - **Collaudi**: [Corridor](docs/collaudo-01-corridor.md) (funzioni-condizione, skill check, risorse) e
   [lemmons](docs/collaudo-02-lemmons.md) (logica imperativa in HTML, stato piatto, zero dadi). Entrambi
   migrati senza forzature: la tesi (logica→dato dichiarativo) regge ai due estremi.
-- **Test**: 49 verdi (29 core + 6 CLI + 14 editor).
+- **Test**: 60 verdi (36 core + 6 CLI + 18 editor).
 - **Esempi**: `atrio-villa` (sintetico), `corridor-act1`, `lemmons-carli` — tutti validano contro lo schema.
 - **Editor**: vista Autore (Scene per titolo, "Appare solo se…" a frase, "Cosa cambia", validazione gentile)
   + vista Tecnica (dato grezzo) sullo stesso file. Verificato dal vivo nel browser.

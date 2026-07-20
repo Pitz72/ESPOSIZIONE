@@ -154,6 +154,66 @@ test("G4: onFirstEnter parte solo alla prima visita, onEnter sempre", () => {
   assert.equal(s.vars.every, 2); // si ripete
 });
 
+test("completare un thread applica davvero gli effetti onComplete", () => {
+  const story = {
+    meta: { id: "x", title: "x", version: "0", formatVersion: "0.4" },
+    ruleset: {},
+    stateSchema: { premio: { type: "boolean", default: false }, premio2: { type: "boolean", default: false } },
+    threads: {
+      via_completa: { name: "A", type: "quest", stages: ["inizio", "fine"], onComplete: [{ kind: "set", var: "premio", value: true }] },
+      via_avanza: { name: "B", type: "quest", stages: ["inizio", "fine"], onComplete: [{ kind: "set", var: "premio2", value: true }] },
+    },
+    entry: "a",
+    nodes: {
+      a: {
+        id: "a", content: [],
+        choices: [{
+          id: "c", text: "", goto: "b",
+          effects: [
+            { kind: "startThread", thread: "via_completa" },
+            { kind: "completeThread", thread: "via_completa" },
+            { kind: "startThread", thread: "via_avanza" },
+            { kind: "advanceThread", thread: "via_avanza", to: "fine" },
+          ],
+        }],
+      },
+      b: { id: "b", content: [] },
+    },
+  } as unknown as Story;
+
+  const { state } = choose(story, newGame(story), "c");
+  assert.equal(state.threads.via_completa, "fine");
+  assert.equal(state.vars.premio, true, "completeThread deve applicare onComplete allo stato reale");
+  // anche arrivare all'ultimo stage con advanceThread conta come completamento
+  assert.equal(state.vars.premio2, true, "advanceThread all'ultimo stage deve scatenare onComplete");
+});
+
+test("onComplete non si ripete se il thread e' gia' completo", () => {
+  const story = {
+    meta: { id: "x", title: "x", version: "0", formatVersion: "0.4" },
+    ruleset: {},
+    stateSchema: { volte: { type: "number", default: 0 } },
+    threads: { t: { name: "T", type: "quest", stages: ["s0", "s1"], onComplete: [{ kind: "add", var: "volte", value: 1 }] } },
+    entry: "a",
+    nodes: {
+      a: {
+        id: "a", content: [],
+        choices: [{
+          id: "c", text: "", goto: "b",
+          effects: [
+            { kind: "completeThread", thread: "t" },
+            { kind: "completeThread", thread: "t" },
+          ],
+        }],
+      },
+      b: { id: "b", content: [] },
+    },
+  } as unknown as Story;
+
+  const { state } = choose(story, newGame(story), "c");
+  assert.equal(state.vars.volte, 1);
+});
+
 test("l'esaurimento di una risorsa forza il nodo onDepleted", () => {
   const story = loadExample();
   let s = newGame(story, { seed: 1 });

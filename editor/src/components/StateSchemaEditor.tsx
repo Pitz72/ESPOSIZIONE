@@ -1,6 +1,7 @@
 import type { Story, VarDecl } from "../../../core/src/index.ts";
 import { useView } from "../view.ts";
 import { FACT_KIND_LABEL } from "../lib/authorLang.ts";
+import { renameVarEverywhere } from "../lib/renameVar.ts";
 
 interface Props {
   story: Story;
@@ -34,6 +35,8 @@ export function StateSchemaEditor({ story, update }: Props) {
     const rebuilt: Record<string, VarDecl> = {};
     for (const [k, v] of Object.entries(s.stateSchema)) rebuilt[k === oldKey ? newKey : k] = v;
     s.stateSchema = rebuilt;
+    // La rinomina segue la variabile ovunque sia citata: niente riferimenti rotti.
+    renameVarEverywhere(s, oldKey, newKey);
   });
 
   return (

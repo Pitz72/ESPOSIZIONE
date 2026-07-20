@@ -84,6 +84,71 @@ test("una storia checkless valida non produce errori", () => {
   assert.equal(hasErrors(validateStory(s)), false);
 });
 
+function miniStory(nodes: unknown, ruleset: unknown = {}): Story {
+  return {
+    meta: { id: "x", title: "x", version: "0", formatVersion: "0.4" },
+    ruleset,
+    stateSchema: {},
+    entry: "n",
+    nodes,
+  } as unknown as Story;
+}
+
+test("E09 quando una scelta non ha ne' goto ne' check (o li ha entrambi)", () => {
+  const monca = miniStory({ n: { id: "n", content: [], choices: [{ id: "c", text: "" }] } });
+  assert.ok(new Set(validateStory(monca).map((f) => f.code)).has("E09"), "atteso E09 (scelta monca)");
+
+  const doppia = miniStory(
+    {
+      n: { id: "n", content: [], choices: [{ id: "c", text: "", goto: "n", check: { attribute: "forza", difficulty: 3, onSuccess: "n", onFailure: "n" } }] },
+    },
+    { attributes: [{ id: "forza", name: "F" }], check: { dice: "2d6", compare: ">=" } },
+  );
+  assert.ok(new Set(validateStory(doppia).map((f) => f.code)).has("E09"), "atteso E09 (goto+check insieme)");
+});
+
+test("E10 quando un check non ha alcun esito, W08 quando manca il fallimento", () => {
+  const rs = { attributes: [{ id: "forza", name: "F", default: 3 }], check: { dice: "2d6", compare: ">=" } };
+  const senzaEsiti = miniStory(
+    { n: { id: "n", content: [], choices: [{ id: "c", text: "", check: { attribute: "forza", difficulty: 8 } }] } },
+    rs,
+  );
+  assert.ok(new Set(validateStory(senzaEsiti).map((f) => f.code)).has("E10"), "atteso E10");
+
+  const soloSuccesso = miniStory(
+    { n: { id: "n", content: [], choices: [{ id: "c", text: "", check: { attribute: "forza", difficulty: 8, onSuccess: "n" } }] } },
+    rs,
+  );
+  const codes = new Set(validateStory(soloSuccesso).map((f) => f.code));
+  assert.ok(codes.has("W08"), "atteso W08 (manca l'esito di fallimento)");
+  assert.ok(!codes.has("E10"));
+});
+
+test("E11 quando la notazione dadi non e' leggibile", () => {
+  const s = miniStory(
+    { n: { id: "n", content: [], choices: [{ id: "c", text: "", check: { attribute: "forza", difficulty: 8, onSuccess: "n", onFailure: "n" } }] } },
+    { attributes: [{ id: "forza", name: "F" }], check: { dice: "banana", compare: ">=" } },
+  );
+  assert.ok(new Set(validateStory(s).map((f) => f.code)).has("E11"));
+});
+
+test("E12 quando una skill dipende da un attributo non dichiarato", () => {
+  const s = miniStory(
+    { n: { id: "n", content: [] } },
+    { skills: [{ id: "empatia", name: "E", attribute: "cuore" }], check: { dice: "2d6", compare: ">=" } },
+  );
+  assert.ok(new Set(validateStory(s).map((f) => f.code)).has("E12"));
+});
+
+test("il validatore non crasha se ruleset.attributes manca ma un check lo cita", () => {
+  const s = miniStory(
+    { n: { id: "n", content: [], choices: [{ id: "c", text: "", check: { attribute: "forza", difficulty: 8, onSuccess: "n", onFailure: "n" } }] } },
+    { check: { dice: "2d6", compare: ">=" } },
+  );
+  const codes = new Set(validateStory(s).map((f) => f.code)); // non deve lanciare
+  assert.ok(codes.has("E03"), "atteso E03 (attributo non dichiarato)");
+});
+
 test("E06 quando l'entry non esiste", () => {
   const s = {
     meta: { id: "x", title: "x", version: "0", formatVersion: "0.2" },

@@ -62,7 +62,10 @@ export function conditionToAuthor(c: Condition | undefined, story: Story): strin
   if ("all" in c) return c.all.map((x) => conditionToAuthor(x, story)).join(" e anche ");
   if ("any" in c) return c.any.map((x) => conditionToAuthor(x, story)).join(" oppure ");
   if ("not" in c) return `tranne quando ${conditionToAuthor(c.not, story)}`;
-  if ("check" in c) return `una prova di ${friendlyRef("@skill:" + (c.check.skill ?? ""), story)} riesce`;
+  if ("check" in c) {
+    const ref = c.check.skill ? "@skill:" + c.check.skill : "@attr:" + (c.check.attribute ?? "");
+    return `una prova di ${friendlyRef(ref, story)} riesce`;
+  }
 
   const name = friendlyRef(c.lhs, story);
   const decl = story.stateSchema[c.lhs];
@@ -155,7 +158,7 @@ export function successChance(story: Story, check: ActiveCheck): number | null {
     if (adds.includes("skill")) statAvg += sk?.default ?? Math.round(((sk?.min ?? 0) + (sk?.max ?? 6)) / 2);
     if (adds.includes("attribute")) {
       const at = sk ? rs.attributes?.find((a) => a.id === sk.attribute) : undefined;
-      statAvg += at?.default ?? 0;
+      statAvg += at?.default ?? 1; // il motore parte da 1 quando l'attributo non ha default
     }
   } else if (check.attribute) {
     const at = rs.attributes?.find((a) => a.id === check.attribute);

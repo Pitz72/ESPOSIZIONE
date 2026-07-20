@@ -136,12 +136,19 @@ Analisi statica sul pacchetto. Regole (severità *error* / *warning*):
 - **E05 enum fuori dominio** — `set`/confronto con un valore non nell'enum dichiarato.
 - **E06 nodo entry mancante** — `entry` non punta a un nodo esistente.
 - **E07 formula di check mancante** — la storia usa dei check ma manca `ruleset.check`.
+- **E08 preset incoerente** — id duplicato, più di un `default`, riferimenti a statistiche/oggetti non dichiarati.
+- **E09 scelta senza via d'uscita** — né `goto` né `check` (o entrambi: il `goto` verrebbe ignorato).
+- **E10 check senza esiti** — `outcomes` vuoto e niente `onSuccess`/`onFailure`.
+- **E11 notazione dadi invalida** — `ruleset.check.dice` non parsabile (attesa `NdM`).
+- **E12 skill orfana** — una skill dipende da un attributo non dichiarato.
 - **W01 nodo irraggiungibile** — nessun cammino dall'`entry` raggiunge il nodo.
 - **W02 softlock** — nodo senza alcuna scelta la cui condizione sia soddisfacibile (dead end non voluto).
 - **W03 check impossibile** — difficoltà tale che nessun tiro può riuscire (o fallire) mai.
 - **W04 flag orfano** — variabile dichiarata ma mai letta, o scritta ma mai letta.
 - **W05 thread mai completato** — thread avviabile ma privo di transizione allo stage finale.
 - **W06 scelta sempre nascosta** — condizione insoddisfacibile a runtime.
+- **W07 equipaggiamento iniziale sovraccarico** — un preset parte oltre la capacità di trasporto.
+- **W08 check senza esito di fallimento** — il degrado risalirebbe a un esito di successo.
 
 Corridor ha già gli embrioni `validateScenes.ts` e `storyMetrics.ts`: il validatore li generalizza.
 

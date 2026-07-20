@@ -125,6 +125,16 @@ test("un oggetto non dichiarato diventa il fatto «ha X» (convenzione G5)", () 
   assert.deepEqual(p?.effect, { kind: "set", var: "ha_lanterna", value: true });
 });
 
+test("l'articolo si toglie solo se e' una parola a se' (lampada ≠ la + mpada)", () => {
+  // senza articolo: il nome resta intero anche se comincia come un articolo
+  assert.equal(parseConsequence("ottieni lampada", story())?.newFact?.label, "ha lampada");
+  assert.equal(parseConsequence("ottieni lettera", story())?.newFact?.label, "ha lettera");
+  // con articolo o preposizione articolata: si toglie
+  assert.equal(parseConsequence("ottieni la lampada", story())?.newFact?.label, "ha lampada");
+  assert.equal(parseConsequence("ottieni l'anfora", story())?.newFact?.label, "ha anfora");
+  assert.equal(parseConsequence("ottieni della corda", story())?.newFact?.label, "ha corda");
+});
+
 test("il fatto proposto non calpesta una chiave già in uso", () => {
   const s = story({ stateSchema: { ...story().stateSchema, sospetto: { type: "boolean" } } });
   const p = parseConsequence("aumenta sospetto di 2", s);
