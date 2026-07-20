@@ -5,6 +5,7 @@ import { ViewContext, type View } from "./view.ts";
 import { Sidebar } from "./components/Sidebar.tsx";
 import { NodeInspector } from "./components/NodeInspector.tsx";
 import { StateSchemaEditor } from "./components/StateSchemaEditor.tsx";
+import { SetupPanel } from "./components/SetupPanel.tsx";
 import { ValidationPanel } from "./components/ValidationPanel.tsx";
 import { pickAndReadFile, downloadText } from "./lib/fileIO.ts";
 import atrio from "../../examples/atrio-villa.iwstory.json";
@@ -19,7 +20,7 @@ const EXAMPLES: { label: string; data: unknown; file: string }[] = [
 
 function emptyStory(): Story {
   return {
-    meta: { id: "nuova_storia", title: "Nuova storia", version: "0.1.0", formatVersion: "0.3" },
+    meta: { id: "nuova_storia", title: "Nuova storia", version: "0.1.0", formatVersion: "0.4" },
     ruleset: {},
     stateSchema: {},
     nodes: { start: { id: "start", title: "Inizio", content: [{ speaker: "Narratore", text: "" }], choices: [] } },
@@ -87,7 +88,7 @@ export function App() {
   if (!story) {
     return (
       <div className="app">
-        <div className="topbar"><span className="title">InteractiveWriter <small>Editor 0.3.0</small></span></div>
+        <div className="topbar"><span className="title">InteractiveWriter <small>Editor 0.5.0</small></span></div>
         <div className="empty" style={{ marginTop: 80 }}>
           <p>Apri un file <span className="mono">.iwstory</span> o parti da un esempio.</p>
           <div className="row" style={{ justifyContent: "center", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
@@ -142,7 +143,7 @@ export function App() {
                 story={story} nodeId={selected} update={update} onRenameSelect={setSelected} />
             : <div className="empty">Seleziona un nodo a sinistra, oppure <button className="small" onClick={addNode}>creane uno</button>.</div>)}
           {tab === "stato" && <StateSchemaEditor story={story} update={update} />}
-          {tab === "ruleset" && <RulesetPanel story={story} />}
+          {tab === "ruleset" && <SetupPanel story={story} update={update} />}
         </div>
 
         <div className="col right">
@@ -154,25 +155,3 @@ export function App() {
   );
 }
 
-function RulesetPanel({ story }: { story: Story }) {
-  const rs = story.ruleset;
-  const list = (arr: { id: string; name: string }[] | undefined, label: string) => (
-    <div className="section">
-      <h3>{label} ({arr?.length ?? 0})</h3>
-      {(arr ?? []).map((x) => <div className="card" key={x.id}><span className="mono">{x.id}</span> — {x.name}</div>)}
-      {(!arr || arr.length === 0) && <div className="summary">nessuno</div>}
-    </div>
-  );
-  return (
-    <div>
-      <p className="summary">La scheda del personaggio (sola lettura per ora — la modifica arriva presto).</p>
-      {list(rs.attributes, "Caratteristiche")}
-      {list(rs.skills, "Abilità")}
-      {list(rs.resources, "Indicatori")}
-      <div className="section">
-        <h3>Regola delle prove</h3>
-        {rs.check ? <div className="card mono">{rs.check.dice} {rs.check.compare} difficoltà</div> : <div className="summary">Questa storia non usa prove di abilità.</div>}
-      </div>
-    </div>
-  );
-}

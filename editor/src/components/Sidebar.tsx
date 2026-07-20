@@ -16,8 +16,8 @@ export function Sidebar({ story, tab, setTab, selectedNodeId, onSelectNode, onAd
   const view = useView();
   const nodeIds = Object.keys(story.nodes);
   const labels = view === "autore"
-    ? { nodi: "Scene", stato: "Cosa ricorda", ruleset: "Personaggio", count: "scene", add: "+ Scena" }
-    : { nodi: "Nodi", stato: "Stato", ruleset: "Ruleset", count: "nodi", add: "+ Nodo" };
+    ? { nodi: "Scene", stato: "Cosa ricorda", ruleset: "Impostazioni", count: "scene", add: "+ Scena" }
+    : { nodi: "Nodi", stato: "Stato", ruleset: "Setup", count: "nodi", add: "+ Nodo" };
 
   return (
     <div>

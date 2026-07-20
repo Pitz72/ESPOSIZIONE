@@ -3,7 +3,7 @@
 > Documento di passaggio tra sessioni di lavoro. Dice **dove siamo**, **come si esegue**, **dove si va** e
 > **qual è il prossimo passo concreto**. Chi riprende (umano o AI) parte da qui.
 
-Ultimo aggiornamento: 2026-07-20 · Versione progetto: **0.4.0**
+Ultimo aggiornamento: 2026-07-20 · Versione progetto: **0.5.0**
 Repository: <https://github.com/Ecosystem-Runtime/InteractiveWriter> (privata)
 
 ---
@@ -39,7 +39,8 @@ tutta l'interfaccia.
 | 0.1.0 | Editor MVP (Tauri+React, editing-first) |
 | 0.2.0 | Editor writer-first: layer linguistico + doppia vista Autore/Tecnica |
 | 0.3.0 | Fatti creati scrivendo + editor delle conseguenze "Cosa cambia" |
-| 0.4.0 | **Formato 0.4: crescita del personaggio, ingombro, personaggi pronti** |
+| 0.4.0 | Formato 0.4: crescita del personaggio, ingombro, personaggi pronti |
+| 0.5.0 | **Editor: pannello Configurazione iniziale** + analisi di FAVELLA 1 |
 
 - **Formato `.iwstory`**: `formatVersion` **0.4** (lo schema accetta ancora 0.3). Collaudato su due
   migrazioni reali. La 0.4 aggiunge ciò che serve al modello *Disco Elysium*: le prove non cambiano solo
@@ -80,6 +81,7 @@ cd editor && npm run tauri:dev               # app desktop nativa (richiede Rust
 
 - [`DESIGN.md`](DESIGN.md) — design generale, formato, roadmap tecnica.
 - [`docs/author-experience.md`](docs/author-experience.md) — **spec dell'esperienza d'autore (governa l'UI)**.
+- [`docs/analisi-favella.md`](docs/analisi-favella.md) — cosa prendere (e cosa no) dal progetto FAVELLA 1.
 - [`schema/iwstory.schema.json`](schema/iwstory.schema.json) — JSON Schema del formato.
 - [`core/src/`](core/src/) — `types`, `rng`, `dice`, `engine`, `validator`, `index` (+ test).
 - [`cli/src/`](cli/src/) — comando `iw`.
@@ -99,37 +101,51 @@ prova cambia anche il personaggio):
 1. ✅ Layer linguistico + doppia vista Autore/Tecnica *(0.2.0)*.
 2. ✅ **Fatti creati scrivendo** + editor delle conseguenze "Cosa cambia" *(0.3.0)*.
 3. ✅ **Formato 0.4**: crescita del personaggio, ingombro, personaggi pronti, `setting` *(0.4.0)*.
-4. ⬜ Editor: pannello **Configurazione iniziale** — setting, personaggi pronti, inventario di partenza,
-   capacità *(← prossimo)*.
-5. ⬜ Editor: pannello **Oggetti** (che toglie l'ultimo ripiego: l'oggetto non dichiarato modellato come
-   fatto «ha X»).
-6. ⬜ Costruttore di condizioni composte a frase ("e anche / oppure / tranne quando").
-7. ⬜ Wizard **Prova di abilità** con difficoltà a parole e **% dal vivo** (la matematica è già in
+4. ✅ Editor: pannello **Configurazione iniziale** — la storia, personaggi pronti, ingombro, scheda
+   modificabile *(0.5.0)*.
+5. ⬜ Editor: pannello **Oggetti** *(← prossimo)* — database della singola storia modificabile mentre si scrive, che
+   toglie l'ultimo ripiego (l'oggetto non dichiarato modellato come fatto «ha X»). Con **archetipi**
+   (`extends`) e un **catalogo di modelli** fornito con l'editor e *copiato* dentro la storia: il motore
+   non conosce nessun oggetto predefinito, o smetterebbe di essere configurabile.
+6. ⬜ **Playtest incorporato** (riuso motore) con stato in lingua naturale e **diff per turno**
+   (*«📍 sei andato in…», «⚙ Forza 2 → 3», «＋ lampada»*) — vedi [`docs/analisi-favella.md`](docs/analisi-favella.md) §5.
+   Salvataggio della prova come **elenco di scelte**, non come stato (§4): il motore è deterministico,
+   quindi regala replay e walkthrough.
+7. ⬜ Costruttore di condizioni composte a frase ("e anche / oppure / tranne quando").
+8. ⬜ Wizard **Prova di abilità** con difficoltà a parole e **% dal vivo** (la matematica è già in
    `editor/src/lib/authorLang.ts` → `successChance`), con esiti che toccano anche il personaggio.
-8. ⬜ **Playtest incorporato** (riuso motore) con pannello di stato in lingua naturale.
-9. ⬜ Livelli 1–3 (Racconto / Con conseguenze / Ruolistico) + template d'avvio.
-10. ⬜ Canvas a grafo (vista secondaria) + dialog nativi Tauri (comandi Rust).
+9. ⬜ **Sentinelle** "ogni volta che X" / "quando X diventa vera" (analisi FAVELLA §2–3): effetti legati
+   allo *stato del mondo*, non al nodo. Una sola valutazione per passo, in ordine di dichiarazione.
+10. ⬜ Livelli 1–3 (Racconto / Con conseguenze / Ruolistico) + template d'avvio.
+11. ⬜ **Analisi di vincibilità** (FAVELLA §6): risalita a ritroso dai finali per dire *«questo finale non
+    è raggiungibile, manca chi produce X»*. Solo a formato assestato, e dichiarata come euristica.
+12. ⬜ Canvas a grafo (vista secondaria) + dialog nativi Tauri (comandi Rust).
 
 Più avanti (non-editor): **ponte LLM** (skill che genera nodi schema-validi nel vicinato, in ciclo col
 validatore), importer da Corridor/TUBO/Respiro.
 
 ## 7. Prossimo passo concreto (raccomandato)
 
-**Pannello "Configurazione iniziale"** nell'editor: il lavoro che l'autore fa *prima* di scrivere le scene.
-Il formato è pronto (0.4), l'interfaccia no — oggi si entra dritti nelle scene e `setting`, `presets` e
-`inventory` non sono visibili da nessuna parte.
+**Pannello "Oggetti"**. Oggi gli oggetti si possono solo *usare* (equipaggiamento dei personaggi pronti,
+condizioni, conseguenze) ma non si possono **creare** dall'editor: `story.items` si scrive solo a mano nel
+JSON. È anche l'ultimo ripiego rimasto — se l'autore scrive *«ottieni la lanterna»* e la lanterna non
+esiste, `factLang` ripiega sul fatto «ha lanterna» invece di creare l'oggetto.
 
-Da fare, tutto in lingua d'autore:
+Da fare:
 
-- **La storia**: mondo, tono, protagonista, appunti (`story.setting`).
-- **Chi sei**: elenco dei **personaggi pronti** con statistiche a cursori, indicatore del predefinito ed
-  equipaggiamento iniziale; *«crea un personaggio»* al volo.
-- **Cosa puoi portare**: `baseCapacity` con etichetta a parole ("due tasche") e anteprima di quanto occupa
-  l'equipaggiamento scelto (la matematica è già nel core: `capacityOf`/`carriedOf`).
-- La **Scheda del personaggio** (oggi `RulesetPanel`, sola lettura) diventa modificabile qui dentro.
+- **Database della storia**, modificabile mentre si scrive: nome, descrizione, quanto ingombra (`size`),
+  quanti posti aggiunge (`capacityBonus`), etichette.
+- **Stato degli oggetti** con il modello preso da FAVELLA (vedi [`docs/analisi-favella.md`](docs/analisi-favella.md) §1):
+  proprietà come aggettivi + **registro di coppie opposte** (`aperto↔chiuso`, `acceso↔spento`, estendibile
+  dall'autore); assegnare una proprietà toglie l'opposta. Richiede un'aggiunta al formato.
+- **Archetipi** (`extends`): «questo è un contenitore», «questo è un'arma» — così cento oggetti simili non
+  sono cento copie. È il limite che FAVELLA ha diagnosticato e non ha risolto; noi non abbiamo il loro
+  vincolo di grammatica.
+- **Catalogo di modelli** fornito con l'editor (~100 oggetti di partenza) che vengono **copiati** dentro la
+  storia. Il motore non deve conoscere nessun oggetto predefinito, o smette di essere configurabile.
+- `factLang`: *«ottieni la lanterna»* propone di **creare l'oggetto**, non il fatto «ha lanterna».
 
-Primo file: nuovo `editor/src/components/SetupPanel.tsx` + una voce nella barra dei tab di
-`editor/src/components/Sidebar.tsx`. Subito dopo: il pannello **Oggetti**.
+Sarà la **0.6.0**. Subito dopo: il **playtest incorporato** con diff per turno.
 
 ## 8. Convenzioni di lavoro
 

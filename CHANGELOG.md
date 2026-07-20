@@ -6,6 +6,7 @@ formato possono cambiare in modo incompatibile tra minori).
 
 | Versione | Fase | Stato | Dettaglio |
 |---|---|---|---|
+| 0.5.0 | Editor — pannello Configurazione iniziale + analisi di FAVELLA 1 | Completata | [CHANGELOG_v0.5.0.md](CHANGELOG/CHANGELOG_v0.5.0.md) |
 | 0.4.0 | Formato 0.4 — crescita del personaggio, ingombro, personaggi pronti | Completata | [CHANGELOG_v0.4.0.md](CHANGELOG/CHANGELOG_v0.4.0.md) |
 | 0.3.0 | Editor writer-first — fatti creati scrivendo e conseguenze "Cosa cambia" | Completata | [CHANGELOG_v0.3.0.md](CHANGELOG/CHANGELOG_v0.3.0.md) |
 | 0.2.0 | Editor writer-first — layer linguistico e doppia vista | Completata | [CHANGELOG_v0.2.0.md](CHANGELOG/CHANGELOG_v0.2.0.md) |
