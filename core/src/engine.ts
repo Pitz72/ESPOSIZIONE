@@ -50,12 +50,52 @@ function clamp(value: number, min: number | undefined, max: number | undefined):
 }
 
 // ---------------------------------------------------------------------------
+// Inventario: quanto si puo' portare addosso
+// ---------------------------------------------------------------------------
+
+/** Posti occupati adesso: somma di `size` (default 1) per ogni oggetto posseduto. */
+export function carriedOf(state: RuntimeState, story: Story): number {
+  let total = 0;
+  for (const [id, qty] of Object.entries(state.inventory)) {
+    const size = story.items?.[id]?.size ?? 1;
+    total += size * qty;
+  }
+  return total;
+}
+
+/** Posti disponibili: base + i bonus dei contenitori che il personaggio ha addosso. */
+export function capacityOf(state: RuntimeState, story: Story): number {
+  const inv = story.ruleset.inventory;
+  if (!inv) return Infinity; // storia senza regole d'ingombro: nessun limite
+  let total = inv.baseCapacity;
+  for (const [id, qty] of Object.entries(state.inventory)) {
+    const bonus = story.items?.[id]?.capacityBonus;
+    if (bonus) total += bonus * qty;
+  }
+  return total;
+}
+
+/** Posti liberi. Infinity se la storia non usa regole d'ingombro. */
+export function freeSpaceOf(state: RuntimeState, story: Story): number {
+  return capacityOf(state, story) - carriedOf(state, story);
+}
+
+// ---------------------------------------------------------------------------
 // Risoluzione riferimenti e condizioni
 // ---------------------------------------------------------------------------
 
 export function resolveRef(ref: string, state: RuntimeState, story: Story): Literal {
   if (ref.startsWith("@")) {
     const idx = ref.indexOf(":");
+    // riferimenti senza id: @capacity, @carried, @free
+    if (idx === -1) {
+      switch (ref.slice(1)) {
+        case "capacity": return capacityOf(state, story);
+        case "carried": return carriedOf(state, story);
+        case "free": return freeSpaceOf(state, story);
+        default: return 0;
+      }
+    }
     const kind = ref.slice(1, idx);
     const id = ref.slice(idx + 1);
     switch (kind) {
@@ -257,9 +297,29 @@ function applyEffect(effect: Effect, state: RuntimeState, story: Story): void {
       state.vars[effect.var] = next;
       break;
     }
-    case "addItem":
-      state.inventory[effect.item] = (state.inventory[effect.item] ?? 0) + (effect.qty ?? 1);
+    case "adjustSkill": {
+      const decl = (story.ruleset.skills ?? []).find((s) => s.id === effect.skill);
+      const cur = state.skills[effect.skill] ?? decl?.default ?? 0;
+      state.skills[effect.skill] = clamp(cur + effect.value, decl?.min ?? 0, decl?.max);
       break;
+    }
+    case "adjustAttribute": {
+      const decl = (story.ruleset.attributes ?? []).find((a) => a.id === effect.attribute);
+      const cur = state.attributes[effect.attribute] ?? decl?.default ?? 1;
+      state.attributes[effect.attribute] = clamp(cur + effect.value, decl?.min ?? 1, decl?.max);
+      break;
+    }
+    case "addItem": {
+      const qty = effect.qty ?? 1;
+      const inv = story.ruleset.inventory;
+      if (inv && (inv.overflow ?? "block") === "block") {
+        // Non entra piu' di quanto ci sta: l'oggetto resta fuori (niente parziali).
+        const size = story.items?.[effect.item]?.size ?? 1;
+        if (size * qty > freeSpaceOf(state, story)) break;
+      }
+      state.inventory[effect.item] = (state.inventory[effect.item] ?? 0) + qty;
+      break;
+    }
     case "removeItem": {
       const next = (state.inventory[effect.item] ?? 0) - (effect.qty ?? 1);
       if (next <= 0) delete state.inventory[effect.item];
@@ -327,24 +387,50 @@ function defaultVar(decl: Story["stateSchema"][string]): Literal {
   }
 }
 
+/**
+ * Il preset da cui partire: quello chiesto dal build, altrimenti quello marcato
+ * `default`, altrimenti nessuno (si usano i valori base delle dichiarazioni).
+ */
+export function resolvePreset(story: Story, build: CharacterBuild = {}) {
+  const presets = story.ruleset.presets ?? [];
+  if (build.preset) return presets.find((p) => p.id === build.preset);
+  return presets.find((p) => p.default);
+}
+
 export function newGame(story: Story, build: CharacterBuild = {}): RuntimeState {
+  const preset = resolvePreset(story, build);
+
   const vars: Record<string, Literal> = {};
   for (const [name, decl] of Object.entries(story.stateSchema)) vars[name] = defaultVar(decl);
 
   const resources: Record<string, number> = {};
-  for (const r of story.ruleset.resources ?? []) resources[r.id] = r.default ?? 0;
+  for (const r of story.ruleset.resources ?? []) {
+    resources[r.id] = clamp(preset?.resources?.[r.id] ?? r.default ?? 0, r.min ?? 0, r.max);
+  }
 
+  // Precedenza: build esplicito > preset > default della dichiarazione.
   const attributes: Record<string, number> = {};
-  for (const a of story.ruleset.attributes ?? []) attributes[a.id] = build.attributes?.[a.id] ?? a.default ?? 1;
+  for (const a of story.ruleset.attributes ?? []) {
+    const v = build.attributes?.[a.id] ?? preset?.attributes?.[a.id] ?? a.default ?? 1;
+    attributes[a.id] = clamp(v, a.min ?? 1, a.max);
+  }
 
   const skills: Record<string, number> = {};
-  for (const s of story.ruleset.skills ?? []) skills[s.id] = build.skills?.[s.id] ?? s.default ?? 0;
+  for (const s of story.ruleset.skills ?? []) {
+    const v = build.skills?.[s.id] ?? preset?.skills?.[s.id] ?? s.default ?? 0;
+    skills[s.id] = clamp(v, s.min ?? 0, s.max);
+  }
+
+  // L'equipaggiamento iniziale entra senza passare dal controllo d'ingombro:
+  // e' l'autore a dichiararlo, non il gioco a raccoglierlo.
+  const inventory: Record<string, number> = {};
+  for (const [id, qty] of Object.entries(preset?.items ?? {})) if (qty > 0) inventory[id] = qty;
 
   const state: RuntimeState = {
     currentNodeId: story.entry,
     vars,
     resources,
-    inventory: {},
+    inventory,
     threads: {},
     attributes,
     skills,

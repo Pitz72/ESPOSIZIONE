@@ -61,9 +61,14 @@ function stripArticle(s: string): string {
 export type RefMatch =
   | { kind: "var"; key: string; name: string; decl: VarDecl }
   | { kind: "resource"; id: string; name: string }
+  | { kind: "skill"; id: string; name: string }
+  | { kind: "attribute"; id: string; name: string }
   | { kind: "item"; id: string; name: string };
 
-/** Cerca fra fatti, indicatori e oggetti già dichiarati. Confronto per nome, etichetta o chiave. */
+/**
+ * Cerca fra fatti, indicatori, abilità, caratteristiche e oggetti già dichiarati.
+ * Confronto per nome, etichetta o chiave.
+ */
 export function resolveRef(raw: string, story: Story): RefMatch | null {
   const n = normalize(raw);
   if (!n) return null;
@@ -77,6 +82,10 @@ export function resolveRef(raw: string, story: Story): RefMatch | null {
   }
   for (const r of story.ruleset.resources ?? [])
     candidates.push({ key: normalize(r.name), m: { kind: "resource", id: r.id, name: r.name } });
+  for (const s of story.ruleset.skills ?? [])
+    candidates.push({ key: normalize(s.name), m: { kind: "skill", id: s.id, name: s.name } });
+  for (const a of story.ruleset.attributes ?? [])
+    candidates.push({ key: normalize(a.name), m: { kind: "attribute", id: a.id, name: a.name } });
   for (const [id, it] of Object.entries(story.items ?? {}))
     candidates.push({ key: normalize(it.name), m: { kind: "item", id, name: it.name } });
 
@@ -155,6 +164,11 @@ export function parseConsequence(raw: string, story: Story): ParsedConsequence |
     const ref = resolveRef(delta.name, story);
     if (ref?.kind === "resource")
       return { effect: { kind: "adjustResource", resource: ref.id, value: delta.value } };
+    // Crescita del personaggio: la prova non cambia solo la storia, cambia chi sei.
+    if (ref?.kind === "skill")
+      return { effect: { kind: "adjustSkill", skill: ref.id, value: delta.value } };
+    if (ref?.kind === "attribute")
+      return { effect: { kind: "adjustAttribute", attribute: ref.id, value: delta.value } };
     if (ref?.kind === "var" && ref.decl.type === "number")
       return { effect: { kind: "add", var: ref.key, value: delta.value } };
     if (!ref) {

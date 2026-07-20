@@ -8,6 +8,7 @@
   "additionalProperties": false,
   "properties": {
     "meta": { "$ref": "#/$defs/meta" },
+    "setting": { "$ref": "#/$defs/setting" },
     "ruleset": { "$ref": "#/$defs/ruleset" },
     "stateSchema": {
       "type": "object",
@@ -44,9 +45,21 @@
     },
 
     "ref": {
-      "description": "Riferimento risolvibile: nome nudo = variabile di stateSchema; oppure @skill/@attr/@resource/@item/@thread:id.",
+      "description": "Riferimento risolvibile: nome nudo = variabile di stateSchema; @skill/@attr/@resource/@item/@thread:id; oppure @capacity/@carried/@free (ingombro).",
       "type": "string",
-      "pattern": "^(@(skill|attr|resource|item|thread):[a-zA-Z_][a-zA-Z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*)$"
+      "pattern": "^(@(skill|attr|resource|item|thread):[a-zA-Z_][a-zA-Z0-9_]*|@(capacity|carried|free)|[a-zA-Z_][a-zA-Z0-9_]*)$"
+    },
+
+    "setting": {
+      "type": "object",
+      "description": "Configurazione generale della storia: il lavoro dell'autore PRIMA delle scene. Il motore la ignora.",
+      "additionalProperties": false,
+      "properties": {
+        "world": { "type": "string", "description": "Dove e quando siamo." },
+        "tone": { "type": "string", "description": "Tono e riferimenti." },
+        "protagonist": { "type": "string", "description": "Chi è il protagonista, in una riga." },
+        "notes": { "type": "string" }
+      }
     },
 
     "literal": {
@@ -61,7 +74,7 @@
         "id": { "$ref": "#/$defs/identifier" },
         "title": { "type": "string" },
         "version": { "type": "string" },
-        "formatVersion": { "type": "string", "const": "0.3" },
+        "formatVersion": { "type": "string", "enum": ["0.3", "0.4"] },
         "locale": { "type": "string", "default": "it" },
         "authors": { "type": "array", "items": { "type": "string" } },
         "description": { "type": "string" }
@@ -94,6 +107,69 @@
             "attributePoints": { "type": "integer", "minimum": 0 },
             "skillPoints": { "type": "integer", "minimum": 0 }
           }
+        },
+        "inventory": { "$ref": "#/$defs/inventoryRules" },
+        "presets": {
+          "type": "array",
+          "description": "Personaggi pronti: il default dell'autore e/o gli archetipi che il gioco può far scegliere.",
+          "items": { "$ref": "#/$defs/characterPreset" }
+        }
+      }
+    },
+
+    "inventoryRules": {
+      "type": "object",
+      "description": "Quanto può portare addosso il personaggio. Capacità = baseCapacity + i capacityBonus degli oggetti posseduti (zaino, cappotto…).",
+      "required": ["baseCapacity"],
+      "additionalProperties": false,
+      "properties": {
+        "baseCapacity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Posti disponibili con i soli vestiti addosso."
+        },
+        "overflow": {
+          "enum": ["block", "allow"],
+          "default": "block",
+          "description": "block = un oggetto che non ci sta non entra; allow = nessun limite effettivo."
+        },
+        "unitLabel": { "type": "string", "description": "Etichetta d'autore: tasche, posti, slot." }
+      }
+    },
+
+    "characterPreset": {
+      "type": "object",
+      "required": ["id", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "attributes": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "skills": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "resources": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "items": {
+          "type": "object",
+          "description": "Equipaggiamento iniziale: id oggetto -> quantità.",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        },
+        "default": {
+          "type": "boolean",
+          "default": false,
+          "description": "Il personaggio usato quando il gioco non ne fa scegliere nessuno. Al massimo uno."
         }
       }
     },
@@ -258,7 +334,19 @@
         "name": { "type": "string" },
         "description": { "type": "string" },
         "tags": { "type": "array", "items": { "type": "string" } },
-        "stackable": { "type": "boolean", "default": true }
+        "stackable": { "type": "boolean", "default": true },
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1,
+          "description": "Posti occupati. 0 = non ingombra (una chiave, una lettera)."
+        },
+        "capacityBonus": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Posti AGGIUNTI se posseduto: zaino, borsa, cappotto con le tasche."
+        }
       }
     },
 
@@ -479,6 +567,28 @@
             "kind": { "const": "add" },
             "var": { "$ref": "#/$defs/identifier" },
             "value": { "type": "number" }
+          }
+        },
+        {
+          "type": "object",
+          "description": "Crescita: l'abilità del personaggio cambia davvero.",
+          "required": ["kind", "skill", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "adjustSkill" },
+            "skill": { "$ref": "#/$defs/identifier" },
+            "value": { "type": "integer" }
+          }
+        },
+        {
+          "type": "object",
+          "description": "Crescita: la caratteristica di fondo del personaggio cambia.",
+          "required": ["kind", "attribute", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "adjustAttribute" },
+            "attribute": { "$ref": "#/$defs/identifier" },
+            "value": { "type": "integer" }
           }
         },
         {

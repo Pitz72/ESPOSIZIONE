@@ -195,6 +195,8 @@ function refOptions(story: Story): string[] {
   for (const r of story.ruleset.resources ?? []) opts.push(`@resource:${r.id}`);
   for (const s of story.ruleset.skills ?? []) opts.push(`@skill:${s.id}`);
   for (const a of story.ruleset.attributes ?? []) opts.push(`@attr:${a.id}`);
+  for (const id of Object.keys(story.items ?? {})) opts.push(`@item:${id}`);
+  if (story.ruleset.inventory) opts.push("@free", "@carried", "@capacity");
   return opts;
 }
 

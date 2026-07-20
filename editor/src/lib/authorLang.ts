@@ -8,7 +8,15 @@ import type { Story, Condition, Effect, ActiveCheck, Finding, VarDecl } from "..
 // --- Nomi leggibili -------------------------------------------------------
 
 /** Nome amichevole di un riferimento (fatto, indicatore, abilità). */
+/** I riferimenti d'ingombro non hanno id: sono grandezze dell'inventario. */
+const SPACE_LABEL: Record<string, string> = {
+  "@capacity": "lo spazio che puoi portare",
+  "@carried": "lo spazio occupato",
+  "@free": "lo spazio libero",
+};
+
 export function friendlyRef(ref: string, story: Story): string {
+  if (SPACE_LABEL[ref]) return SPACE_LABEL[ref];
   if (ref.startsWith("@")) {
     const idx = ref.indexOf(":");
     const kind = ref.slice(1, idx);
@@ -79,6 +87,14 @@ export function effectToAuthor(e: Effect, story: Story): string {
     case "add": {
       const name = friendlyRef(e.var, story);
       return e.value >= 0 ? `aumenta ${name} di ${e.value}` : `diminuisci ${name} di ${-e.value}`;
+    }
+    case "adjustSkill": {
+      const name = friendlyRef("@skill:" + e.skill, story);
+      return e.value >= 0 ? `${name} cresce di ${e.value}` : `${name} cala di ${-e.value}`;
+    }
+    case "adjustAttribute": {
+      const name = friendlyRef("@attr:" + e.attribute, story);
+      return e.value >= 0 ? `${name} cresce di ${e.value}` : `${name} cala di ${-e.value}`;
     }
     case "addItem": return `ottieni ${story.items?.[e.item]?.name ?? e.item}`;
     case "removeItem": return `perdi ${story.items?.[e.item]?.name ?? e.item}`;

@@ -21,6 +21,8 @@ export function summarizeEffect(e: Effect): string {
   switch (e.kind) {
     case "set": return `${e.var} = ${JSON.stringify(e.value)}`;
     case "add": return `${e.var} ${e.value >= 0 ? "+" : ""}${e.value}`;
+    case "adjustSkill": return `@skill:${e.skill} ${e.value >= 0 ? "+" : ""}${e.value}`;
+    case "adjustAttribute": return `@attr:${e.attribute} ${e.value >= 0 ? "+" : ""}${e.value}`;
     case "addItem": return `+${e.item}${e.qty && e.qty > 1 ? `×${e.qty}` : ""}`;
     case "removeItem": return `−${e.item}${e.qty && e.qty > 1 ? `×${e.qty}` : ""}`;
     case "adjustResource": return `${e.resource} ${e.value >= 0 ? "+" : ""}${e.value}`;

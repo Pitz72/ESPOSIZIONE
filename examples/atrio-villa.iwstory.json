@@ -3,10 +3,17 @@
     "id": "atrio_villa",
     "title": "L'atrio della villa",
     "version": "0.1.0",
-    "formatVersion": "0.3",
+    "formatVersion": "0.4",
     "locale": "it",
     "authors": ["Simone"],
-    "description": "Micro-storia dimostrativa del formato .iwstory: una scena investigativa con check attivi, una voce interiore e un thread di indagine."
+    "description": "Micro-storia dimostrativa del formato .iwstory: una scena investigativa con check attivi, una voce interiore, un thread di indagine, personaggi pronti, capacità di trasporto e crescita del personaggio."
+  },
+
+  "setting": {
+    "world": "Una villa sulla scogliera, lasciata di fretta. Fine autunno, mare grosso.",
+    "tone": "Investigativo e malinconico, con voci interiori che commentano — modello Disco Elysium.",
+    "protagonist": "Qualcuno che è venuto qui non per la casa, ma per chi non c'è più.",
+    "notes": "Esempio di riferimento del formato: ogni costrutto compare almeno una volta."
   },
 
   "ruleset": {
@@ -35,7 +42,33 @@
       "partialBand": 2,
       "crits": "natural"
     },
-    "characterCreation": { "attributePoints": 6, "skillPoints": 4 }
+    "characterCreation": { "attributePoints": 6, "skillPoints": 4 },
+
+    "inventory": {
+      "baseCapacity": 2,
+      "overflow": "block",
+      "unitLabel": "tasche"
+    },
+
+    "presets": [
+      {
+        "id": "investigatore",
+        "name": "L'investigatore consumato",
+        "description": "Ragiona più di quanto senta. Il cappotto è il suo archivio.",
+        "default": true,
+        "attributes": { "intelletto": 3, "psiche": 2, "fisico": 2 },
+        "skills": { "logica": 2, "empatia": 1, "forza": 1 },
+        "items": { "cappotto": 1 }
+      },
+      {
+        "id": "scassinatore",
+        "name": "Lo scassinatore pentito",
+        "description": "Poche parole, mani buone. Porta con sé quello che serve.",
+        "attributes": { "intelletto": 2, "psiche": 1, "fisico": 3 },
+        "skills": { "logica": 1, "empatia": 0, "forza": 3 },
+        "items": { "grimaldello": 1 }
+      }
+    ]
   },
 
   "stateSchema": {
@@ -55,7 +88,23 @@
       "name": "Grimaldello",
       "description": "Un ferro sottile, buono per serrature vecchie.",
       "tags": ["strumento"],
-      "stackable": false
+      "stackable": false,
+      "size": 1
+    },
+    "cappotto": {
+      "name": "Cappotto da lavoro",
+      "description": "Quattro tasche interne. È l'archivio di chi non ha un ufficio.",
+      "tags": ["contenitore"],
+      "stackable": false,
+      "size": 1,
+      "capacityBonus": 3
+    },
+    "lampada": {
+      "name": "Lampada a olio",
+      "description": "Pesante e ingombrante, ma la villa è buia.",
+      "tags": ["strumento"],
+      "stackable": false,
+      "size": 2
     }
   },
 
@@ -69,7 +118,10 @@
       "name": "Questa casa è stata lasciata di fretta",
       "type": "thought",
       "stages": ["intuizione", "interiorizzato"],
-      "onComplete": [{ "kind": "add", "var": "fiducia", "value": 1 }]
+      "onComplete": [
+        { "kind": "add", "var": "fiducia", "value": 1 },
+        { "kind": "adjustSkill", "skill": "empatia", "value": 1 }
+      ]
     }
   },
 
@@ -132,7 +184,8 @@
             "outcomes": {
               "critSuccess": {
                 "goto": "retro_aperto",
-                "text": "La porta salta via dai cardini come se non avesse mai opposto resistenza."
+                "effects": [{ "kind": "adjustSkill", "skill": "forza", "value": 1 }],
+                "text": "La porta salta via dai cardini come se non avesse mai opposto resistenza. Qualcosa, nel corpo, ha imparato."
               },
               "success": { "goto": "retro_aperto" },
               "partial": {
@@ -237,9 +290,26 @@
       ],
       "choices": [
         {
+          "id": "prendi_lampada",
+          "text": "Prendi la lampada a olio dal comodino.",
+          "requires": {
+            "all": [
+              { "lhs": "@item:lampada", "op": "==", "rhs": 0 },
+              { "lhs": "@free", "op": ">=", "rhs": 2 }
+            ]
+          },
+          "whenLocked": "show",
+          "effects": [{ "kind": "addItem", "item": "lampada" }],
+          "goto": "piano_superiore"
+        },
+        {
           "id": "cambia_approccio",
           "text": "Decidi di non aver più pazienza: da ora agisci senza esitare.",
-          "effects": [{ "kind": "set", "var": "approccio", "value": "diretto" }],
+          "effects": [
+            { "kind": "set", "var": "approccio", "value": "diretto" },
+            { "kind": "adjustSkill", "skill": "forza", "value": 1 },
+            { "kind": "adjustSkill", "skill": "logica", "value": -1 }
+          ],
           "goto": "fine_capitolo"
         },
         {

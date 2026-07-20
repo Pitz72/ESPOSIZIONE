@@ -30,16 +30,18 @@ function usage(): void {
 
 Uso:
   iw validate <file.iwstory>
-  iw play <file.iwstory> [--seed <n>] [--choices <a,b,c>] [--build <file.json>] [--force]
+  iw play <file.iwstory> [--seed <n>] [--choices <a,b,c>] [--preset <id>] [--build <file.json>] [--force]
 
 Comandi:
   validate   Analizza staticamente la storia (exit 1 se ci sono errori).
   play       Gioca la storia in terminale. Con --choices gira in modo scriptato
              e deterministico (indici 1-based o id di scelta separati da virgola).
+             Con --preset parte da un personaggio pronto di ruleset.presets.
 
 Esempi:
   iw validate examples/atrio-villa.iwstory.json
-  iw play examples/atrio-villa.iwstory.json --seed 1 --choices annusa,prendi_chiave,esci`);
+  iw play examples/atrio-villa.iwstory.json --seed 1 --choices annusa,prendi_chiave,esci
+  iw play examples/atrio-villa.iwstory.json --preset scassinatore`);
 }
 
 async function main(): Promise<number> {
@@ -60,6 +62,7 @@ async function main(): Promise<number> {
         seed: flags.seed !== undefined ? Number(flags.seed) : 0,
         choices,
         build: typeof flags.build === "string" ? flags.build : undefined,
+        preset: typeof flags.preset === "string" ? flags.preset : undefined,
         force: Boolean(flags.force),
       });
     }

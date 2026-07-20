@@ -6,7 +6,11 @@ import { parseConsequence, resolveRef, slugify, uniqueKey } from "./factLang.ts"
 function story(over: Partial<Story> = {}): Story {
   return {
     meta: { id: "t", title: "T", version: "0.1.0", formatVersion: "0.3" },
-    ruleset: { resources: [{ id: "stress", name: "Stress", default: 0 }] },
+    ruleset: {
+      resources: [{ id: "stress", name: "Stress", default: 0 }],
+      attributes: [{ id: "psiche", name: "Psiche", default: 2 }],
+      skills: [{ id: "empatia", name: "Empatia", attribute: "psiche", default: 1 }],
+    },
     stateSchema: {
       ha_la_chiave: { type: "boolean", default: false, label: "ha la chiave" },
       fiducia_carli: { type: "number", default: 0, label: "fiducia di Carli" },
@@ -69,6 +73,17 @@ test("variazione su un indicatore della scheda", () => {
   assert.deepEqual(parseConsequence("diminuisci stress di 5", story())?.effect, {
     kind: "adjustResource", resource: "stress", value: -5,
   });
+});
+
+test("crescita del personaggio: abilità e caratteristiche", () => {
+  assert.deepEqual(parseConsequence("aumenta Empatia di 1", story())?.effect, {
+    kind: "adjustSkill", skill: "empatia", value: 1,
+  });
+  assert.deepEqual(parseConsequence("Psiche -1", story())?.effect, {
+    kind: "adjustAttribute", attribute: "psiche", value: -1,
+  });
+  // e non propone di creare un fatto con lo stesso nome
+  assert.equal(parseConsequence("aumenta Empatia di 1", story())?.newFact, undefined);
 });
 
 test("oggetto dichiarato: entra ed esce dall'inventario", () => {

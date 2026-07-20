@@ -1,6 +1,6 @@
 /**
  * Tipi TypeScript del formato `.iwstory` e dello stato di runtime.
- * Allineati a schema/iwstory.schema.json (formatVersion "0.2").
+ * Allineati a schema/iwstory.schema.json (formatVersion "0.4").
  *
  * Nota: questo file contiene SOLO tipi, quindi viene interamente cancellato
  * dal type-stripping di Node. Importarlo sempre con `import type`.
@@ -21,6 +21,9 @@ export type Literal = string | number | boolean;
  * - `@resource:id`       -> valore risorsa corrente
  * - `@item:id`           -> quantita' posseduta
  * - `@thread:id`         -> indice dello stage corrente (-1 se non avviato)
+ * - `@capacity`          -> posti disponibili in tutto (base + contenitori indossati)
+ * - `@carried`           -> posti occupati adesso
+ * - `@free`              -> posti liberi (capacity - carried)
  */
 export type Ref = string;
 
@@ -50,6 +53,9 @@ export type Condition =
 export type Effect =
   | { kind: "set"; var: string; value: Literal }
   | { kind: "add"; var: string; value: number }
+  /** Crescita del personaggio: la prova non cambia solo la storia, cambia chi sei. */
+  | { kind: "adjustSkill"; skill: string; value: number }
+  | { kind: "adjustAttribute"; attribute: string; value: number }
   | { kind: "addItem"; item: string; qty?: number }
   | { kind: "removeItem"; item: string; qty?: number }
   | { kind: "adjustResource"; resource: string; value: number }
@@ -187,6 +193,38 @@ export interface OutcomeModel {
   critMargin?: number;
 }
 
+/**
+ * Regole dell'inventario: quanto puo' portare addosso il personaggio.
+ * La capacita' totale e' `baseCapacity` + la somma dei `capacityBonus` degli
+ * oggetti posseduti (una giacca con le tasche, uno zaino...). Ogni oggetto
+ * occupa `size` posti (default 1).
+ */
+export interface InventoryRules {
+  /** Posti disponibili a mani nude / con i soli vestiti addosso. */
+  baseCapacity: number;
+  /** Cosa succede se non c'e' spazio: "block" = l'oggetto non entra (default). */
+  overflow?: "block" | "allow";
+  /** Etichetta d'autore per l'unita' ("tasche", "posti", "slot"). Solo presentazione. */
+  unitLabel?: string;
+}
+
+/**
+ * Un personaggio pronto: sia il preset che l'autore sceglie come default,
+ * sia l'archetipo che il gioco puo' far scegliere al giocatore.
+ */
+export interface CharacterPreset {
+  id: string;
+  name: string;
+  description?: string;
+  attributes?: Record<string, number>;
+  skills?: Record<string, number>;
+  resources?: Record<string, number>;
+  /** Equipaggiamento iniziale: itemId -> quantita'. */
+  items?: Record<string, number>;
+  /** Se true e' il preset usato quando il gioco non ne sceglie nessuno. */
+  default?: boolean;
+}
+
 /** Tutti i campi sono opzionali: una storia checkless/statless può avere un ruleset vuoto. */
 export interface Ruleset {
   attributes?: Attribute[];
@@ -195,6 +233,24 @@ export interface Ruleset {
   check?: CheckFormula;
   outcomeModel?: OutcomeModel;
   characterCreation?: { attributePoints?: number; skillPoints?: number };
+  inventory?: InventoryRules;
+  presets?: CharacterPreset[];
+}
+
+/**
+ * Configurazione generale della storia: il lavoro che l'autore fa PRIMA di
+ * scrivere le scene. Non ha effetti sul motore — orienta l'editor, il ponte LLM
+ * e lo shell di gioco.
+ */
+export interface Setting {
+  /** Dove e quando siamo. */
+  world?: string;
+  /** Tono e riferimenti ("noir malinconico, alla Disco Elysium"). */
+  tone?: string;
+  /** Chi e' il protagonista, in una riga. */
+  protagonist?: string;
+  /** Appunti liberi dell'autore. */
+  notes?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -212,6 +268,10 @@ export interface ItemDecl {
   description?: string;
   tags?: string[];
   stackable?: boolean;
+  /** Quanti posti occupa (default 1). 0 = non ingombra (una lettera, una chiave). */
+  size?: number;
+  /** Quanti posti AGGIUNGE se posseduto: zaino, cappotto con le tasche, borsa. */
+  capacityBonus?: number;
 }
 
 export interface ThreadDecl {
@@ -237,6 +297,7 @@ export interface StoryMeta {
 
 export interface Story {
   meta: StoryMeta;
+  setting?: Setting;
   ruleset: Ruleset;
   stateSchema: Record<string, VarDecl>;
   items?: Record<string, ItemDecl>;
@@ -263,6 +324,8 @@ export interface RuntimeState {
 }
 
 export interface CharacterBuild {
+  /** Id di un preset di `ruleset.presets`: fa da base, il resto lo sovrascrive. */
+  preset?: string;
   attributes?: Record<string, number>;
   skills?: Record<string, number>;
   seed?: number;

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import * as readline from "node:readline/promises";
 import { stdin, stdout } from "node:process";
 import type { Story, RuntimeState, ResolvedNode, CheckResult, OutcomeTier, CharacterBuild } from "../../../core/src/index.ts";
-import { newGame, resolveNode, choose, validateStory } from "../../../core/src/index.ts";
+import { newGame, resolveNode, choose, validateStory, capacityOf, carriedOf, resolvePreset } from "../../../core/src/index.ts";
 import { loadStory } from "./validate.ts";
 import { c } from "../format.ts";
 
@@ -10,6 +10,7 @@ export interface PlayOpts {
   seed: number;
   choices?: string[]; // se presente: modalita' scriptata
   build?: string;
+  preset?: string; // id di un personaggio pronto (ruleset.presets)
   force?: boolean;
 }
 
@@ -63,12 +64,23 @@ function renderCheck(skill: string, r: CheckResult): void {
 
 function renderSummary(story: Story, state: RuntimeState): void {
   console.log("\n" + c.gray("stato finale:"));
-  const res = story.ruleset.resources.map((r) => `${r.name} ${state.resources[r.id]}`).join(", ");
+  const res = (story.ruleset.resources ?? []).map((r) => `${r.name} ${state.resources[r.id]}`).join(", ");
   if (res) console.log(c.gray("  risorse: " + res));
+  // Le statistiche possono essere cambiate in corsa (crescita del personaggio).
+  const stats = [
+    ...(story.ruleset.attributes ?? []).map((a) => `${a.name} ${state.attributes[a.id]}`),
+    ...(story.ruleset.skills ?? []).map((s) => `${s.name} ${state.skills[s.id]}`),
+  ].join(", ");
+  if (stats) console.log(c.gray("  personaggio: " + stats));
   const threads = Object.entries(state.threads).map(([k, v]) => `${k}=${v}`).join(", ");
   if (threads) console.log(c.gray("  thread:  " + threads));
   const inv = Object.keys(state.inventory);
-  if (inv.length) console.log(c.gray("  inventario: " + inv.join(", ")));
+  if (inv.length) {
+    const ingombro = story.ruleset.inventory
+      ? ` (${carriedOf(state, story)}/${capacityOf(state, story)} ${story.ruleset.inventory.unitLabel ?? "posti"})`
+      : "";
+    console.log(c.gray("  inventario: " + inv.join(", ") + ingombro));
+  }
   console.log(c.gray("  nodi visitati: " + state.history.length));
 }
 
@@ -93,8 +105,20 @@ export async function cmdPlay(file: string, opts: PlayOpts): Promise<number> {
     return 1;
   }
 
-  let state = newGame(story, { ...loadBuild(opts.build), seed: opts.seed });
-  console.log(c.bold(story.meta.title) + c.gray(`  · seed ${opts.seed}`));
+  const build: CharacterBuild = { ...loadBuild(opts.build), seed: opts.seed };
+  if (opts.preset) build.preset = opts.preset;
+  if (build.preset && !(story.ruleset.presets ?? []).some((p) => p.id === build.preset)) {
+    const ids = (story.ruleset.presets ?? []).map((p) => p.id).join(", ") || "nessuno";
+    console.error(c.red(`✗ personaggio "${build.preset}" inesistente. Disponibili: ${ids}`));
+    return 1;
+  }
+
+  let state = newGame(story, build);
+  const preset = resolvePreset(story, build);
+  console.log(
+    c.bold(story.meta.title) + c.gray(`  · seed ${opts.seed}`) +
+      (preset ? c.gray(`  · ${preset.name}`) : ""),
+  );
 
   const scripted = opts.choices;
   let scriptPos = 0;

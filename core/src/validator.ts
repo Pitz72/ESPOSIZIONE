@@ -7,8 +7,10 @@
  *   E03 riferimento invalido    E04 tipo incompatibile
  *   E05 enum/stage fuori dominio E06 entry mancante
  *   E07 formula di check mancante
+ *   E08 preset di personaggio incoerente
  *   W01 nodo irraggiungibile    W03 check impossibile
  *   W04 flag orfano (mai letto) W05 thread mai completato
+ *   W07 equipaggiamento iniziale oltre la capacita' di trasporto
  */
 
 import type {
@@ -61,6 +63,13 @@ export function validateStory(story: Story): Finding[] {
       const idx = ref.indexOf(":");
       const kind = ref.slice(1, idx);
       const id = ref.slice(idx + 1);
+      // riferimenti d'inventario senza id: @capacity, @carried, @free
+      if (idx === -1) {
+        if (!["capacity", "carried", "free"].includes(ref.slice(1))) {
+          add("E03", "error", path, `Riferimento sconosciuto: "${ref}".`);
+        }
+        return;
+      }
       const known: Record<string, Set<string>> = {
         skill: skillIds, attr: attrIds, resource: resIds, item: itemIds, thread: threadIds,
       };
@@ -133,6 +142,12 @@ export function validateStory(story: Story): Finding[] {
           else if (decl.type !== "number") { add("E04", "error", p, `add su variabile "${e.var}" di tipo ${decl.type}.`); }
           break;
         }
+        case "adjustSkill":
+          if (!skillIds.has(e.skill)) add("E03", "error", p, `Abilità "${e.skill}" non dichiarata.`);
+          break;
+        case "adjustAttribute":
+          if (!attrIds.has(e.attribute)) add("E03", "error", p, `Caratteristica "${e.attribute}" non dichiarata.`);
+          break;
         case "addItem":
         case "removeItem":
           if (!itemIds.has(e.item)) add("E03", "error", p, `Oggetto "${e.item}" non dichiarato in items.`);
@@ -252,6 +267,45 @@ export function validateStory(story: Story): Finding[] {
     };
     if (!meets(max) && !meets(min)) add("W03", "warning", path, `Check sempre fallito: nessun totale (${min}..${max}) supera difficolta' ${check.difficulty}.`);
     else if (meets(min) && meets(max)) add("W03", "warning", path, `Check sempre superato: ogni totale (${min}..${max}) batte difficolta' ${check.difficulty}.`);
+  }
+
+  // --- E08/W07 personaggi pronti (preset) ed equipaggiamento iniziale
+  const presets = story.ruleset.presets ?? [];
+  const seenPresetIds = new Set<string>();
+  let defaults = 0;
+  presets.forEach((preset, i) => {
+    const p = `ruleset.presets[${i}]`;
+    if (seenPresetIds.has(preset.id)) add("E08", "error", p, `Due personaggi pronti con lo stesso id "${preset.id}".`);
+    seenPresetIds.add(preset.id);
+    if (preset.default) defaults++;
+
+    for (const id of Object.keys(preset.attributes ?? {}))
+      if (!attrIds.has(id)) add("E08", "error", `${p}.attributes.${id}`, `Caratteristica "${id}" non dichiarata.`);
+    for (const id of Object.keys(preset.skills ?? {}))
+      if (!skillIds.has(id)) add("E08", "error", `${p}.skills.${id}`, `Abilità "${id}" non dichiarata.`);
+    for (const id of Object.keys(preset.resources ?? {}))
+      if (!resIds.has(id)) add("E08", "error", `${p}.resources.${id}`, `Indicatore "${id}" non dichiarato.`);
+    for (const id of Object.keys(preset.items ?? {}))
+      if (!itemIds.has(id)) add("E08", "error", `${p}.items.${id}`, `Oggetto "${id}" non dichiarato.`);
+
+    // W07: l'equipaggiamento di partenza non deve già sforare la capacità.
+    const inv = story.ruleset.inventory;
+    if (inv) {
+      let carried = 0, bonus = 0;
+      for (const [id, qty] of Object.entries(preset.items ?? {})) {
+        const decl = story.items?.[id];
+        carried += (decl?.size ?? 1) * qty;
+        bonus += (decl?.capacityBonus ?? 0) * qty;
+      }
+      const capacity = inv.baseCapacity + bonus;
+      if (carried > capacity) {
+        add("W07", "warning", `${p}.items`,
+          `"${preset.name}" parte con ${carried} posti occupati su ${capacity} disponibili.`);
+      }
+    }
+  });
+  if (defaults > 1) {
+    add("E08", "error", "ruleset.presets", `Più di un personaggio pronto è marcato come predefinito (${defaults}).`);
   }
 
   // --- E07 un check richiede una formula di risoluzione in ruleset.check

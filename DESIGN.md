@@ -73,7 +73,10 @@ strato 5 è opzionale e vive come skill/plugin di Claude Code.
 Un file JSON versionato. Sezioni principali:
 
 - **`meta`** — id, titolo, versione, locale, autori, `formatVersion`.
-- **`ruleset`** — il sistema RPG configurabile: attributi, skill, risorse, formula dei check.
+- **`setting`** *(facoltativo)* — la configurazione generale: mondo, tono, protagonista, appunti. Il motore
+  la ignora; orienta l'autore, l'editor e il ponte LLM.
+- **`ruleset`** — il sistema RPG configurabile: attributi, skill, risorse, formula dei check, regole
+  d'ingombro (`inventory`) e personaggi pronti (`presets`).
 - **`stateSchema`** — dichiarazione tipizzata di tutte le variabili narrative (sostituisce i 160 flag
   di lemmons). Ogni variabile ha tipo e default; l'editor genera da qui i menù di condizioni/effetti.
 - **`items`** — catalogo oggetti (id, nome, descrizione, tag).
@@ -204,6 +207,8 @@ Lista di mutazioni tipizzate applicate quando una scelta è presa (o all'`onEnte
 [
   { "kind": "set",            "var": "haChiave", "value": true },
   { "kind": "add",            "var": "fiducia",  "value": 1 },
+  { "kind": "adjustSkill",     "skill": "forza",     "value": 1 },
+  { "kind": "adjustAttribute", "attribute": "psiche", "value": -1 },
   { "kind": "addItem",        "item": "chiave_zerbino", "qty": 1 },
   { "kind": "removeItem",     "item": "grimaldello",    "qty": 1 },
   { "kind": "adjustResource", "resource": "morale",     "value": -1 },
@@ -213,6 +218,41 @@ Lista di mutazioni tipizzate applicate quando una scelta è presa (o all'`onEnte
   { "kind": "unlockThought",  "thread": "sospetto_su_elia" }
 ]
 ```
+
+`adjustSkill` / `adjustAttribute` sono la **crescita del personaggio**: nel modello *Disco Elysium* una
+prova non cambia solo dove va la storia, cambia chi sei. I valori restano dentro i `min`/`max` dichiarati
+nel ruleset, quindi non c'è modo di sfondare la scheda.
+
+### 4.2b Ingombro: quanto si può portare addosso
+
+Dichiarando `ruleset.inventory` la storia acquisisce una **capacità di trasporto**:
+
+```json
+"inventory": { "baseCapacity": 2, "overflow": "block", "unitLabel": "tasche" }
+```
+
+Ogni oggetto occupa `size` posti (default 1; `0` = non ingombra) e può *aggiungere* posti con
+`capacityBonus` — è così che si modellano cappotto, borsa e zaino. La capacità è quindi
+`baseCapacity + Σ capacityBonus` degli oggetti posseduti. Con `overflow: "block"` (default) un oggetto che
+non ci sta **non entra**. Tre riferimenti interrogabili in qualunque condizione: `@capacity`, `@carried`,
+`@free` (es. *«questa scelta appare solo se lo spazio libero è almeno 2»*).
+Senza `ruleset.inventory` non esiste alcun limite: le storie che non vogliono gestire l'ingombro non lo vedono.
+
+### 4.2c Personaggi pronti (`ruleset.presets`)
+
+Un preset è un personaggio già costruito: statistiche, indicatori ed equipaggiamento iniziale.
+
+```json
+"presets": [
+  { "id": "investigatore", "name": "L'investigatore consumato", "default": true,
+    "attributes": { "intelletto": 3 }, "skills": { "logica": 2 }, "items": { "cappotto": 1 } }
+]
+```
+
+Serve a due cose insieme: il **default dell'autore** (`default: true`, al massimo uno) e gli **archetipi
+che il gioco può far scegliere al giocatore**. La precedenza a `newGame` è: build esplicito → preset →
+default della dichiarazione. L'equipaggiamento iniziale entra senza passare dal controllo d'ingombro
+(lo dichiara l'autore, non lo raccoglie il gioco), ma il validatore segnala con **W07** se parte già sovraccarico.
 
 ### 4.3 Check (prova di abilità) — esiti graduati
 

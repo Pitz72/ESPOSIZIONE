@@ -3,7 +3,7 @@
 > Documento di passaggio tra sessioni di lavoro. Dice **dove siamo**, **come si esegue**, **dove si va** e
 > **qual è il prossimo passo concreto**. Chi riprende (umano o AI) parte da qui.
 
-Ultimo aggiornamento: 2026-07-20 · Versione progetto: **0.3.0**
+Ultimo aggiornamento: 2026-07-20 · Versione progetto: **0.4.0**
 Repository: <https://github.com/Ecosystem-Runtime/InteractiveWriter> (privata)
 
 ---
@@ -38,13 +38,18 @@ tutta l'interfaccia.
 | 0.0.4 | Formato checkless/statless (G11) + collaudo #02 (lemmons) |
 | 0.1.0 | Editor MVP (Tauri+React, editing-first) |
 | 0.2.0 | Editor writer-first: layer linguistico + doppia vista Autore/Tecnica |
-| 0.3.0 | **Fatti creati scrivendo + editor delle conseguenze "Cosa cambia"** |
+| 0.3.0 | Fatti creati scrivendo + editor delle conseguenze "Cosa cambia" |
+| 0.4.0 | **Formato 0.4: crescita del personaggio, ingombro, personaggi pronti** |
 
-- **Formato `.iwstory`**: `formatVersion` **0.3**. Stabile e collaudato su due migrazioni reali.
+- **Formato `.iwstory`**: `formatVersion` **0.4** (lo schema accetta ancora 0.3). Collaudato su due
+  migrazioni reali. La 0.4 aggiunge ciò che serve al modello *Disco Elysium*: le prove non cambiano solo
+  dove va la storia, cambiano **chi sei** (`adjustSkill`/`adjustAttribute`); l'inventario ha una capacità
+  che dipende da cosa indossi (`ruleset.inventory` + `size`/`capacityBonus`, refs `@free/@carried/@capacity`);
+  esistono **personaggi pronti** (`ruleset.presets`) e una **configurazione generale** (`setting`).
 - **Collaudi**: [Corridor](docs/collaudo-01-corridor.md) (funzioni-condizione, skill check, risorse) e
   [lemmons](docs/collaudo-02-lemmons.md) (logica imperativa in HTML, stato piatto, zero dadi). Entrambi
   migrati senza forzature: la tesi (logica→dato dichiarativo) regge ai due estremi.
-- **Test**: 36 verdi (16 core + 6 CLI + 14 editor).
+- **Test**: 49 verdi (29 core + 6 CLI + 14 editor).
 - **Esempi**: `atrio-villa` (sintetico), `corridor-act1`, `lemmons-carli` — tutti validano contro lo schema.
 - **Editor**: vista Autore (Scene per titolo, "Appare solo se…" a frase, "Cosa cambia", validazione gentile)
   + vista Tecnica (dato grezzo) sullo stesso file. Verificato dal vivo nel browser.
@@ -57,7 +62,7 @@ tutta l'interfaccia.
 Serve **Node ≥ 22.6** (type-stripping nativo, i test girano senza build). Per l'editor Tauri serve **Rust**.
 
 ```bash
-# Test (36 verdi)
+# Test (49 verdi)
 cd core && node --test
 cd ../cli && node --test
 cd ../editor && node --test        # riconoscitore delle conseguenze (14)
@@ -87,35 +92,44 @@ cd editor && npm run tauri:dev               # app desktop nativa (richiede Rust
 
 Dalla spec §9, ricostruzione dell'editor nella lingua dell'autore:
 
+Ordine **riordinato con l'autore il 2026-07-20** (confronto sui quattro punti: oggetti non automatizzati,
+configurazione iniziale mancante, ramificazione sulle caratteristiche, modello *Disco Elysium* in cui la
+prova cambia anche il personaggio):
+
 1. ✅ Layer linguistico + doppia vista Autore/Tecnica *(0.2.0)*.
 2. ✅ **Fatti creati scrivendo** + editor delle conseguenze "Cosa cambia" *(0.3.0)*.
-3. ⬜ Costruttore di condizioni composte a frase ("e anche / oppure / tranne quando") *(← prossimo)*.
-4. ⬜ Wizard **Prova di abilità** con difficoltà a parole e **% dal vivo** (la matematica è già in
-   `editor/src/lib/authorLang.ts` → `successChance`).
-5. ⬜ **Playtest incorporato** (riuso motore) con pannello di stato in lingua naturale.
-6. ⬜ Livelli 1–3 (Racconto / Con conseguenze / Ruolistico) + template d'avvio.
-7. ⬜ Canvas a grafo (vista secondaria) + dialog nativi Tauri (comandi Rust).
+3. ✅ **Formato 0.4**: crescita del personaggio, ingombro, personaggi pronti, `setting` *(0.4.0)*.
+4. ⬜ Editor: pannello **Configurazione iniziale** — setting, personaggi pronti, inventario di partenza,
+   capacità *(← prossimo)*.
+5. ⬜ Editor: pannello **Oggetti** (che toglie l'ultimo ripiego: l'oggetto non dichiarato modellato come
+   fatto «ha X»).
+6. ⬜ Costruttore di condizioni composte a frase ("e anche / oppure / tranne quando").
+7. ⬜ Wizard **Prova di abilità** con difficoltà a parole e **% dal vivo** (la matematica è già in
+   `editor/src/lib/authorLang.ts` → `successChance`), con esiti che toccano anche il personaggio.
+8. ⬜ **Playtest incorporato** (riuso motore) con pannello di stato in lingua naturale.
+9. ⬜ Livelli 1–3 (Racconto / Con conseguenze / Ruolistico) + template d'avvio.
+10. ⬜ Canvas a grafo (vista secondaria) + dialog nativi Tauri (comandi Rust).
 
 Più avanti (non-editor): **ponte LLM** (skill che genera nodi schema-validi nel vicinato, in ciclo col
 validatore), importer da Corridor/TUBO/Respiro.
 
 ## 7. Prossimo passo concreto (raccomandato)
 
-**Costruttore di condizioni composte a frase** (§3 della roadmap sopra, spec AX §5.4). Oggi *«Appare solo
-se…»* sa modificare **una sola** condizione semplice: se la condizione è articolata (`all` / `any` / `not`)
-l'editor la mostra come frase ma non la lascia toccare ("la modifica a frase arriva presto" —
-`LeafRequires` in `editor/src/components/NodeInspector.tsx`). È l'ultimo punto in cui l'autore resta a
-guardare senza poter agire.
+**Pannello "Configurazione iniziale"** nell'editor: il lavoro che l'autore fa *prima* di scrivere le scene.
+Il formato è pronto (0.4), l'interfaccia no — oggi si entra dritti nelle scene e `setting`, `presets` e
+`inventory` non sono visibili da nessuna parte.
 
-Da fare:
+Da fare, tutto in lingua d'autore:
 
-- un componente ricorsivo che renda ogni foglia modificabile e permetta di aggiungere righe con
-  **"e anche" / "oppure" / "tranne quando"** — mai una parentesi, mai `all`/`any` a schermo;
-- riuso di `+ nuovo fatto` (già pronto, `factLang.ts`) su ogni foglia;
-- stessa griglia di editing anche per il *«appare se»* dei blocchi di racconto, oggi in sola lettura.
+- **La storia**: mondo, tono, protagonista, appunti (`story.setting`).
+- **Chi sei**: elenco dei **personaggi pronti** con statistiche a cursori, indicatore del predefinito ed
+  equipaggiamento iniziale; *«crea un personaggio»* al volo.
+- **Cosa puoi portare**: `baseCapacity` con etichetta a parole ("due tasche") e anteprima di quanto occupa
+  l'equipaggiamento scelto (la matematica è già nel core: `capacityOf`/`carriedOf`).
+- La **Scheda del personaggio** (oggi `RulesetPanel`, sola lettura) diventa modificabile qui dentro.
 
-Sarà la **0.4.0** dell'editor. Subito dopo: wizard **Prova di abilità** con % dal vivo (la matematica è già
-in `editor/src/lib/authorLang.ts` → `successChance`).
+Primo file: nuovo `editor/src/components/SetupPanel.tsx` + una voce nella barra dei tab di
+`editor/src/components/Sidebar.tsx`. Subito dopo: il pannello **Oggetti**.
 
 ## 8. Convenzioni di lavoro
 

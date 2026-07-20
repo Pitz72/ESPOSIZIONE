@@ -14,6 +14,10 @@ export {
   degrade,
   resolveRef,
   passiveSucceeds,
+  resolvePreset,
+  capacityOf,
+  carriedOf,
+  freeSpaceOf,
 } from "./engine.ts";
 export type { ChooseResult } from "./engine.ts";
 export { validateStory, hasErrors } from "./validator.ts";
