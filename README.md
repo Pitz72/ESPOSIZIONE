@@ -75,6 +75,10 @@ Specifica **1.3**, agosto 2026. Le Parti I–VII sono chiuse, e l'Appendice A pu
 
 ## Diritti
 
-© 2026 Simone Pizzi — Runtime Multimedia. Tutti i diritti riservati.
-Il marchio Runtime Multimedia in `typst/assets/` non è coperto da nessuna licenza d'uso.
-I font in `typst/fonts/` appartengono ai rispettivi autori e sono ridistribuiti sotto le loro licenze.
+I testi di questo repository — la specifica, i documenti di presentazione, la controanalisi e le istruzioni — sono © 2026 Simone Pizzi — Runtime Multimedia, rilasciati sotto licenza [Creative Commons Attribuzione – Condividi allo stesso modo 4.0 Internazionale](LICENSE) (CC BY-SA 4.0). Chiunque può usarli, adattarli e costruirci sopra, anche commercialmente, a due condizioni che non si negoziano: l'attribuzione a **Simone Pizzi — Runtime Multimedia** accompagna sempre ciò che deriva da qui, e ciò che estende la specifica resta aperto, sotto questa stessa licenza. Le meccaniche in sé non sono di nessuno; il testo che le espone ha un autore, e la licenza garantisce che il nome non si stacchi dal testo.
+
+Restano fuori dalla licenza:
+
+- il marchio e il logotipo **Runtime Multimedia** in `typst/assets/` — tutti i diritti riservati, nessuna licenza d'uso;
+- il logotipo **ESPOSIZIONE** in `typst/assets/logo/` — identifica questo motore e questa sede, non le derivazioni; il nome si può citare, il segno no;
+- i font in `typst/fonts/`, che appartengono ai rispettivi autori e sono ridistribuiti sotto le loro licenze (GUST Font License, Bitstream Vera).
