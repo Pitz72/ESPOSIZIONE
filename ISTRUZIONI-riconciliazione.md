@@ -2,7 +2,9 @@
 
 > ⚠️ **Documento storico, congelato il 17 agosto 2026.** È il mandato della sessione di riconciliazione, e si conserva com'è: non si riscrive un mandato dopo averlo eseguito.
 >
-> **I riferimenti a `ESPOSIZIONE-1.1.md` sono corretti per la data e non puntano più a niente.** Quel file è stato cancellato la sera stessa, quando le misure prodotte da questa sessione sono tornate alla specifica e ne hanno corretto due regole. **L'unico file valido del motore è [`ESPOSIZIONE-1.2.md`](ESPOSIZIONE-1.2.md)**; la 1.1 è recuperabile da git.
+> **I riferimenti a `ESPOSIZIONE-1.1.md` sono corretti per la data e non puntano più a niente.** Quel file è stato cancellato la sera stessa, quando le misure prodotte da questa sessione sono tornate alla specifica e ne hanno corretto due regole. **L'unico file valido del motore è [`ESPOSIZIONE-1.3.md`](ESPOSIZIONE-1.3.md)**; la 1.1 e la 1.2 sono recuperabili da git.
+>
+> ⚠️ **E due delle misure prodotte da questa sessione sono state riesaminate dalla 1.3, che ne ha corretto lo statuto.** Il rilievo R1 puntava sul rapporto `Fondo == base`, e la proprietà giusta era un'altra; ma la monotonia che l'ha sostituito **si deriva dall'aritmetica del motore e non andava misurata**. Chi rilegge questo mandato per imparare come si verifica qualcosa tenga presente che il suo esito è stato utile e il suo metodo, su quel punto, più debole di quanto sembrasse: [`CONTROANALISI-1.2.md`](CONTROANALISI-1.2.md), rilievo C15.
 >
 > Cosa è cambiato fra le due, e cosa ne discende per il GDD: [`../VERIFICA-MOTORE.md`](../VERIFICA-MOTORE.md), sezione *Coda*.
 

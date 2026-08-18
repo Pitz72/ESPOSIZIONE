@@ -1,7 +1,10 @@
 # ---------------------------------------------------------------
 #  ESPOSIZIONE — ricostruzione dei PDF
 #  Uso:  cd typst ; .\build.ps1
-#  Serve: Python 3 e Typst 0.15+ nel PATH.
+#  Serve: Python 3 e Typst 0.14+ nel PATH.
+#  I font stanno in typst/fonts/ e vengono passati con --font-path:
+#  senza di essi Typst compila lo stesso, ripiegando su un altro
+#  carattere, e produce un documento diverso senza dire niente.
 # ---------------------------------------------------------------
 
 $ErrorActionPreference = 'Stop'
@@ -14,9 +17,9 @@ New-Item -ItemType Directory -Force -Path $uscita | Out-Null
 $documenti = @(
     @{
         nome  = 'spec'
-        fonte = Join-Path $radice 'ESPOSIZIONE-1.2.md'
+        fonte = Join-Path $radice 'ESPOSIZIONE-1.3.md'
         testa = 'head-spec.typ'
-        pdf   = Join-Path $uscita 'ESPOSIZIONE-1.2-impaginata.pdf'
+        pdf   = Join-Path $uscita 'ESPOSIZIONE-1.3-impaginata.pdf'
         # la specifica riceve anche la passata tipografica italiana
         extra = @('--tipografia', '--inizia-da', '^## Che cosa')
     },
@@ -42,7 +45,7 @@ foreach ($d in $documenti) {
     # Markdown -> Typst, con la testata del documento in cima
     python md2typ.py $d.fonte $intermedio --testa $d.testa @($d.extra)
 
-    typst compile $intermedio $d.pdf
+    typst compile --font-path fonts $intermedio $d.pdf
 
     Remove-Item $intermedio
     Write-Host ("  fatto  " + (Split-Path $d.pdf -Leaf)) -ForegroundColor Green

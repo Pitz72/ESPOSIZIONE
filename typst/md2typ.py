@@ -12,7 +12,9 @@ Politica tipografica applicata in conversione (non tocca i sorgenti .md):
   - il grassetto dentro i riquadri-regola viene rimosso: il riquadro e' gia'
     l'enfasi;
   - nel corpo, un grassetto lungo (oltre LONG_BOLD caratteri) e' una frase
-    intera e diventa corsivo; un grassetto breve e' un termine e resta tale.
+    intera e diventa corsivo; un grassetto breve e' un termine e resta tale;
+  - un titolo di primo livello porta come occhiello la propria prima parola
+    quando non e' "PARTE": serve all'appendice, che non e' una parte.
 """
 import re, sys, io
 
@@ -169,8 +171,18 @@ def convert(md):
         m = re.match(r"^(#{1,4})\s+(.*)$", s)
         if m:
             lvl = len(m.group(1))
-            txt = noenum(inline(m.group(2), strip_bold=True))
-            out.append("#h%d[%s]\n" % (lvl, txt))
+            grezzo = m.group(2)
+            txt = noenum(inline(grezzo, strip_bold=True))
+            if lvl == 1:
+                # "PARTE I - ..." / "APPENDICE A - ...": la prima parola
+                # e' l'occhiello, e non e' sempre "PARTE".
+                occ = re.match(r"^(PARTE|APPENDICE|PART|APPENDIX)\b", grezzo)
+                if occ and occ.group(1) != "PARTE":
+                    out.append("#h1(occhiello: \"%s\")[%s]\n" % (occ.group(1), txt))
+                else:
+                    out.append("#h1[%s]\n" % txt)
+            else:
+                out.append("#h%d[%s]\n" % (lvl, txt))
             i += 1
             continue
 

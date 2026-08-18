@@ -5,7 +5,7 @@
   titolo: "EXPOSURE",
   sottotitolo: "A resolution engine for interactive narrative",
   epigrafe: "The die decides whether you succeed.\nYour state decides what it costs you.",
-  nota: [Concept presentation. Derived from Specification 1.2, to which the parenthetical references point.],
+  nota: [Concept presentation. Derived from Specification 1.3, to which the parenthetical references point.],
   data: [August 2026],
   lingua: "en",
   copertina: copertina-chiara(

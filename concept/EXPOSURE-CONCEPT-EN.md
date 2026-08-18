@@ -12,7 +12,7 @@
 
 Exposure is a resolution engine: the set of rules and data structures that decides what happens next, every time the protagonist of an interactive story attempts something. It is not a game and it is not a setting. It contains no proper names, names no places, describes no creatures. Someone who knows nothing about the stories it was built for should be able to implement it by reading the specification, and that is the test the specification was written against.
 
-These pages are not that specification. The specification exists, it is called 1.2, it runs to thirty-nine sections, and it is written for whoever has to build the thing. This document comes first and does a different job: it puts anyone who might work on the engine in a position, within half an hour, to understand what it does differently, what it gave up to do it, and what adopting it costs. References in parentheses point into the specification, for anyone who wants to go down a level.
+These pages are not that specification. The specification exists, it is called 1.3, it runs to thirty-nine sections and an appendix, and it is written for whoever has to build the thing. This document comes first and does a different job: it puts anyone who might work on the engine in a position, within half an hour, to understand what it does differently, what it gave up to do it, and what adopting it costs. References in parentheses point into the specification, for anyone who wants to go down a level.
 
 One note on the name, because it produces the most common misunderstanding. *Exposure* here has nothing to do with hiding. The word was chosen because it is already abstract in ordinary use: debt exposure, exposing yourself by taking a position, selling short. The engine defines it as *how much the situation can make you pay*, and leaves each setting to declare its own reading.
 
@@ -120,7 +120,7 @@ Which leaves the question all of this raises. If winning isn't what you grow for
 
 A universal engine is not an engine that suits everything untouched. It is an engine in which the untouchable part is small and non-negotiable, and everything else is chosen from a closed list.
 
-The **core** is twelve rules. They do not adapt, they do not take profiles, they are not up for negotiation; a project that touches one of them is no longer using this engine, a legitimate thing to do so long as it is said out loud. The **modules** are eight (the randomizer, the competence ladder, the container, the lexicon, growth, wear, confrontation, text, mitigation) and each is chosen from declared profiles, with a default and a reason for it.
+The **core** is twelve rules. They do not adapt, they do not take profiles, they are not up for negotiation; a project that touches one of them is no longer using this engine, a legitimate thing to do so long as it is said out loud. The **modules** are nine — the randomizer, the competence ladder, the container, the lexicon, growth, wear, confrontation, text, mitigation — and eight of them are chosen from declared profiles, each with a default and a reason for it. The ninth is the lexicon, which is not chosen but compiled, under five constraints.
 
 One discipline alone keeps this architecture from decaying into a vocabulary: **a new profile is added to the specification, not invented for a project.** If a setting needs something no profile covers, that is a gap in the engine and it goes where the others are, rather than getting solved in-house.
 
@@ -142,13 +142,15 @@ The result that counts for more than the others is that **confrontation transpor
 
 A criterion declared after seeing the result has validated nothing. The specification requires writing the criterion first, with a fixed seed, and never deleting the failed ones: you add the reformulated criterion beside the old one and explain why. A criterion that failed and got quietly rewritten is what separates a verification from a ceremony.
 
-This is not an aspiration. Version 1.2 exists because two rules from 1.1 were measured against data and came out wrong.
+This is not an aspiration. Version 1.2 exists because two rules from 1.1 were measured against data and came out wrong, and 1.3 exists because those measurements were re-examined and one of them was not a measurement.
 
 The first was aimed at the wrong property. It constrained a ratio between two lexicon parameters; the measurement says that whether preparation lands depends on the **base** of the verbs and not on that ratio: 76.5% for verbs based at *Covered*, 48.5% at *Exposed*, 26.1% at *In the Open*. The old rule was hitting five verbs that were doing fine and leaving alone the two that were doing worst.
 
 The second was more serious, because it concerned stability. The engine makes the frequency of the unforeseen depend on current Exposure, and that is a positive feedback loop, and it has to be braked. The brake was written as a ceiling on the inflow — and with the outflow at zero, no value of the ceiling stabilises anything. The outflow really was zero: in the engine's first application the accumulator had no decay in any line of ten chapters, and the system came out **bistable**. It held until you had a bad day, and from there it never came back. That is the wall the engine forbids, word for word. And it was not a tuning risk: it was a region of the parameter space you could be sitting in without knowing.
 
-Out of that came the twelfth core rule, **every state that accumulates declares how it drains**, and the brake was rewritten as an inequality between inflow and outflow.
+Out of that came the twelfth core rule, **every state that accumulates declares how it drains**, and the brake was rewritten as an inequality between inflow and outflow. Version 1.3 publishes the model behind it, because an inequality handed over without the process that generates it can neither be verified nor argued with.
+
+And 1.3 corrects the method in three places that take away apparent strength, which is exactly why they were worth doing. The first of the two rules had not been discovered by measuring: **it was derivable from the engine's own arithmetic**, because a scale that saturates at the top makes preparation inert the more often the higher you start. The rule comes out stronger — it holds by construction — but the percentages that accompanied it hold for the fiction that produced them and do not travel. The threshold those measurements suggested has been removed, because declaring a criterion while looking at a result already seen is precisely what this method forbids. And above all: **both core corrections rest on a single fiction**, were never re-run against a second one, and the specification demands exactly that second trial from anyone adopting it. That is a debt, and it is now written where it can be read.
 
 What the measurements did **not** fix belongs here as well, because that is the part that separates a presentation from a sales pitch. The scale saturates, and the saturation does not come down. The raw sum runs across eleven values on a scale that has three, and no local correction moves it by more than four points: that is the expected behaviour of a bounded scale, and it is also the defence that keeps preparation from becoming a spiral. The real defect is smaller and it has a name. It is called the **toll**, and it is the set of situations where the first step you buy doesn't land and the second one does, so that you have to pay for two to get one. It runs to one case in four among those where preparation is worth doing at all, and it is solved by declaring it in the receipt instead of hiding it.
 
@@ -170,13 +172,17 @@ You start by choosing the eight profiles, **including where the choice matches t
 
 The tables get filled in after the lexicon, never before, and they are checked by counting: half the verbs based at *Covered*, no more than two at maximum base, and every place with at least one negative stem. A place that exposes everything and shelters nothing is not a difficult place: it is a place not doing its job. **Every place has to be good for something.**
 
-That leaves thirteen data checks and nine invariants to verify by simulation, and it should be done with several automated players competing: one alone doesn't measure the engine, it measures the player.
+That leaves sixteen data checks and ten invariants to verify by simulation, and it should be done with several automated players competing: one alone doesn't measure the engine, it measures the player. What you look at once they are done is **dominance**: if a single playing policy beats every other one on every declared metric at once, the engine has a solution, and the many-ways obstacle is a menu.
+
+And there remains the test no automaton can run. Everything measured so far says the engine is **stable**, and stable does not mean it works: the central promises — that the six cells feel different, that growth shows up as attempts saved, that the receipt teaches the system while you use it — live inside a human head. They are measured with two questions, declared in advance like everything else: *why did you think what happened was going to happen*, asked after a scene, and *what was the most important decision*, asked at the end. A pass names a position and a decision. A fail names the die.
 
 The debt to the schools that made all this possible is real, and acknowledging it strengthens the position rather than weakening it: *Powered by the Apocalypse* for failure as an event, *Forged in the Dark* for position as a declared state, *Genesys* for success and complication on independent axes, *Disco Elysium* for the distinction between retryable trials and trials that mark you. The language of the d20 is kept because it explains itself on screen in three seconds, and it brings nothing else with it: no classes, no attributes, no difficulty that scales with level.
 
 What this engine adds to those schools, and what justifies its existence, is one thing.
 
-> Position is not declared: it is derived, from tables with a per-stem signature, at zero writing cost — and the inversions, which are the interesting part of any setting, fall out as a side effect.
+> Position is not declared: it is derived, from tables with a per-stem signature, at zero writing cost per node — and the inversions, which are the interesting part of any setting, fall out as a side effect.
+
+*Per node* is the exact measure of what derivation buys, and it should be read as a limit rather than as a hedge. The judgement cost remains, and is paid once per setting. The writing cost remains in full, and lives in the banks of complications, which are the real content of the game. Only one thing goes to zero: the one that every other system pays at every node, forever.
 
 Everything else is discipline.
 
@@ -197,6 +203,11 @@ The specification is written in Italian. These are the bindings, fixed here and 
 | Traccia | Trace |
 | ricevuta | receipt |
 | pedaggio | toll |
+| ricevuta identica | identical receipt |
+| pressione attiva | active pressure |
+| via povera del confronto | the poor way out of a confrontation |
+| banco umano | human bench |
+| dominanza | dominance |
 | freno · smaltimento | brake · decay |
 | logorio · danni | wear · harms |
 | Impedimento | Impairment |

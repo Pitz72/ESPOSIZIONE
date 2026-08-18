@@ -1,6 +1,6 @@
 # ESPOSIZIONE
 
-### Motore narrativo a due assi — Specifica 1.2
+### Motore narrativo a due assi — Specifica 1.3
 #### Nucleo invariante e moduli a profili
 
 *Un sistema di risoluzione per giochi di ruolo narrativi, indipendente dall'ambientazione.*
@@ -8,6 +8,28 @@
 ---
 
 > **Il dado decide se riesci. Lo stato decide cosa ti costa.**
+
+---
+
+## Che cosa è cambiato dalla 1.2
+
+**La 1.3 non aggiunge nessuna meccanica.** Chiude buchi, definisce parole che reggevano più peso di quanto dichiarassero, e rende verificabili promesse che la 1.2 faceva senza controllarle. Il nucleo resta di dodici regole e i moduli di nove: **chi ha implementato la 1.2 non deve riscrivere niente, deve dichiarare di più.**
+
+> **«Solo se qualcosa è cambiato» adesso è definito.** La regola del ritento poggiava su una parola che il documento non definiva da nessuna parte, e quella parola sosteneva due promesse opposte: senza di essa il fallimento da Coperto autorizza il ritento gratuito; con la definizione sbagliata i quattro tentativi dell'Inesperto di N8 diventano ripetizione bruta. La definizione sta al §14, e usa una superficie che il motore ha già: **è cambiato ciò che cambia la ricevuta.**
+
+> **Il confronto dichiara la sua via povera.** Le due uscite sempre disponibili del §23.8 sono prove sigillate, cioè si tirano, e nessuna riga diceva quale uscita di un confronto soddisfacesse V1. Un modulo poteva quindi contenere il muro che il §2.6 vieta (§23.7).
+
+> **La pressione si controlla.** Lo stallo da Coperto lo rompe ciò che stava già scorrendo (§23.5), e nessun validatore verificava che quel qualcosa esistesse. Da cui **V15**.
+
+**E tre correzioni al metodo, che tolgono forza apparente al documento e sono la ragione per cui questa revisione esiste.**
+
+*La monotonia di N9.a non era una scoperta empirica: è aritmetica.* Si deriva dal tetto della scala senza tirare un dado, e la 1.2 la presentava come una misura. La regola ne esce più forte — vale per costruzione — e i tre numeri che la esibivano valgono per la finzione che li ha prodotti (§12.3).
+
+*I7 non esporta più una soglia.* Il «riferimento misurato: 82,9%» veniva dallo stesso dataset che aveva prodotto la regola: dichiarare una soglia guardandolo è alla lettera ciò che il §30 vieta.
+
+*Le due correzioni del nucleo della 1.2 poggiano su una finzione sola*, e non sono mai ripassate da una seconda. Il §38 lo impone a chi adotta il motore; la specifica non l'ha fatto per sé. **È debito aperto, ed è dichiarato al §30.3.**
+
+*Le altre novità, in elenco:* V14, V15, V16 e I10 · il banco umano e le sue due domande (§30.2) · il recinto sulla conoscenza falsa (§13) · il numero degli avversari che alza il prezzo delle uscite invece di chiuderle (§23.2) · il budget di ripetizione dichiarato in riletture e non in varianti (§24.3) · l'appendice che deriva la disuguaglianza del freno, senza la quale I6 non era verificabile da nessuno tranne chi l'aveva scritta (**Appendice A**).
 
 ---
 
@@ -33,7 +55,9 @@ La 1.0 presentava il motore su un livello solo. Ne discendeva un difetto di lett
 
 > **Il nucleo non si adatta mai. I moduli si scelgono fra profili dichiarati.**
 
-Un motore universale non è un motore che va bene per tutto senza toccarlo: è un motore in cui **ciò che non si tocca è piccolo e non negoziabile**, e tutto il resto si sceglie da un elenco chiuso. Adattarlo a un caso è previsto, si fa in mezza giornata, e **non richiede di inventare niente**.
+Un motore universale non è un motore che va bene per tutto senza toccarlo: è un motore in cui **ciò che non si tocca è piccolo e non negoziabile**, e tutto il resto si sceglie da un elenco chiuso. Adattarlo a un caso è previsto e **non richiede di inventare niente**.
+
+**Ma va detto quanto costa, perché la 1.2 lo diceva male.** Le otto scelte di profilo sono mezza giornata di discussione. Le sedici voci sono un'altra scala di lavoro: le tabelle sono giudizio **interdipendente** — ogni casella deve restare coerente con tutte le altre — e il §2.3 lo dichiara già come *il costo reale di questo motore*. Chi si aspetta di finire in mezza giornata concluderà di aver sbagliato qualcosa, avendo ragione sui fatti e torto sull'aspettativa che gli era stata data.
 
 E la disciplina che impedisce a questa architettura di degenerare in un vocabolario è una sola:
 
@@ -50,12 +74,15 @@ Questo documento descrive un motore, non un gioco. Non nomina nessun personaggio
 | | |
 |---|---|
 | **Parte I** | Le tesi. Perché il motore è fatto così, e cosa ha pagato per esserlo |
-| **Parte II** | **Il nucleo.** Undici regole che non si adattano mai |
+| **Parte II** | **Il nucleo.** Dodici regole che non si adattano mai — undici qui, e N12 al §27.1, dov'è nata |
 | **Parte III** | **I moduli.** Otto, ciascuno con i suoi profili dichiarati |
 | **Parte IV** | La firma di un'ambientazione: cosa scegliere e cosa compilare |
 | **Parte V** | Validatori e invarianti |
 | **Parte VI** | Tre istanziazioni di generi lontani, con i profili che hanno scelto |
 | **Parte VII** | Il perimetro onesto, e le deviazioni per chi viene da una versione precedente |
+| **Appendice A** | Il modello da cui si ricava la disuguaglianza del freno, e come si verifica I6 |
+
+*Esiste anche una presentazione del concept, in italiano e in inglese, che copre le tesi e l'architettura in una decina di pagine e non serve a implementare niente. Chi deve scegliere se il motore gli interessa cominci da lì.*
 
 Le note ⚠️ **DEVIAZIONE** segnalano dove questa specifica si discosta dalla prima stesura del motore: servono a chi deve riconciliare un progetto avviato, e si ignorano a lettura pulita.
 
@@ -84,7 +111,7 @@ Questo motore rifiuta tutti e tre, e paga per farlo.
 
 L'**Esito** è binario e lo decide il dado. L'**Esposizione** non la tira nessuno: è determinata da come ci sei arrivato. Il loro incrocio produce sei caselle **qualitativamente** diverse per costruzione.
 
-*Compra:* esiti che non sono versioni migliori o peggiori l'uno dell'altro. Non serve ricordarsi di divergere: non si può fare altrimenti.
+*Compra:* sei caselle che differiscono per **ruolo** e non per grado — nessuna è la versione peggiorata di un'altra. *(Che poi divergano anche nel contenuto non lo garantisce la struttura: lo verifica V5, coppia per coppia. Vedi §13.)*
 *Costa:* il giocatore ha un asse solo su cui lavorare, e quell'asse ha pochi valori. Tenerlo vivo è il problema di taratura centrale (§12).
 
 ### 2.2 L'asse che il giocatore governa è visibile prima di agire
@@ -132,7 +159,7 @@ Ogni assenza è una decisione.
 - **Non ha attributi.** La scheda è una lista di verbi, e nient'altro.
 - **Non ha classi, archetipi o percorsi di avanzamento.**
 - **Non ha una scheda parallela per gli avversari.**
-- **Non genera testo a runtime.**
+- **Non genera testo a runtime:** lo compone da materiale congelato in produzione (§24.3).
 - **Non ha punteggi morali, barre di reputazione, allineamenti.**
 
 ---
@@ -140,7 +167,9 @@ Ogni assenza è una decisione.
 
 # PARTE II — IL NUCLEO
 
-> **Undici regole. Non si adattano, non si profilano, non si negoziano. Un progetto che ne tocca una non sta più usando questo motore — il che è legittimo, ma va detto.**
+> **Dodici regole. Non si adattano, non si profilano, non si negoziano. Un progetto che ne tocca una non sta più usando questo motore — il che è legittimo, ma va detto.**
+
+*Undici stanno qui. La dodicesima — N12, ogni stato che si accumula dichiara come si smaltisce — è nata misurando il freno, e sta al §27.1 dove la sua ragione è leggibile. È nucleo quanto le altre.*
 
 ## 4. N1 — Due assi che non si toccano
 
@@ -277,7 +306,11 @@ Ne discende una cosa che va detta invece di essere combattuta:
 
 > **La saturazione non è un difetto da minimizzare. È il comportamento previsto di una scala limitata, ed è la difesa del §10.3 contro la spirale.**
 
-*Misurato:* vincolare le tabelle porta la saturazione dal 62,7% al 56,2%; correggere il lessico la porta dal 50,0% al 46,1%; **tutte e due insieme la lasciano al 50,9%.** E la sola variante di regola che sembrava poterla sciogliere — attenuanti applicate dopo il tetto invece che dentro la somma — la sposta di quattro punti. **Nessuna correzione locale la riduce, perché il rapporto fra l'ampiezza della composizione e l'ampiezza della scala è il fatto primo.**
+*Misurato, e va letto con la sua avvertenza.* Su quattro configurazioni provate — tabelle vincolate · lessico corretto · entrambe · la variante che applica le attenuanti dopo il tetto invece che dentro la somma — la saturazione si è mossa **fra il 46% e il 63%, e nessun intervento l'ha spostata di più di quattro punti rispetto alla propria base di partenza.**
+
+⚠️ **Le quattro configurazioni non condividono la stessa base, e i loro numeri non formano una serie.** La 1.2 li presentava come una progressione — *dal 62,7 al 56,2, dal 50,0 al 46,1, tutte e due insieme al 50,9* — e una progressione non erano: sono misure separate, e nessun lettore poteva ricostruire che cosa fosse stato variato. Una misura che non si può riprodurre non si può nemmeno contestare, e per il §30 non conta.
+
+**La tesi comunque non ha bisogno di quei numeri, perché è aritmetica:** il rapporto fra l'ampiezza della composizione — undici valori — e l'ampiezza della scala — tre — è il fatto primo, e nessun intervento che lasci intatti quei due numeri lo tocca.
 
 ### 12.2 Il difetto vero non è la saturazione: è il pedaggio
 
@@ -292,6 +325,8 @@ La domanda che il motore pone davvero è un'altra: *fra le situazioni in cui il 
 | **la preparazione serve, in un modo o nell'altro** | **82,9%** |
 | non serve comunque | 17,1% |
 
+*Come tutte le grandezze di questa sezione, valgono per la finzione che le ha prodotte: dicono che il pedaggio esiste ed è piccolo, non quanto vale altrove.*
+
 > **Il difetto è il pedaggio: il primo gradino non atterra e il secondo sì, quindi bisogna pagarne due per ottenerne uno. E la ricevuta oggi non lo dichiara.**
 
 È un problema molto più piccolo di «la leva è morta», ed è interamente risolto da N9.c.
@@ -301,7 +336,11 @@ La domanda che il motore pone davvero è un'altra: *fra le situazioni in cui il 
 > **N9.a — Il lessico deve avere abbastanza verbi a base bassa.**
 > Almeno metà dei verbi ha base *Coperto*, e non più di due hanno base *Allo scoperto*.
 
-⚠️ **Questa regola sostituisce quella della 1.1**, che vincolava il rapporto `Fondo == base` e **colpiva la proprietà sbagliata**. Misurato sulla prima applicazione del motore, la probabilità che la preparazione atterri è monotona nella **base** e non nel rapporto:
+⚠️ **Questa regola sostituisce quella della 1.1**, che vincolava il rapporto `Fondo == base` e **colpiva la proprietà sbagliata**.
+
+⚠️ **DEVIAZIONE D20 — e vale per costruzione, non per osservazione.** L'Esposizione è la grezza limitata in `[Fondo, Allo scoperto]`: un'attenuante atterra se e solo se, dopo il decremento, la grezza cade ancora dentro la scala. Alzare la base trasla verso l'alto l'intera distribuzione della grezza, quindi ne sposta massa oltre il tetto, quindi rende l'attenuante inerte più spesso. **L'ordinamento fra le tre basi è determinato dal tetto della scala, e nessuna tabella dei luoghi può invertirlo.** La 1.2 lo presentava come una scoperta empirica: era derivabile senza tirare un dado, e questa specifica stava misurando dove poteva calcolare.
+
+La misura resta accanto, come conferma su un caso. **Si trasporta l'ordine, non le grandezze:** le percentuali qui sotto valgono per la finzione che le ha prodotte, e chi adotta il motore non le usi come riferimento.
 
 | | situazioni con un motivo | atterra |
 |---|---|---|
@@ -312,7 +351,7 @@ La domanda che il motore pone davvero è un'altra: *fra le situazioni in cui il 
 | `Fondo == base` | 136 | **63,2%** |
 | `Fondo < base` | 69 | 46,4% |
 
-**I verbi con `Fondo == base` atterrano meglio degli altri.** La vecchia N9.a colpiva cinque verbi che stavano benissimo — quelli a base *Coperto* — e lasciava stare i due che stavano peggio, che sono quelli a base *Allo scoperto*. Un verbo a base massima è **permanentemente saturo in alto**: non ha quasi mai un motivo di prepararsi, e quando ce l'ha la preparazione atterra una volta su quattro.
+**I verbi con `Fondo == base` atterrano meglio degli altri**, ed è un effetto di secondo ordine: in quel lessico `Fondo == base` è quasi sempre un verbo a base bassa, quindi la riga misura la base una seconda volta. La vecchia N9.a colpiva cinque verbi che stavano benissimo — quelli a base *Coperto* — e lasciava stare i due che stavano peggio, che sono quelli a base *Allo scoperto*. Un verbo a base massima è **permanentemente saturo in alto**: non ha quasi mai un motivo di prepararsi, e quando ce l'ha la preparazione atterra una volta su quattro.
 
 *(Che un verbo a base massima sia una leva morta non è un difetto: è ciò che il Fondo fa quando dichiara che un gesto non si può mai fare pulito. Il vincolo serve solo a impedire che ce ne siano troppi.)*
 
@@ -345,6 +384,12 @@ Ogni esito muove almeno uno di questi quattro.
 | **Conoscenza** | cosa sai — e il gioco può darti conoscenza **falsa** |
 
 Gli assi sono **ruoli, non contenuti**. In una finzione dove sapere è l'obiettivo, *Obiettivo* resta ciò per cui la scena esisteva e *Conoscenza* resta ciò che hai imparato per caso: non collassano.
+
+**E la conoscenza falsa ha un recinto**, senza il quale incrina la tesi §2.2:
+
+> **Recinto — vincolante: la conoscenza falsa non entra mai nella ricevuta.** Il gioco può darti un'idea sbagliata del mondo. Non può darti un conto sbagliato di quanto ti costerà: la ricevuta dice sempre la verità intera, N9.c compreso.
+
+⚠️ **DEVIAZIONE D21.** *La conoscenza falsa compariva in una subordinata e non tornava più.* È l'asse su cui il motore ha più da dare — un giocatore può possedere conoscenza vera, incompleta, falsa o sospetta, e sono quattro stati narrativi diversi — ma è anche l'unico punto in cui il motore può mentire, e la tesi §2.2 promette che prima di agire si vede il vero. Il recinto separa le due cose: **si può sbagliare sul mondo, non sul prezzo.** Ciò che una finzione può far credere per sbaglio, e come si scopre di averlo creduto, sono dati e si compilano con le altre voci.
 
 > **Regola di divergenza: due esiti dello stesso ostacolo non possono differire solo sul Costo. Almeno uno dei due deve muovere Traccia o Conoscenza.**
 
@@ -382,6 +427,16 @@ Una via povera che si può fallire sarebbe **un muro con un dado davanti**. Quel
 
 > **Una prova sigillata non può mai essere l'unica via di un ostacolo.**
 
+**E «cambiato» ha una definizione**, perché su quella parola poggiano due promesse opposte:
+
+> **È cambiato ciò che cambia la ricevuta.** Un ritento è ammesso se e solo se la ricevuta della nuova prova differisce dalla precedente in almeno una voce. Ricevuta identica significa ripetizione bruta, e si rifiuta.
+
+⚠️ **DEVIAZIONE D22.** *La parola non era definita, e reggeva da sola l'anti-farming e l'economia della competenza.* Senza definizione, il fallimento pulito produce sempre Conoscenza, la Conoscenza è un cambiamento, e ritentare da Coperto è gratis — N2 garantisce che il dado non possa rovinarti, quindi la mossa ottimale diventa fallire al riparo finché non si passa. Con la definizione opposta — *la Conoscenza non conta* — i quattro tentativi dell'Inesperto di N8 sono ripetizione bruta per costruzione, e la competenza perde il fatto su cui è definita.
+
+**La definizione le tiene tutte e due, e non aggiunge niente al motore**, perché è il contenitore a far cambiare la ricevuta da solo: ogni tentativo consuma una frazione di passo (§19.3), l'attesa costa (§19.1), la Traccia sale. Se davvero *niente* è cambiato, allora per il §15 non si doveva tirare nemmeno la prima volta. E la Conoscenza appresa fallendo non riapre la stessa via: **apre l'altra**, che è ciò che la griglia promette già al §5.
+
+*Costo di implementazione, e va detto:* si conserva la ricevuta dell'ultimo tentativo per via, e la si confronta. È memoria per nodo, piccola e reale.
+
 ## 15. Le due regole di igiene che stanno nel nucleo
 
 **Quando non si tira:**
@@ -408,7 +463,7 @@ Un nodo irreversibile lasciato al gradino 0 è incompleto.
 posizione → tiro → casella della griglia → conseguenza → mitigazione
 ```
 
-Cinque stadi. I primi quattro sono nucleo; il quinto è un modulo che può essere assente (§23).
+Cinque stadi. I primi quattro sono nucleo; il quinto è un modulo che può essere assente (§25).
 
 ---
 ---
@@ -690,6 +745,12 @@ Comincia sempre da te. Se non decidi niente, non succede niente. **L'alternanza 
 
 ⚠️ **Nota di taratura onesta.** Nella prima applicazione questa regola ha prodotto una differenza misurata fra un avversario e quattro pari al **4%** in logorio medio: l'aggravante del numero satura presto. La differenziazione reale vive **nella mortalità, non nell'attrito**. Chi adotta il motore lo sappia: *quanti sono* non è una scala, è un interruttore che si accende una volta.
 
+**Da cui la regola di compilazione, nuova in 1.3:**
+
+> **Il numero alza il prezzo delle uscite, non ne toglie nessuna.** Andarsene contro quattro resta sempre possibile e non si tira (§23.7); costa più Traccia, l'obiettivo lasciato dietro, una posizione persa. La differenziazione vive **nel conto dell'uscita**, non nella sua disponibilità.
+
+⚠️ **DEVIAZIONE D23.** *La correzione che viene in mente per prima è far chiudere delle vie al numero,* e va rifiutata: quattro avversari che chiudono vie prima o poi ne chiudono l'ultima, e quello è il muro che il §2.6 vieta. **Il numero è un prezzo, mai una porta.** Nell'attrito non può differenziare — l'Esposizione satura e non esiste un quarto livello — e continuare a cercarvelo significa combattere l'aritmetica del §12.1.
+
 ### 23.3 Non si logora, si scopre
 
 > **Non esiste la domanda *quanto gli manca*. Esiste la domanda *quanto è coperto*.**
@@ -739,6 +800,8 @@ Non è una meccanica in più: è **come si legge la prima voce della firma**. Ch
 
 > **Il confronto non ha fretta. Il contenitore sì.**
 
+⚠️ **DEVIAZIONE D28.** *Questo è un assunto sull'ambientazione, e nessun validatore lo controllava.* Un'ambientazione può soddisfare tutti i controlli sui dati e tutte le invarianti e contenere lo stesso un confronto in una stanza dove non scade niente, il logorio non sale e la Traccia non conta: lì restare coperti è la strategia dominante, e il motore non ha nulla per accorgersene. Da cui **V15**, e il numero che lo accompagna nella voce 8 della firma.
+
 ### 23.6 La firma di un avversario
 
 Quattro voci. Nessun punto vita, nessun attacco, nessuna difesa.
@@ -777,6 +840,12 @@ Nell'ultima riga non c'è nessun avversario: c'è il freddo, la carestia, il tem
 **Si legge identica nei due sensi.** Le tre facce in cui vinci sono le stesse in cui perdi, con le stesse parole.
 
 > **Ogni uscita nuova deve dichiarare in quale famiglia sta.** Se non ci sta, o non è un'uscita, o la griglia è sbagliata.
+
+**E una delle tre è la via povera del confronto**, perché N11 vale anche qui e nessuna riga lo diceva:
+
+> **Andarsene è sempre disponibile, non si tira, e costa.** È la via senza prerequisiti che il §14 impone a ogni ostacolo: quello che varia non è la riuscita, è il **prezzo** — Traccia, obiettivo mancato, posizione persa, e tanto più caro quanti sono (§23.2). **Un confronto in cui andarsene richiede un tiro è un errore di dati**, non una scena tesa.
+
+⚠️ **DEVIAZIONE D24.** *Il Modulo G non dichiarava quale uscita soddisfacesse V1.* Le due sempre disponibili del §23.8 — farlo desistere, trovare un accordo — sono **prove sigillate**, cioè si tirano e si perdono; *prendere quello per cui eri lì* e *andartene* si «tentano», e la finestra le rende gratis solo quando è aperta; e quando l'avversario ti raggiunge il §23.4 chiede una prova di resistenza. Un confronto poteva quindi soddisfare I2 — una via d'uscita **disponibile** esiste — e violare V1, che ne chiede una **non tirata**. Era il muro del §2.6, nel modulo dove la promessa è più difficile da mantenere e più facile da rompere senza accorgersene.
 
 ### 23.8 La finestra, e la colonna di mezzo
 
@@ -855,6 +924,12 @@ Non serve una regola nuova: è **un'attenuante**, con il suo nome nella ricevuta
 
 La regola d'igiene — *non riproporre l'ultima uscita nello stesso contesto* — impedisce l'adiacenza, non la ripetizione.
 
+**E il numero che si dichiara è l'altro**, perché è quello che il giocatore sente:
+
+> **Si dichiara quante volte al massimo il giocatore può rileggere la stessa frase in una partita. Le varianti per contesto si derivano da lì**, con la lunghezza attesa della partita — non il contrario.
+
+⚠️ **DEVIAZIONE D25.** *V12 chiedeva un numero di varianti, che è la stessa cifra letta dal lato sbagliato.* Un banco dimensionato in varianti dichiara un lavoro; un banco dimensionato in riletture dichiara **un'esperienza**, ed è la sola forma in cui il vincolo si può discutere con chi scrive. Vale come I7 e I8: la soglia è obbligatoria, il suo valore è dell'ambientazione. *(E chi la dichiara si ricordi che il costo di scrittura del gioco vive qui, non nelle tabelle: la derivazione azzera il costo della posizione **per nodo**, non il costo del testo.)*
+
 **E l'LLM sta in produzione, mai a runtime.** Popola i banchi in fase di scrittura; l'autore rivede, taglia e **congela**. La generazione a runtime è esclusa per tre ragioni che non riguardano la qualità della prosa: può contraddire lo stato del mondo, rende il salvataggio non deterministico, e toglie all'autore il controllo finale.
 
 ### 24.4 Le due superfici di trasparenza, e il requisito che nasce dal dado
@@ -864,11 +939,27 @@ La regola d'igiene — *non riproporre l'ultima uscita nello stesso contesto* �
 | **La ricevuta dell'Esposizione** | *perché costerà quello che costerà*, riga per riga | **prima** di agire |
 | **Il resoconto della conseguenza** | *cos'è appena successo, e chi l'ha pagato* | **dopo**, e ospita la mitigazione (§25) |
 
-**Regola vincolante sulla prima:** ogni voce deve poter essere detta in una frase breve, senza abbreviazioni e senza icone. **Se non si riesce a dirla a parole, quel modificatore non deve esistere.** E ogni voce inerte si dichiara (N9.c).
+**Due regole vincolanti sulla prima.** La prima: ogni voce deve poter essere detta in una frase breve, senza abbreviazioni e senza icone. **Se non si riesce a dirla a parole, quel modificatore non deve esistere.** E ogni voce inerte si dichiara (N9.c).
+
+La seconda la 1.2 la mostrava per esempio e non la enunciava:
+
+> **Ogni voce nomina una causa della finzione. Il numero è l'annotazione, non la voce.**
+> *«Questo posto ti conosce»*, non *«+1 zona»*.
+
+⚠️ **DEVIAZIONE D26.** *È la riga che separa un sistema **trasparente** da un sistema **visibile**.* Un sistema trasparente si impara giocando e restituisce al giocatore le cause del mondo; un sistema visibile mostra le proprie cuciture, e il giocatore smette di chiedersi *cosa farebbe il personaggio* per chiedersi *come scendo di un gradino*. La differenza non sta in quanto si mostra — questo motore mostra tutto — ma **in che lingua**.
 
 > ⚠️ **Requisito duro (D14): l'interfaccia deve rendere leggibile quanti tentativi sono stati spesi, e quanti se ne spendevano prima.**
 
 Poiché la competenza si manifesta come **tentativi risparmiati** e non come tiri migliori (§11), quell'effetto va reso visibile o non esiste per chi gioca — e il giocatore concluderà che il gioco è casuale, avendo torto sui fatti e ragione sull'esperienza.
+
+⚠️ **DEVIAZIONE D27 — e dice *prima di che cosa*, che la 1.2 non diceva.** Il confronto è con **il proprio passato sullo stesso verbo**: non una media simulata, non un altro personaggio, non un'altra partita.
+
+```
+Hai forzato la porta.                          1 tentativo
+La prima volta che ne hai forzata una così:    4 tentativi
+```
+
+È l'unico controfattuale che il gioco possiede senza uscire dalla partita, e costa tenere, per verbo, il conto dei tentativi delle prime volte. **Se questa superficie manca, il modulo E è invisibile e la tesi §2.5 non è verificabile da chi gioca** — che è l'unico posto in cui doveva esserlo.
 
 **E il ritmo:**
 
@@ -922,12 +1013,12 @@ Il banco del confronto **si indicizza sulle transizioni, non sugli stati**: *«e
 | **5** | **Le aggravanti** | 3–5 famiglie, ciascuna dicibile in due parole |
 | **6** | **La tabella dei luoghi** | un valore per ceppo, dentro i limiti di N9.b |
 | **7** | **La tabella dei momenti** | stessa firma |
-| **8** | **Il contenitore** | il passo, quante frazioni ha, e le sette proprietà del §19.1 |
+| **8** | **Il contenitore** | il passo, quante frazioni ha, le sette proprietà del §19.1, ed **entro quante frazioni una pressione raggiunge un nodo di confronto** *(V15)* |
 | **9** | **Il logorio** | quali livelli, con quanti gradi a parole, e **un rimedio distinto per ciascuno** |
 | **10** | **Il catalogo dei danni** | ciascuno col suo decorso e **cosa impedisce** |
 | **11** | **Gli avversari** | le quattro voci del §23.6 e la natura *(se G è presente)* |
 | **12** | **Ciò che ripara** | il catalogo della mitigazione *(se I è presente)* |
-| **13** | **Il banco delle complicazioni** | dimensionato **per contesto** *(se H1 o H3)* |
+| **13** | **Il banco delle complicazioni** | dimensionato in **riletture massime per contesto per partita**, da cui si derivano le varianti *(se H1 o H3)* |
 | **14** | **Il freno e lo smaltimento** | **due numeri, non uno** — il livello oltre il quale l'Esposizione non alimenta più la frequenza, e ogni quanti passi un accumulo cala di un gradino. Nessuno dei due significa niente senza l'altro (§27) |
 | **15** | **Il mix di difficoltà** | la distribuzione attesa delle CD, che tara la curva *(se E1 o E4)* |
 | **16** | **Chi versa i punti** | quali nodi, con che taglia *(se E1 o E4)* |
@@ -970,6 +1061,8 @@ La 1.1 diceva: *«deve esistere una soglia oltre la quale l'Esposizione non alim
 
 ⚠️ **DEVIAZIONE D13, e D18 nuova in 1.2.** *Il freno era registrato come requisito e rinviato alla taratura.* Non è taratura: è una questione di stabilità con risposta binaria, e si risponde prima di scrivere una riga di ambientazione. **La voce 14 della firma non è un numero: sono due** — il freno e lo smaltimento — e vanno dichiarati insieme, perché nessuno dei due significa qualcosa senza l'altro.
 
+*Il modello da cui questa disuguaglianza si ricava — il processo, le quattro assunzioni e la derivazione del fattore `/2` — sta nell'**Appendice A**. Senza di esso I6 non era verificabile da nessuno tranne chi aveva scritto la formula, e un'invariante che chiede di indovinare il modello non è un'invariante: è un atto di fiducia.*
+
 **E perché questo non contraddice N1:**
 
 > **L'Esposizione non cambia il dado. Cambia quante volte il mondo ti viene addosso.**
@@ -982,6 +1075,16 @@ La probabilità di **riuscire** non dipende mai da quanto si è esposti. La prob
 ---
 
 # PARTE V — VALIDATORI E INVARIANTI
+
+> **Tre categorie, e vanno tenute distinte perché la conseguenza di una violazione è diversa in ciascuna.**
+
+| | Se non vale | Come si verifica |
+|---|---|---|
+| **Vincolo** *(V)* | l'ambientazione non è valida | contando i dati |
+| **Invariante** *(I)* | il motore è rotto | simulando |
+| **Bersaglio** | l'ambientazione può essere sbilanciata, e non è automaticamente sbagliata | tarando |
+
+*La silhouette del §21.5 è un bersaglio, ed è la ragione per cui non compare in nessuna delle due tabelle qui sotto. La distinzione era implicita nella 1.2; dichiararla costa un capoverso e impedisce di trattare un bersaglio come una regola, che è il modo più comune di irrigidire un sistema per sbaglio.*
 
 ## 28. I controlli sui dati
 
@@ -998,12 +1101,17 @@ La probabilità di **riuscire** non dipende mai da quanto si è esposti. La prob
 | **V9** | Nel lessico, almeno metà dei verbi ha base *Coperto*, e non più di due hanno base *Allo scoperto* *(N9.a)* |
 | **V10** | Per ogni ceppo, `Luogo + Momento` sta in [−2,+2]; ogni luogo ha almeno un ceppo negativo *(N9.b)* |
 | **V11** | Ogni stato scritto è letto da almeno un nodo successivo — **niente stato fantasma** |
-| **V12** | Ogni slot di banco ha, in ogni contesto raggiungibile, almeno N varianti valide, con N dichiarato |
+| **V12** | Ogni slot di banco resta, in ogni contesto raggiungibile, sotto il numero dichiarato di **riletture per partita**; le varianti si derivano da lì *(§24.3)* |
 | **V13** | Ogni logorio ha un rimedio distinto, e nessun rimedio ne muove due |
+| **V14** | Nessun ritento è ammesso con ricevuta identica alla precedente — *è cambiato ciò che cambia la ricevuta* *(§14)* |
+| **V15** | Ogni nodo che può ospitare un confronto è raggiunto da almeno una **pressione attiva** entro un numero dichiarato di frazioni. Pressione attiva è un logorio che sale, una scadenza che scorre, o una Traccia che alza l'Esposizione di quel nodo *(§23.5)* |
+| **V16** | Nessun ostacolo offre due vie i cui verbi siano intercambiabili senza cambiare nient'altro: se sostituire l'uno con l'altro lascia identici Esposizione, prezzo e conseguenza, una delle due vie è decorativa |
 
 ## 29. Le invarianti di sistema
 
 Proprietà che devono valere **su ogni partita, zero eccezioni**. Si verificano simulando.
+
+⚠️ **Su I7, e vale come avvertimento su tutte.** La 1.2 offriva accanto a I7 un «riferimento misurato: 82,9%». Quel numero veniva dallo stesso dataset che aveva prodotto la regola che I7 controlla, e dichiarare una soglia guardandolo è, parola per parola, ciò che il §30.1 vieta. **Una soglia si sceglie prima di misurare, o non è una soglia: è un resoconto.**
 
 | # | Invariante |
 |---|---|
@@ -1013,17 +1121,66 @@ Proprietà che devono valere **su ogni partita, zero eccezioni**. Si verificano 
 | **I4** | Fuori da un agguato, non si raggiunge la casella terminale al primo scambio |
 | **I5** | L'Esposizione non compare in nessuna formula che produca una probabilità |
 | **I6** | Il loop del §27 converge, per tutti gli intervalli di parametri dichiarati |
-| **I7** | Fra le situazioni in cui il giocatore ha **un motivo di prepararsi**, la preparazione atterra in almeno l'X% dei casi, con X dichiarato *(riferimento misurato: 82,9%)* |
+| **I7** | Fra le situazioni in cui il giocatore ha **un motivo di prepararsi**, la preparazione atterra in almeno l'X% dei casi, con X dichiarato **prima di misurare** *(§30.1)* |
 | **I8** | Il **pedaggio** — il primo gradino comprato non atterra e il secondo sì — resta sotto Y%, con Y dichiarato, **oppure è interamente coperto da N9.c** |
 | **I9** | Ogni stato che si accumula ha uno smaltimento dichiarato e diverso da zero *(N12)* |
+| **I10** | Fra le politiche di gioco dichiarate, **nessuna domina tutte le altre su tutte le metriche dichiarate insieme** *(§30.2)* |
 
 ## 30. Il metodo
+
+### 30.1 La regola che governa tutte le altre
 
 > **Un criterio dichiarato dopo aver visto il risultato non ha validato niente.**
 
 Chi mette alla prova questo motore scriva il criterio **prima**, con seme fisso, e **non cancelli i criteri falliti**: si aggiunge quello riformulato accanto, e si spiega. Un criterio fallito e riscritto in silenzio è la cosa che distingue una verifica da una cerimonia.
 
 E si usino **più giocatori automatici in concorrenza**, mai uno solo: *un solo giocatore automatico non misura il motore, misura il giocatore.*
+
+### 30.2 Che cosa si guarda quando i giocatori automatici hanno finito
+
+La 1.2 prescriveva la concorrenza fra politiche senza dire che cosa se ne ricava. Se ne ricava **la dominanza**, ed è la domanda che decide se il nodo a più vie è una scelta o un menù.
+
+> **I10 — nessuna politica domina tutte le altre su tutte le metriche dichiarate insieme.** Se una politica è la migliore su obiettivo, Traccia, danni e passi spesi contemporaneamente, il motore ha una soluzione, e tutta la §14 è decorazione.
+
+Le politiche vanno dichiarate prima e tenute diverse per **criterio**, non per parametro. Un elenco di partenza, non chiuso:
+
+| Politica | Massimizza |
+|---|---|
+| **Conservatrice** | resta Coperta a ogni costo |
+| **Temeraria** | agisce subito, non compra mai attenuanti |
+| **Preparatrice** | compra sempre tutto ciò che abbassa |
+| **Opportunista** | aspetta la combinazione di luogo e momento migliore |
+| **Narrativa** | pesa Traccia e Conoscenza quanto il Costo |
+| **Minimizzatrice** | riduce i danni cumulati, e accetta di non arrivare |
+| **Diretta** | solo l'obiettivo, qualunque cosa costi |
+
+E la domanda singola che vale più dell'intera batteria, perché se la risposta è no l'asse del giocatore ha un verso solo:
+
+> **Esiste una situazione in cui *Esposto* è strategicamente migliore di *Coperto*?**
+
+### 30.3 Il banco umano, e perché i giocatori automatici non bastano
+
+> **Un motore stabile non è un motore che funziona. Sono due proprietà diverse, e la seconda non discende dalla prima.**
+
+Tutto ciò che questa specifica ha misurato viene da giocatori automatici, e le tre istanziazioni della Parte VI sono state riempite e non giocate. Ma **le promesse centrali del motore sono esperienziali** e nessun automa le può misurare: che le sei caselle si sentano diverse (§2.1), che la crescita si veda come tentativi risparmiati (§24.4), che la ricevuta insegni il sistema mentre lo si usa (§2.2).
+
+Il banco umano si tiene con la disciplina del §30.1 — criterio scritto prima, criteri falliti a verbale — e le due domande che lo compongono sono queste:
+
+> **Dopo una scena:** *«Perché pensavi che sarebbe successo quello che è successo?»*
+> Passa chi risponde nominando la propria posizione. Non passa chi risponde *«non lo so, ho tirato»*.
+>
+> **A fine partita:** *«Qual è stata la decisione più importante?»*
+> Passa una decisione. Non passa un numero uscito sul dado.
+
+Sono classificabili, si dichiarano prima, e misurano esattamente ciò che D14 dichiara a rischio: *il giocatore concluderà che il gioco è casuale, avendo torto sui fatti e ragione sull'esperienza.*
+
+### 30.4 Il debito aperto di questa specifica
+
+Il §38 impone a chi adotta il motore di **compilare una seconda finzione di prova e tenerla come test di regressione dell'agnosticismo**, e di farci ripassare ogni modifica futura al nucleo.
+
+> ⚠️ **Le due modifiche al nucleo della 1.2 — la riscrittura di N9.a e la nascita di N12 — vengono dalla stessa e unica applicazione del motore, e non sono ripassate da nessuna seconda finzione.** Le tre istanziazioni della Parte VI non contano: sono compilazioni e non misure, e sono state riempite dopo.
+
+Non è la situazione anomala di questo progetto: è la situazione normale di un motore con una sola applicazione. Ma va scritto qui, perché **la specifica non può esigere da chi la adotta più di quanto abbia fatto per sé** senza smettere di essere un documento e diventare un manifesto. È debito, ed è aperto.
 
 ---
 ---
@@ -1217,6 +1374,8 @@ Il nucleo assume quattro cose. Dove una di queste non vale, il motore non si ada
 
 Per chi tiene un progetto avviato su una versione precedente.
 
+**Dalla prima stesura del motore:**
+
 | # | Deviazione | Dove |
 |---|---|---|
 | **D1** | L'elenco dei verbi esce dal nucleo | §7, §20 |
@@ -1232,12 +1391,40 @@ Per chi tiene un progetto avviato su una versione precedente.
 | **D11** | L'Esposizione è un asse astratto; lettura e criterio del Fondo sono dati | §6, §9 |
 | **D12** | Contenitore e confronto sono moduli, non nucleo | §19, §23 |
 | **D13** | Il freno e lo smaltimento sono due numeri obbligatori | §27 |
-| **D18** | *(nuovo in 1.2)* **N12 — ogni stato che si accumula dichiara come si smaltisce**, e il freno è una disuguaglianza fra entrata e uscita, non un tetto sull'entrata | §27.1, §27.2 |
-| **D19** | *(nuovo in 1.2)* N9.a vincola la **distribuzione delle basi** e non il rapporto `Fondo == base`; I7 misura le situazioni con un motivo di prepararsi; I8 e I9 nuove | §12.3, §29 |
 | **D14** | Requisito d'interfaccia: i tentativi risparmiati vanno resi visibili | §24.4 |
 | **D15** | Il dimensionamento dei banchi si fa per contesto | §24.3 |
-| **D16** | *(nuovo in 1.1)* Architettura a nucleo e moduli, con profili dichiarati | Parti II e III |
-| **D17** | *(nuovo in 1.1)* Profili di crescita E3 ed E4 | §21.4 |
+
+**Nuove in 1.1:**
+
+| # | Deviazione | Dove |
+|---|---|---|
+| **D16** | Architettura a nucleo e moduli, con profili dichiarati | Parti II e III |
+| **D17** | Profili di crescita E3 ed E4 | §21.4 |
+
+**Nuove in 1.2:**
+
+| # | Deviazione | Dove |
+|---|---|---|
+| **D18** | **N12 — ogni stato che si accumula dichiara come si smaltisce**, e il freno è una disuguaglianza fra entrata e uscita, non un tetto sull'entrata | §27.1, §27.2 |
+| **D19** | N9.a vincola la **distribuzione delle basi** e non il rapporto `Fondo == base`; I7 misura le situazioni con un motivo di prepararsi; I8 e I9 nuove | §12.3, §29 |
+
+**Nuove in 1.3.** Nessuna aggiunge una meccanica: **definiscono, dichiarano o rendono verificabile.**
+
+| # | Deviazione | Dove |
+|---|---|---|
+| **D20** | N9.a vale **per costruzione** e non per osservazione: la monotonia nella base discende dal tetto della scala. Le percentuali che la 1.2 esibiva valgono per la finzione che le ha prodotte | §12.3 |
+| **D21** | **Recinto sulla conoscenza falsa:** non entra mai nella ricevuta | §13 |
+| **D22** | **«Cambiato» è definito:** è cambiato ciò che cambia la ricevuta. Da cui V14 | §14 |
+| **D23** | Il numero degli avversari alza il **prezzo** delle uscite; non ne chiude nessuna | §23.2 |
+| **D24** | **L'uscita è la via povera di ogni confronto:** sempre disponibile, non tirata | §23.7 |
+| **D25** | Il banco si dimensiona in **riletture per partita**, e le varianti si derivano da lì. V12 riscritta | §24.3 |
+| **D26** | **La ricevuta nomina cause**, e il numero è l'annotazione | §24.4 |
+| **D27** | Il controfattuale di D14 è **il proprio passato sullo stesso verbo** | §24.4 |
+| **D28** | La pressione che rompe lo stallo da Coperto si **valida**, e ha un numero nella firma. Da cui V15 | §23.5, §26.2 |
+| **D29** | Le politiche in concorrenza si misurano sulla **dominanza** (I10); il banco umano e le sue due domande; il debito aperto della specifica dichiarato | §30 |
+| **D30** | Il modello da cui si ricava la disuguaglianza del freno è pubblicato, e **I6 diventa verificabile** da chi non l'ha scritta | Appendice A |
+
+*Non sono numerate le correzioni di dizione e di conteggio: il nucleo è di dodici regole e non di undici, i moduli sono nove e otto sono le scelte di profilo, il §16 rimanda alla mitigazione al §25, il costo di scrittura nullo è **per nodo**, la §2.1 non promette più una divergenza che il §13 nega, e l'adattamento non si fa in mezza giornata.*
 
 ## 38. Come si riconcilia un progetto avviato
 
@@ -1254,7 +1441,7 @@ Per chi tiene un progetto avviato su una versione precedente.
 
 ## 39. Colofone
 
-**ESPOSIZIONE — Motore narrativo a due assi. Specifica 1.2.**
+**ESPOSIZIONE — Motore narrativo a due assi. Specifica 1.3.**
 
 Le scuole di riferimento, dichiarate perché il debito è reale e riconoscerlo rafforza la posizione: **Powered by the Apocalypse** (il fallimento come evento), **Forged in the Dark** (la posizione come stato dichiarato, e la conseguenza come matrice), **Genesys** (riuscita e complicazione su assi indipendenti), **Disco Elysium** (la distinzione fra prove ritentabili e prove che marchiano).
 
@@ -1262,6 +1449,101 @@ Il motore usa il **linguaggio** del d20 perché si spiega da solo a schermo in t
 
 Ciò che questo motore aggiunge a quelle scuole, e che ne giustifica l'esistenza, è una cosa sola:
 
-> **La posizione non si dichiara: si deriva, da tabelle con una firma per ceppo, a costo di scrittura nullo — e le inversioni, che sono la parte interessante di ogni ambientazione, escono come effetto collaterale.**
+> **La posizione non si dichiara: si deriva, da tabelle con una firma per ceppo, a costo di scrittura nullo per nodo — e le inversioni, che sono la parte interessante di ogni ambientazione, escono come effetto collaterale.**
+
+*«Per nodo» non è una cautela: è la misura esatta di ciò che la derivazione compra.* Il costo di **giudizio** resta, si paga una volta per ambientazione ed è il costo reale del motore (§10.4); il costo di **scrittura** resta intero e vive nei banchi, che sono il vero contenuto del gioco (§24.2). Ciò che va a zero è una cosa sola, ed è quella che negli altri sistemi si paga a ogni nodo per sempre.
 
 Tutto il resto è disciplina.
+
+---
+---
+
+# APPENDICE A — IL MODELLO DEL FRENO
+
+### A.1 Perché esiste questa appendice
+
+I6 chiede che il loop del §27 converga **per tutti gli intervalli di parametri dichiarati**. La 1.2 dava la disuguaglianza e non il processo da cui si ricava: chi implementava doveva ricostruire il modello per controllare l'invariante, e non aveva modo di sapere se lo stava ricostruendo bene.
+
+> **Un'invariante che richiede di indovinare il modello non è un'invariante: è un atto di fiducia.**
+
+Qui il modello è dichiarato per intero, con le sue assunzioni e i suoi limiti. Non è più forte di quello che c'era: è **contestabile**, che è ciò che il §30.1 chiede a qualunque misura.
+
+### A.2 Il processo, in quattro assunzioni
+
+Tutte e quattro sono dichiarate, e tutte e quattro sono falsificabili.
+
+> **A1 — Il passo è l'unità di tempo.** Ogni frequenza e ogni tasso si misurano per passo del contenitore (§19.1). Le frazioni non entrano nel modello: entrano nella scala di chi le dichiara.
+
+> **A2 — La frequenza dell'imprevisto è affine nell'Esposizione.**
+>
+> ```
+> f(E) = f(0) × [ 1 + (g − 1) × E / 2 ]        E ∈ {0, 1, 2}
+> ```
+>
+> dove `f(0)` è la frequenza da *Coperto* e `g = f(2) / f(0)` è il **guadagno**. Sono due punti dichiarati — quanto capita al riparo, quanto capita allo scoperto — e una retta fra loro.
+>
+> **Il fattore `/2` non è una costante di taratura: è l'ampiezza della scala.** *Allo scoperto* vale 2, quindi `E/2` sta in [0,1] e normalizza. Con quattro livelli sarebbe `/3`.
+
+> **A3 — Un imprevisto deposita in media un gradino di Traccia.** È una normalizzazione, non un limite: se nella finzione un imprevisto ne deposita in media `k`, si sostituisce `f` con `k·f` ovunque e tutto il resto regge.
+
+> **A4 — Lo smaltimento è un tasso costante.** Un gradino ogni `s` passi, cioè `1/s` gradini per passo. **N12 impone `s` finito**, ed è esattamente ciò che nella prima applicazione del motore mancava.
+
+Sotto A1–A4 la Traccia è un processo di nascita e morte sui gradini: arrivi a tasso `f(E)`, partenze a tasso `1/s`.
+
+### A.3 La derivazione
+
+La Traccia non diverge se e solo se, **nello stato peggiore che può raggiungere**, l'entrata è minore dell'uscita.
+
+Qual è lo stato peggiore? Senza freno l'Esposizione sale fino ad *Allo scoperto* e l'entrata tende a `f(0)·g`. Il freno è il livello `b` oltre il quale l'Esposizione **smette di alimentare la frequenza**, cioè `E_eff = min(E, b)`. L'entrata sostenuta nel caso peggiore è quindi `f(b)`, e la condizione è:
+
+```
+f(0) × [ 1 + (g − 1) × b / 2 ]   <   1 / s
+```
+
+che è la disuguaglianza del §27.2, con `b` = freno e `s` = smaltimento.
+
+**Da cui si legge, in chiaro, perché il tetto da solo non basta.** Il membro di sinistra si può ridurre quanto si vuole abbassando `b`, ma resta positivo: con `s → ∞` il membro di destra va a zero, e nessun valore di `b` salva niente. **Il freno non è un freno finché lo smaltimento non è finito**, ed è la ragione per cui la voce 14 della firma sono due numeri e non uno.
+
+### A.4 Le due stabilità, e la regione bistabile
+
+Sostituendo a `b` l'Esposizione di partenza `E₀` si ottiene la condizione **locale**:
+
+```
+f(0) × [ 1 + (g − 1) × E₀ / 2 ]   <   1 / s
+```
+
+Poiché `E₀ ≤ b`, la locale è sempre la più debole. Tre regimi, e il secondo è quello da conoscere:
+
+| Condizione | Regime |
+|---|---|
+| valgono entrambe | **converge** da qualunque stato |
+| vale solo la locale | ⚠️ **bistabile** |
+| non vale nessuna | **diverge** |
+
+> **Bistabile significa: regge finché si parte puliti e non capita niente di brutto, e da lì non torna più.** Non è un rischio di taratura da sorvegliare in corsa: è **una regione dello spazio dei parametri**, e ci si può stare senza saperlo per tutta la produzione. È alla lettera il muro che il §2.6 vieta, costruito senza che nessuno lo abbia scritto.
+
+### A.5 Un esempio, con i numeri
+
+Frequenza da coperto `f(0) = 0,15` · guadagno `g = 3` · smaltimento `s = 4` passi per gradino. L'uscita vale `1/4 = 0,25`.
+
+| Freno | Entrata al caso peggiore | Contro 0,25 | Esito |
+|---|---|---|---|
+| nessuno *(b = 2)* | 0,15 × [1 + 2×1] = **0,45** | 0,45 > 0,25 | diverge |
+| **b = 1** | 0,15 × [1 + 2×0,5] = **0,30** | 0,30 > 0,25 | diverge |
+| b = 1, con `s = 3` | 0,30 | 0,30 < 0,333 | **converge** |
+
+E la riga che conta davvero. Con `b = 1` e `s = 4`, la condizione **locale** da pulito vale — `0,15 < 0,25` — mentre la globale non vale: `0,30 > 0,25`.
+
+> **Quella configurazione è bistabile, e una taratura fatta guardando le partite normali la dichiarerebbe sana.** Regge per decine di ore, finché una giornata storta non porta l'Esposizione stabilmente sopra *Coperto*; da lì la Traccia sale e non scende più. È il caso che ha prodotto N12, ed è il motivo per cui questa appendice non è documentazione ma parte della verifica.
+
+### A.6 Che cosa questa appendice **non** dimostra
+
+Va detto, perché una condizione presentata per più di quello che è tornerebbe a essere un atto di fiducia.
+
+- **È una condizione sui tassi medi.** Dice se il processo è stabile, non **quanto dura il transitorio**: una configurazione che converge può metterci più di una partita a farlo, e per il giocatore la differenza non esiste.
+- **Assume la forma affine di A2.** Se in una finzione la frequenza salta invece di crescere per gradini — perché l'imprevisto è legato a una soglia e non a un livello — la retta va sostituita con i due valori veri, e la disuguaglianza si riscrive con quelli.
+- **Non copre le complicazioni differite.** Il §24.2 ammette complicazioni che mordono dopo un numero dichiarato di passi: sono arrivi correlati e concentrati, che il tasso medio descrive in media e non nel picco. Dove ce ne sono molte, la condizione resta necessaria e **la verifica si fa simulando sulle tabelle vere**.
+
+> **Regola operativa per I6:** si enumerano gli intervalli di parametri dichiarati e si controlla la condizione **globale** su ognuno. Dove vale solo la locale, la configurazione **si rifiuta**: non è un avvertimento, è un difetto. Dove ci sono complicazioni differite, si simula.
+
+*E vale la pena costruire lo strumento invece della sola tabella: la bistabilità è una regione, e una mappa dei parametri la mostra dove una disuguaglianza la nasconde.*

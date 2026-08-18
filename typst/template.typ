@@ -22,13 +22,14 @@
   if lvl <= 2 { heading(level: lvl, outlined: true, bookmarked: true)[#b] }
 }
 
-#let h1(b) = {
+#let h1(b, occhiello: "PARTE") = {
   pagebreak(weak: true)
   anchor(1, b)
   block(spacing: 22pt)[
-    #text(font: SANS, size: 8.5pt, tracking: 0.22em, fill: accent)[PARTE]
+    #text(font: SANS, size: 8.5pt, tracking: 0.22em, fill: accent)[#occhiello]
     #v(4pt)
-    #text(font: SANS, size: 19pt, weight: "bold", tracking: 0.01em, fill: ink)[#b]
+    #text(font: SANS, size: 19pt, weight: "bold", tracking: 0.01em, fill: ink,
+           hyphenate: false)[#b]
     #v(7pt)
     #line(length: 100%, stroke: 0.9pt + accent)
   ]

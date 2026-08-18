@@ -12,7 +12,7 @@
 
 Esposizione è un motore di risoluzione: l’insieme di regole e di strutture dati che, ogni volta che il protagonista di una storia interattiva tenta qualcosa, decide che cosa succede dopo. Non è un gioco e non è un’ambientazione. Non contiene un nome proprio, non nomina un luogo, non descrive una creatura. Chi non sappia niente delle storie per cui è nato deve poterlo costruire leggendone la specifica, e questo è il criterio con cui la specifica è stata scritta.
 
-Queste pagine non sono quella specifica. La specifica esiste, si chiama 1.2, occupa trentanove paragrafi e serve a chi deve scriverne l’implementazione. Questo documento viene prima e fa un altro mestiere: mettere in mezz’ora chiunque debba lavorarci in condizione di capire che cosa il motore fa di diverso, che cosa ha rifiutato per farlo e quanto costa adottarlo. I rimandi fra parentesi puntano ai paragrafi della specifica, per chi voglia scendere.
+Queste pagine non sono quella specifica. La specifica esiste, si chiama 1.3, occupa trentanove paragrafi e un'appendice e serve a chi deve scriverne l’implementazione. Questo documento viene prima e fa un altro mestiere: mettere in mezz’ora chiunque debba lavorarci in condizione di capire che cosa il motore fa di diverso, che cosa ha rifiutato per farlo e quanto costa adottarlo. I rimandi fra parentesi puntano ai paragrafi della specifica, per chi voglia scendere.
 
 Una precisazione sulla parola, perché genera l’equivoco più comune. *Esposizione* qui non ha niente a che vedere con il nascondersi. È tenuta perché in italiano è già astratta: si parla di esposizione debitoria, ci si espone prendendo posizione, si vende allo scoperto. Il motore la definisce come *quanto la situazione ti può far pagare*, e lascia a ogni ambientazione il compito di dichiarare la propria lettura.
 
@@ -120,7 +120,7 @@ Resta la domanda che tutto questo apre. Se non si cresce per vincere, a che serv
 
 Un motore universale non è un motore che va bene per tutto senza toccarlo. È un motore in cui ciò che non si tocca è piccolo e non negoziabile, e tutto il resto si sceglie da un elenco chiuso.
 
-Il **nucleo** è dodici regole. Non si adattano, non si profilano, non si negoziano; un progetto che ne tocca una non sta più usando questo motore, il che è legittimo, ma va detto. I **moduli** sono otto (il randomizzatore, la scala di competenza, il contenitore, il lessico, la crescita, il logorio, il confronto, il testo, la mitigazione) e ciascuno si sceglie fra profili dichiarati, con un predefinito motivato.
+Il **nucleo** è dodici regole. Non si adattano, non si profilano, non si negoziano; un progetto che ne tocca una non sta più usando questo motore, il che è legittimo, ma va detto. I **moduli** sono nove — il randomizzatore, la scala di competenza, il contenitore, il lessico, la crescita, il logorio, il confronto, il testo, la mitigazione — e otto si scelgono fra profili dichiarati, con un predefinito motivato. Il nono è il lessico, che non si sceglie: si compila, sotto cinque vincoli.
 
 Una sola disciplina impedisce a questa architettura di degenerare in un vocabolario: **un profilo nuovo si aggiunge alla specifica, non si inventa per un progetto.** Se un’ambientazione ha bisogno di qualcosa che nessun profilo copre, quella è una lacuna del motore e va portata dove stanno le altre, non risolta in casa.
 
@@ -142,13 +142,15 @@ Il risultato che conta più degli altri è che **il confronto si è trasportato 
 
 Un criterio dichiarato dopo aver visto il risultato non ha validato niente. La specifica prescrive di scrivere il criterio prima, con seme fisso, e di non cancellare i criteri falliti: si aggiunge quello riformulato accanto e si spiega perché. Un criterio fallito e riscritto in silenzio è la cosa che distingue una verifica da una cerimonia.
 
-Questo non è un proposito. La versione 1.2 esiste perché due regole della 1.1 sono state misurate contro dei dati e sono risultate sbagliate.
+Questo non è un proposito. La versione 1.2 esiste perché due regole della 1.1 sono state misurate contro dei dati e sono risultate sbagliate, e la 1.3 esiste perché quelle misure sono state riesaminate e una di esse non era una misura.
 
 La prima puntava sulla proprietà sbagliata. Vincolava un rapporto fra due parametri del lessico; la misura dice che la probabilità che la preparazione atterri dipende dalla **base** dei verbi e non da quel rapporto: 76,5% per i verbi a base *Coperto*, 48,5% a *Esposto*, 26,1% a *Allo scoperto*. La vecchia regola colpiva cinque verbi che stavano benissimo e lasciava stare i due che stavano peggio.
 
 La seconda era più grave, perché riguardava la stabilità. Il motore fa dipendere la frequenza dell’imprevisto dall’Esposizione corrente, e questo è un anello di retroazione positivo che va frenato. Il freno era formulato come tetto sul flusso in entrata, e con il flusso in uscita a zero nessun valore del tetto stabilizza niente. L’uscita era a zero davvero: nella prima applicazione del motore l’accumulatore non aveva smaltimento in nessuna riga di dieci capitoli, e il sistema risultava **bistabile**. Reggeva finché non capitava una brutta giornata, e da lì non tornava più: che è alla lettera il muro che il motore vieta, e non era un rischio di taratura ma una regione dei parametri in cui si poteva stare senza saperlo.
 
-Da lì è nata la dodicesima regola di nucleo, **ogni stato che si accumula dichiara come si smaltisce**, e il freno è stato riscritto come disuguaglianza fra entrata e uscita.
+Da lì è nata la dodicesima regola di nucleo, **ogni stato che si accumula dichiara come si smaltisce**, e il freno è stato riscritto come disuguaglianza fra entrata e uscita. La 1.3 ne pubblica il modello, perché una disuguaglianza data senza il processo che la genera non si può verificare e nemmeno contestare.
+
+E la 1.3 corregge il metodo in tre punti che tolgono forza apparente al documento, che è la ragione per cui vale la pena farli. La prima delle due regole non era stata scoperta misurando: **era derivabile dall'aritmetica del motore**, perché una scala che satura in alto rende inerte la preparazione tanto più spesso quanto più in alto si parte. La regola ne esce più forte — vale per costruzione — ma le percentuali che la accompagnavano valgono per la finzione che le ha prodotte e non si esportano. La soglia che quelle misure suggerivano è stata tolta, perché dichiarare un criterio guardando un risultato già visto è precisamente ciò che questo metodo vieta. E soprattutto: **le due correzioni al nucleo poggiano su una finzione sola**, non sono mai ripassate da una seconda, e la specifica esige da chi la adotta esattamente quella seconda prova. È debito, ed è scritto dov'è leggibile.
 
 Va detto anche quello che le misure **non** hanno risolto, perché è la parte che distingue una presentazione da una vendita. La scala satura, e la saturazione non si riduce. La somma grezza percorre undici valori su una scala che ne ha tre, e nessuna correzione locale sposta la cosa di più di quattro punti: è il comportamento previsto di una scala limitata, ed è anche la difesa che impedisce alla preparazione di diventare una spirale. Il difetto vero è più piccolo e ha un nome. Si chiama **pedaggio**, e sono le situazioni in cui il primo gradino comprato non atterra e il secondo sì, tanto che bisogna pagarne due per ottenerne uno. Vale un caso su quattro fra quelli in cui la preparazione ha un senso, e si risolve dichiarandolo nella ricevuta invece di nasconderlo.
 
@@ -170,12 +172,16 @@ Si comincia scegliendo gli otto profili, **anche dove la scelta coincide col pre
 
 Le tabelle si compilano dopo il lessico, mai prima, e si controllano contando: metà dei verbi a base *Coperto*, non più di due a base massima, e ogni luogo con almeno un ceppo negativo. Un posto che espone tutto e non ripara niente non è un luogo difficile: è un luogo che non fa il suo mestiere. **Ogni posto deve essere buono per qualcosa.**
 
-Restano tredici controlli sui dati e nove invarianti da verificare simulando, e conviene farlo con più giocatori automatici in concorrenza: uno solo non misura il motore, misura il giocatore.
+Restano sedici controlli sui dati e dieci invarianti da verificare simulando, e conviene farlo con più giocatori automatici in concorrenza: uno solo non misura il motore, misura il giocatore. Quello che si guarda quando hanno finito è la **dominanza**: se una singola politica di gioco batte tutte le altre su tutte le metriche insieme, il motore ha una soluzione e il nodo a più vie è un menù.
+
+E resta la prova che nessun automa può fare. Tutto ciò che è stato misurato dice che il motore è **stabile**, e stabile non vuol dire che funzioni: le promesse centrali — che le sei caselle si sentano diverse, che la crescita si veda come tentativi risparmiati, che la ricevuta insegni il sistema mentre lo si usa — vivono in una testa umana. Si misurano con due domande, dichiarate prima come tutto il resto: *perché pensavi che sarebbe successo quello che è successo*, chiesto dopo una scena, e *qual è stata la decisione più importante*, chiesto a fine partita. Passa chi nomina una posizione e una decisione. Non passa chi nomina il dado.
 
 Il debito verso le scuole che hanno reso possibile tutto questo è reale, e riconoscerlo rafforza la posizione invece di indebolirla: *Powered by the Apocalypse* per il fallimento come evento, *Forged in the Dark* per la posizione come stato dichiarato, *Genesys* per riuscita e complicazione su assi indipendenti, *Disco Elysium* per la distinzione fra prove ritentabili e prove che marchiano. Il linguaggio del d20 è tenuto perché si spiega da solo a schermo in tre secondi, e non porta con sé niente altro: nessuna classe, nessun attributo, nessuna difficoltà che scala col livello.
 
 Ciò che questo motore aggiunge a quelle scuole, e che ne giustifica l’esistenza, è una cosa sola.
 
-> La posizione non si dichiara: si deriva, da tabelle con una firma per ceppo, a costo di scrittura nullo — e le inversioni, che sono la parte interessante di ogni ambientazione, escono come effetto collaterale.
+> La posizione non si dichiara: si deriva, da tabelle con una firma per ceppo, a costo di scrittura nullo per nodo — e le inversioni, che sono la parte interessante di ogni ambientazione, escono come effetto collaterale.
+
+*Per nodo* è la misura esatta di quello che la derivazione compra, e va letto come un limite e non come una cautela. Il costo di giudizio resta, e si paga una volta per ambientazione. Il costo di scrittura resta intero, e vive nei banchi delle complicazioni, che sono il vero contenuto del gioco. Ciò che va a zero è una cosa sola: quella che negli altri sistemi si paga a ogni nodo, per sempre.
 
 Tutto il resto è disciplina.
