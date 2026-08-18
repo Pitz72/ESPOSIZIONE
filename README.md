@@ -55,7 +55,7 @@ La specifica si aggiorna quando qualcuno la fa girare contro dei dati, mai per r
 
 La 1.2 esiste per questo: due regole della 1.1 sono state misurate e sono risultate sbagliate. La 1.3 esiste perché quelle misure sono state riesaminate — una era derivabile e non andava misurata, un'altra esportava una soglia ricavata dal proprio stesso risultato — e perché tre parole non definite reggevano più peso di quanto dichiarassero.
 
-**Il debito aperto è dichiarato nella specifica (§30.4):** le due correzioni al nucleo poggiano su una finzione sola e non sono mai ripassate da una seconda, che è invece ciò che il §38 impone a chi adotta il motore.
+**Il debito aperto è dichiarato nella specifica (§30.4):** le due correzioni al nucleo poggiano su una finzione sola e non sono mai ripassate da una seconda, che è invece ciò che il §38 impone a chi adotta il motore. Il percorso che chiude questo debito è fissato in `ROADMAP.md`, con criteri di uscita dichiarati prima di cominciare.
 
 ## Rigenerare i PDF
 
