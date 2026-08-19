@@ -32,9 +32,9 @@ La roadmap della specifica resta sovrana e questa le è subordinata in un punto 
 
 | # | Decisione | Stato | Raccomandazione |
 |---|---|---|---|
-| D-S1 | **Il nome dello strumento.** "InteractiveWriter" è provvisorio; il nome definitivo è una scelta d'identità che spetta all'autore | aperta — va chiusa entro S6 (pubblicazione del pacchetto) | — |
-| D-S2 | **La licenza del codice.** I testi sono CC BY-SA 4.0, che per il codice è inadatta. Finché la decisione non è presa, il codice in `strumento/` resta © tutti i diritti riservati | aperta — va chiusa entro la fine di S0 | MPL-2.0: copyleft a livello di file (le modifiche allo strumento restano aperte) ma incorporabile in shell proprietari, che è esattamente il flusso previsto verso gli sviluppatori. Alternativa permissiva: MIT |
-| D-S3 | **L'estensione del formato.** `.iwstory` porta il nome provvisorio | aperta — si chiude insieme a D-S1 | l'estensione segue il nome definitivo; fino ad allora non si cambia |
+| D-S1 | **Il nome dello strumento.** "InteractiveWriter" è provvisorio; il nome definitivo è una scelta d'identità che spetta all'autore | **chiusa il 19 agosto 2026**: il nome definitivo è **InteractiveWriter**. Resta da realizzare il logotipo, in stile ESPOSIZIONE — gusto editoriale, non tecnico | — |
+| D-S2 | **La licenza del codice.** I testi sono CC BY-SA 4.0, che per il codice è inadatta. Finché la decisione non è presa, il codice in `strumento/` resta © tutti i diritti riservati | **chiusa il 19 agosto 2026**: **CC BY-SA 4.0, come i testi**. Scelta deliberata dell'autore: una licenza sola per l'intero progetto, testo e strumento insieme, consapevole che per il software è una via non convenzionale. La raccomandazione accanto resta a verbale, non si cancella | MPL-2.0: copyleft a livello di file (le modifiche allo strumento restano aperte) ma incorporabile in shell proprietari, che è esattamente il flusso previsto verso gli sviluppatori. Alternativa permissiva: MIT |
+| D-S3 | **L'estensione del formato.** `.iwstory` porta il nome provvisorio | **chiusa il 19 agosto 2026**, per conseguenza di D-S1: il nome resta, `.iwstory` resta | l'estensione segue il nome definitivo; fino ad allora non si cambia |
 | D-S4 | **La lingua delle chiavi JSON.** Il formato attuale ha chiavi inglesi; il lessico normativo della specifica è italiano, con il glossario EN dei binding dichiarato vincolante nel concept inglese | aperta — va chiusa all'inizio di S1, perché lo schema della firma la incorpora | chiavi italiane nello schema della firma (il validatore parla la lingua della specifica che verifica); il glossario EN resta la tavola di conversione per un eventuale export |
 | D-S5 | **La sorte del sistema di prove classico.** Il formato attuale sa fare storie senza statistiche e storie con il check a cinque fasce | aperta — si chiude all'inizio di S4 | nel formato nuovo, `firma` e `ruleset` classico in alternativa esclusiva (una storia dichiara l'uno o l'altra); il classico si mantiene per le storie semplici e si valuta la deprecazione solo dopo S6 |
 | D-S6 | **I check passivi.** Il motore IW confronta statistica e soglia senza tirare; la specifica dice "non tira mai al posto del giocatore" — un check passivo, a rigore, non tira affatto | aperta — si decide in S7, davanti alla specifica | portarla in S7 come proposta formale: o entra come profilo, o si rifiuta a verbale |
@@ -47,9 +47,11 @@ Lo strumento entra in casa e la casa si adegua.
 
 - [x] Import di InteractiveWriter in `strumento/` via `git subtree`, con i nove commit di storia — perché la repo d'origine è destinata alla cancellazione e la sua storia è informazione irrecuperabile.
 - [x] README del repository aggiornato alla doppia traccia; questa roadmap scritta e collegata; addendum datato in ROADMAP.md.
-- [ ] **D-S2 chiusa**: licenza del codice decisa e depositata (`strumento/LICENSE`), sezione Diritti del README aggiornata.
-- [ ] Verifica che l'innesto è vivo: i test di `core/` e `cli/` girano verdi nella nuova sede (zero dipendenze, basta Node ≥ 22.6). L'editor richiede `npm install`; si verifica che parta in anteprima.
-- [ ] **Solo dopo i punti precedenti**, e per mano dell'autore: cancellazione della vecchia repo `Ecosystem-Runtime/InteractiveWriter` e della cartella locale. Prima di cancellare vale la pena scaricare l'archivio ZIP della repo da GitHub, come cintura oltre alle bretelle.
+- [x] **D-S2 chiusa** *(19 agosto 2026)*: il codice sta sotto la stessa CC BY-SA 4.0 dei testi — la `LICENSE` in radice copre l'intero repository; sezione Diritti del README aggiornata.
+- [x] **D-S1 e D-S3 chiuse** *(19 agosto 2026)*: il nome definitivo è InteractiveWriter, `.iwstory` resta. Si apre il lavoro d'identità: il **logotipo InteractiveWriter** in stile ESPOSIZIONE, da depositare in `typst/assets/logo/` con la sua tavola d'uso — non blocca l'uscita di fase.
+- [x] Verifica che l'innesto è vivo *(19 agosto 2026)*: 60 test verdi (36 core + 6 CLI + 18 editor) e build dell'editor riuscita nella nuova sede.
+- [x] Cancellazione della vecchia repo `Ecosystem-Runtime/InteractiveWriter` *(19 agosto 2026)*, previo archivio ZIP depositato in `Documents/InteractiveWriter-archivio-2026-08-19.zip` e verificato (91 file, allineato all'ultimo commit).
+- [ ] Cancellazione della cartella locale `Documents\GitHub\InteractiveWriter`, per mano dell'autore.
 
 **Uscita:** repository sincronizzato, test verdi in sede nuova, licenza del codice decisa, origine cancellata o consapevolmente rimandata.
 
