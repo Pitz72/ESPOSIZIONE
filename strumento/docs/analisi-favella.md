@@ -2,6 +2,13 @@
 
 Data: 2026-07-20 · Fonte: `C:\Users\Utente\Documents\GitHub\FAVELLA1`
 
+> **Nota del 19 agosto 2026.** Questo documento è stato scritto quando lo strumento si chiamava
+> InteractiveWriter, viveva in un'altra sede e non conosceva la specifica: guarda quindi al solo modello
+> del mondo. Resta valido — i suoi nove punti sono in gran parte già in roadmap — ed è affiancato da
+> [`../../ANALISI-FAVELLA.md`](../../ANALISI-FAVELLA.md), che copre il lato della specifica, il processo
+> di rilascio e le parti tecniche che qui non erano state viste (fra tutte: la casualità dentro
+> l'istantanea dell'annullamento).
+
 FAVELLA 1 è un compilatore + motore per **avventure testuali scritte in italiano naturale** (`.fav`),
 nello spirito di Inform 7. La direzione è lontana dalla nostra — noi non abbiamo un parser di comandi né
 una grammatica italiana da far tornare — ma **sotto il parser c'è un modello del mondo dichiarativo

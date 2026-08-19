@@ -35,6 +35,7 @@ CONTROANALISI-1.2.md            il verbale che ha deciso la 1.3, con i rilievi r
 ISTRUZIONI-riconciliazione.md   documento storico: come si portò un progetto dalla 1.1 alla 1.2
 ROADMAP.md                      la traccia della specifica: da specifica chiusa a motore misurato
 ROADMAP-STRUMENTO.md            la traccia dello strumento: da InteractiveWriter allo strumento di ESPOSIZIONE
+ANALISI-FAVELLA.md              che cosa il progetto FAVELLA 1 insegna alle due tracce, e che cosa non va preso
 concept/                        i due documenti di presentazione, sorgente Markdown
 pdf/                            i tre documenti impaginati
 typst/                          la catena che produce i PDF, font compresi
