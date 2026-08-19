@@ -1,0 +1,25 @@
+{
+  "meta": { "id": "rotta", "title": "Storia rotta", "version": "0", "formatVersion": "0.2" },
+  "ruleset": {
+    "attributes": [{ "id": "intelletto", "name": "Intelletto" }],
+    "skills": [{ "id": "logica", "name": "Logica", "attribute": "intelletto" }],
+    "resources": [],
+    "check": { "dice": "2d6", "compare": ">=" }
+  },
+  "stateSchema": { "dichiarata": { "type": "boolean", "default": false } },
+  "entry": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "content": [{ "speaker": "N", "text": "..." }],
+      "choices": [
+        {
+          "id": "vai",
+          "text": "Verso un nodo che non esiste",
+          "effects": [{ "kind": "set", "var": "fantasma", "value": true }],
+          "goto": "nodo_mancante"
+        }
+      ]
+    }
+  }
+}

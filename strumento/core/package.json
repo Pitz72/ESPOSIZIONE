@@ -1,0 +1,17 @@
+{
+  "name": "@interactivewriter/core",
+  "version": "0.0.1",
+  "description": "Motore e validatore deterministici per storie interattive ruolistiche in formato .iwstory.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "node --test",
+    "typecheck": "tsc --noEmit"
+  }
+}

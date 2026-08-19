@@ -1,0 +1,737 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://interactivewriter.dev/schema/iwstory.schema.json",
+  "title": "InteractiveWriter Story (.iwstory)",
+  "description": "Formato dati portabile per la logica narrativa interattiva con elementi ruolistici. Presentation-agnostic.",
+  "type": "object",
+  "required": ["meta", "ruleset", "stateSchema", "nodes", "entry"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": { "$ref": "#/$defs/meta" },
+    "setting": { "$ref": "#/$defs/setting" },
+    "ruleset": { "$ref": "#/$defs/ruleset" },
+    "stateSchema": {
+      "type": "object",
+      "description": "Dichiarazione tipizzata di tutte le variabili narrative. Chiave = nome variabile.",
+      "propertyNames": { "$ref": "#/$defs/identifier" },
+      "additionalProperties": { "$ref": "#/$defs/varDecl" }
+    },
+    "items": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/identifier" },
+      "additionalProperties": { "$ref": "#/$defs/item" }
+    },
+    "threads": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/identifier" },
+      "additionalProperties": { "$ref": "#/$defs/thread" }
+    },
+    "nodes": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/identifier" },
+      "additionalProperties": { "$ref": "#/$defs/node" }
+    },
+    "entry": {
+      "$ref": "#/$defs/identifier",
+      "description": "Id del nodo iniziale."
+    }
+  },
+
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+    },
+
+    "ref": {
+      "description": "Riferimento risolvibile: nome nudo = variabile di stateSchema; @skill/@attr/@resource/@item/@thread:id; oppure @capacity/@carried/@free (ingombro).",
+      "type": "string",
+      "pattern": "^(@(skill|attr|resource|item|thread):[a-zA-Z_][a-zA-Z0-9_]*|@(capacity|carried|free)|[a-zA-Z_][a-zA-Z0-9_]*)$"
+    },
+
+    "setting": {
+      "type": "object",
+      "description": "Configurazione generale della storia: il lavoro dell'autore PRIMA delle scene. Il motore la ignora.",
+      "additionalProperties": false,
+      "properties": {
+        "world": { "type": "string", "description": "Dove e quando siamo." },
+        "tone": { "type": "string", "description": "Tono e riferimenti." },
+        "protagonist": { "type": "string", "description": "Chi è il protagonista, in una riga." },
+        "notes": { "type": "string" }
+      }
+    },
+
+    "literal": {
+      "type": ["string", "number", "boolean"]
+    },
+
+    "meta": {
+      "type": "object",
+      "required": ["id", "title", "version", "formatVersion"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "title": { "type": "string" },
+        "version": { "type": "string" },
+        "formatVersion": { "type": "string", "enum": ["0.3", "0.4"] },
+        "locale": { "type": "string", "default": "it" },
+        "authors": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" }
+      }
+    },
+
+    "ruleset": {
+      "type": "object",
+      "description": "Tutti i campi sono opzionali: una storia senza dadi/statistiche (checkless/statless) può avere un ruleset vuoto.",
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/attribute" }
+        },
+        "skills": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/skill" }
+        },
+        "resources": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/resource" }
+        },
+        "check": { "$ref": "#/$defs/checkFormula" },
+        "outcomeModel": { "$ref": "#/$defs/outcomeModel" },
+        "characterCreation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "attributePoints": { "type": "integer", "minimum": 0 },
+            "skillPoints": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "inventory": { "$ref": "#/$defs/inventoryRules" },
+        "presets": {
+          "type": "array",
+          "description": "Personaggi pronti: il default dell'autore e/o gli archetipi che il gioco può far scegliere.",
+          "items": { "$ref": "#/$defs/characterPreset" }
+        }
+      }
+    },
+
+    "inventoryRules": {
+      "type": "object",
+      "description": "Quanto può portare addosso il personaggio. Capacità = baseCapacity + i capacityBonus degli oggetti posseduti (zaino, cappotto…).",
+      "required": ["baseCapacity"],
+      "additionalProperties": false,
+      "properties": {
+        "baseCapacity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Posti disponibili con i soli vestiti addosso."
+        },
+        "overflow": {
+          "enum": ["block", "allow"],
+          "default": "block",
+          "description": "block = un oggetto che non ci sta non entra; allow = nessun limite effettivo."
+        },
+        "unitLabel": { "type": "string", "description": "Etichetta d'autore: tasche, posti, slot." }
+      }
+    },
+
+    "characterPreset": {
+      "type": "object",
+      "required": ["id", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "attributes": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "skills": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "resources": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer" }
+        },
+        "items": {
+          "type": "object",
+          "description": "Equipaggiamento iniziale: id oggetto -> quantità.",
+          "propertyNames": { "$ref": "#/$defs/identifier" },
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        },
+        "default": {
+          "type": "boolean",
+          "default": false,
+          "description": "Il personaggio usato quando il gioco non ne fa scegliere nessuno. Al massimo uno."
+        }
+      }
+    },
+
+    "attribute": {
+      "type": "object",
+      "required": ["id", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "name": { "type": "string" },
+        "default": { "type": "integer", "default": 1 },
+        "min": { "type": "integer", "default": 1 },
+        "max": { "type": "integer", "default": 6 }
+      }
+    },
+
+    "skill": {
+      "type": "object",
+      "required": ["id", "name", "attribute"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "name": { "type": "string" },
+        "attribute": { "$ref": "#/$defs/identifier" },
+        "default": { "type": "integer", "default": 0 },
+        "min": { "type": "integer", "default": 0 },
+        "max": { "type": "integer", "default": 6 },
+        "canSpeak": {
+          "type": "boolean",
+          "default": false,
+          "description": "Se true, questa skill puo' interloquire come voce interiore (@skill:id come speaker)."
+        }
+      }
+    },
+
+    "resource": {
+      "type": "object",
+      "required": ["id", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "name": { "type": "string" },
+        "default": { "type": "integer", "default": 0 },
+        "min": { "type": "integer", "default": 0 },
+        "max": { "type": "integer" },
+        "onDepleted": {
+          "$ref": "#/$defs/identifier",
+          "description": "Nodo forzato quando la risorsa raggiunge il minimo."
+        }
+      }
+    },
+
+    "checkFormula": {
+      "type": "object",
+      "required": ["dice", "compare"],
+      "additionalProperties": false,
+      "properties": {
+        "dice": {
+          "type": "string",
+          "pattern": "^[0-9]+d[0-9]+$",
+          "description": "Notazione dadi, es. '2d6'."
+        },
+        "adds": {
+          "type": "array",
+          "items": { "enum": ["skill", "attribute", "modifiers"] },
+          "default": ["skill", "modifiers"]
+        },
+        "compare": { "enum": [">=", ">", "<=", "<"] },
+        "critSuccess": { "type": "integer" },
+        "critFailure": { "type": "integer" }
+      }
+    },
+
+    "outcomeModel": {
+      "type": "object",
+      "description": "Come il totale del tiro si mappa in fasce di esito. Le fasce ordinate dal peggio al meglio: critFailure < failure < partial < success < critSuccess.",
+      "additionalProperties": false,
+      "properties": {
+        "partial": {
+          "type": "boolean",
+          "default": false,
+          "description": "Se true esiste la fascia 'successo parziale'."
+        },
+        "partialBand": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 2,
+          "description": "Se partial=true: margine (totale - difficolta') in [0, partialBand) => parziale; >= partialBand => successo."
+        },
+        "crits": {
+          "enum": ["natural", "margin", "off"],
+          "default": "natural",
+          "description": "natural = dadi al minimo/massimo assoluto; margin = |margine| >= critMargin; off = niente critici."
+        },
+        "critMargin": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 5,
+          "description": "Usato solo se crits='margin'."
+        }
+      }
+    },
+
+    "varDecl": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "boolean" },
+            "default": { "type": "boolean", "default": false },
+            "label": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "number" },
+            "default": { "type": "number", "default": 0 },
+            "min": { "type": "number" },
+            "max": { "type": "number" },
+            "label": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "string" },
+            "default": { "type": "string", "default": "" },
+            "label": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type", "values"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "enum" },
+            "values": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "default": { "type": "string" },
+            "label": { "type": "string" }
+          }
+        }
+      ]
+    },
+
+    "item": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "stackable": { "type": "boolean", "default": true },
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1,
+          "description": "Posti occupati. 0 = non ingombra (una chiave, una lettera)."
+        },
+        "capacityBonus": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Posti AGGIUNTI se posseduto: zaino, borsa, cappotto con le tasche."
+        }
+      }
+    },
+
+    "thread": {
+      "type": "object",
+      "required": ["name", "type", "stages"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "enum": ["quest", "thought"] },
+        "stages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "onComplete": { "$ref": "#/$defs/effects" }
+      }
+    },
+
+    "condition": {
+      "oneOf": [
+        { "$ref": "#/$defs/conditionLeaf" },
+        { "$ref": "#/$defs/conditionAll" },
+        { "$ref": "#/$defs/conditionAny" },
+        { "$ref": "#/$defs/conditionNot" },
+        { "$ref": "#/$defs/conditionCheck" }
+      ]
+    },
+
+    "conditionLeaf": {
+      "type": "object",
+      "required": ["lhs", "op", "rhs"],
+      "additionalProperties": false,
+      "properties": {
+        "lhs": { "$ref": "#/$defs/ref" },
+        "op": { "enum": ["==", "!=", ">", "<", ">=", "<="] },
+        "rhs": {
+          "oneOf": [
+            { "$ref": "#/$defs/literal" },
+            {
+              "type": "object",
+              "required": ["var"],
+              "additionalProperties": false,
+              "properties": { "var": { "$ref": "#/$defs/ref" } }
+            }
+          ]
+        }
+      }
+    },
+
+    "conditionAll": {
+      "type": "object",
+      "required": ["all"],
+      "additionalProperties": false,
+      "properties": {
+        "all": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/condition" } }
+      }
+    },
+
+    "conditionAny": {
+      "type": "object",
+      "required": ["any"],
+      "additionalProperties": false,
+      "properties": {
+        "any": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/condition" } }
+      }
+    },
+
+    "conditionNot": {
+      "type": "object",
+      "required": ["not"],
+      "additionalProperties": false,
+      "properties": {
+        "not": { "$ref": "#/$defs/condition" }
+      }
+    },
+
+    "conditionCheck": {
+      "type": "object",
+      "required": ["check"],
+      "additionalProperties": false,
+      "description": "Condizione soddisfatta se un check passivo riesce. Usata per le voci (skill interiori).",
+      "properties": {
+        "check": { "$ref": "#/$defs/passiveCheck" }
+      }
+    },
+
+    "checkTarget": {
+      "description": "Un check punta a esattamente una statistica: una skill oppure un attributo.",
+      "oneOf": [
+        { "required": ["skill"], "not": { "required": ["attribute"] } },
+        { "required": ["attribute"], "not": { "required": ["skill"] } }
+      ]
+    },
+
+    "passiveCheck": {
+      "type": "object",
+      "required": ["difficulty"],
+      "additionalProperties": false,
+      "properties": {
+        "skill": { "$ref": "#/$defs/identifier" },
+        "attribute": { "$ref": "#/$defs/identifier" },
+        "difficulty": { "type": "integer" },
+        "mode": { "const": "passive" },
+        "modifiers": { "$ref": "#/$defs/modifiers" }
+      },
+      "allOf": [{ "$ref": "#/$defs/checkTarget" }]
+    },
+
+    "activeCheck": {
+      "type": "object",
+      "required": ["difficulty"],
+      "additionalProperties": false,
+      "properties": {
+        "skill": { "$ref": "#/$defs/identifier" },
+        "attribute": { "$ref": "#/$defs/identifier" },
+        "difficulty": { "type": "integer" },
+        "mode": { "const": "active" },
+        "retryable": {
+          "type": "boolean",
+          "default": true,
+          "description": "true = white check (ritentabile); false = red check (una volta sola)."
+        },
+        "modifiers": { "$ref": "#/$defs/modifiers" },
+        "onSuccess": {
+          "$ref": "#/$defs/identifier",
+          "description": "Forma breve: destinazione in caso di successo. Equivale a outcomes.success.goto."
+        },
+        "onFailure": {
+          "$ref": "#/$defs/identifier",
+          "description": "Forma breve: destinazione in caso di fallimento. Equivale a outcomes.failure.goto."
+        },
+        "outcomes": { "$ref": "#/$defs/outcomes" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/checkTarget" },
+        {
+          "oneOf": [
+            {
+              "description": "Forma a esiti graduati.",
+              "required": ["outcomes"],
+              "not": { "anyOf": [{ "required": ["onSuccess"] }, { "required": ["onFailure"] }] }
+            },
+            {
+              "description": "Forma breve binaria.",
+              "required": ["onSuccess", "onFailure"],
+              "not": { "required": ["outcomes"] }
+            }
+          ]
+        }
+      ]
+    },
+
+    "outcomes": {
+      "type": "object",
+      "description": "Mappa fascia -> risoluzione. Le fasce non specificate degradano alla piu' vicina inferiore (verso il fallimento).",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "critFailure": { "$ref": "#/$defs/outcomeResolution" },
+        "failure": { "$ref": "#/$defs/outcomeResolution" },
+        "partial": { "$ref": "#/$defs/outcomeResolution" },
+        "success": { "$ref": "#/$defs/outcomeResolution" },
+        "critSuccess": { "$ref": "#/$defs/outcomeResolution" }
+      }
+    },
+
+    "outcomeResolution": {
+      "type": "object",
+      "required": ["goto"],
+      "additionalProperties": false,
+      "properties": {
+        "goto": { "$ref": "#/$defs/identifier" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "text": {
+          "type": "string",
+          "description": "Narrazione aggiuntiva mostrata specificamente per questa fascia di esito."
+        }
+      }
+    },
+
+    "modifiers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["when", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "when": { "$ref": "#/$defs/condition" },
+          "value": { "type": "integer" },
+          "label": { "type": "string" }
+        }
+      }
+    },
+
+    "effects": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/effect" }
+    },
+
+    "effect": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "var", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "set" },
+            "var": { "$ref": "#/$defs/identifier" },
+            "value": { "$ref": "#/$defs/literal" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "var", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "add" },
+            "var": { "$ref": "#/$defs/identifier" },
+            "value": { "type": "number" }
+          }
+        },
+        {
+          "type": "object",
+          "description": "Crescita: l'abilità del personaggio cambia davvero.",
+          "required": ["kind", "skill", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "adjustSkill" },
+            "skill": { "$ref": "#/$defs/identifier" },
+            "value": { "type": "integer" }
+          }
+        },
+        {
+          "type": "object",
+          "description": "Crescita: la caratteristica di fondo del personaggio cambia.",
+          "required": ["kind", "attribute", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "adjustAttribute" },
+            "attribute": { "$ref": "#/$defs/identifier" },
+            "value": { "type": "integer" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "item"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "addItem" },
+            "item": { "$ref": "#/$defs/identifier" },
+            "qty": { "type": "integer", "minimum": 1, "default": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "item"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "removeItem" },
+            "item": { "$ref": "#/$defs/identifier" },
+            "qty": { "type": "integer", "minimum": 1, "default": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "resource", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "adjustResource" },
+            "resource": { "$ref": "#/$defs/identifier" },
+            "value": { "type": "number" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "thread"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "startThread" },
+            "thread": { "$ref": "#/$defs/identifier" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "thread", "to"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "advanceThread" },
+            "thread": { "$ref": "#/$defs/identifier" },
+            "to": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "thread"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "completeThread" },
+            "thread": { "$ref": "#/$defs/identifier" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "thread"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "unlockThought" },
+            "thread": { "$ref": "#/$defs/identifier" }
+          }
+        }
+      ]
+    },
+
+    "contentBlock": {
+      "type": "object",
+      "required": ["speaker", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "speaker": {
+          "type": "string",
+          "description": "Nome libero di un parlante, oppure @skill:id per una voce interiore."
+        },
+        "text": { "type": "string" },
+        "requires": {
+          "$ref": "#/$defs/condition",
+          "description": "Se presente, il blocco appare solo se soddisfatto (per le voci: un check passivo)."
+        },
+        "hints": {
+          "type": "object",
+          "description": "Hint di presentazione liberi (glitch, typingSpeed, ...). Ignorati dal motore, preservati per lo shell."
+        }
+      }
+    },
+
+    "choice": {
+      "type": "object",
+      "required": ["id", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "text": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Categoria/affinità della scelta (combat, stealth, tech, ...). Solo metadato."
+        },
+        "requires": { "$ref": "#/$defs/condition" },
+        "whenLocked": {
+          "enum": ["hide", "show"],
+          "default": "hide",
+          "description": "hide = scelta nascosta se requires falso; show = mostrata in grigio con motivo."
+        },
+        "effects": { "$ref": "#/$defs/effects" },
+        "check": { "$ref": "#/$defs/activeCheck" },
+        "goto": { "$ref": "#/$defs/identifier" }
+      },
+      "oneOf": [
+        { "required": ["goto"], "not": { "required": ["check"] } },
+        { "required": ["check"], "not": { "required": ["goto"] } }
+      ]
+    },
+
+    "node": {
+      "type": "object",
+      "required": ["id", "content"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "title": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "onFirstEnter": {
+          "$ref": "#/$defs/effects",
+          "description": "Effetti applicati SOLO alla prima visita del nodo (prima di onEnter)."
+        },
+        "onEnter": { "$ref": "#/$defs/effects" },
+        "content": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/contentBlock" }
+        },
+        "choices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/choice" }
+        }
+      }
+    }
+  }
+}

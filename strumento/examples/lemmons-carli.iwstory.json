@@ -1,0 +1,454 @@
+{
+  "meta": {
+    "id": "lemmons_carli",
+    "title": "Lemmons — Scena 12: l'ufficio di Carli (migrazione di collaudo)",
+    "version": "0.1.0",
+    "formatVersion": "0.3",
+    "authors": ["Simone"],
+    "description": "Slice reale della Scena 12 di lemmons-porting (dialogo investigativo col ragionier Carli) migrato in .iwstory. Caso limite opposto a Corridor: nessun tiro di dado, tantissimo stato piatto, gating imperativo di scelte e contenuti (funzioni JS + HTML) da tradurre in requires dichiarativi."
+  },
+
+  "ruleset": {
+    "resources": [
+      { "id": "astinenza_sigarette", "name": "Astinenza da sigarette", "default": 30, "min": 0, "max": 100 }
+    ]
+  },
+
+  "stateSchema": {
+    "possiede_bicicletta": { "type": "boolean", "default": false, "label": "Ha la bici di Mario" },
+    "ha_parlato_con_carli": { "type": "boolean", "default": false, "label": "Ha parlato con Carli" },
+    "fiducia_carli": { "type": "number", "default": 0, "min": -5, "max": 5, "label": "Fiducia di Carli" },
+    "approccio_carli": {
+      "type": "enum",
+      "values": ["neutrale", "diretto", "empatico", "sospettoso"],
+      "default": "neutrale",
+      "label": "Approccio con Carli"
+    },
+    "effetto_nicotina_attivo": { "type": "boolean", "default": false, "label": "Effetto nicotina attivo" },
+    "telefonate_misteriose_scoperte": { "type": "boolean", "default": false, "label": "Telefonate misteriose scoperte" },
+    "prelievi_contante_scoperti": { "type": "boolean", "default": false, "label": "Prelievi in contante scoperti" },
+    "carli_ha_menzionato_progetto_personale": { "type": "boolean", "default": false, "label": "Carli ha menzionato il progetto personale" },
+    "arc_pagamenti": { "type": "boolean", "default": false, "label": "Arco: pagamenti in contanti" },
+    "arc_prelievi": { "type": "boolean", "default": false, "label": "Arco: prelievi anomali" },
+    "arc_maria": { "type": "boolean", "default": false, "label": "Arco: Maria" },
+    "arc_comportamento": { "type": "boolean", "default": false, "label": "Arco: comportamento del padre" },
+    "arc_personale": { "type": "boolean", "default": false, "label": "Arco: Sante/Lisa" },
+    "arc_telefonate": { "type": "boolean", "default": false, "label": "Arco: confronto telefonate" }
+  },
+
+  "entry": "Scena12_TragittoCarli",
+
+  "nodes": {
+    "Scena12_TragittoCarli": {
+      "id": "Scena12_TragittoCarli",
+      "title": "Verso l'ufficio di Carli",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Narratore", "text": "Decidi di seguire un approccio metodico: prima le piste ufficiali, poi quelle misteriose. Il pomeriggio è appena iniziato e l'aria si sta scaldando." },
+        { "speaker": "Narratore", "text": "Inforchi la bicicletta prestata da Mario e pedali attraverso le vie del centro, il vento leggero sul viso.", "requires": { "lhs": "possiede_bicicletta", "op": "==", "rhs": true } },
+        { "speaker": "Narratore", "text": "Ti dirigi a piedi verso il centro, un percorso breve ma che ti pare più lungo sotto il sole.", "requires": { "lhs": "possiede_bicicletta", "op": "==", "rhs": false } },
+        { "speaker": "Narratore", "text": "Una targa discreta indica «Rag. Ermanno Carli — Consulenze Fiscali e Amministrative». Bussi alla porta." }
+      ],
+      "choices": [
+        { "id": "attendi", "text": "[Attendi]", "goto": "Scena12_IncontroCarli" }
+      ]
+    },
+
+    "Scena12_IncontroCarli": {
+      "id": "Scena12_IncontroCarli",
+      "title": "Incontro con Carli",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Narratore", "text": "Ad aprirti è un uomo sulla sessantina, magro, occhiali cerchiati d'oro, un'aria di precisione maniacale." },
+        { "speaker": "Jack", "text": "\"Buongiorno. Sono Jack Lemmons, figlio di Joseph. Avrei bisogno di parlarle degli affari di mio padre.\"" },
+        { "speaker": "Carli", "text": "\"Il figlio di Joseph Lemmons. Mi dispiace per la perdita. Prego, si accomodi.\"" }
+      ],
+      "choices": [
+        {
+          "id": "ordine_affari",
+          "text": "\"Sto cercando di fare ordine negli affari di mio padre.\"",
+          "effects": [{ "kind": "set", "var": "ha_parlato_con_carli", "value": true }],
+          "goto": "Scena12_InfoGenerali"
+        }
+      ]
+    },
+
+    "Scena12_InfoGenerali": {
+      "id": "Scena12_InfoGenerali",
+      "title": "Informazioni generali",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"Seguo le sue questioni da circa quindici anni. Le confermo che lei è erede universale: nessun altro erede, nessuna problematica.\"" },
+        { "speaker": "Carli", "text": "\"Suo padre era ordinatissimo: nessun debito, tasse sempre pagate. La villa è di proprietà, senza ipoteche. La manutenzione la gestiva lui, sempre in contanti — cosa che mi aveva sempre colpito.\"" }
+      ],
+      "choices": [
+        { "id": "procedi", "text": "[Decidi come procedere]", "goto": "Scena12_SceltaApproccio" }
+      ]
+    },
+
+    "Scena12_SceltaApproccio": {
+      "id": "Scena12_SceltaApproccio",
+      "title": "Scelta dell'approccio",
+      "tags": ["scena12", "bivio"],
+      "content": [
+        { "speaker": "Narratore", "text": "Carli attende, in un silenzio professionale, l'espressione impenetrabile. Senti che il modo in cui imposterai la conversazione sarà cruciale." }
+      ],
+      "choices": [
+        {
+          "id": "app_diretto",
+          "text": "[Diretto] \"Ragioniere, ho notato delle anomalie che vorrei discutere.\"",
+          "effects": [
+            { "kind": "set", "var": "approccio_carli", "value": "diretto" },
+            { "kind": "set", "var": "fiducia_carli", "value": 1 }
+          ],
+          "goto": "Scena12_DialogoCarli_Hub"
+        },
+        {
+          "id": "app_empatico",
+          "text": "[Empatico] \"Mio padre si fidava molto di lei. Mi aiuti a capire chi era negli ultimi tempi.\"",
+          "requires": { "any": [
+            { "lhs": "@resource:astinenza_sigarette", "op": "<", "rhs": 70 },
+            { "lhs": "effetto_nicotina_attivo", "op": "==", "rhs": true }
+          ] },
+          "whenLocked": "hide",
+          "effects": [
+            { "kind": "set", "var": "approccio_carli", "value": "empatico" },
+            { "kind": "set", "var": "fiducia_carli", "value": 2 }
+          ],
+          "goto": "Scena12_DialogoCarli_Hub"
+        },
+        {
+          "id": "app_sospettoso",
+          "text": "[Sospettoso] \"Spero possa garantirmi la sua massima trasparenza, signor Carli.\"",
+          "tags": ["aggressive"],
+          "effects": [
+            { "kind": "set", "var": "approccio_carli", "value": "sospettoso" },
+            { "kind": "set", "var": "fiducia_carli", "value": -1 }
+          ],
+          "goto": "Scena12_DialogoCarli_Hub"
+        }
+      ]
+    },
+
+    "Scena12_DialogoCarli_Hub": {
+      "id": "Scena12_DialogoCarli_Hub",
+      "title": "Dialogo con Carli — Hub",
+      "tags": ["scena12", "hub"],
+      "content": [
+        { "speaker": "Narratore", "text": "Sei seduto di fronte a Carli. La sua espressione è professionale, in attesa. Hai diverse domande in mente sulla gestione finanziaria di tuo padre." },
+        { "speaker": "Narratore", "text": "La sua postura si è fatta leggermente più rigida.", "requires": { "lhs": "fiducia_carli", "op": "<", "rhs": 0 } }
+      ],
+      "choices": [
+        {
+          "id": "chiedi_pagamenti",
+          "text": "Chiedere dei pagamenti in contanti.",
+          "requires": { "lhs": "arc_pagamenti", "op": "==", "rhs": false },
+          "whenLocked": "hide",
+          "goto": "Scena12_ChiediPagamenti"
+        },
+        {
+          "id": "chiedi_prelievi",
+          "text": "Chiedere dei prelievi anomali.",
+          "requires": { "lhs": "arc_prelievi", "op": "==", "rhs": false },
+          "whenLocked": "hide",
+          "goto": "Scena12_ChiediPrelievi"
+        },
+        {
+          "id": "chiedi_maria",
+          "text": "Chiedere di Maria e i suoi pagamenti.",
+          "requires": { "lhs": "arc_maria", "op": "==", "rhs": false },
+          "whenLocked": "hide",
+          "goto": "Scena12_ChiediMaria"
+        },
+        {
+          "id": "confronto_telefonate",
+          "text": "[Collega gli indizi] \"Questi prelievi potrebbero essere legati a strane telefonate?\"",
+          "requires": { "all": [
+            { "lhs": "telefonate_misteriose_scoperte", "op": "==", "rhs": true },
+            { "lhs": "arc_telefonate", "op": "==", "rhs": false }
+          ] },
+          "whenLocked": "hide",
+          "goto": "Scena12_ConfrontoTelefonate"
+        },
+        {
+          "id": "chiedi_comportamento",
+          "text": "Chiedere del comportamento di suo padre.",
+          "requires": { "all": [
+            { "any": [
+              { "lhs": "arc_pagamenti", "op": "==", "rhs": true },
+              { "lhs": "arc_prelievi", "op": "==", "rhs": true },
+              { "lhs": "arc_maria", "op": "==", "rhs": true }
+            ] },
+            { "lhs": "arc_comportamento", "op": "==", "rhs": false },
+            { "any": [
+              { "lhs": "@resource:astinenza_sigarette", "op": "<", "rhs": 70 },
+              { "lhs": "effetto_nicotina_attivo", "op": "==", "rhs": true }
+            ] }
+          ] },
+          "whenLocked": "hide",
+          "goto": "Scena12_ChiediComportamento"
+        },
+        {
+          "id": "chiedi_personale",
+          "text": "Chiedere di Sante o Lisa.",
+          "requires": { "all": [
+            { "lhs": "arc_comportamento", "op": "==", "rhs": true },
+            { "lhs": "arc_personale", "op": "==", "rhs": false },
+            { "any": [
+              { "lhs": "@resource:astinenza_sigarette", "op": "<", "rhs": 70 },
+              { "lhs": "effetto_nicotina_attivo", "op": "==", "rhs": true }
+            ] }
+          ] },
+          "whenLocked": "hide",
+          "goto": "Scena12_ChiediPersonale"
+        },
+        {
+          "id": "tenta_sbirciare",
+          "text": "[Mentre parla, provi a sbirciare i documenti sulla scrivania]",
+          "tags": ["aggressive"],
+          "goto": "Scena12_TentaSbirciare"
+        },
+        {
+          "id": "congedo",
+          "text": "Ringrazia e congedati per ora.",
+          "goto": "Scena12_Congedo"
+        }
+      ]
+    },
+
+    "Scena12_ChiediPagamenti": {
+      "id": "Scena12_ChiediPagamenti",
+      "title": "I pagamenti in contanti",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"Suo padre aveva sviluppato una predilezione per il contante: non solo piccole spese, ma anche importi consistenti. Fiscalmente regolare, ma insolito per un uomo del suo status.\"" }
+      ],
+      "choices": [
+        {
+          "id": "torna",
+          "text": "[Torna alle domande]",
+          "effects": [{ "kind": "set", "var": "arc_pagamenti", "value": true }],
+          "goto": "Scena12_DialogoCarli_Hub"
+        }
+      ]
+    },
+
+    "Scena12_ChiediPrelievi": {
+      "id": "Scena12_ChiediPrelievi",
+      "title": "I prelievi anomali",
+      "tags": ["scena12", "branch-di-stato"],
+      "content": [
+        {
+          "speaker": "Carli",
+          "text": "\"Ci sono stati prelievi regolari. Tutti registrati e fiscalmente ineccepibili.\" La risposta è fredda, fattuale. Non offre alcun dettaglio.",
+          "requires": { "any": [
+            { "lhs": "fiducia_carli", "op": "<", "rhs": 0 },
+            { "all": [
+              { "lhs": "@resource:astinenza_sigarette", "op": ">=", "rhs": 70 },
+              { "lhs": "effetto_nicotina_attivo", "op": "==", "rhs": false }
+            ] }
+          ] }
+        },
+        {
+          "speaker": "Carli",
+          "text": "\"Negli ultimi sei-otto mesi i prelievi sono diventati più consistenti: ogni due-tre settimane, tra i trecento e i cinquecento euro. Mi disse che erano per un 'progetto personale'. L'ultimo, quasi mille euro, una settimana prima della scomparsa. Era più teso del solito.\"",
+          "requires": { "not": { "any": [
+            { "lhs": "fiducia_carli", "op": "<", "rhs": 0 },
+            { "all": [
+              { "lhs": "@resource:astinenza_sigarette", "op": ">=", "rhs": 70 },
+              { "lhs": "effetto_nicotina_attivo", "op": "==", "rhs": false }
+            ] }
+          ] } }
+        }
+      ],
+      "choices": [
+        {
+          "id": "prelievi_freddo",
+          "text": "[Torna alle domande]",
+          "requires": { "any": [
+            { "lhs": "fiducia_carli", "op": "<", "rhs": 0 },
+            { "all": [
+              { "lhs": "@resource:astinenza_sigarette", "op": ">=", "rhs": 70 },
+              { "lhs": "effetto_nicotina_attivo", "op": "==", "rhs": false }
+            ] }
+          ] },
+          "whenLocked": "hide",
+          "effects": [{ "kind": "set", "var": "arc_prelievi", "value": true }],
+          "goto": "Scena12_DialogoCarli_Hub"
+        },
+        {
+          "id": "prelievi_approfondisci",
+          "text": "[Chiedi di più su questo \"progetto\"]",
+          "requires": { "not": { "any": [
+            { "lhs": "fiducia_carli", "op": "<", "rhs": 0 },
+            { "all": [
+              { "lhs": "@resource:astinenza_sigarette", "op": ">=", "rhs": 70 },
+              { "lhs": "effetto_nicotina_attivo", "op": "==", "rhs": false }
+            ] }
+          ] } },
+          "whenLocked": "hide",
+          "effects": [
+            { "kind": "set", "var": "prelievi_contante_scoperti", "value": true },
+            { "kind": "set", "var": "carli_ha_menzionato_progetto_personale", "value": true },
+            { "kind": "set", "var": "arc_prelievi", "value": true }
+          ],
+          "goto": "Scena12_FollowUp_Progetto"
+        }
+      ]
+    },
+
+    "Scena12_FollowUp_Progetto": {
+      "id": "Scena12_FollowUp_Progetto",
+      "title": "Il progetto personale",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Narratore", "text": "La menzione del \"progetto personale\" ha catturato la tua attenzione. Decidi di approfondire." }
+      ],
+      "choices": [
+        { "id": "prog_dettagli", "text": "\"Ha idea di che tipo di progetto si trattasse?\"", "goto": "Scena12_RispostaProgettoDettagli" },
+        { "id": "prog_tensione", "text": "\"La tensione era legata a questo progetto?\"", "goto": "Scena12_RispostaProgettoTensione" }
+      ]
+    },
+
+    "Scena12_RispostaProgettoDettagli": {
+      "id": "Scena12_RispostaProgettoDettagli",
+      "title": "Dettagli del progetto",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"Suo padre era riservato su questo. La mia impressione è che fosse qualcosa di molto personale, non professionale né immobiliare. Non rientrava nelle mie competenze.\"" }
+      ],
+      "choices": [
+        { "id": "torna", "text": "[Torna alle domande]", "goto": "Scena12_DialogoCarli_Hub" }
+      ]
+    },
+
+    "Scena12_RispostaProgettoTensione": {
+      "id": "Scena12_RispostaProgettoTensione",
+      "title": "La tensione del padre",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"La sua tensione aumentava in concomitanza con i prelievi. Era preoccupato, come un uomo che sta per fare un investimento ad alto rischio.\"" },
+        {
+          "speaker": "Carli",
+          "text": "\"A dire il vero non fu un incontro facile. Suo padre era insistente, io troppo rigido. Avemmo una divergenza accesa. Se ne andò in modo brusco. Fu l'ultima volta che lo vidi.\"",
+          "requires": { "lhs": "fiducia_carli", "op": ">=", "rhs": 1 }
+        }
+      ],
+      "choices": [
+        { "id": "torna", "text": "[Torna alle domande]", "goto": "Scena12_DialogoCarli_Hub" }
+      ]
+    },
+
+    "Scena12_ChiediMaria": {
+      "id": "Scena12_ChiediMaria",
+      "title": "Maria Ricci, la domestica",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"La signora Maria: pagamenti mensili in contanti, duecento euro ogni primo del mese, puntuale. Si sono interrotti solo nelle ultimissime settimane, quando suo padre si è allontanato.\"" }
+      ],
+      "choices": [
+        { "id": "torna", "text": "[Torna alle domande]", "effects": [{ "kind": "set", "var": "arc_maria", "value": true }], "goto": "Scena12_DialogoCarli_Hub" }
+      ]
+    },
+
+    "Scena12_ChiediComportamento": {
+      "id": "Scena12_ChiediComportamento",
+      "title": "Il comportamento del padre",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"Negli ultimi mesi ho percepito una tensione crescente: più concentrato, meno loquace. Quando chiedevo del 'progetto personale' diventava evasivo. Aveva iniziato a farmi domande strane sulla privacy bancaria.\"" }
+      ],
+      "choices": [
+        { "id": "torna", "text": "[Torna alle domande]", "effects": [{ "kind": "set", "var": "arc_comportamento", "value": true }], "goto": "Scena12_DialogoCarli_Hub" }
+      ]
+    },
+
+    "Scena12_ChiediPersonale": {
+      "id": "Scena12_ChiediPersonale",
+      "title": "Sante e Lisa",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"In un contesto professionale, no. I nostri rapporti erano di natura fiscale. Non conosco né questo Sante né questa Lisa. Mi dispiace non poter essere più d'aiuto.\"" }
+      ],
+      "choices": [
+        { "id": "torna", "text": "[Capisco.]", "effects": [{ "kind": "set", "var": "arc_personale", "value": true }], "goto": "Scena12_DialogoCarli_Hub" }
+      ]
+    },
+
+    "Scena12_ConfrontoTelefonate": {
+      "id": "Scena12_ConfrontoTelefonate",
+      "title": "Il confronto sulle telefonate",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"Telefonate? Non ne ero a conoscenza. Un dettaglio interessante, ma non rientra nella mia competenza. Io mi occupo di numeri, non di conversazioni.\"" }
+      ],
+      "choices": [
+        { "id": "torna", "text": "[Torna alle domande]", "effects": [{ "kind": "set", "var": "arc_telefonate", "value": true }], "goto": "Scena12_DialogoCarli_Hub" }
+      ]
+    },
+
+    "Scena12_TentaSbirciare": {
+      "id": "Scena12_TentaSbirciare",
+      "title": "Sbirciare i documenti",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Narratore", "text": "Cerchi di leggere i fogli sulla scrivania: colonne di numeri, dettagli troppo piccoli. Carli alza lo sguardo di scatto e copre i fogli con una cartella vuota." },
+        { "speaker": "Carli", "text": "\"Signor Lemmons, prego,\" dice, la voce ora gelida. Il calo di temperatura nella stanza è palpabile." }
+      ],
+      "choices": [
+        {
+          "id": "ricomponiti",
+          "text": "[Ti ricomponi, imbarazzato]",
+          "effects": [{ "kind": "add", "var": "fiducia_carli", "value": -2 }],
+          "goto": "Scena12_DialogoCarli_Hub"
+        }
+      ]
+    },
+
+    "Scena12_Congedo": {
+      "id": "Scena12_Congedo",
+      "title": "Congedo",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Carli", "text": "\"Per la successione e gli aspetti fiscali resto a sua completa disposizione.\"" },
+        { "speaker": "Jack", "text": "\"Grazie mille per il tempo e le informazioni, Ragioniere.\"" }
+      ],
+      "choices": [
+        {
+          "id": "saluta",
+          "text": "[Saluta e vai]",
+          "effects": [{ "kind": "set", "var": "effetto_nicotina_attivo", "value": false }],
+          "goto": "Check_SanteRevisit"
+        },
+        { "id": "segretaria", "text": "[Prova a scambiare due parole con la segretaria]", "goto": "Scena12_ParlaConSegretaria" }
+      ]
+    },
+
+    "Scena12_ParlaConSegretaria": {
+      "id": "Scena12_ParlaConSegretaria",
+      "title": "La segretaria",
+      "tags": ["scena12"],
+      "content": [
+        { "speaker": "Narratore", "text": "\"Lei lavorava qui da molto?\" La donna alza lo sguardo. \"Da quasi vent'anni. Conoscevo bene il signor Lemmons.\"" },
+        { "speaker": "Narratore", "text": "I suoi occhi si velano di tristezza. \"Ultimamente sembrava così tormentato. Spero che lei trovi un po' di pace.\" Un inaspettato sprazzo di umanità in un mondo di formalità e segreti." }
+      ],
+      "choices": [
+        {
+          "id": "ringrazia",
+          "text": "[La ringrazi ed esci]",
+          "effects": [{ "kind": "set", "var": "effetto_nicotina_attivo", "value": false }],
+          "goto": "Check_SanteRevisit"
+        }
+      ]
+    },
+
+    "Check_SanteRevisit": {
+      "id": "Check_SanteRevisit",
+      "title": "[confine] Uscita dall'ufficio",
+      "tags": ["confine"],
+      "content": [
+        { "speaker": "Narratore", "text": "(Confine del frammento migrato: da qui la storia prosegue verso il check su Sante e l'hub decisionale.)" }
+      ]
+    }
+  }
+}
