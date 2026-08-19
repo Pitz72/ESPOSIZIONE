@@ -221,12 +221,63 @@ def icona():
                '<g>%s</g>' % d20(R=96.0, sw=7.2, pip_r=0.16))
 
 
-PROPS = {"1": p1(), "2": p2(), "3": p3(), "4": p4(), "I": icona()}
+# ════════════════════════════════════════════════════════════════
+# Serie STUDIO — il logotipo dello strumento (ESPOSIZIONE Studio).
+# Il qualificatore prende il posto del descrittore e parla più forte:
+# STUDIO in Pagella, giustificato alla larghezza della parola.
+# ════════════════════════════════════════════════════════════════
+SUB = "STUDIO"
+
+
+def p1s():
+    """Emblema Studio (verticale, da schermata di titolo)."""
+    word, ww = set_text(PAG, WORD, EM, TRACK)
+    die_h = 132.0
+    cx = ww / 2.0
+    die = ('<g transform="translate(%.1f %.1f) scale(%.4f)">%s</g>'
+           % (cx, die_h / 2, die_h / 200.0, d20(sw=5.4)))
+    y_word = die_h + 66 + PAG.cap * EM / PAG.upm
+    wgrp = '<g transform="translate(0 %.1f)">%s</g>' % (y_word, word)
+    y_rule = y_word + 34
+    rule = ('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" '
+            'stroke="var(--ink)" stroke-width="2.2"/>'
+            % (cx - ww * 0.5, y_rule, cx + ww * 0.5, y_rule))
+    sem = 44.0
+    sub, sw_ = set_text_justified(PAG, SUB, sem, ww * 0.86)
+    y_sub = y_rule + 32 + PAG.cap * sem / PAG.upm
+    sgrp = ('<g transform="translate(%.1f %.1f)">%s</g>'
+            % (cx - sw_ / 2, y_sub, sub))
+    h = y_sub + 18
+    return svg("-20 -6 %.0f %.0f" % (ww + 40, h + 10),
+               die + wgrp + rule + sgrp)
+
+
+def p2s():
+    """In linea Studio (orizzontale, da testata)."""
+    word, ww = set_text(PAG, WORD, EM, TRACK)
+    caph = PAG.cap * EM / PAG.upm
+    die_h = caph * 1.34
+    die = ('<g transform="translate(%.1f %.1f) scale(%.4f)">%s</g>'
+           % (die_h / 2, caph / 2, die_h / 200.0, d20(sw=6.2)))
+    x_w = die_h + 44
+    wgrp = ('<g transform="translate(%.1f %.1f)">%s</g>'
+            % (x_w, caph, word))
+    sem = 54.0
+    sub, sw_ = set_text_justified(PAG, SUB, sem, ww)
+    y_sub = caph + 48 + PAG.cap * sem / PAG.upm
+    sgrp = '<g transform="translate(%.1f %.1f)">%s</g>' % (x_w, y_sub, sub)
+    return svg("-8 %.0f %.0f %.0f" % (-die_h * 0.20,
+                                      x_w + ww + 16, y_sub + 24),
+               die + wgrp + sgrp)
+
+
+PROPS = {"1": p1(), "2": p2(), "3": p3(), "4": p4(), "I": icona(),
+         "S1": p1s(), "S2": p2s()}
 
 if __name__ == "__main__":
-    # scrive le cinque forme, con i colori come variabili CSS, accanto a questo file
+    # scrive le forme, con i colori come variabili CSS, accanto a questo file
     import os
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "")
     for k, s in PROPS.items():
         io.open(out + "sorgente-%s.svg" % k, "w", encoding="utf-8").write(s)
-    print("cinque forme rigenerate")
+    print("sette forme rigenerate")

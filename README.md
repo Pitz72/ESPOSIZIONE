@@ -11,7 +11,7 @@
 
 > Il dado decide se riesci. Lo stato decide cosa ti costa.
 
-Questo repository è la sede di riferimento del motore, su due tracce: **la specifica** — il testo normativo, i documenti di presentazione in italiano e in inglese, la catena che produce i PDF — e **lo strumento** — il software che la fa girare: formato dati, motore deterministico, validatore ed editor per l'autore. **Non contiene nessuna ambientazione**: il motore non nomina un personaggio, un luogo o una creatura, e questa separazione è una proprietà da difendere, non una circostanza.
+Questo repository è la sede di riferimento del motore, su due tracce: **la specifica** — il testo normativo, i documenti di presentazione in italiano e in inglese, la catena che produce i PDF — e **ESPOSIZIONE Studio** — il software che la fa girare: formato dati, motore deterministico, validatore ed editor per l'autore. **Non contiene nessuna ambientazione**: il motore non nomina un personaggio, un luogo o una creatura, e questa separazione è una proprietà da difendere, non una circostanza.
 
 Le istanziazioni concrete — la compilazione delle sedici voci per una finzione specifica, i profili scelti, il lessico dei verbi — vivono nei repository dei progetti che usano il motore, mai qui.
 
@@ -38,12 +38,21 @@ ROADMAP-STRUMENTO.md            la traccia dello strumento: da InteractiveWriter
 concept/                        i due documenti di presentazione, sorgente Markdown
 pdf/                            i tre documenti impaginati
 typst/                          la catena che produce i PDF, font compresi
-strumento/                      lo strumento: formato dati, motore, validatore, CLI ed editor
+strumento/                      ESPOSIZIONE Studio: formato dati, motore, validatore, CLI ed editor
 ```
 
 ## Lo strumento
 
-La specifica dice *che cosa* è il motore; lo strumento è ciò che lo *fa girare*. Nasce da **InteractiveWriter**, un progetto precedente alla specifica — formato dati JSON con schema, motore TypeScript puro e deterministico, validatore statico, CLI di gioco riproducibile, editor grafico che parla la lingua dell'autore — importato qui il 19 agosto 2026 con tutta la sua storia, perché le due cose costruite separatamente si sono rivelate le due metà dello stesso disegno: la struttura della storia da una parte, la risoluzione a due assi dall'altra.
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="typst/assets/logo/esposizione-studio-inlinea-negativo.svg">
+    <img src="typst/assets/logo/esposizione-studio-inlinea-positivo.svg" alt="ESPOSIZIONE Studio" width="520">
+  </picture>
+</div>
+
+<br>
+
+La specifica dice *che cosa* è il motore; **ESPOSIZIONE Studio** è ciò che lo *fa girare* — e il nome dice il resto: è il posto dove dentro ESPOSIZIONE si lavora. Nasce da InteractiveWriter, un progetto precedente alla specifica — formato dati JSON con schema, motore TypeScript puro e deterministico, validatore statico, CLI di gioco riproducibile, editor grafico che parla la lingua dell'autore — importato qui il 19 agosto 2026 con tutta la sua storia, perché le due cose costruite separatamente si sono rivelate le due metà dello stesso disegno: la struttura della storia da una parte, la risoluzione a due assi dall'altra.
 
 La trasformazione — dal sistema di prove provvisorio alla griglia 2×3, dalla configurazione generica alla firma delle sedici voci, fino al **pacchetto di consegna** che porta la logica narrativa verificata a chi costruisce interfaccia, grafica e audio — è governata da `ROADMAP-STRUMENTO.md`, con fasi, cancelli e criteri di uscita dichiarati prima del lavoro. Il punto fermo che regge tutto: il trapianto del motore non comincia prima che la misura del §30.4 sia a verbale.
 

@@ -1,6 +1,15 @@
-# InteractiveWriter
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../typst/assets/logo/esposizione-studio-inlinea-negativo.svg">
+    <img src="../typst/assets/logo/esposizione-studio-inlinea-positivo.svg" alt="ESPOSIZIONE Studio" width="520">
+  </picture>
+</div>
 
-> **Questa è la traccia-strumento di ESPOSIZIONE.** InteractiveWriter è stato importato qui — repository [Pitz72/ESPOSIZIONE](https://github.com/Pitz72/ESPOSIZIONE), cartella `strumento/` — il 19 agosto 2026, con tutta la sua storia; la vecchia sede `Ecosystem-Runtime/InteractiveWriter` è stata chiusa lo stesso giorno. Il nome **InteractiveWriter è definitivo** (decisione D-S1); il logotipo, in stile ESPOSIZIONE, è in lavorazione. Codice e testi stanno sotto CC BY-SA 4.0 (vedi [`../LICENSE`](../LICENSE)). La trasformazione nello strumento fisico di ESPOSIZIONE è governata da [`../ROADMAP-STRUMENTO.md`](../ROADMAP-STRUMENTO.md); la roadmap interna qui sotto resta come documento del progetto d'origine.
+<br>
+
+# ESPOSIZIONE Studio
+
+> **Questa è la traccia-strumento di ESPOSIZIONE.** Lo strumento nasce come **InteractiveWriter** ed è stato importato qui — repository [Pitz72/ESPOSIZIONE](https://github.com/Pitz72/ESPOSIZIONE), cartella `strumento/` — il 19 agosto 2026, con tutta la sua storia; la vecchia sede `Ecosystem-Runtime/InteractiveWriter` è stata chiusa lo stesso giorno. Il nome definitivo è **ESPOSIZIONE Studio** (decisione D-S1); il logotipo è depositato in [`../typst/assets/logo/`](../typst/assets/logo/USO.md). Codice e testi stanno sotto CC BY-SA 4.0 (vedi [`../LICENSE`](../LICENSE)). La trasformazione è governata da [`../ROADMAP-STRUMENTO.md`](../ROADMAP-STRUMENTO.md); il testo qui sotto — nomi compresi — resta come documento del progetto d'origine, fino al rinomina pianificato.
 
 Continuità tra sessioni: [ROADMAP.md](ROADMAP.md)
 
