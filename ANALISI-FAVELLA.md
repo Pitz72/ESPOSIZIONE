@@ -267,6 +267,8 @@ Noi la fonte di verità ce l'abbiamo già in forma di dati, e la nostra `author-
 
 Ogni riga è una proposta con una collocazione. Nessuna è una modifica al testo normativo: la specifica non si tocca fino alla Fase 4, e questo documento non fa eccezione.
 
+> **Innestate il 19 agosto 2026.** Tutte e diciannove sono state distribuite nelle due roadmap, nella fase indicata qui sotto: il dettaglio operativo sta dentro le fasi, la mappa di provenienza nell'*Addendum sull'analisi del progetto vicino* di [`ROADMAP-STRUMENTO.md`](ROADMAP-STRUMENTO.md), e la registrazione sul lato sovrano nell'addendum omonimo di [`ROADMAP.md`](ROADMAP.md). Nessun criterio di uscita già dichiarato è stato modificato: dove ne è stato aggiunto uno, è scritto accanto al precedente e datato. Due proposte hanno prodotto una decisione invece di un lavoro — **D-S7**, dove vive la firma, che si chiude all'inizio di S1 — e tre hanno prodotto un rischio a registro (R7, R8, R9).
+
 | # | Proposta | Dove | Costo |
 |---|---|---|---|
 | 1 | Campo `specifica` obbligatorio e vincolato nello schema della firma | S1 | tre righe di schema |

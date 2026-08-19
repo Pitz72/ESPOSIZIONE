@@ -64,7 +64,14 @@ La licenza invita a contribuire; la specifica prescrive che *un profilo nuovo si
 - `CONTRIBUTING.md` — come si propone un profilo o una modifica: criteri dichiarati prima, seme fisso, dataset consegnato, verbale; cioè lo standard che il progetto già applica a sé stesso, trascritto in procedura;
 - collegamento dal README.
 
+**Aggiunte del 19 agosto 2026** *(da `ANALISI-FAVELLA.md`)*:
+
+- **Il registro delle proposte rifiutate.** `CONTRIBUTING.md` non dica soltanto come si propone un profilo: dica anche **dove finisce una proposta respinta**, e apra il file che la accoglie — con la data e il motivo. Il §37 fa questo per le deviazioni *accolte*, numerate; il gemello per le respinte non esiste, e la `CONTROANALISI-1.2.md` è il precedente esatto ma è legata a una revisione, non è un registro permanente. Senza quel posto, la clausola del §26.2 — *o è un sottosistema privilegiato e va rifiutata, oppure è una lacuna del motore* — produce decisioni che nessuno può rileggere. Il progetto vicino pubblica i propri rifiuti nel README, con la ragione accanto, e li tratta come parte dell'identità del progetto: *alcune cose è giusto che non le faccia.*
+- **Il kit di diffusione.** Dove si bussa, con quali regole di autopromozione, con quali testi pronti — come documento e non come improvvisazione del giorno in cui si pubblica. La licenza invita a contribuire; l'invito ha bisogno di sapere a chi è rivolto. Quello del progetto vicino esiste, è frutto di una ricerca verificata, e i pubblici si sovrappongono in buona parte ai nostri.
+
 **Uscita:** un estraneo può capire, leggendo un solo file, che cosa serve perché una proposta venga considerata.
+
+**Criterio aggiunto il 19 agosto 2026** *(estende il precedente, non lo sostituisce)*: lo stesso estraneo può capire, dallo stesso file, **che cosa succede alla sua proposta se viene respinta** — e trova il registro dove le respinte precedenti sono scritte.
 
 ## Fase 6 — La prima ambientazione vera *(dal 23 settembre)*
 
@@ -88,3 +95,17 @@ Questa roadmap resta sovrana, e l'addendum registra due cose, senza cancellare n
 
 1. **Le Fasi 1–3 si eseguono dentro la traccia dello strumento** (lì: S1–S3), con i criteri di uscita dichiarati qui, invariati alla lettera. Il trapianto del motore (S4 della traccia strumento) non comincia prima del verbale della Fase 3: il cancello è dichiarato in entrambe le roadmap.
 2. **Deviazione dichiarata sulla Fase 1**: `strumenti/valida.py` era previsto in Python con la sola libreria standard. Il validatore si scrive invece in TypeScript dentro `strumento/core/`, dove esiste già un'architettura di validazione collaudata e a zero dipendenze; un solo linguaggio su tutta la catena elimina una classe di derive. La proprietà che il criterio proteggeva — nessuna dipendenza di terze parti — è conservata.
+
+---
+
+## Addendum del 19 agosto 2026 — l'analisi del progetto vicino
+
+FAVELLA 1 — motore per narrativa interattiva della stessa mano, arrivato alla 1.0.0 e dichiarato chiuso — è stato letto per intero e confrontato con le due tracce di questo repository. L'esito è in [`ANALISI-FAVELLA.md`](ANALISI-FAVELLA.md), in radice: che cosa insegna, e che cosa deliberatamente non va preso. Ne escono diciannove proposte, distribuite nelle fasi; la mappa completa del loro innesto sta nell'addendum omonimo di `ROADMAP-STRUMENTO.md`.
+
+**Questa roadmap non cambia**, e va detto con precisione che cosa significa: nessun criterio di uscita già dichiarato è stato modificato o cancellato. Quel che è stato aggiunto è aggiunto accanto, datato, e riguarda tre punti soli:
+
+1. **Fase 3 — due aggiunte che non toccano le soglie.** Un **prodotto**: la tabella *attrito → voce*, compilata mentre si riempiono le sedici voci della nuova finzione e non dopo, sul modello del metodo che il progetto vicino ha usato per la propria espansione — *un attrito incontrato scrivendo è un dato; una primitiva mancante è un'ipotesi di lavoro*. È il materiale con cui si giudicherà la diciassettesima voce del §26.2, e a posteriori non si ricostruisce. E una **decisione da verbalizzare prima di eseguire**: se accanto alla finzione lontana — che serve all'agnosticismo del §38 e non si tocca — se ne compili una **vicinissima** al mestiere del motore, perché delle quattro prove di genere del progetto vicino quella di ruolo, da sola, ha prodotto quasi tutti i limiti emersi dalle altre tre. Sì o no, la decisione va scritta prima: presa dopo aver visto i primi risultati, non varrebbe niente. *(Il dettaglio operativo è in S3, dove la fase si esegue.)*
+2. **Fase 5 — due aggiunte**, scritte sopra: il registro delle proposte rifiutate e il kit di diffusione, con un criterio di uscita aggiunto accanto a quello esistente.
+3. **Le Fasi 1, 2, 4 e 6 non cambiano.** Le proposte che le riguardano sono tutte interne all'esecuzione, e stanno in `ROADMAP-STRUMENTO.md` dove il lavoro si fa: lo schema che dichiara la propria versione della specifica, il manifesto di copertura delle istanze, la provenienza obbligatoria di ogni misura che esce dal banco, la distinzione fra ciò che il banco ha osservato e ciò che non ha osservato.
+
+Una sola avvertenza, e chiude l'addendum. **Nessuna di quelle diciannove righe ha validato niente.** Sono ipotesi di lavoro venute dal guardare un progetto vicino che ha percorso più strada, e ciascuna diventa un fatto solo quando qualcuno ne dichiara il criterio prima di eseguirla — che è la sola regola che questa roadmap ha, e vale anche contro sé stessa.
