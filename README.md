@@ -11,7 +11,7 @@
 
 > Il dado decide se riesci. Lo stato decide cosa ti costa.
 
-Questo repository è la sede di riferimento del motore. Contiene la specifica, i documenti di presentazione in italiano e in inglese, e la catena che produce i PDF. **Non contiene nessuna ambientazione**: il motore non nomina un personaggio, un luogo o una creatura, e questa separazione è una proprietà da difendere, non una circostanza.
+Questo repository è la sede di riferimento del motore, su due tracce: **la specifica** — il testo normativo, i documenti di presentazione in italiano e in inglese, la catena che produce i PDF — e **lo strumento** — il software che la fa girare: formato dati, motore deterministico, validatore ed editor per l'autore. **Non contiene nessuna ambientazione**: il motore non nomina un personaggio, un luogo o una creatura, e questa separazione è una proprietà da difendere, non una circostanza.
 
 Le istanziazioni concrete — la compilazione delle sedici voci per una finzione specifica, i profili scelti, il lessico dei verbi — vivono nei repository dei progetti che usano il motore, mai qui.
 
@@ -33,10 +33,19 @@ Le istanziazioni concrete — la compilazione delle sedici voci per una finzione
 ESPOSIZIONE-1.3.md              la specifica: 39 paragrafi e un'appendice, sorgente di tutto il resto
 CONTROANALISI-1.2.md            il verbale che ha deciso la 1.3, con i rilievi respinti e le loro smentite
 ISTRUZIONI-riconciliazione.md   documento storico: come si portò un progetto dalla 1.1 alla 1.2
+ROADMAP.md                      la traccia della specifica: da specifica chiusa a motore misurato
+ROADMAP-STRUMENTO.md            la traccia dello strumento: da InteractiveWriter allo strumento di ESPOSIZIONE
 concept/                        i due documenti di presentazione, sorgente Markdown
 pdf/                            i tre documenti impaginati
 typst/                          la catena che produce i PDF, font compresi
+strumento/                      lo strumento: formato dati, motore, validatore, CLI ed editor
 ```
+
+## Lo strumento
+
+La specifica dice *che cosa* è il motore; lo strumento è ciò che lo *fa girare*. Nasce da **InteractiveWriter**, un progetto precedente alla specifica — formato dati JSON con schema, motore TypeScript puro e deterministico, validatore statico, CLI di gioco riproducibile, editor grafico che parla la lingua dell'autore — importato qui il 19 agosto 2026 con tutta la sua storia, perché le due cose costruite separatamente si sono rivelate le due metà dello stesso disegno: la struttura della storia da una parte, la risoluzione a due assi dall'altra.
+
+La trasformazione — dal sistema di prove provvisorio alla griglia 2×3, dalla configurazione generica alla firma delle sedici voci, fino al **pacchetto di consegna** che porta la logica narrativa verificata a chi costruisce interfaccia, grafica e audio — è governata da `ROADMAP-STRUMENTO.md`, con fasi, cancelli e criteri di uscita dichiarati prima del lavoro. Il punto fermo che regge tutto: il trapianto del motore non comincia prima che la misura del §30.4 sia a verbale.
 
 ## L'architettura, in tre righe
 
@@ -79,6 +88,7 @@ I testi di questo repository — la specifica, i documenti di presentazione, la 
 
 Restano fuori dalla licenza:
 
+- **il codice dello strumento** in `strumento/` — © 2026 Simone Pizzi — Runtime Multimedia, **tutti i diritti riservati** finché la licenza del codice non è decisa (è la decisione D-S2 di `ROADMAP-STRUMENTO.md`, con scadenza dichiarata): la CC BY-SA è una licenza per testi, e applicarla al software creerebbe più ambiguità di quante ne risolva;
 - il marchio e il logotipo **Runtime Multimedia** in `typst/assets/` — tutti i diritti riservati, nessuna licenza d'uso;
 - il logotipo **ESPOSIZIONE** in `typst/assets/logo/` — identifica questo motore e questa sede, non le derivazioni; il nome si può citare, il segno no;
 - i font in `typst/fonts/`, che appartengono ai rispettivi autori e sono ridistribuiti sotto le loro licenze (GUST Font License, Bitstream Vera).

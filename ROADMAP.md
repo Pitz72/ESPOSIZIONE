@@ -77,3 +77,14 @@ Un repository esterno, un progetto reale, le sedici voci compilate per una finzi
 ## Che cosa questa roadmap non promette
 
 Non promette la 1.4: la promette *solo se la Fase 3 la impone*. Non promette un'implementazione di riferimento completa: gli strumenti delle Fasi 1–2 sono un banco di prova, non un runtime. E non fissa le date come vincoli ma come andature: se una fase sfora, sfora dichiarandolo, non comprimendo la successiva.
+
+---
+
+## Addendum del 19 agosto 2026 — la seconda traccia
+
+Il repository ha acquisito una seconda traccia: **lo strumento**. InteractiveWriter — un progetto precedente alla specifica: formato dati, motore deterministico, validatore ed editor per storie interattive — è stato importato in `strumento/` con tutta la sua storia, e `ROADMAP-STRUMENTO.md` governa la sua trasformazione nello strumento fisico di ESPOSIZIONE.
+
+Questa roadmap resta sovrana, e l'addendum registra due cose, senza cancellare niente:
+
+1. **Le Fasi 1–3 si eseguono dentro la traccia dello strumento** (lì: S1–S3), con i criteri di uscita dichiarati qui, invariati alla lettera. Il trapianto del motore (S4 della traccia strumento) non comincia prima del verbale della Fase 3: il cancello è dichiarato in entrambe le roadmap.
+2. **Deviazione dichiarata sulla Fase 1**: `strumenti/valida.py` era previsto in Python con la sola libreria standard. Il validatore si scrive invece in TypeScript dentro `strumento/core/`, dove esiste già un'architettura di validazione collaudata e a zero dipendenze; un solo linguaggio su tutta la catena elimina una classe di derive. La proprietà che il criterio proteggeva — nessuna dipendenza di terze parti — è conservata.

@@ -1,6 +1,8 @@
 # InteractiveWriter
 
-Repository: <https://github.com/Ecosystem-Runtime/InteractiveWriter> · Continuità tra sessioni: [ROADMAP.md](ROADMAP.md)
+> **Questa è la traccia-strumento di ESPOSIZIONE.** InteractiveWriter è stato importato qui — repository [Pitz72/ESPOSIZIONE](https://github.com/Pitz72/ESPOSIZIONE), cartella `strumento/` — il 19 agosto 2026, con tutta la sua storia; la vecchia sede `Ecosystem-Runtime/InteractiveWriter` è destinata alla chiusura. La trasformazione nello strumento fisico di ESPOSIZIONE è governata da [`../ROADMAP-STRUMENTO.md`](../ROADMAP-STRUMENTO.md); il nome "InteractiveWriter" è provvisorio (decisione D-S1). La roadmap interna qui sotto resta come documento del progetto d'origine.
+
+Continuità tra sessioni: [ROADMAP.md](ROADMAP.md)
 
 Framework per scrivere **storie interattive con elementi ruolistici** (stile *Disco Elysium*): modella
 tutta la logica, la complessità e le meccaniche della parte narrativa. **Non** produce il gioco
