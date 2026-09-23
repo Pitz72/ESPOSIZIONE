@@ -1,0 +1,337 @@
+<title>Il registro della Santa Rita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --carta: #eef0eb;
+    --carta-2: #e3e7e1;
+    --carta-3: #d7ddd6;
+    --inchiostro: #19212e;
+    --grigio: #586372;
+    --filo: #c3cbc4;
+    --verderame: #1d6b66;
+    --verderame-fondo: #d5e6e2;
+    --coperto: #2c7553;
+    --esposto: #9a6a0e;
+    --scoperto: #a6381f;
+    --scoperto-fondo: #f3dcd4;
+    --display: "IM Fell English", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --testo: "Literata", "Iowan Old Style", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --carta: #0f151d;
+      --carta-2: #161f2a;
+      --carta-3: #1f2a37;
+      --inchiostro: #e2e5de;
+      --grigio: #93a0ad;
+      --filo: #2a3542;
+      --verderame: #6ab8ae;
+      --verderame-fondo: #173532;
+      --coperto: #72c69a;
+      --esposto: #e2b04f;
+      --scoperto: #ec7c62;
+      --scoperto-fondo: #3a1d17;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --carta: #0f151d;
+    --carta-2: #161f2a;
+    --carta-3: #1f2a37;
+    --inchiostro: #e2e5de;
+    --grigio: #93a0ad;
+    --filo: #2a3542;
+    --verderame: #6ab8ae;
+    --verderame-fondo: #173532;
+    --coperto: #72c69a;
+    --esposto: #e2b04f;
+    --scoperto: #ec7c62;
+    --scoperto-fondo: #3a1d17;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--carta);
+    color: var(--inchiostro);
+    font: 400 1.0625rem/1.65 var(--testo);
+    padding-inline: 16px;
+    padding-block: 0 48px;
+  }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--verderame); outline-offset: 2px; }
+
+  .testata {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-block: 28px 20px;
+    border-bottom: 1px solid var(--filo);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 24px;
+  }
+  .testata h1 {
+    font: 400 clamp(1.9rem, 4.5vw, 2.9rem)/1.05 var(--display);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .testata h1 em { font-style: italic; }
+  .testata p {
+    margin: 6px 0 0;
+    font: 500 0.72rem/1.4 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grigio);
+  }
+  .comandi { display: flex; gap: 8px; flex-wrap: wrap; }
+  .comandi button, .secondario {
+    background: transparent;
+    border: 1px solid var(--filo);
+    border-radius: 3px;
+    padding: 6px 12px;
+    font: 500 0.8rem/1.2 var(--mono);
+    cursor: pointer;
+  }
+  .comandi button:hover, .secondario:hover { border-color: var(--grigio); }
+  .comandi button.avviso { border-color: var(--scoperto); color: var(--scoperto); }
+  #mostra-scheda { display: none; }
+
+  .pagina {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 48px;
+    padding-top: 28px;
+  }
+  main { min-width: 0; max-width: 42rem; }
+
+  /* ---- la scena ---- */
+  .cronaca {
+    list-style: none;
+    margin: 0 0 28px;
+    padding: 12px 16px;
+    background: var(--carta-2);
+    border-left: 3px solid var(--filo);
+    font: 400 0.84rem/1.5 var(--mono);
+    color: var(--grigio);
+    display: grid;
+    gap: 3px;
+  }
+  .ev.tiro { color: var(--inchiostro); display: flex; gap: 10px; align-items: center; }
+  .dadi { font-size: 1.9rem; line-height: 1; letter-spacing: 2px; color: var(--inchiostro); }
+  .ev.esito { color: var(--inchiostro); font-weight: 500; }
+  .ev.ferita, .ev.morte { color: var(--scoperto); }
+  .ev.qualita, .ev.crescita { color: var(--verderame); }
+  .ev.imprevisto { color: var(--inchiostro); font-style: italic; }
+
+  .intestazione .dove {
+    margin: 0;
+    font: 500 0.72rem/1.4 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grigio);
+  }
+  .intestazione h2 {
+    font: 400 clamp(1.7rem, 4vw, 2.3rem)/1.1 var(--display);
+    margin: 6px 0 18px;
+    text-wrap: balance;
+  }
+  .prosa p { margin: 0 0 1em; text-wrap: pretty; }
+  .prosa p:first-child::first-letter {
+    font-family: var(--display);
+    font-size: 3.1em;
+    float: left;
+    line-height: 0.85;
+    padding: 0.06em 0.08em 0 0;
+  }
+
+  .confronto {
+    margin: 8px 0 24px;
+    padding: 14px 16px;
+    border: 1px solid var(--filo);
+    border-radius: 3px;
+    display: grid;
+    gap: 10px;
+    font-size: 0.95rem;
+  }
+  .confronto[data-finestra="true"] { border-color: var(--verderame); background: var(--verderame-fondo); }
+  .copertura { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font: 500 0.72rem/1 var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
+  .copertura span { padding: 8px 6px; text-align: center; background: var(--carta-2); color: var(--grigio); border-radius: 2px; }
+  .copertura span.attuale { background: var(--inchiostro); color: var(--carta); }
+  .allarme { margin: 0; font-weight: 600; color: var(--scoperto); }
+  .allarme.finestra { color: var(--verderame); }
+
+  .finale {
+    margin: 12px 0 28px;
+    padding: 20px;
+    border-top: 2px solid var(--inchiostro);
+    border-bottom: 2px solid var(--inchiostro);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .finale p { margin: 0; font: italic 400 1.5rem/1.2 var(--display); }
+  .finale[data-tipo="morte"] p { color: var(--scoperto); }
+
+  /* ---- le scelte ---- */
+  .scelte { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid var(--filo); }
+  .scelta { border-bottom: 1px solid var(--filo); }
+  .voce {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: baseline;
+    text-align: left;
+    background: none;
+    border: 0;
+    padding: 14px 4px;
+    cursor: pointer;
+  }
+  .voce:hover .testo { text-decoration: underline; text-decoration-color: var(--filo); text-underline-offset: 4px; }
+  .indice { font: 400 1.2rem/1 var(--display); color: var(--grigio); }
+  .etichetta {
+    display: inline-block;
+    margin-left: 6px;
+    font: 500 0.66rem/1.6 var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--verderame);
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    padding: 0 5px;
+    vertical-align: 2px;
+  }
+  .riassunto { font: 500 0.78rem/1 var(--mono); color: var(--grigio); white-space: nowrap; display: flex; gap: 8px; align-items: center; }
+  .grado {
+    font: 500 0.66rem/1.6 var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 2px;
+    color: var(--carta);
+    white-space: nowrap;
+  }
+  .grado[data-g="0"] { background: var(--coperto); }
+  .grado[data-g="1"] { background: var(--esposto); }
+  .grado[data-g="2"] { background: var(--scoperto); }
+  .scelta.chiusa { padding: 12px 4px 12px calc(1.6rem + 16px); color: var(--grigio); display: grid; gap: 2px; }
+  .scelta.chiusa .richiede { font: 400 0.78rem/1.4 var(--mono); }
+
+  /* ---- la ricevuta ---- */
+  .ricevuta {
+    margin: 0 0 12px calc(1.6rem + 16px);
+    padding: 14px 16px;
+    background: var(--carta-2);
+    border-top: 1px dashed var(--grigio);
+    border-bottom: 1px dashed var(--grigio);
+    font: 400 0.82rem/1.5 var(--mono);
+    overflow-x: auto;
+  }
+  .righe { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .riga { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 8px; }
+  .riga small, .totale small { display: block; color: var(--grigio); font-size: 0.74rem; }
+  .riga.spenta > span:last-child { color: var(--grigio); }
+  .riga.spenta .num { color: var(--grigio); text-decoration: line-through; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .totale { display: grid; grid-template-columns: 2.4rem auto minmax(0, 1fr); gap: 8px; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--filo); font-weight: 500; }
+  .totale small { grid-column: 1 / -1; padding-left: calc(2.4rem + 8px); }
+  .tiro { margin: 10px 0 0; }
+  .posta { margin: 6px 0 0; color: var(--scoperto); }
+  .azioni { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 16px calc(1.6rem + 16px); }
+  .primario {
+    background: var(--inchiostro);
+    color: var(--carta);
+    border: 0;
+    border-radius: 3px;
+    padding: 9px 18px;
+    font: 500 0.85rem/1.2 var(--mono);
+    cursor: pointer;
+  }
+  .primario:hover { background: var(--verderame); }
+
+  /* ---- la scheda ---- */
+  aside {
+    align-self: start;
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 16px);
+    font-size: 0.88rem;
+    border-left: 1px solid var(--filo);
+    padding-left: 24px;
+    display: grid;
+    gap: 18px;
+  }
+  aside > h2 { margin: 0; font: 400 1.35rem/1.1 var(--display); }
+  #scheda-corpo { display: grid; gap: 18px; }
+  .blocco h3 { margin: 0 0 6px; font: 500 0.68rem/1.4 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; color: var(--grigio); }
+  .tempo { display: grid; gap: 3px; }
+  .momento { display: flex; justify-content: space-between; gap: 8px; }
+  .caselle { display: inline-flex; gap: 3px; align-items: center; }
+  .caselle i { width: 11px; height: 11px; border: 1px solid var(--grigio); border-radius: 1px; }
+  .caselle i.piena { background: var(--inchiostro); border-color: var(--inchiostro); }
+  .caselle.grande i { width: 16px; height: 16px; }
+  .caselle.grande i.piena { background: var(--scoperto); border-color: var(--scoperto); }
+  .coppie { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+  .coppie li { display: flex; justify-content: space-between; gap: 8px; }
+  .traccia li.qui { font-weight: 600; }
+  .livello { color: var(--grigio); }
+  .stadio[data-s="2"] { color: var(--esposto); font-weight: 600; }
+  .stadio[data-s="3"] { color: var(--scoperto); font-weight: 600; }
+  .elenco { margin: 6px 0 0; padding-left: 1.1em; display: grid; gap: 3px; }
+  .vuoto { margin: 4px 0 0; color: var(--grigio); font-style: italic; }
+  .parole { margin: 8px 0 0; font: 500 0.75rem/1.4 var(--mono); letter-spacing: 0.06em; color: var(--verderame); }
+
+  .piede { max-width: 1120px; margin: 40px auto 0; padding-top: 16px; border-top: 1px solid var(--filo); font-size: 0.82rem; color: var(--grigio); }
+  .piede p { margin: 0; max-width: 42rem; }
+
+  @media (max-width: 900px) {
+    .pagina { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    #mostra-scheda { display: inline-block; }
+    aside { position: static; border-left: 0; padding-left: 0; border-top: 1px solid var(--filo); padding-top: 18px; order: -1; }
+    aside[data-aperta="false"] #scheda-corpo, aside[data-aperta="false"] > h2 { display: none; }
+    aside[data-aperta="false"] { border-top: 0; padding-top: 0; }
+    #scheda-corpo { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    .riassunto { grid-column: 2; }
+    .voce { grid-template-columns: 1.6rem minmax(0, 1fr); }
+    .ricevuta, .azioni, .scelta.chiusa { margin-left: 0; padding-left: 12px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cronaca { animation: entra 0.35s ease-out; }
+    @keyframes entra { from { opacity: 0.35; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<header class="testata">
+  <div>
+    <h1>Il registro della <em>Santa Rita</em></h1>
+    <p>Un librogame per ESPOSIZIONE · versione elettronica</p>
+  </div>
+  <div class="comandi">
+    <button type="button" id="mostra-scheda" aria-expanded="false" aria-controls="scheda">Mostra la scheda</button>
+    <button type="button" id="ricomincia">Ricomincia</button>
+  </div>
+</header>
+
+<div class="pagina">
+  <main id="scena" aria-live="polite"></main>
+  <aside id="scheda" data-aperta="false" aria-label="La tua scheda">
+    <h2>La tua scheda</h2>
+    <div id="scheda-corpo"></div>
+  </aside>
+</div>
+
+<footer class="piede">
+  <p>I dadi li tira il programma, con le stesse regole e gli stessi dati del libro stampato: accanto a ogni scena trovi il numero del paragrafo corrispondente. Prima di ogni prova leggi la ricevuta, cioè che cosa rende l'azione costosa e che cosa rischi. La partita resta salvata in questo browser.</p>
+</footer>
+
+<!--MOTORE-->

@@ -25,7 +25,7 @@ Tutto sta in un documento: [`ESPOSIZIONE-DESIGN.md`](ESPOSIZIONE-DESIGN.md), imp
 | sapere come si gioca | le Parti III e IV |
 | scrivere una storia | la Parte VI e l'appendice B, un'ambientazione compilata per intero |
 | sapere che cosa è provato | «Come leggere questo documento» e la Parte VII |
-| giocare subito | il librogame di prova [`pdf/SANTA-RITA-librogame.pdf`](pdf/SANTA-RITA-librogame.pdf), oppure `node src/cli.ts gioca` in `strumento/motore/` |
+| giocare subito | il librogame di prova [`pdf/SANTA-RITA-librogame.pdf`](pdf/SANTA-RITA-librogame.pdf), la sua versione elettronica [`strumento/motore/libro/santa-rita.html`](strumento/motore/libro/santa-rita.html) da aprire nel browser, oppure `node src/cli.ts gioca` in `strumento/motore/` |
 
 ## Che cosa c'è
 

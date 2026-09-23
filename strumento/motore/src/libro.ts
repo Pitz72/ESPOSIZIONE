@@ -15,8 +15,8 @@ function segno(n: number): string {
   return n > 0 ? `+${n}` : n < 0 ? `−${-n}` : "0";
 }
 
-export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
-  // ---- numerazione: l'inizio è l'1, il resto mescolato in modo riproducibile
+/** Il numero di paragrafo di ogni scena: l'inizio è l'1, il resto mescolato in modo riproducibile. */
+export function numerazione(storia: Storia, seme = 7): Map<string, number> {
   const altre = storia.scene.filter((s) => s.id !== storia.inizio).map((s) => s.id);
   let rng = seme;
   for (let i = altre.length - 1; i > 0; i--) {
@@ -24,7 +24,11 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     rng = r.stato;
     [altre[i], altre[r.valore]] = [altre[r.valore], altre[i]];
   }
-  const numero = new Map<string, number>([[storia.inizio, 1], ...altre.map((id, i) => [id, i + 2] as [string, number])]);
+  return new Map<string, number>([[storia.inizio, 1], ...altre.map((id, i) => [id, i + 2] as [string, number])]);
+}
+
+export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
+  const numero = numerazione(storia, seme);
   const n = (id: string) => `**${numero.get(id) ?? "?"}**`;
 
   const cap = (id: string) => amb.capacita.find((c) => c.id === id)!;

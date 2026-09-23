@@ -6,6 +6,7 @@ Dagli stessi dati escono tre cose:
 
 - **la partita**, nel terminale oppure in qualunque interfaccia, testuale o grafica, che usi le due funzioni `vista` e `agisci`;
 - **il librogame**, in Markdown, che la catena Typst del repository impagina in [`pdf/SANTA-RITA-librogame.pdf`](../../pdf/SANTA-RITA-librogame.pdf);
+- **la versione elettronica del libro**, [`libro/santa-rita.html`](libro/santa-rita.html): un solo file HTML con dentro motore, dati e interfaccia, da aprire in qualunque browser. I dadi li tira il programma, la ricevuta compare prima di ogni prova, e accanto a ogni scena c'è il numero del paragrafo corrispondente nel libro stampato;
 - **le verifiche**: i controlli del §20 e i giocatori automatici del §24.
 
 ## Comandi
@@ -18,6 +19,7 @@ node src/cli.ts gioca --seme 11  # la stessa partita, con gli stessi dadi
 node src/cli.ts controlla        # i controlli del §20 sui dati
 node src/cli.ts libro            # rigenera libro/santa-rita.md
 node src/cli.ts simula           # 500 partite per ciascuna strategia automatica
+node web/costruisci.mjs          # rigenera la versione elettronica, libro/santa-rita.html
 node --test                      # i test
 ```
 
@@ -36,6 +38,7 @@ Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento
 | `src/simulazione.ts` | i giocatori automatici |
 | `src/libro.ts` | il generatore del librogame |
 | `src/cli.ts` | la riga di comando |
+| `web/` | la versione elettronica: l'interfaccia (`gioco.ts`), la pagina (`pagina.html`) e lo script che le impacchetta con il motore in un solo file. Per impacchettare usa esbuild, già presente fra gli strumenti di sviluppo dell'editor; la pagina che ne esce non ha dipendenze |
 | `dati/` | l'ambientazione del porto (appendice B) e la storia di prova |
 
 ## Per chi costruisce un'interfaccia
