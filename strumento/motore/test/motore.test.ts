@@ -176,6 +176,16 @@ test("il confronto: la finestra si apre allo scoperto e non si tira", () => {
   assert.equal(fine.eventi.some((e) => e.tipo === "tiro"), false);
 });
 
+test("al coperto il dado non può rovinarti: nessun fallimento senza rovescio chiude la storia (controllo 19)", () => {
+  for (const s of storia.scene)
+    for (const c of s.scelte ?? []) {
+      if (!c.prova) continue;
+      const dopo = storia.scene.find((x) => x.id === c.prova!.nonRiesci.vai)!;
+      assert.equal(dopo.finale, undefined, `${s.id}:${c.id} porta a un finale`);
+    }
+  assert.deepEqual(controlla(amb, storia).filter((x) => x.controllo === "19"), []);
+});
+
 test("nessuna morte senza avviso: senza difese possibili il colpo si subisce, e la posta lo dice", () => {
   const p = nuovaPartita(g, 9);
   p.scena = "stiva_teodoro";

@@ -512,10 +512,18 @@
           "id": "tuffo", "testo": "Buttarvi in acqua, tu e Matteo",
           "prova": {
             "capacita": "muoversi", "soglia": "nuotare_notte", "posta": "Se va male: la vita, tua e di Matteo.", "unColpoSolo": true,
-            "riesci": { "vai": "finale_acqua" }, "nonRiesci": { "vai": "ripresi" }, "rovescio": { "vai": "annegato" }
+            "riesci": { "vai": "finale_acqua" }, "nonRiesci": { "vai": "lancia" }, "rovescio": { "vai": "annegato" }
           }
         },
         { "id": "arrenditi", "testo": "Alzare le mani", "povera": true, "vai": "ripresi" }
+      ]
+    },
+    {
+      "id": "lancia", "luogo": "nave", "titolo": "La lancia",
+      "testo": "Matteo scivola sul ponte bagnato e tu lo trattieni per il braccio: il parapetto è ancora lì, e il nostromo non vi ha ancora raggiunti. Ti accorgi solo adesso che a poppa, legata alla fiancata, c'è la lancia della nave, appesa a due cime.",
+      "scelte": [
+        { "id": "cime", "testo": "Tagliare le cime e lasciarvi cadere in acqua con la lancia", "povera": true, "effetti": [{ "logorio": "fatica", "piu": 1 }, { "logorio": "nervi", "piu": 1 }, { "traccia": "nave", "piu": 1 }], "vai": "finale_acqua" },
+        { "id": "arrenditi", "testo": "Alzare le mani", "vai": "ripresi" }
       ]
     },
     {

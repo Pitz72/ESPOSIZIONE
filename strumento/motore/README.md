@@ -58,7 +58,7 @@ const { partita: dopo, eventi } = agisci(gioco, partita, v.scelte[0].id);
 
 ## La storia di prova
 
-*Il registro della Santa Rita*: cinquantuno scene nel porto dell'appendice B. Il fratello di chi gioca è sparito, e la nave su cui lo tengono prigioniero salpa prima dell'alba. Nella storia ci sono luoghi che cambiano col momento del giorno, preparazioni, una scadenza, un confronto a parole con un archivista (*chi si chiude*) e uno col coltello con un sicario (*chi avanza*). Si può morire, ma solo dopo averlo letto nella posta.
+*Il registro della Santa Rita*: cinquantadue scene nel porto dell'appendice B. Il fratello di chi gioca è sparito, e la nave su cui lo tengono prigioniero salpa prima dell'alba. Nella storia ci sono luoghi che cambiano col momento del giorno, preparazioni, una scadenza, un confronto a parole con un archivista (*chi si chiude*) e uno col coltello con un sicario (*chi avanza*). Si può morire, ma solo dopo averlo letto nella posta.
 
 ## Che cosa manca
 

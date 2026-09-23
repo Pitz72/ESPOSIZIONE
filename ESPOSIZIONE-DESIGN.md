@@ -713,6 +713,7 @@ Una storia è pronta quando passa questi controlli. Nel digitale li fa un progra
 | 16 | Ogni avversario ha almeno due punti deboli, che si affrontano con capacità di ambiti diversi |
 | 17 | Nessun ostacolo offre due vie che differiscono soltanto nel nome della capacità |
 | 18 | Ogni confronto è raggiunto da una pressione (una scadenza, un logorio che sale, la Traccia): restare al coperto per sempre non deve essere gratis |
+| 19 | Nessun fallimento al coperto o esposto porta a un finale o a una ferita: solo il rovescio può chiudere la storia |
 
 ## 21. Scrivere i testi
 
@@ -840,7 +841,7 @@ Per ogni verifica si scrive prima che cosa deve succedere perché la si consider
 
 ## 25. Prossimi passi
 
-Il motore di ESPOSIZIONE Studio è stato riscritto su questo documento, in `strumento/motore/`: formato dei dati, regole, controlli del §20, simulazione e generatore del librogame. L'ambientazione del porto è trascritta come dati, e con lei una storia di prova, *Il registro della Santa Rita*, di cinquantuno scene. Dagli stessi dati escono la partita nel terminale e il librogame da stampare.
+Il motore di ESPOSIZIONE Studio è stato riscritto su questo documento, in `strumento/motore/`: formato dei dati, regole, controlli del §20, simulazione e generatore del librogame. L'ambientazione del porto è trascritta come dati, e con lei una storia di prova, *Il registro della Santa Rita*, di cinquantadue scene. Dagli stessi dati escono la partita nel terminale e il librogame da stampare.
 
 1. **Far giocare il librogame** ad almeno cinque persone, e fare loro le due domande del §24. Prima di cominciare si scrive che cosa deve succedere perché la prova sia superata.
 2. **Simulare meglio.** Le strategie di oggi scelgono a caso fra le vie che preferiscono, e dicono se il motore regge, non se la storia è equilibrata. Serve un giocatore automatico che insegua un obiettivo.

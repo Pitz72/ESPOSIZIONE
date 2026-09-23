@@ -169,6 +169,9 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       const uccide = [p.riesci, p.nonRiesci, p.rovescio].some((e) => scene.get(e.vai)?.finale?.tipo === "morte" || (e.effetti ?? []).some((x) => "ferita" in x && (x.ferita.gravita === "mortale" || x.ferita.gravita === "morte")));
       if (uccide && !/vita/i.test(p.posta)) err("4", `${dove}, scelta ${c.id}`, "Questa prova può uccidere, e la posta non lo dice.");
       if (!p.posta) err("4", `${dove}, scelta ${c.id}`, "Manca la posta.");
+      // Controllo 19: al coperto il dado non può rovinarti, ed esposto il peggio è un rovescio minore.
+      if (scene.get(p.nonRiesci.vai)?.finale) err("19", `${dove}, scelta ${c.id}`, "Un fallimento al coperto o esposto porta a un finale: solo il rovescio può chiudere la storia.");
+      if ((p.nonRiesci.effetti ?? []).some((x) => "ferita" in x)) err("19", `${dove}, scelta ${c.id}`, "Un fallimento al coperto o esposto produce una ferita.");
     }
     if (prove.length > 0) {
       // Controllo 1
