@@ -36,6 +36,8 @@ ISTRUZIONI-riconciliazione.md   documento storico: come si portò un progetto da
 ROADMAP.md                      la traccia della specifica: da specifica chiusa a motore misurato
 ROADMAP-STRUMENTO.md            la traccia dello strumento: da InteractiveWriter allo strumento di ESPOSIZIONE
 ANALISI-FAVELLA.md              che cosa il progetto FAVELLA 1 insegna alle due tracce, e che cosa non va preso
+ANALISI-CRITICITA-1.3.md        i rilievi alla 1.3, dai gravissimi ai lievi, a verbale fino alla Fase 4
+LINGUA-DEL-MANUALE.md           come si scrive il manuale di concetto: lettore, regole, glossario, esempi
 concept/                        i due documenti di presentazione, sorgente Markdown
 pdf/                            i tre documenti impaginati
 typst/                          la catena che produce i PDF, font compresi
