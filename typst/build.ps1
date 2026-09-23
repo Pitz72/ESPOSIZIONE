@@ -16,26 +16,12 @@ New-Item -ItemType Directory -Force -Path $uscita | Out-Null
 
 $documenti = @(
     @{
-        nome  = 'spec'
-        fonte = Join-Path $radice 'ESPOSIZIONE-1.3.md'
-        testa = 'head-spec.typ'
-        pdf   = Join-Path $uscita 'ESPOSIZIONE-1.3-impaginata.pdf'
-        # la specifica riceve anche la passata tipografica italiana
-        extra = @('--tipografia', '--inizia-da', '^## Che cosa')
-    },
-    @{
-        nome  = 'concept'
-        fonte = Join-Path $radice 'concept\ESPOSIZIONE-CONCEPT.md'
-        testa = 'head-concept.typ'
-        pdf   = Join-Path $uscita 'ESPOSIZIONE-CONCEPT.pdf'
-        extra = @('--inizia-da', '^## 1\. ')
-    },
-    @{
-        nome  = 'concept-en'
-        fonte = Join-Path $radice 'concept\EXPOSURE-CONCEPT-EN.md'
-        testa = 'head-concept-en.typ'
-        pdf   = Join-Path $uscita 'EXPOSURE-CONCEPT-EN.pdf'
-        extra = @('--inizia-da', '^## 1\. ')
+        nome  = 'design'
+        fonte = Join-Path $radice 'ESPOSIZIONE-DESIGN.md'
+        testa = 'head-design.typ'
+        pdf   = Join-Path $uscita 'ESPOSIZIONE-DESIGN.pdf'
+        # il documento riceve anche la passata tipografica italiana
+        extra = @('--tipografia', '--inizia-da', '^## Come leggere')
     }
 )
 
@@ -51,4 +37,4 @@ foreach ($d in $documenti) {
     Write-Host ("  fatto  " + (Split-Path $d.pdf -Leaf)) -ForegroundColor Green
 }
 
-Write-Host "`nTre PDF ricostruiti in $uscita" -ForegroundColor Cyan
+Write-Host "`nPDF ricostruito in $uscita" -ForegroundColor Cyan
