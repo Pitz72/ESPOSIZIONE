@@ -1,0 +1,23 @@
+{
+  "name": "@esposizione/motore",
+  "version": "2.0.0-alpha.1",
+  "description": "ESPOSIZIONE Studio, il motore 2.0: formato dati, regole, controlli, librogame e simulazione. Nessuna dipendenza.",
+  "type": "module",
+  "license": "CC-BY-SA-4.0",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "esposizione": "./src/cli.ts"
+  },
+  "scripts": {
+    "test": "node --test",
+    "gioca": "node src/cli.ts gioca",
+    "controlla": "node src/cli.ts controlla",
+    "libro": "node src/cli.ts libro",
+    "simula": "node src/cli.ts simula"
+  }
+}

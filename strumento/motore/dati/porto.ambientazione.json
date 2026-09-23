@@ -1,0 +1,182 @@
+{
+  "id": "porto",
+  "titolo": "Il porto",
+  "frase": "Nel porto, essere esposti significa che qualcuno potrà dire di averti visto.",
+  "criterioFondo": "Ha un Fondo ciò che lascia un segno che resta: un corpo ferito, una porta forzata, una parola detta a qualcuno che se la ricorderà.",
+  "ambiti": [
+    { "id": "corpo", "nome": "corpo" },
+    { "id": "mano", "nome": "mano" },
+    { "id": "mente", "nome": "mente" },
+    { "id": "voce", "nome": "voce" }
+  ],
+  "capacita": [
+    { "id": "muoversi", "nome": "Muoversi", "ambito": "corpo", "partenza": 0, "fondo": 0, "causa": "al porto tutti corrono, e nessuno ci fa caso" },
+    { "id": "battersi", "nome": "Battersi", "ambito": "corpo", "partenza": 2, "fondo": 1, "causa": "la violenza si vede e si ricorda" },
+    { "id": "resistere", "nome": "Resistere", "ambito": "corpo", "partenza": 0, "fondo": 0, "causa": "reggere la fatica non si nota" },
+    { "id": "forzare", "nome": "Forzare", "ambito": "mano", "partenza": 1, "fondo": 1, "causa": "una serratura forzata resta forzata" },
+    { "id": "sottrarre", "nome": "Sottrarre", "ambito": "mano", "partenza": 0, "fondo": 0, "causa": "prendere, fatto bene, non lascia niente" },
+    { "id": "curare", "nome": "Curare", "ambito": "mano", "partenza": 0, "fondo": 0, "causa": "medicare una ferita non si nota" },
+    { "id": "osservare", "nome": "Osservare", "ambito": "mente", "partenza": 0, "fondo": 0, "causa": "guardare è ciò che fanno tutti" },
+    { "id": "sapere", "nome": "Sapere", "ambito": "mente", "partenza": 0, "fondo": 0, "causa": "sapere una cosa non lascia segni" },
+    { "id": "persuadere", "nome": "Persuadere", "ambito": "voce", "partenza": 1, "fondo": 1, "causa": "chi viene convinto sa di esserlo" },
+    { "id": "mentire", "nome": "Mentire", "ambito": "voce", "partenza": 0, "fondo": 0, "causa": "una bugia ben detta non lascia traccia" },
+    { "id": "minacciare", "nome": "Minacciare", "ambito": "voce", "partenza": 2, "fondo": 2, "causa": "una minaccia esiste solo se l'altro sa da chi viene" }
+  ],
+  "luoghi": [
+    {
+      "id": "banchina", "nome": "La banchina", "zona": "banchina",
+      "valori": { "corpo": 0, "mano": -1, "mente": 0, "voce": 1 },
+      "cause": { "mano": "tra i carichi le mani spariscono", "voce": "sulla banchina le voci arrivano lontano" }
+    },
+    {
+      "id": "gallo", "nome": "La taverna del Gallo", "zona": "gallo",
+      "valori": { "corpo": 1, "mano": -1, "mente": 0, "voce": -1 },
+      "cause": { "corpo": "al Gallo chi alza le mani si fa notare", "mano": "nel chiasso del Gallo le mani passano inosservate", "voce": "al Gallo nessuno ascolta i discorsi degli altri" }
+    },
+    {
+      "id": "archivio", "nome": "L'archivio della capitaneria", "zona": "archivio",
+      "valori": { "corpo": 1, "mano": 1, "mente": -1, "voce": 0 },
+      "cause": { "corpo": "nell'archivio chi gira dove non deve viene notato", "mano": "nell'archivio chi tocca le carte degli altri viene guardato", "mente": "nell'archivio leggere è ciò che fanno tutti" }
+    },
+    {
+      "id": "magazzini", "nome": "I magazzini", "zona": "magazzini",
+      "valori": { "corpo": -1, "mano": 0, "mente": 1, "voce": 0 },
+      "cause": { "corpo": "i vicoli bui fra i magazzini nascondono chi si muove", "mente": "fra i magazzini chi si guarda intorno è sospetto" }
+    },
+    {
+      "id": "chiesa", "nome": "La chiesa dei marinai", "zona": "chiesa",
+      "valori": { "corpo": 0, "mano": 1, "mente": -1, "voce": -1 },
+      "cause": { "mano": "in chiesa le mani vicino alle offerte si vedono", "mente": "in chiesa chi sta in silenzio non disturba", "voce": "in chiesa si parla solo sussurrando" }
+    },
+    {
+      "id": "nave", "nome": "La Santa Rita", "zona": "nave",
+      "valori": { "corpo": -1, "mano": 0, "mente": 1, "voce": 1 },
+      "cause": { "corpo": "sottocoperta il buio copre il corpo", "mente": "a bordo uno sconosciuto che si guarda intorno dà nell'occhio", "voce": "a bordo ogni voce rimbomba nel legno" }
+    }
+  ],
+  "momenti": [
+    {
+      "id": "alba", "nome": "l'alba, col mercato del pesce", "passi": 4,
+      "valori": { "corpo": 0, "mano": -1, "mente": 0, "voce": -1 },
+      "cause": { "mano": "all'alba la confusione del mercato copre le mani", "voce": "all'alba il rumore del mercato copre le parole" }
+    },
+    {
+      "id": "giorno", "nome": "il giorno", "passi": 4,
+      "valori": { "corpo": 0, "mano": 0, "mente": 0, "voce": 0 },
+      "cause": {}
+    },
+    {
+      "id": "sera", "nome": "la sera, con le taverne piene", "passi": 4,
+      "valori": { "corpo": 0, "mano": 0, "mente": 1, "voce": -1 },
+      "cause": { "mente": "di sera, fra gente che beve, chi resta sobrio a guardare si nota", "voce": "di sera tutti parlano e nessuno ascolta" }
+    },
+    {
+      "id": "notte", "nome": "la notte", "passi": 4,
+      "valori": { "corpo": -1, "mano": 1, "mente": 0, "voce": 1 },
+      "cause": { "corpo": "il buio copre il corpo", "mano": "di notte ogni rumore di mani si sente", "voce": "di notte ogni voce si sente" }
+    }
+  ],
+  "aggravanti": [
+    { "id": "visto", "testo": "qui ti hanno già visto", "quando": { "tracciaQui": 2 } },
+    { "id": "logorio", "testo": "la stanchezza o i nervi ti pesano", "quando": { "logorioSuAmbito": 2 } },
+    { "id": "tanti", "testo": "sono in tanti a guardare", "quando": { "tagScena": "sorvegliato" } },
+    { "id": "compromettente", "testo": "porti addosso qualcosa che non dovresti", "quando": { "oggettoTag": "compromettente" } }
+  ],
+  "preparazioni": [
+    { "id": "osservato", "testo": "hai osservato il posto", "costo": "un passo sul luogo", "durata": "luogo" },
+    { "id": "travestimento", "testo": "hai un travestimento adatto", "costo": "procurarlo; si perde con un rovescio", "durata": "oggetto", "oggetto": "casacca" },
+    { "id": "complice", "testo": "qualcuno ti copre", "costo": "un favore da restituire", "durata": "prova" },
+    { "id": "diversivo", "testo": "hai creato un diversivo", "costo": "un oggetto o una moneta", "durata": "prova" }
+  ],
+  "soglie": [
+    { "id": "porta_casa", "cosa": "la porta chiusa a chiave di una casa", "soglia": 6 },
+    { "id": "facchino", "cosa": "convincere un facchino o un oste", "soglia": 6 },
+    { "id": "rete_carico", "cosa": "arrampicarsi su una rete di carico, rovesciare qualcosa addosso a qualcuno", "soglia": 6 },
+    { "id": "lucchetto", "cosa": "un lucchetto vecchio o da armadio", "soglia": 6 },
+    { "id": "tasca_addormentato", "cosa": "prendere qualcosa a chi dorme", "soglia": 6 },
+    { "id": "ubriaco", "cosa": "difendersi da un ubriaco", "soglia": 6 },
+    { "id": "serratura_magazzino", "cosa": "una serratura di magazzino, un portone", "soglia": 8 },
+    { "id": "archivista", "cosa": "un archivista sospettoso, un carceriere", "soglia": 8 },
+    { "id": "sotto_gli_occhi", "cosa": "prendere qualcosa sotto gli occhi di chi lo sorveglia", "soglia": 8 },
+    { "id": "grondaia", "cosa": "arrampicarsi su una grondaia o su un tetto", "soglia": 8 },
+    { "id": "nuotare_notte", "cosa": "nuotare nel porto di notte", "soglia": 8 },
+    { "id": "confondersi", "cosa": "confondersi fra i facchini sotto gli occhi di un nostromo", "soglia": 8 },
+    { "id": "nostromo", "cosa": "ingannare un nostromo diffidente", "soglia": 8 },
+    { "id": "ascoltare", "cosa": "cogliere un discorso in una taverna", "soglia": 8 },
+    { "id": "registro_errore", "cosa": "trovare l'errore in un registro", "soglia": 8 },
+    { "id": "marinaio_coltello", "cosa": "difendersi da un marinaio col coltello, o fermarlo con le parole", "soglia": 8 },
+    { "id": "cassaforte", "cosa": "la cassaforte della capitaneria", "soglia": 10 },
+    { "id": "ufficiale", "cosa": "convincere un ufficiale della guardia", "soglia": 10 },
+    { "id": "soldato", "cosa": "difendersi da un soldato", "soglia": 10 },
+    { "id": "dogana", "cosa": "la serratura della dogana reale", "soglia": 12 },
+    { "id": "confessione", "cosa": "far confessare chi rischia la forca", "soglia": 12 }
+  ],
+  "tempo": { "passo": "circa un'ora e mezza", "conCalma": 2 },
+  "logorii": [
+    {
+      "id": "fatica", "nome": "Fatica", "stadi": ["leggera", "pesante", "allo stremo"],
+      "ogniPassi": 8, "saleCon": ["rovescio"], "ambiti": ["corpo", "mano"],
+      "rimedio": "dormire al sicuro: quattro passi",
+      "crollo": { "testo": "Ti addormenti in piedi, appoggiato a un muro. Quando riapri gli occhi è passato del tempo.", "effetti": [{ "tempo": 2 }] }
+    },
+    {
+      "id": "nervi", "nome": "Nervi", "stadi": ["saldi", "tesi", "a pezzi"],
+      "ogniPassi": 0, "saleCon": ["ferita"], "ambiti": ["mente", "voce"],
+      "rimedio": "fermarsi in un posto sicuro finché le mani non smettono di tremare",
+      "crollo": { "testo": "Ti tremano le mani e non riesci a pensare. Ti fermi finché non passa.", "effetti": [{ "tempo": 1 }] }
+    }
+  ],
+  "armi": [
+    { "id": "pugni", "nome": "i pugni", "tipo": "botta", "colpisce": "corpo", "daEsposto": "lieve", "daScoperto": "grave" },
+    { "id": "coltello", "nome": "il coltello", "tipo": "taglio", "colpisce": "corpo", "daEsposto": "grave", "daScoperto": "mortale" },
+    { "id": "pistola", "nome": "la pistola", "tipo": "fuoco", "colpisce": "corpo", "daEsposto": "mortale", "daScoperto": "morte" }
+  ],
+  "ferite": { "lieveGuarisceIn": 16, "graveDiventaMortaleIn": 16, "mortaleUccideIn": 4, "conMortaleSoloAmbiti": ["voce"] },
+  "traccia": { "calaOgniPassi": 2, "imprevistoFinoA": [2, 4, 6, 8] },
+  "avversari": [
+    {
+      "id": "bressan", "nome": "Bressan", "natura": "si-chiude", "copertura": 0,
+      "puntiDeboli": [
+        { "id": "data", "testo": "Fargli notare la riga scritta con un altro inchiostro", "capacita": "osservare", "gradi": 1, "soglia": "registro_errore" },
+        { "id": "posto", "testo": "Ricordargli che, se la cosa viene fuori, il posto lo perde lui", "capacita": "persuadere", "gradi": 1, "soglia": "archivista" },
+        { "id": "figlio", "testo": "Nominare il debito di suo figlio con l'usuraio", "capacita": "minacciare", "gradi": 2, "soglia": "archivista", "requisito": { "fatto": "sai_del_figlio" }, "richiede": "sapere qualcosa della sua famiglia" }
+      ],
+      "pericolo": { "sociale": "chiama la guardia della capitaneria" },
+      "movente": { "vuole": "tenersi il posto", "smette": "se gli garantisci che il suo nome non verrà fuori", "mantieneLaParola": true }
+    },
+    {
+      "id": "teodoro", "nome": "Teodoro il Pesce", "natura": "avanza", "copertura": 0,
+      "puntiDeboli": [
+        { "id": "addosso", "testo": "Rovesciargli addosso quello che hai a portata di mano", "capacita": "muoversi", "gradi": 1, "soglia": "rete_carico" },
+        { "id": "capitano", "testo": "Dirgli che il capitano Serra non vuole morti sulla sua nave", "capacita": "sapere", "gradi": 2, "soglia": "marinaio_coltello", "requisito": { "conoscenza": "nome_capitano" }, "richiede": "conoscere il nome del suo capitano" },
+        { "id": "colpire", "testo": "Colpirlo per primo", "capacita": "battersi", "gradi": 1, "soglia": "marinaio_coltello" }
+      ],
+      "pericolo": { "arma": "coltello" },
+      "sogliaDifesa": "marinaio_coltello",
+      "movente": { "vuole": "la taglia che Grimani ha messo su chi cerca Matteo", "smette": "se gli offri di più, o se il rumore attira la guardia", "mantieneLaParola": false }
+    }
+  ],
+  "protezioni": [
+    { "id": "giacca", "nome": "La giacca imbottita", "contro": ["taglio", "botta"] }
+  ],
+  "repertorio": [
+    { "id": "doganiere", "zona": "banchina", "testo": "Un doganiere ti ferma e vuole sapere che cosa fai sulla banchina. Ti lascia andare dopo un bel po' di domande.", "effetti": [{ "tempo": 1 }] },
+    { "id": "rete", "zona": "banchina", "testo": "Una rete di carico si sgancia dalla gru e ti cade a un palmo dai piedi. Mezza banchina si volta a guardarti.", "effetti": [{ "traccia": "banchina", "piu": 1 }] },
+    { "id": "ragazzo", "zona": "banchina", "testo": "Un ragazzo scalzo ti fissa, poi corre via verso il Gallo.", "quando": { "traccia": "banchina", "almeno": 1 }, "effetti": [{ "traccia": "gallo", "piu": 1 }] },
+    { "id": "agguato_banchina", "zona": "banchina", "testo": "Fra due file di barili, qualcuno ti sbarra la strada.", "quando": { "tutte": [{ "fatto": "teodoro_cerca" }, { "nonFatto": "teodoro_fuori" }, { "momento": ["sera", "notte"] }] }, "effetti": [], "vai": "agguato" },
+    { "id": "rissa", "zona": "gallo", "testo": "Scoppia una rissa a due tavoli dal tuo. Una panca vola, qualcuno sanguina dal naso.", "effetti": [{ "logorio": "nervi", "piu": 1 }] },
+    { "id": "ubriaco", "zona": "gallo", "testo": "Un ubriaco ti si attacca al braccio e vuole offrirti da bere. Ci metti un pezzo a liberartene.", "effetti": [{ "tempo": 1 }] },
+    { "id": "agguato_gallo", "zona": "gallo", "testo": "Teodoro il Pesce si alza dal suo tavolo e ti fa cenno di seguirlo fuori. Non è un invito.", "quando": { "tutte": [{ "fatto": "teodoro_cerca" }, { "nonFatto": "teodoro_fuori" }] }, "effetti": [], "vai": "agguato" },
+    { "id": "capitano", "zona": "archivio", "testo": "Un capitano ti chiede chi sei e per chi lavori. Rispondi, ma lui ti guarda come chi si ricorderà della tua faccia.", "effetti": [{ "traccia": "archivio", "piu": 1 }] },
+    { "id": "guardia_archivio", "zona": "archivio", "testo": "Passa una guardia della capitaneria. Aspetti che se ne vada.", "effetti": [{ "tempo": 1 }] },
+    { "id": "cane", "zona": "magazzini", "testo": "Un cane da guardia si lancia contro un cancello, abbaiando. Ti si stringe lo stomaco.", "effetti": [{ "logorio": "nervi", "piu": 1 }] },
+    { "id": "guardiano", "zona": "magazzini", "testo": "Il guardiano fa il giro con la lanterna. Resti fermo nell'ombra finché non passa.", "effetti": [{ "tempo": 1 }] },
+    { "id": "offerta", "zona": "chiesa", "testo": "Il sagrestano ti tende la cassetta delle offerte e non si sposta finché non ci metti qualcosa.", "effetti": [{ "oggetto": "monete", "piu": -1 }] },
+    { "id": "vedova", "zona": "chiesa", "testo": "Una vedova vestita di nero ti chiede se hai notizie di una nave. Non ne hai, e lei torna a pregare.", "effetti": [] },
+    { "id": "marinaio", "zona": "nave", "testo": "Un marinaio ti chiede che cosa fai lì. Borbotti qualcosa, e lui ti guarda allontanarti.", "effetti": [{ "traccia": "nave", "piu": 1 }] },
+    { "id": "scricchiolio", "zona": "nave", "testo": "La nave scricchiola, e sopra di te qualcuno si ferma ad ascoltare. Trattieni il fiato finché i passi non si allontanano.", "effetti": [{ "tempo": 1 }] }
+  ],
+  "crescita": { "tipo": "arco", "tacche": [3, 5, 5] },
+  "difesa": ["muoversi", "battersi"],
+  "resistenza": "resistere"
+}

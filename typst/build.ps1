@@ -22,6 +22,14 @@ $documenti = @(
         pdf   = Join-Path $uscita 'ESPOSIZIONE-DESIGN.pdf'
         # il documento riceve anche la passata tipografica italiana
         extra = @('--tipografia', '--inizia-da', '^## Come leggere')
+    },
+    @{
+        nome  = 'librogame'
+        # il libro si rigenera prima dai dati: node strumento/motore/src/cli.ts libro
+        fonte = Join-Path $radice 'strumento\motore\libro\santa-rita.md'
+        testa = 'head-librogame.typ'
+        pdf   = Join-Path $uscita 'SANTA-RITA-librogame.pdf'
+        extra = @('--tipografia', '--inizia-da', '^## Come si gioca')
     }
 )
 
@@ -37,4 +45,4 @@ foreach ($d in $documenti) {
     Write-Host ("  fatto  " + (Split-Path $d.pdf -Leaf)) -ForegroundColor Green
 }
 
-Write-Host "`nPDF ricostruito in $uscita" -ForegroundColor Cyan
+Write-Host "`nPDF ricostruiti in $uscita" -ForegroundColor Cyan

@@ -16,9 +16,9 @@ Lo stesso motore funziona in tre formati, con gli stessi numeri:
 
 - **il librogame**, in cui chi legge gioca da solo, con paragrafi numerati, una scheda a matita e due dadi;
 - **il tavolo**, in cui un narratore conduce e uno o più giocatori decidono;
-- **il digitale**, in cui il programma fa i conti e mostra tutto sullo schermo.
+- **il digitale**, in cui il programma fa i conti e mostra tutto sullo schermo: può essere un gioco fatto di solo testo, ma anche un gioco grafico, come un'avventura illustrata, un punta e clicca, un gioco di ruolo con una mappa da esplorare in due o tre dimensioni.
 
-Una storia scritta per un formato si porta negli altri senza cambiare le regole.
+Una storia scritta per un formato si porta negli altri senza cambiare le regole. Il motore decide che cosa succede; come mostrarlo, con parole o con immagini, lo decide chi costruisce il gioco.
 
 Il documento ha sette parti e quattro appendici. Le parti I e II spiegano l'idea e come si gioca; la III e la IV le regole della prova e del pericolo; la V la crescita del personaggio; la VI come si scrive una storia; la VII i limiti e le verifiche. L'appendice B contiene un'ambientazione d'esempio compilata per intero, e l'appendice C il glossario.
 
@@ -41,6 +41,8 @@ Cinque promesse guidano ogni regola di questo documento.
 4. **La violenza è reale.** Un colpo di coltello può uccidere. Il motore non ha punti ferita: la violenza è una scommessa da cui si può non tornare, e le storie scritte con questo motore la trattano come l'ultima risorsa. Nessuno però muore senza essere stato avvisato.
 5. **Non resti mai bloccato.** Davanti a ogni ostacolo c'è sempre almeno una strada che non richiede il dado. Costa, ma c'è.
 
+«Romanzo» qui indica la forma della storia, non il modo di mostrarla. Un romanzo di ruolo è una storia lunga, con personaggi che ricordano, scelte che pesano e conseguenze che restano. Si può leggere sulla pagina, raccontare al tavolo, oppure attraversare in un gioco grafico, dove i luoghi sono stanze e mappe, le vie sono oggetti e persone con cui interagire, e la ricevuta è un pannello che compare prima di agire. Il §22.4 spiega come.
+
 Il motore non fa alcune cose, per scelta:
 
 - non ha punti ferita né barre da svuotare;
@@ -62,8 +64,8 @@ Il gioco ti offre tre vie.
 ```
 Sottrarre il registro
     0   Sottrarre, di suo, non si nota
-   +1   nell'archivio chi tocca le carte degli altri viene guardato
-   −1   all'alba il salone è pieno, e la confusione copre le mani
+   +1   nell'archivio chi tocca le carte viene guardato   — non conta: saresti comunque al coperto
+   −1   all'alba la confusione del mercato copre le mani
   ───
     0   AL COPERTO
 Prova: Impegnativa (8). Sei Pratico in Sottrarre (+1): riesci 58 volte su 100.
@@ -74,7 +76,7 @@ Prova: Impegnativa (8). Sei Pratico in Sottrarre (+1): riesci 58 volte su 100.
 ```
 Persuadere l'archivista
     1   chi viene convinto sa di esserlo
-   −1   all'alba il rumore copre le parole   — non conta: il Fondo è esposto
+   −1   all'alba il rumore copre le parole   — non conta: più in basso di esposto non si scende
   ───
     0   ESPOSTO   (Persuadere non scende sotto esposto)
 Prova: Impegnativa (8). Sei Inesperto in Persuadere (+0): riesci 42 volte su 100.
@@ -196,7 +198,7 @@ Esplorare non dà punti. Dà conoscenze, accessi, persone e oggetti, cioè nuove
 
 ### 6.1 Scene, ostacoli, vie
 
-Una **scena** è un'unità della storia: un testo e le scelte che offre. Sulla carta è un paragrafo, sullo schermo una schermata, al tavolo un momento di gioco.
+Una **scena** è un'unità della storia: una situazione e le scelte che offre. Sulla carta è un paragrafo, in un gioco testuale una schermata, in un gioco grafico una stanza o un'inquadratura, al tavolo un momento di gioco.
 
 Un **ostacolo** è una scena in cui qualcosa ti sbarra la strada. Si affronta da più **vie**, e ogni via ha la sua capacità, la sua soglia, il suo costo. Scegliere la via conta quanto il tiro: nella scena dell'archivio, rubare e chiedere sono due scommesse diverse sullo stesso registro.
 
@@ -334,7 +336,7 @@ Una regola per chi compila: **ogni luogo deve essere buono per qualcosa.** Ogni 
 
 ### 9.3 Aggravanti e preparazioni
 
-Le **aggravanti** sono fatti del mondo che alzano il costo, di un grado ciascuna. Non le sceglie nessuno: si applicano quando sono vere. Ogni ambientazione ne ha da tre a cinque tipi, ciascuno dicibile in poche parole. Nel porto: *qui ti hanno già visto*, *sei provato*, *sono in tanti a guardare*, *porti addosso qualcosa che non dovresti*.
+Le **aggravanti** sono fatti del mondo che alzano il costo, di un grado ciascuna. Non le sceglie nessuno: si applicano quando sono vere. Ogni ambientazione ne ha da tre a cinque tipi, ciascuno dicibile in poche parole. Nel porto: *qui ti hanno già visto*, *la stanchezza o i nervi ti pesano*, *sono in tanti a guardare*, *porti addosso qualcosa che non dovresti*.
 
 Le **preparazioni** sono ciò che fai prima di agire per abbassare il costo, di un grado ciascuna: osservare il posto, procurarti un travestimento, trovare un complice, creare un diversivo. Ogni ambientazione ne ha da tre a sei tipi, e ognuna costa qualcosa: tempo, denaro, un favore, un oggetto. Ogni tipo vale una volta per prova. Le preparazioni non durano per sempre: valgono per la scena, o si consumano.
 
@@ -415,8 +417,8 @@ Ogni casella ha effetti predefiniti, che valgono sempre se la scena non dice alt
 | Successo sporco | +1 Traccia nella zona |
 | Successo a caro prezzo | +1 Traccia, e perdi ciò che la scena indica come prezzo (un oggetto, un favore, tempo, una persona) |
 | Fallimento pulito | ottieni una conoscenza sull'ostacolo, che la scena indica |
-| Rovescio minore | +1 Traccia, e una complicazione dal repertorio della zona (§21); in uno scontro, la ferita «da esposto» dell'arma |
-| Rovescio | +1 Traccia, e vai alla scena di rovescio indicata; in uno scontro, la ferita «da allo scoperto» dell'arma |
+| Rovescio minore | +1 Traccia, e una complicazione dal repertorio della zona (§21) |
+| Rovescio | +1 Traccia, sale il logorio che tocca l'ambito della capacità, si perde il travestimento, e vai alla scena di rovescio indicata |
 
 Tre conseguenze di questa tabella vanno tenute a mente.
 
@@ -463,8 +465,8 @@ Il **logorio** è ciò che sale da solo: la fatica, la fame, il freddo, i nervi.
 
 | Stadio | Effetto |
 |---|---|
-| **1 — a posto** | nessuno |
-| **2 — provato** | è un'aggravante («sei provato») per gli ambiti che quel logorio tocca |
+| **1 — leggero** | nessuno |
+| **2 — pesante** | è un'aggravante («il logorio ti pesa») per gli ambiti che quel logorio tocca |
 | **3 — allo stremo** | resta un'aggravante, e in più −1 a tutte le prove. Finché non usi il rimedio, a ogni passo fai una prova di resistenza, annunciata, con la probabilità e la via d'uscita scritte accanto |
 
 Il rimedio riporta il logorio al primo stadio, e costa: dormire costa passi, mangiare costa denaro, calmarsi richiede un posto sicuro. Ogni logorio ha un rimedio diverso, e nessun rimedio ne cura due. Un logorio senza rimedio sarebbe una condanna a tempo, e non è ammesso.
@@ -781,6 +783,29 @@ Il programma fa tutti i conti. Deve soddisfare sei requisiti:
 
 I gradi di esposizione si mostrano a parole, non solo con colori o icone.
 
+### 22.4 Il gioco grafico
+
+Il motore non disegna niente. Tiene lo stato della storia, sa quali scelte sono disponibili e con quale ricevuta, e risolve le prove. Il gioco grafico gli chiede queste cose e le mostra a modo suo. Per questo la stessa storia può diventare un librogame e un gioco con immagini, senza cambiare una regola.
+
+| Nel motore | In un gioco grafico |
+|---|---|
+| luogo | un'area della mappa, una stanza, un quartiere |
+| scena | ciò che hai davanti: un'inquadratura, una stanza con le sue persone e i suoi oggetti |
+| via | un oggetto da usare, un punto della stanza, una persona a cui parlare, una battuta di dialogo |
+| scelta chiusa | un oggetto o una battuta visibile ma non utilizzabile, con il requisito scritto accanto |
+| ricevuta | un pannello che compare quando scegli un'azione, prima della conferma |
+| passo e momento | un orologio che avanza quando agisci, non in tempo reale; la luce e le persone cambiano con il momento |
+| Traccia | persone che ti riconoscono, guardie più attente, porte che si chiudono |
+| qualità della storia | ciò che vedi cambiare nel mondo: un personaggio che ti saluta, una nave che non c'è più |
+| confronto | una scena in cui l'avversario si muove dopo ogni tua azione, e la sua copertura si vede |
+
+Per chi costruisce il gioco valgono due regole in più.
+
+- **Esplorare liberamente è gratis, agire costa.** Il giocatore può muoversi in una stanza, guardare, avvicinarsi, senza che il tempo del motore avanzi. Il tempo avanza quando sceglie una via: una prova, uno spostamento fra luoghi, un'attesa.
+- **Nessuna abilità di mani.** Il risultato di un'azione lo decidono la ricevuta e i dadi, mai la mira o i riflessi di chi gioca. Un gioco che chiede di premere un tasto al momento giusto sta usando un altro motore.
+
+Il motore di ESPOSIZIONE Studio (§25) espone esattamente queste informazioni: lo stato, le scelte con le loro ricevute, e il risultato di ogni azione. Un gioco testuale le scrive, un gioco grafico le disegna.
+
 ---
 ---
 
@@ -796,6 +821,8 @@ Il motore presuppone quattro cose:
 4. una differenza che valga la pena fare fra *quanto è probabile riuscire* e *quanto costa provarci*.
 
 Dove una di queste manca, il motore non si adatta: semplicemente non serve. Restano fuori i giochi d'azione in tempo reale, la gestione di risorse senza un protagonista, i giochi tattici a squadre su mappa, gli enigmi a soluzione unica.
+
+La grafica non è un limite. Un gioco con immagini, mappe ed esplorazione libera rientra pienamente, purché le azioni che contano si decidano scegliendo e non con i riflessi (§22.4).
 
 Resta dentro quasi tutta la narrativa interattiva che vale la pena progettare: avventure, indagini, drammi, viaggi, intrighi, in cui un protagonista sceglie e il mondo se ne ricorda.
 
@@ -813,10 +840,12 @@ Per ogni verifica si scrive prima che cosa deve succedere perché la si consider
 
 ## 25. Prossimi passi
 
-1. **Trascrivere l'ambientazione d'esempio come dati** e scrivere il programma dei controlli del §20.
-2. **Scrivere un librogame breve**, da quaranta a sessanta paragrafi, con l'ambientazione del porto, e farlo giocare ad almeno cinque persone, con le due domande del §24.
-3. **Simulare** quella storia con le strategie del §24.
-4. **Adeguare ESPOSIZIONE Studio** a questo documento: capacità al posto degli attributi, le sei caselle, la ricevuta, le qualità della storia.
+Il motore di ESPOSIZIONE Studio è stato riscritto su questo documento, in `strumento/motore/`: formato dei dati, regole, controlli del §20, simulazione e generatore del librogame. L'ambientazione del porto è trascritta come dati, e con lei una storia di prova, *Il registro della Santa Rita*, di cinquantuno scene. Dagli stessi dati escono la partita nel terminale e il librogame da stampare.
+
+1. **Far giocare il librogame** ad almeno cinque persone, e fare loro le due domande del §24. Prima di cominciare si scrive che cosa deve succedere perché la prova sia superata.
+2. **Simulare meglio.** Le strategie di oggi scelgono a caso fra le vie che preferiscono, e dicono se il motore regge, non se la storia è equilibrata. Serve un giocatore automatico che insegua un obiettivo.
+3. **Ricostruire l'editor** di ESPOSIZIONE Studio sopra il motore nuovo: capacità al posto degli attributi, le sei caselle, la ricevuta, le qualità della storia.
+4. **Un'interfaccia grafica di prova**, anche minima, che usi il motore così com'è, per verificare il §22.4.
 5. **Provare il tavolo** con una sessione e un narratore.
 6. Correggere questo documento con ciò che le prove insegnano, dichiarando ogni cambiamento.
 
@@ -840,7 +869,7 @@ Per ogni verifica si scrive prima che cosa deve succedere perché la si consider
 | Esperto | 1,1 | 1,4 | 2,4 | 6 |
 | Maestro | 1,0 | 1,2 | 1,7 | 3,6 |
 
-**La ricevuta in cinque passi**
+**La ricevuta, punto per punto**
 
 1. Scrivi la partenza della capacità.
 2. Aggiungi il valore del luogo e quello del momento per l'ambito della capacità.
@@ -893,6 +922,7 @@ Una città di porto in un Seicento senza nome. Il protagonista cerca il fratello
 | L'archivio della capitaneria | +1 | +1 | −1 | 0 | chi legge è a posto; chi tocca le carte o gira dove non deve no |
 | I magazzini | −1 | 0 | +1 | 0 | i corridoi bui nascondono; chi guarda in giro è sospetto |
 | La chiesa dei marinai | 0 | +1 | −1 | −1 | si sussurra e si prega; le mani sulle offerte si vedono |
+| La Santa Rita | −1 | 0 | +1 | +1 | sottocoperta il buio copre il corpo; uno sconosciuto che si guarda intorno e ogni voce danno nell'occhio |
 
 **6. I momenti.** Quattro passi ciascuno.
 
@@ -908,7 +938,7 @@ Una città di porto in un Seicento senza nome. Il protagonista cerca il fratello
 | Aggravante | Quando vale |
 |---|---|
 | Qui ti hanno già visto | Traccia della zona a 2 o più |
-| Sei provato | un logorio al secondo stadio o oltre, per gli ambiti che tocca |
+| La stanchezza o i nervi ti pesano | un logorio al secondo stadio o oltre, per gli ambiti che tocca |
 | Sono in tanti a guardare | più di un avversario, o una guardia presente |
 | Porti addosso qualcosa che non dovresti | un oggetto compromettente in vista |
 
@@ -936,8 +966,8 @@ Una città di porto in un Seicento senza nome. Il protagonista cerca il fratello
 
 | Logorio | Stadi | Sale | Ambiti | Rimedio |
 |---|---|---|---|---|
-| Fatica | in forze · provato · allo stremo | ogni 8 passi senza dormire, e a ogni rovescio fisico | corpo, mano | dormire al sicuro: 4 passi |
-| Nervi | saldi · scossi · a pezzi | a ogni ferita, e ogni volta che vedi la violenza da vicino | mente, voce | una notte in un posto sicuro, con una persona fidata |
+| Fatica | leggera · pesante · allo stremo | ogni 8 passi senza dormire, e a ogni rovescio fisico | corpo, mano | dormire al sicuro: 4 passi |
+| Nervi | saldi · tesi · a pezzi | a ogni ferita, e quando vedi la violenza da vicino | mente, voce | fermarsi in un posto sicuro finché le mani non smettono di tremare |
 
 **12. Ferite e armi.** Come nel §14 e nel §16. Le cure si trovano dal medico degli annegati, vicino alla chiesa; una ferita grave curata da lui diventa lieve in un giorno.
 
@@ -947,9 +977,9 @@ Una città di porto in un Seicento senza nome. Il protagonista cerca il fratello
 
 *L'archivista Bressan.* Natura: chi si chiude. Copertura: al coperto. Punti deboli: una data del registro che non torna (*Osservare*, 1); la paura di perdere il posto (*Persuadere*, 1); il debito del figlio con l'usuraio, se lo sai (*Minacciare*, 2). Pericolo: chiama la guardia. Movente: tenersi il posto; smette se gli garantisci che non verrà coinvolto; mantiene la parola.
 
-*Teodoro detto il Pesce.* Natura: chi avanza. Copertura: al coperto, a tre scambi di distanza. Punti deboli: una rete da carico tirata addosso (*Muoversi*, 1); il nome del suo capitano, che non vuole guai (*Sapere*, 2). Pericolo: coltello (grave da esposto, mortale da allo scoperto); difendersi da lui è Impegnativo. Movente: la taglia che qualcuno ha messo su di te; smette se gli offri di più o se il rumore attira la guardia; non mantiene la parola.
+*Teodoro detto il Pesce.* Natura: chi avanza. Copertura: al coperto, ma gli basta uno scambio per esserti addosso. Punti deboli: quello che gli rovesci addosso (*Muoversi*, 1); il nome del suo capitano, che non vuole morti a bordo (*Sapere*, 2); colpirlo per primo (*Battersi*, 1). Pericolo: coltello (grave da esposto, mortale da allo scoperto); difendersi da lui è Impegnativo. Movente: la taglia che qualcuno ha messo su di te; smette se gli offri di più o se il rumore attira la guardia; non mantiene la parola.
 
-**15. Le protezioni.** Una giacca imbottita, che declassa una ferita da taglio o da botta. Un amico alla capitaneria, che trasforma un arresto in una multa, una volta sola.
+**15. Le protezioni.** Una giacca imbottita, che declassa una ferita da taglio o da botta.
 
 **16. Il repertorio** (estratto, la banchina).
 

@@ -13,7 +13,7 @@
 
 ESPOSIZIONE serve a scrivere e giocare storie lunghe e ramificate, in cui un protagonista esplora, indaga, tratta e sceglie. I dadi decidono se un'azione riesce; il costo di quell'azione dipende da dove, quando e come la fai, e il gioco te lo mostra prima che tu tiri. La storia ricorda ogni cosa attraverso le qualità, che aprono e chiudono le scene. La violenza è realistica: un colpo può uccidere, e per questo è l'ultima risorsa.
 
-Lo stesso motore funziona in tre formati, con gli stessi numeri: **librogame** in solitaria, **gioco da tavolo** con un narratore, **gioco digitale**.
+Lo stesso motore funziona in tre formati, con gli stessi numeri: **librogame** in solitaria, **gioco da tavolo** con un narratore, **gioco digitale**. Il digitale non vuol dire solo testo: il motore decide che cosa succede, e un gioco grafico, dall'avventura illustrata al gioco di ruolo con una mappa da esplorare, lo può mostrare con le immagini.
 
 ## Da dove cominciare
 
@@ -25,14 +25,17 @@ Tutto sta in un documento: [`ESPOSIZIONE-DESIGN.md`](ESPOSIZIONE-DESIGN.md), imp
 | sapere come si gioca | le Parti III e IV |
 | scrivere una storia | la Parte VI e l'appendice B, un'ambientazione compilata per intero |
 | sapere che cosa è provato | «Come leggere questo documento» e la Parte VII |
+| giocare subito | il librogame di prova [`pdf/SANTA-RITA-librogame.pdf`](pdf/SANTA-RITA-librogame.pdf), oppure `node src/cli.ts gioca` in `strumento/motore/` |
 
 ## Che cosa c'è
 
 ```
 ESPOSIZIONE-DESIGN.md   il documento di design 2.0: regole, scrittura, formati, esempio completo
-pdf/                    il documento impaginato
-typst/                  la catena che produce il PDF, font compresi
-strumento/              ESPOSIZIONE Studio: formato dati, motore, validatore, CLI ed editor
+pdf/                    il documento e il librogame di prova, impaginati
+typst/                  la catena che produce i PDF, font compresi
+strumento/motore/       ESPOSIZIONE Studio 2.0: il motore, i dati del porto, la storia di prova,
+                        controlli, simulazione e generatore del librogame
+strumento/              il resto dello strumento, ancora di InteractiveWriter: editor da ricostruire
 archivio/               la specifica 1.3 e tutto il lavoro che l'ha preceduta
 ```
 
@@ -40,11 +43,13 @@ archivio/               la specifica 1.3 e tutto il lavoro che l'ha preceduta
 
 **Documento di design 2.0, settembre 2026.** Riscrive da capo la specifica 1.3, che sta in `archivio/`, tenendone le idee migliori. L'appendice D del documento dice che cosa è rimasto e che cosa è cambiato.
 
-**Che cosa è provato e che cosa no.** Nessuna persona ha ancora giocato una partita con queste regole. I conti del documento si verificano a mano. **ESPOSIZIONE Studio** gira ancora con il sistema di prove di InteractiveWriter, il progetto da cui nasce, e va adeguato. I prossimi passi (un librogame breve da far giocare a persone vere, le simulazioni, l'adeguamento dello strumento) sono al §25 del documento.
+**Che cosa è provato e che cosa no.** Nessuna persona ha ancora giocato una partita con queste regole. Il motore 2.0 esiste e ha i suoi test, che controllano anche che i numeri del documento siano quelli che il motore produce. Il librogame di prova, *Il registro della Santa Rita*, esce dagli stessi dati della partita digitale. Mille partite simulate per ciascuna strategia automatica finiscono tutte, senza blocchi né errori, e raggiungono tutte le scene. Manca la cosa più importante: far giocare il librogame a persone vere. I prossimi passi sono al §25 del documento.
 
 Il repository contiene un'ambientazione soltanto, il porto dell'appendice B, e serve da esempio. Le ambientazioni dei progetti veri vivono nei loro repository.
 
-## Rigenerare il PDF
+## Rigenerare i PDF
+
+Il librogame si rigenera prima dai dati, dalla cartella `strumento/motore/`, con `node src/cli.ts libro`. Poi si impagina insieme al documento.
 
 Servono [Typst](https://typst.app) 0.14 o successivo e Python 3. I font stanno in `typst/fonts/` e non vanno installati: la catena li passa a Typst con `--font-path`, così il PDF è identico su qualunque macchina. Dalla cartella `typst/`:
 
