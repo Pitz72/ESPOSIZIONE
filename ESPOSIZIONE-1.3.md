@@ -11,6 +11,18 @@
 
 ---
 
+## Che cosa è stato corretto il 23 settembre 2026
+
+**Tre correzioni, e nessuna regola del nucleo cambiata.** Vengono dai rilievi gravissimi di `ANALISI-CRITICITA-1.3.md` e sono state fatte prima della Fase 4, per un'eccezione dichiarata nella `ROADMAP.md`. Gli altri rilievi restano a verbale.
+
+> **La ricevuta d'esempio segnava inerte la voce sbagliata** (§12.3). Con la formula del §10 la somma è 1 + 1 + 1 − 1 = 2. Togliendo la seconda aggravante scende a 1, quindi quella voce muove il totale. Togliendo la perlustrazione sale a 3 e il tetto la riporta a 2, quindi è la perlustrazione a non muoverlo. L'esempio nascondeva proprio ciò che N9.c esiste per mostrare, il pedaggio. Corretto l'esempio, e aggiunta **la definizione di voce inerte**, che mancava (D31).
+
+> **L'esempio delle inversioni non usciva dalle tabelle** (§32). *Insinuare* ha Fondo *Esposto* e non poteva risultare *Coperto*; le due situazioni confrontate davano la stessa somma; i valori di *Mano* e *Voce* nei momenti dicevano il contrario della prosa. Corrette due righe della tabella dei momenti (il ricevimento con *Voce* +1, l'alba con *Mano* +1 e *Voce* −1) e il commento, che ora fa i conti per esteso.
+
+> **Lo stato delle prove si dichiara in apertura.** Nessuna persona ha ancora giocato una partita con queste regole (§30.3), e il debito del §30.4 è aperto. Il concept e il README adesso lo dicono nelle prime pagine.
+
+---
+
 ## Che cosa è cambiato dalla 1.2
 
 **La 1.3 non aggiunge nessuna meccanica.** Chiude buchi, definisce parole che reggevano più peso di quanto dichiarassero, e rende verificabili promesse che la 1.2 faceva senza controllarle. Il nucleo resta di dodici regole e i moduli di nove: **chi ha implementato la 1.2 non deve riscrivere niente, deve dichiarare di più.**
@@ -361,16 +373,24 @@ La misura resta accanto, come conferma su un caso. **Si trasporta l'ordine, non 
 > **N9.c — Una voce della ricevuta che non muove il totale si mostra, e si dichiara inerte.**
 > È la regola che risolve il pedaggio, ed è la sola delle tre che tocca il difetto vero.
 
+**Quando una voce è inerte** *(definizione aggiunta il 23 settembre 2026, D31)*:
+
+> **Una voce è inerte se, togliendo soltanto lei, l'Esposizione non cambia.** Quando più voci dello stesso segno sono inerti una per una ma non tutte insieme, si dichiarano inerti le ultime nell'ordine della ricevuta, tante quante sono le unità oltre il limite: `grezza − 2` al tetto, `Fondo − grezza` al Fondo. Così togliere insieme tutte le voci dichiarate inerti non cambia mai l'Esposizione.
+>
+> Un'attenuante inerte al tetto è il pedaggio, e la ricevuta lo dice col suo conto: quante attenuanti in più servirebbero per scendere di un livello. Se il Fondo del verbo è *Allo scoperto*, lo dice invece il Fondo.
+
 ```
 ALLO SCOPERTO
    Esposto      (base: forzare, di giorno, in uno spazio aperto)
    +1           sei ridotto male
-   +1           questo posto ti conosce      — non conta, sei già allo scoperto
-   −1           hai perlustrato prima
+   +1           questo posto ti conosce
+   −1           hai perlustrato prima        — non basta: ne servirebbe un'altra
    Fondo: Esposto
 ```
 
-Costa una riga d'interfaccia, **insegna il tetto invece di nasconderlo**, e riporta la ricevuta a dire la verità intera.
+La somma fa 2. Senza una delle due aggravanti scenderebbe a 1, cioè *Esposto*: tutte e due contano. Senza la perlustrazione salirebbe a 3, e il tetto la riporterebbe a 2: è la perlustrazione a non muovere il totale, e una seconda la porterebbe a 1. *(Fino al 23 settembre 2026 l'esempio dichiarava inerte la seconda aggravante, ed era sbagliato: vedi in testa al documento.)*
+
+Costa una riga d'interfaccia, **insegna il tetto invece di nasconderlo**, dice al giocatore quando la sua preparazione non basta, e riporta la ricevuta a dire la verità intera.
 
 ## 13. N10 — I quattro assi della conseguenza, e la divergenza
 
@@ -1237,12 +1257,19 @@ Un favore chiesto richiede che qualcuno sappia di averlo concesso. Un'accusa non
 
 | | CORPO | MANO | MENTE | VOCE |
 |---|---|---|---|---|
-| Ricevimento affollato | +1 | −1 | 0 | −1 |
+| Ricevimento affollato | +1 | −1 | 0 | +1 |
 | Il giorno dopo un lutto | 0 | 0 | −1 | +1 |
 | Mentre il sovrano è assente | −1 | −1 | 0 | +1 |
-| All'alba, prima che si alzino | −1 | −1 | +1 | +1 |
+| All'alba, prima che si alzino | −1 | +1 | +1 | −1 |
 
-**Le inversioni che ne escono, e nessuno le ha scritte a mano:** insinuare in cappella all'alba è **Coperto**; la stessa insinuazione in sala udienze durante un ricevimento è **Esposto**. Ma **sottrarre** una lettera è più facile durante il ricevimento che all'alba, perché la folla copre le mani e il silenzio le scopre. È *la pioggia copre il ladro e scopre il camminatore*, in un mondo senza pioggia e senza ladri.
+**Le inversioni che ne escono, e nessuno le ha scritte a mano.** Si confrontano due situazioni: la sala delle udienze durante un ricevimento, e la cappella all'alba.
+
+| Verbo | Sala delle udienze, ricevimento | Cappella, alba |
+|---|---|---|
+| **Insinuare** (VOCE, base *Coperto*, Fondo *Esposto*) | 0 + 1 + 1 = 2 → **Allo scoperto** | 0 − 1 − 1 = −2 → il Fondo la ferma a **Esposto** |
+| **Sottrarre** (MANO, base *Coperto*, Fondo *Coperto*) | 0 + 1 − 1 = 0 → **Coperto** | 0 + 0 + 1 = 1 → **Esposto** |
+
+Insinuare conviene in cappella all'alba, dove nessuno ascolta; **sottrarre** una lettera conviene durante il ricevimento, perché la folla copre le mani e il silenzio le scopre. È *la pioggia copre il ladro e scopre il camminatore*, in un mondo senza pioggia e senza ladri. *(Fino al 23 settembre 2026 le righe del ricevimento e dell'alba avevano valori che contraddicevano questo commento: vedi in testa al documento.)*
 
 **Il contenitore (C2).** Il passo è **l'occasione**: un'udienza, una cena, una caccia, una veglia. Il calendario dichiarato in anticipo è il profilo; le tre risoluzioni sono *si sa che ci sarà* / *si sa chi ci sarà* / *si sa cosa vi si deciderà*. Il passo ha **tre frazioni**: la conversazione, l'assenza, l'attesa in anticamera.
 
@@ -1423,6 +1450,14 @@ Per chi tiene un progetto avviato su una versione precedente.
 | **D28** | La pressione che rompe lo stallo da Coperto si **valida**, e ha un numero nella firma. Da cui V15 | §23.5, §26.2 |
 | **D29** | Le politiche in concorrenza si misurano sulla **dominanza** (I10); il banco umano e le sue due domande; il debito aperto della specifica dichiarato | §30 |
 | **D30** | Il modello da cui si ricava la disuguaglianza del freno è pubblicato, e **I6 diventa verificabile** da chi non l'ha scritta | Appendice A |
+
+**Correzione del 23 settembre 2026.**
+
+| # | Deviazione | Dove |
+|---|---|---|
+| **D31** | **La voce inerte è definita:** è inerte la voce che, tolta da sola, non cambia l'Esposizione; fra più voci dello stesso segno si dichiarano le ultime, tante quante le unità oltre il limite. L'attenuante inerte al tetto mostra quante ne servirebbero ancora | §12.3 |
+
+*Non numerate, perché correggono esempi e non regole: la ricevuta d'esempio del §12.3, e le due righe della tabella dei momenti del §32 con il commento che le legge.*
 
 *Non sono numerate le correzioni di dizione e di conteggio: il nucleo è di dodici regole e non di undici, i moduli sono nove e otto sono le scelte di profilo, il §16 rimanda alla mitigazione al §25, il costo di scrittura nullo è **per nodo**, la §2.1 non promette più una divergenza che il §13 nega, e l'adattamento non si fa in mezza giornata.*
 

@@ -16,6 +16,8 @@ These pages are not that specification. The specification exists, it is called 1
 
 One note on the name, because it produces the most common misunderstanding. *Exposure* here has nothing to do with hiding. The word was chosen because it is already abstract in ordinary use: debt exposure, exposing yourself by taking a position, selling short. The engine defines it as *how much the situation can make you pay*, and leaves each setting to declare its own reading.
 
+One thing is worth knowing before you start. As of 23 September 2026, no person has yet played a game under these rules. The measurements quoted in section 10 come from a single application of the engine, played by automated players. The three fictions in section 9 were compiled on paper, not played, and the software in the repository still runs the earlier check system. The promises that matter most, that the six cells feel different and that the receipt teaches the system while you use it, are still waiting for a test with real players.
+
 ## 2. The problem, and the three usual ways of getting it wrong
 
 A narrative role-playing game has to achieve something that sounds easy: make sure that succeeding and failing are not the only two things that can happen. Put that way, it sounds like a writing problem. It is an architecture problem, and the three customary solutions all give way, each in its own fashion.
@@ -69,7 +71,7 @@ The **verb** is the unit of competence, and it declares how much it exposes on i
 
 The per-stem signature is where this engine parts company with the others, and it is easier to show than to argue. A crowd hides the hands and exposes the voice. A ruin exposes the body that makes noise and shelters the hands that work. Rain covers the thief and uncovers the walker. With a single value per factor, rain would simply be *worse*, and the choice of when to move would lose its content; and any rule containing two opposite signs at the same moment would become inexpressible. Those are the rules a good setting is made of.
 
-A worked example, from a fiction of court intrigue. To insinuate, in the chapel, at dawn, comes out *Covered*. The same insinuation in the audience hall during a crowded reception comes out *Exposed*. But **stealing** a letter is easier during the reception than at dawn, because the crowd covers the hands and the silence uncovers them. It is rain covering the thief, in a world with no rain and no thieves. And nobody wrote it: it fell out of the intersection of two tables.
+A worked example, from a fiction of court intrigue. To insinuate in the audience hall during a crowded reception comes out *In the Open*. The same insinuation in the chapel at dawn comes down to *Exposed*, and no further, because that is the verb's Floor. **Stealing** a letter goes the other way: in the hall during the reception it comes out *Covered*, in the chapel at dawn *Exposed*, because the crowd covers the hands and the silence uncovers them. It is rain covering the thief, in a world with no rain and no thieves. And nobody wrote it: it fell out of the intersection of two tables.
 
 The **Floor** is the second half of the idea: the level below which no amount of preparation can bring an action. It is a property of the verb, not of the scene. Its job is to turn a design principle into arithmetic. If a fiction holds that a certain act is always the most expensive one available, you don't put that in the style guide, where it will be ignored through simple inattention — you give the verb a Floor of *In the Open*, and after that nobody can do otherwise. Reading *Floor: In the Open* next to a verb means knowing in advance that no preparation will save you.
 
@@ -83,12 +85,12 @@ The axis the player governs is shown before acting, with its causes, line by lin
 IN THE OPEN
    Exposed      (base: force, by day, in open ground)
    +1           you are badly worn
-   +1           this place knows you       — no effect, you are already in the open
-   −1           you scouted first
+   +1           this place knows you
+   −1           you scouted first          — not enough: you would need one more
    Floor: Exposed
 ```
 
-More follows from a surface like that than it first appears. The player never has to guess the mental model of whoever designed the game: they read it, and learn the system by using it. The third line shows an item that does not move the total and says so, because a receipt that hides the ceiling teaches a false rule. And above all the player can see where the lever is: they are not playing against the die, which cannot be governed, they are playing against Exposure, which can be brought down by paying time and preparation.
+More follows from a surface like that than it first appears. The player never has to guess the mental model of whoever designed the game: they read it, and learn the system by using it. The fourth line shows a preparation that does not move the total and says so. Without the scouting the sum would rise to 3, and the ceiling would bring it back to *In the Open* anyway; a second round of scouting would bring it down to *Exposed*. A receipt that kept quiet about this would let the player believe they had bought something they had not. And above all the player can see where the lever is: they are not playing against the die, which cannot be governed, they are playing against Exposure, which can be brought down by paying time and preparation.
 
 One constraint follows, and it cuts away half the modifiers anyone would think of: **every item must be sayable in one short sentence, with no abbreviations and no icons.** If it can't be said in words, that modifier must not exist. It is an uncomfortable rule, and it is the reason the aggravators number three to five families rather than a catalogue.
 

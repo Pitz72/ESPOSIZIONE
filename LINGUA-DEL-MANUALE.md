@@ -165,7 +165,7 @@ Sei passi presi dai testi attuali, riscritti con le regole della sezione 3. I te
 
 > *Dopo.* Ogni verbo ha un Fondo: il grado più basso che quell'azione può avere, anche con la migliore preparazione. Con il Fondo al coperto, se ti prepari bene puoi agire senza lasciare segni. Con il Fondo esposto qualcosa resta sempre: puoi ridurre il rischio, non annullarlo. Con il Fondo allo scoperto la preparazione non serve, e quell'azione costa sempre il massimo.
 
-**Le inversioni** (specifica, §10.2). I valori del *dopo* sono quelli proposti nell'analisi, rilievo 2.
+**Le inversioni** (specifica, §10.2). I valori del *dopo* sono quelli della tabella corretta il 23 settembre (analisi, rilievo 2).
 
 > *Prima.* Le inversioni sono la parte interessante di tutte e tre le tabelle. Una folla nasconde le mani e scopre la voce. […] E soprattutto diventerebbe inesprimibile qualunque regola che contenga due segni opposti nello stesso momento — che sono le regole migliori che un'ambientazione possiede.
 

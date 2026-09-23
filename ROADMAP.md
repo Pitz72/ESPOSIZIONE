@@ -109,3 +109,21 @@ FAVELLA 1 — motore per narrativa interattiva della stessa mano, arrivato alla 
 3. **Le Fasi 1, 2, 4 e 6 non cambiano.** Le proposte che le riguardano sono tutte interne all'esecuzione, e stanno in `ROADMAP-STRUMENTO.md` dove il lavoro si fa: lo schema che dichiara la propria versione della specifica, il manifesto di copertura delle istanze, la provenienza obbligatoria di ogni misura che esce dal banco, la distinzione fra ciò che il banco ha osservato e ciò che non ha osservato.
 
 Una sola avvertenza, e chiude l'addendum. **Nessuna di quelle diciannove righe ha validato niente.** Sono ipotesi di lavoro venute dal guardare un progetto vicino che ha percorso più strada, e ciascuna diventa un fatto solo quando qualcuno ne dichiara il criterio prima di eseguirla — che è la sola regola che questa roadmap ha, e vale anche contro sé stessa.
+
+---
+
+## Addendum del 23 settembre 2026 — il ritardo, e un'eccezione alla regola 4
+
+**Il ritardo.** Le Fasi 1–4 avevano come andatura il periodo dal 19 agosto al 22 settembre. Nessuna è cominciata: prima di oggi, l'ultimo lavoro sul repository risale al 19 agosto. Questa roadmap chiede che una fase in ritardo sfori dichiarandolo, e il ritardo si dichiara qui, cinque settimane dopo. Le andature si spostano in blocco, senza comprimere nessuna fase. I criteri di uscita restano invariati alla lettera.
+
+| Fase | Andatura del 19 agosto | Nuova andatura |
+|---|---|---|
+| 1 — La firma diventa dati | 19–25 agosto | 23–29 settembre |
+| 2 — Il banco di prova | 26 agosto – 1 settembre | 30 settembre – 6 ottobre |
+| 3 — La seconda finzione | 2–15 settembre | 7–20 ottobre |
+| 4 e 5 — Il testo si aggiorna, la porta per gli altri | 16–22 settembre | 21–27 ottobre |
+| 6 — La prima ambientazione vera | dal 23 settembre | dal 28 ottobre |
+
+**L'eccezione alla regola 4.** La regola 4 dice che la specifica non si tocca prima della Fase 4. Il 23 settembre Simone ha deciso un'eccezione, limitata ai tre rilievi gravissimi di `ANALISI-CRITICITA-1.3.md`. Due erano esempi della specifica che contraddicevano le sue stesse formule e tabelle: la ricevuta del §12.3 e le inversioni del §32. Il terzo era lo stato delle prove, che adesso il README e i due concept dichiarano in apertura. Nessuna regola del nucleo è cambiata. È stata aggiunta una definizione, la voce inerte (D31), perché senza di essa l'esempio corretto non si poteva scrivere. Le correzioni sono elencate in testa alla specifica. I rilievi gravi, medi e lievi restano a verbale e aspettano la Fase 4.
+
+**Per la Fase 1.** Sei rilievi di `ANALISI-CRITICITA-1.3.md` (4, 5, 6, 8, 11 e 16) emergono trascrivendo la firma come dati. Sono il primo materiale di `VERBALE-fase1.md`.

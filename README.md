@@ -92,7 +92,9 @@ I font usati sono TeX Gyre Pagella, TeX Gyre Heros e DejaVu Sans Mono, tutti lib
 
 ## Stato
 
-Specifica **1.3**, agosto 2026. Le Parti I–VII sono chiuse, e l'Appendice A pubblica il modello del freno. La Parte VI contiene tre istanziazioni compilate su generi lontani — intrigo di corte, fantasy con una disciplina, indagine contemporanea — che servono da prova dell'agnosticismo e non sono giochi.
+Specifica **1.3**, agosto 2026, con tre correzioni del 23 settembre elencate in testa al documento. Le Parti I–VII sono chiuse, e l'Appendice A pubblica il modello del freno. La Parte VI contiene tre istanziazioni compilate su generi lontani — intrigo di corte, fantasy con una disciplina, indagine contemporanea — che servono da prova dell'agnosticismo e non sono giochi.
+
+**Che cosa è provato e che cosa no.** Nessuna persona ha ancora giocato una partita con queste regole. Le misure della specifica vengono da una sola applicazione del motore, giocata da giocatori automatici; le tre istanziazioni sono state compilate sulla carta, e solo in parte; ESPOSIZIONE Studio gira ancora con il sistema di prove precedente. Le fasi che devono produrre le prove mancanti sono in `ROADMAP.md`, con il ritardo dichiarato nell'addendum del 23 settembre 2026. I rilievi ancora aperti sulla specifica stanno in `ANALISI-CRITICITA-1.3.md`.
 
 ## Diritti
 

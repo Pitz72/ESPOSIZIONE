@@ -17,9 +17,9 @@ Il documento gemello, `LINGUA-DEL-MANUALE.md`, riguarda il modo di scrivere il m
 
 | # | Grado | Rilievo | Dove |
 |---|---|---|---|
-| 1 | gravissima | La ricevuta d'esempio segna come inerte la riga sbagliata | §12.3, concept §5 |
-| 2 | gravissima | L'esempio delle inversioni non esce dalle tabelle pubblicate accanto | §32, concept §4 |
-| 3 | gravissima | Nessuno ha giocato il motore, e la roadmap che doveva provarlo è scaduta senza dichiararlo | §30.3, §30.4, `ROADMAP.md` |
+| 1 | gravissima | La ricevuta d'esempio segna come inerte la riga sbagliata *(corretto il 23/9)* | §12.3, concept §5 |
+| 2 | gravissima | L'esempio delle inversioni non esce dalle tabelle pubblicate accanto *(corretto il 23/9)* | §32, concept §4 |
+| 3 | gravissima | Nessuno ha giocato il motore, e la roadmap che doveva provarlo è scaduta senza dichiararlo *(dichiarato il 23/9; le prove restano da fare)* | §30.3, §30.4, `ROADMAP.md` |
 | 4 | grave | Le sedici voci non bastano a far girare il motore | §26.2 |
 | 5 | grave | La difficoltà resta scritta a mano, via per via | §7, §14, §2.5 |
 | 6 | grave | La definizione di «cambiato» poggia su un rimando sbagliato | §14, §19.3 |
@@ -83,6 +83,8 @@ ALLO SCOPERTO
    Fondo: Esposto
 ```
 
+**Esito, 23 settembre 2026.** Corretto per eccezione alla regola 4 della roadmap, decisa da Simone. La specifica ha la definizione di voce inerte (§12.3, D31): è inerte la voce che, tolta da sola, non cambia l'Esposizione; fra più voci dello stesso segno si dichiarano le ultime, tante quante le unità oltre il limite. L'esempio è corretto nella specifica e nei due concept. Resta da correggere la bozza non versionata `Esposizione_traduzione.md`.
+
 ### 2. L'esempio delle inversioni non esce dalle tabelle
 
 **Dove.** §32, righe 1228–1245 (tabelle dei luoghi e dei momenti, e commento). Lo stesso esempio compare al §10.2 in forma generica e nel concept (§4), che lo presenta come «un esempio compilato». Poi nel concept inglese e nella bozza.
@@ -109,6 +111,8 @@ ALLO SCOPERTO
 
 Il testo dell'esempio va corretto di conseguenza: in cappella all'alba Insinuare risulta Esposto, non Coperto.
 
+**Esito, 23 settembre 2026.** Scelta la versione della prosa. Nella tabella dei momenti del §32 cambiano due righe (ricevimento: Voce +1; alba: Mano +1, Voce −1), e il commento ora mostra i conti delle due situazioni per i due verbi. Corretti anche i due concept. Resta da correggere la bozza non versionata.
+
 ### 3. Nessuno ha giocato il motore, e la roadmap è scaduta in silenzio
 
 **Dove.** §30.3 («le tre istanziazioni della Parte VI sono state riempite e non giocate»), §30.4 (il debito aperto), `ROADMAP.md`, la storia del repository.
@@ -126,6 +130,8 @@ Il testo dell'esempio va corretto di conseguenza: in cappella all'alba Insinuare
 1. Aggiungere alla `ROADMAP.md` un addendum datato che dichiari il ritardo e fissi le nuove date.
 2. Aprire il manuale con un riquadro «Che cosa è provato e che cosa no».
 3. Tenere fuori dal manuale le schermate dell'editor finché non esegue la griglia a sei caselle.
+
+**Esito, 23 settembre 2026.** Dichiarato, non risolto. La `ROADMAP.md` ha un addendum che dichiara il ritardo e sposta le andature di cinque settimane, con i criteri di uscita invariati. Il README e i due concept dicono in apertura che cosa è provato e che cosa no. Il rilievo si chiude soltanto quando il motore sarà stato giocato da persone e la Fase 3 avrà prodotto il suo verbale.
 
 ---
 

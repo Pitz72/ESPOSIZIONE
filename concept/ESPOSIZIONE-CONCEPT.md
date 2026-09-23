@@ -16,6 +16,8 @@ Queste pagine non sono quella specifica. La specifica esiste, si chiama 1.3, occ
 
 Una precisazione sulla parola, perché genera l’equivoco più comune. *Esposizione* qui non ha niente a che vedere con il nascondersi. È tenuta perché in italiano è già astratta: si parla di esposizione debitoria, ci si espone prendendo posizione, si vende allo scoperto. Il motore la definisce come *quanto la situazione ti può far pagare*, e lascia a ogni ambientazione il compito di dichiarare la propria lettura.
 
+Una cosa conviene saperla prima di cominciare. Al 23 settembre 2026 nessuna persona ha ancora giocato una partita con queste regole. Le misure citate al §10 vengono da una sola applicazione del motore, giocata da giocatori automatici. Le tre finzioni del §9 sono state compilate sulla carta, non giocate, e il software del repository gira ancora con il sistema di prove precedente. Le promesse che contano di più, cioè che le sei caselle si sentano diverse e che la ricevuta insegni il sistema mentre lo si usa, aspettano ancora la prova con giocatori veri.
+
 ## 2. Il problema, e i tre modi in cui di solito lo si sbaglia
 
 Un gioco di ruolo narrativo deve ottenere una cosa che sembra facile: fare in modo che riuscire e fallire non siano le uniche due cose che possono accadere. Detto così suona come un problema di scrittura. È un problema di architettura, e le tre soluzioni consuete cedono tutte, ciascuna a modo suo.
@@ -69,7 +71,7 @@ Il **verbo** è l’unità di competenza, e dichiara quanto espone di suo. La sc
 
 È il valore per ceppo il punto in cui questo motore si stacca dagli altri, ed è più facile mostrarlo che spiegarlo. Una folla nasconde le mani e scopre la voce. Una rovina espone il corpo che fa rumore e ripara le mani che lavorano. La pioggia copre il ladro e scopre il camminatore. Con un valore unico per fattore, la pioggia sarebbe genericamente *peggio*, e la scelta di quando muoversi perderebbe il suo contenuto; diventerebbe inesprimibile qualunque regola che contenga due segni opposti nello stesso momento, e sono quelle le regole migliori che un’ambientazione possiede.
 
-Un esempio compilato, da una finzione di corte. Insinuare in cappella all’alba risulta *Coperto*. La stessa insinuazione in sala delle udienze, durante un ricevimento affollato, risulta *Esposto*. Ma **sottrarre** una lettera è più facile durante il ricevimento che all’alba, perché la folla copre le mani e il silenzio le scopre. È la pioggia che copre il ladro, in un mondo senza pioggia e senza ladri. E nessuno l’ha scritta: è uscita da sola dall’incrocio di due tabelle.
+Un esempio compilato, da una finzione di corte. Insinuare in sala delle udienze, durante un ricevimento affollato, risulta *Allo scoperto*. La stessa insinuazione in cappella all’alba scende a *Esposto*, e più giù non va, perché quello è il Fondo del verbo. Con **sottrarre** una lettera succede il contrario: in sala durante il ricevimento risulta *Coperto*, in cappella all’alba *Esposto*, perché la folla copre le mani e il silenzio le scopre. È la pioggia che copre il ladro, in un mondo senza pioggia e senza ladri. E nessuno l’ha scritta: è uscita da sola dall’incrocio di due tabelle.
 
 Il **Fondo** è la seconda metà dell’idea: il livello sotto il quale nessuna preparazione può far scendere un’azione. È una proprietà del verbo, non della scena. Serve a trasformare un principio di design in aritmetica: se una finzione stabilisce che un certo gesto è sempre il più caro, non lo si scrive nelle linee guida (dove verrà disatteso per distrazione): gli si dà Fondo *Allo scoperto*, e nessuno potrà più fare altrimenti. Leggere *Fondo: Allo scoperto* accanto a un verbo significa sapere in anticipo che nessuna preparazione salverà.
 
@@ -83,12 +85,12 @@ L’asse che il giocatore governa gli viene mostrato prima di agire, con le sue 
 ALLO SCOPERTO
    Esposto      (base: forzare, di giorno, in uno spazio aperto)
    +1           sei ridotto male
-   +1           questo posto ti conosce      — non conta, sei già allo scoperto
-   −1           hai perlustrato prima
+   +1           questo posto ti conosce
+   −1           hai perlustrato prima        — non basta: ne servirebbe un'altra
    Fondo: Esposto
 ```
 
-Da una superficie del genere discendono più cose di quante sembri. Il giocatore non deve indovinare il modello mentale di chi ha progettato il gioco: lo legge, e impara il sistema usandolo. La terza riga mostra una voce che non muove il totale e lo dichiara, perché una ricevuta che nasconde il tetto insegna una regola falsa. E soprattutto il giocatore capisce dove sta la sua leva: non gioca contro il dado, che non si può governare, gioca contro l’Esposizione, che si può abbassare pagando tempo e preparazione.
+Da una superficie del genere discendono più cose di quante sembri. Il giocatore non deve indovinare il modello mentale di chi ha progettato il gioco: lo legge, e impara il sistema usandolo. La quarta riga mostra una preparazione che non muove il totale e lo dichiara. Senza la perlustrazione la somma salirebbe a 3, e il tetto la riporterebbe comunque ad *Allo scoperto*; con una seconda perlustrazione scenderebbe a *Esposto*. Una ricevuta che tacesse questo farebbe credere al giocatore di aver comprato qualcosa che non ha comprato. E soprattutto il giocatore capisce dove sta la sua leva: non gioca contro il dado, che non si può governare, gioca contro l’Esposizione, che si può abbassare pagando tempo e preparazione.
 
 C’è un vincolo che nasce da qui e che taglia via metà dei modificatori che verrebbero in mente: **ogni voce deve poter essere detta in una frase breve, senza abbreviazioni e senza icone.** Se non si riesce a dirla a parole, quel modificatore non deve esistere. È una regola scomoda, ed è il motivo per cui le aggravanti sono da tre a cinque famiglie e non un catalogo.
 
