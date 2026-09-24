@@ -24,13 +24,15 @@ Tutto sta in un documento: [`ESPOSIZIONE-DESIGN.md`](ESPOSIZIONE-DESIGN.md), imp
 | capire l'idea in dieci minuti | la Parte I, con la scena giocata del §2 |
 | sapere come si gioca | le Parti III e IV |
 | scrivere una storia | la Parte VI e l'appendice B, un'ambientazione compilata per intero |
+| sapere dove va il progetto | [`ROADMAP.md`](ROADMAP.md): sei fasi, dalla prova con le persone a un sistema per ogni genere |
 | sapere che cosa è provato | «Come leggere questo documento» e la Parte VII |
-| giocare subito | il librogame di prova [`pdf/SANTA-RITA-librogame.pdf`](pdf/SANTA-RITA-librogame.pdf), la sua versione elettronica [`strumento/motore/libro/santa-rita.html`](strumento/motore/libro/santa-rita.html) da aprire nel browser, oppure `node src/cli.ts gioca` in `strumento/motore/` |
+| giocare subito | il librogame di prova [`pdf/SANTA-RITA-librogame.pdf`](pdf/SANTA-RITA-librogame.pdf), l'app web [`strumento/motore/libro/santa-rita.html`](strumento/motore/libro/santa-rita.html) da aprire nel browser, oppure `node src/cli.ts gioca` in `strumento/motore/` |
 
 ## Che cosa c'è
 
 ```
 ESPOSIZIONE-DESIGN.md   il documento di design 2.0: regole, scrittura, formati, esempio completo
+ROADMAP.md              le sei fasi per arrivare a un sistema compiuto, per ogni genere
 pdf/                    il documento e il librogame di prova, impaginati
 typst/                  la catena che produce i PDF, font compresi
 strumento/motore/       ESPOSIZIONE Studio 2.0: il motore, i dati del porto, la storia di prova,

@@ -6,7 +6,7 @@ Dagli stessi dati escono tre cose:
 
 - **la partita**, nel terminale oppure in qualunque interfaccia, testuale o grafica, che usi le due funzioni `vista` e `agisci`;
 - **il librogame**, in Markdown, che la catena Typst del repository impagina in [`pdf/SANTA-RITA-librogame.pdf`](../../pdf/SANTA-RITA-librogame.pdf);
-- **la versione elettronica del libro**, [`libro/santa-rita.html`](libro/santa-rita.html): un solo file HTML con dentro motore, dati e interfaccia, da aprire in qualunque browser. I dadi li tira il programma, la ricevuta compare prima di ogni prova, e accanto a ogni scena c'è il numero del paragrafo corrispondente nel libro stampato;
+- **l'app web**, [`libro/santa-rita.html`](libro/santa-rita.html): un solo file HTML con dentro motore, dati e interfaccia, da aprire in qualunque browser. Ha un panorama del porto disegnato in tempo reale, con la luce che cambia col momento del giorno; la ricevuta è un foglio della capitaneria su cui rotolano i dadi e cade il timbro dell'esito; lo schermo reagisce a ferite, fallimenti e imprevisti; il diario cresce come un romanzo. Il pannello «Sotto il cofano» mostra i dati grezzi che il motore restituisce: l'app li disegna e basta;
 - **le verifiche**: i controlli del §20 e i giocatori automatici del §24.
 
 ## Comandi
@@ -38,7 +38,7 @@ Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento
 | `src/simulazione.ts` | i giocatori automatici |
 | `src/libro.ts` | il generatore del librogame |
 | `src/cli.ts` | la riga di comando |
-| `web/` | la versione elettronica: l'interfaccia (`gioco.ts`), la pagina (`pagina.html`) e lo script che le impacchetta con il motore in un solo file. Per impacchettare usa esbuild, già presente fra gli strumenti di sviluppo dell'editor; la pagina che ne esce non ha dipendenze |
+| `web/` | l'app web: l'interfaccia (`gioco.ts`), il panorama del porto (`panorama.ts`), il suono generato nel browser (`suono.ts`), la pagina (`pagina.html`) e lo script che impacchetta tutto con il motore in un solo file. Il panorama e i colori sono il tema di questa ambientazione: un'altra storia ne avrebbe un altro. Per impacchettare usa esbuild, già presente fra gli strumenti di sviluppo dell'editor; la pagina che ne esce non ha dipendenze |
 | `dati/` | l'ambientazione del porto (appendice B) e la storia di prova |
 
 ## Per chi costruisce un'interfaccia

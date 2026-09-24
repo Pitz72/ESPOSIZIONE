@@ -1,340 +1,596 @@
 <title>Il registro della Santa Rita</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+  /* Un mondo solo, scelto: il porto con le lanterne accese. L'accento (--acc)
+     lo decide il momento del giorno, e lo imposta il gioco. */
   :root {
-    --carta: #eef0eb;
-    --carta-2: #e3e7e1;
-    --carta-3: #d7ddd6;
-    --inchiostro: #19212e;
-    --grigio: #586372;
-    --filo: #c3cbc4;
-    --verderame: #1d6b66;
-    --verderame-fondo: #d5e6e2;
-    --coperto: #2c7553;
-    --esposto: #9a6a0e;
-    --scoperto: #a6381f;
-    --scoperto-fondo: #f3dcd4;
-    --display: "IM Fell English", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    --testo: "Literata", "Iowan Old Style", Georgia, "Times New Roman", serif;
-    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --carta: #0f151d;
-      --carta-2: #161f2a;
-      --carta-3: #1f2a37;
-      --inchiostro: #e2e5de;
-      --grigio: #93a0ad;
-      --filo: #2a3542;
-      --verderame: #6ab8ae;
-      --verderame-fondo: #173532;
-      --coperto: #72c69a;
-      --esposto: #e2b04f;
-      --scoperto: #ec7c62;
-      --scoperto-fondo: #3a1d17;
-    }
-  }
-  :root[data-theme="dark"] {
     color-scheme: dark;
-    --carta: #0f151d;
-    --carta-2: #161f2a;
-    --carta-3: #1f2a37;
-    --inchiostro: #e2e5de;
-    --grigio: #93a0ad;
-    --filo: #2a3542;
-    --verderame: #6ab8ae;
-    --verderame-fondo: #173532;
-    --coperto: #72c69a;
-    --esposto: #e2b04f;
-    --scoperto: #ec7c62;
-    --scoperto-fondo: #3a1d17;
+    --fondo: #0a0b0f;
+    --fondo-2: #11131a;
+    --velo: rgba(5, 6, 9, 0.74);
+    --pannello: rgba(255, 255, 255, 0.035);
+    --linea: rgba(255, 255, 255, 0.085);
+    --testo: #ece4d4;
+    --testo-2: #bdb5a7;
+    --tenue: #7f7b74;
+    --acc: #f2a488;
+    --coperto: #63c49b;
+    --esposto: #e8b24e;
+    --scoperto: #ee6a50;
+    --oro: #e8c46a;
+    --occhi: #de8d7b;
+    --carta: #efe6d2;
+    --carta-riga: #d9ceb6;
+    --inchiostro: #231e18;
+    --inch-2: #6d6355;
+    --coperto-c: #2c7553;
+    --esposto-c: #946409;
+    --scoperto-c: #a6381f;
+    --display: "IM Fell English", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --testo-f: "Literata", "Iowan Old Style", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+    --pan-h: 210px;
   }
-
   * { box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
-    background: var(--carta);
-    color: var(--inchiostro);
-    font: 400 1.0625rem/1.65 var(--testo);
-    padding-inline: 16px;
-    padding-block: 0 48px;
-  }
-  button { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--verderame); outline-offset: 2px; }
-
-  .testata {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding-block: 28px 20px;
-    border-bottom: 1px solid var(--filo);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 12px 24px;
-  }
-  .testata h1 {
-    font: 400 clamp(1.9rem, 4.5vw, 2.9rem)/1.05 var(--display);
     margin: 0;
-    text-wrap: balance;
+    overflow: hidden;
+    background: var(--fondo);
+    color: var(--testo);
+    font: 400 16px/1.6 var(--testo-f);
   }
-  .testata h1 em { font-style: italic; }
-  .testata p {
-    margin: 6px 0 0;
-    font: 500 0.72rem/1.4 var(--mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--grigio);
-  }
-  .comandi { display: flex; gap: 8px; flex-wrap: wrap; }
-  .comandi button, .secondario {
-    background: transparent;
-    border: 1px solid var(--filo);
-    border-radius: 3px;
-    padding: 6px 12px;
-    font: 500 0.8rem/1.2 var(--mono);
-    cursor: pointer;
-  }
-  .comandi button:hover, .secondario:hover { border-color: var(--grigio); }
-  .comandi button.avviso { border-color: var(--scoperto); color: var(--scoperto); }
-  #mostra-scheda { display: none; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+  [hidden] { display: none !important; }
 
-  .pagina {
-    max-width: 1120px;
-    margin: 0 auto;
+  #app {
+    position: relative;
+    height: 100%;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 48px;
-    padding-top: 28px;
+    grid-template-rows: var(--pan-h) minmax(0, 1fr);
+    transition: grid-template-rows 0.9s cubic-bezier(.3,.7,.2,1);
   }
-  main { min-width: 0; max-width: 42rem; }
+  body.in-titolo #app { grid-template-rows: 66% minmax(0, 1fr); }
+  body.in-titolo .corpo, body.in-titolo .luogo, body.in-titolo .marchio { visibility: hidden; }
 
-  /* ---- la scena ---- */
-  .cronaca {
-    list-style: none;
-    margin: 0 0 28px;
-    padding: 12px 16px;
-    background: var(--carta-2);
-    border-left: 3px solid var(--filo);
-    font: 400 0.84rem/1.5 var(--mono);
-    color: var(--grigio);
-    display: grid;
-    gap: 3px;
+  /* ---------------- il panorama ---------------- */
+  .panorama { position: relative; overflow: hidden; background: #05060a; }
+  .panorama canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .panorama.cambio canvas { animation: albeggia 0.9s ease both; }
+  @keyframes albeggia { from { opacity: 0.15; filter: blur(3px); } to { opacity: 1; filter: none; } }
+  .barra {
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    left: 20px; right: 20px;
+    display: flex; flex-wrap: wrap; gap: 8px 16px;
+    align-items: center; justify-content: space-between;
   }
-  .ev.tiro { color: var(--inchiostro); display: flex; gap: 10px; align-items: center; }
-  .dadi { font-size: 1.9rem; line-height: 1; letter-spacing: 2px; color: var(--inchiostro); }
-  .ev.esito { color: var(--inchiostro); font-weight: 500; }
-  .ev.ferita, .ev.morte { color: var(--scoperto); }
-  .ev.qualita, .ev.crescita { color: var(--verderame); }
-  .ev.imprevisto { color: var(--inchiostro); font-style: italic; }
-
-  .intestazione .dove {
+  .marchio {
     margin: 0;
-    font: 500 0.72rem/1.4 var(--mono);
-    letter-spacing: 0.08em;
+    font: 500 10.5px/1.4 var(--mono);
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--grigio);
+    color: rgba(255, 255, 255, 0.72);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
   }
-  .intestazione h2 {
-    font: 400 clamp(1.7rem, 4vw, 2.3rem)/1.1 var(--display);
-    margin: 6px 0 18px;
-    text-wrap: balance;
+  .marchio b { color: #fff; font-weight: 600; }
+  .comandi { display: flex; flex-wrap: wrap; gap: 6px; }
+  .comandi button {
+    font: 500 10px/1 var(--mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ece6dc;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(8, 9, 13, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: border-color 0.2s;
   }
-  .prosa p { margin: 0 0 1em; text-wrap: pretty; }
-  .prosa p:first-child::first-letter {
-    font-family: var(--display);
-    font-size: 3.1em;
-    float: left;
-    line-height: 0.85;
-    padding: 0.06em 0.02em 0 0;
-  }
+  .comandi button:hover { border-color: var(--acc); }
+  #btn-ricomincia[data-conferma="si"] { border-color: var(--scoperto); color: var(--scoperto); }
+  #btn-scheda { display: none; }
+  .luogo { position: absolute; left: 28px; right: 28px; bottom: 14px; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85); }
+  .luogo p { margin: 0; font: 500 10.5px/1.4 var(--mono); letter-spacing: 0.26em; text-transform: uppercase; color: var(--acc); transition: color 0.8s; }
+  .luogo h1 { margin: 2px 0 0; font: 400 36px/1.05 var(--display); color: #f8f0e0; text-wrap: balance; }
 
-  .confronto {
-    margin: 8px 0 24px;
-    padding: 14px 16px;
-    border: 1px solid var(--filo);
-    border-radius: 3px;
-    display: grid;
-    gap: 10px;
-    font-size: 0.95rem;
+  /* ---------------- corpo: diario, scelte, scheda ---------------- */
+  .corpo { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
+  .colonna { min-height: 0; min-width: 0; display: flex; flex-direction: column; }
+  .diario {
+    flex: 1; min-height: 0; overflow-y: auto;
+    padding-block: 6px 28px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 26px);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 26px);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,.1) transparent;
   }
-  .confronto[data-finestra="true"] { border-color: var(--verderame); background: var(--verderame-fondo); }
-  .copertura { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font: 500 0.72rem/1 var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
-  .copertura span { padding: 8px 6px; text-align: center; background: var(--carta-2); color: var(--grigio); border-radius: 2px; }
-  .copertura span.attuale { background: var(--inchiostro); color: var(--carta); }
-  .allarme { margin: 0; font-weight: 600; color: var(--scoperto); }
-  .allarme.finestra { color: var(--verderame); }
+  .voce { max-width: 720px; margin: 18px auto 0; padding-inline: 36px; transition: opacity 0.6s; }
+  .voce.passata { opacity: 0.42; }
+  .voce.passata:hover { opacity: 0.82; }
+  .voce.presente { animation: entra 0.55s ease both; }
+  @keyframes entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .sopra { margin: 0; font: 500 10.5px/1.5 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--acc); }
+  .voce h2 { margin: 4px 0 10px; font: 400 30px/1.12 var(--display); color: #f6eee0; text-wrap: balance; }
+  .prosa p { margin: 0 0 0.85em; font-size: 17.5px; line-height: 1.72; color: #e8e0d0; text-wrap: pretty; }
+  .presente .prosa p:first-child::first-letter { float: left; font: 400 3.3em/0.84 var(--display); padding: 0.08em 0.03em 0 0; color: #fff4e2; }
+  .battuta { color: #f4ddb2; }
+  .scelto { margin: 8px 0 4px; font: 500 13px/1.5 var(--mono); color: var(--acc); }
+  .scelto span { opacity: 0.6; margin-right: 4px; }
+  .eventi { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; }
+  .ev { font: 400 12.5px/1.5 var(--mono); color: var(--testo-2); }
+  .ev.tempo { color: var(--tenue); }
+  .ev.tiro { display: flex; align-items: center; gap: 10px; color: var(--testo); }
+  .ev.tiro .glifi { font-size: 24px; line-height: 1; letter-spacing: 2px; }
+  .ev.esito { font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .ev.esito[data-g="0"] { color: var(--coperto); }
+  .ev.esito[data-g="1"] { color: var(--esposto); }
+  .ev.esito[data-g="2"] { color: var(--scoperto); }
+  .ev.ferita, .ev.morte { font: italic 400 15px/1.5 var(--testo-f); color: #f19a86; }
+  .ev.logorio { font: italic 400 15px/1.5 var(--testo-f); color: #f0bb8e; }
+  .ev.imprevisto { font: italic 400 15.5px/1.55 var(--testo-f); color: var(--testo); padding: 4px 0 4px 14px; border-left: 2px solid var(--acc); margin: 4px 0; }
+  .ev.qualita { color: var(--acc); }
+  .ev.traccia { color: var(--occhi); }
+  .ev.crescita { color: var(--oro); }
+  .ev.confronto { color: var(--testo); }
+  .ev.protezione { color: var(--coperto); }
 
-  .finale {
-    margin: 12px 0 28px;
-    padding: 20px;
-    border-top: 2px solid var(--inchiostro);
-    border-bottom: 2px solid var(--inchiostro);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-items: center;
-    justify-content: space-between;
+  .dock {
+    flex-shrink: 0;
+    max-height: 48%;
+    overflow-y: auto;
+    padding: 12px 36px 16px;
+    border-top: 1px solid var(--linea);
+    background: linear-gradient(to top, rgba(8, 9, 12, 0.98), rgba(8, 9, 12, 0.78));
   }
-  .finale p { margin: 0; font: italic 400 1.5rem/1.2 var(--display); }
-  .finale[data-tipo="morte"] p { color: var(--scoperto); }
-
-  /* ---- le scelte ---- */
-  .scelte { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid var(--filo); }
-  .scelta { border-bottom: 1px solid var(--filo); }
-  .voce {
+  .dock > * { max-width: 720px; margin-inline: auto; }
+  .risposte { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 6px; }
+  .risposta {
     width: 100%;
     display: grid;
-    grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+    grid-template-columns: 22px minmax(0, 1fr) auto;
     gap: 12px;
     align-items: baseline;
     text-align: left;
-    background: none;
-    border: 0;
-    padding: 14px 4px;
-    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--linea);
+    background: var(--pannello);
+    font: 400 15.5px/1.4 var(--testo-f);
+    color: var(--testo);
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
   }
-  .voce:hover .testo { text-decoration: underline; text-decoration-color: var(--filo); text-underline-offset: 4px; }
-  .indice { font: 400 1.2rem/1 var(--display); color: var(--grigio); }
-  .etichetta {
-    display: inline-block;
-    margin-left: 6px;
-    font: 500 0.66rem/1.6 var(--mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--verderame);
-    border: 1px solid currentColor;
-    border-radius: 2px;
-    padding: 0 5px;
-    vertical-align: 2px;
+  button.risposta:hover, button.risposta:focus-visible { border-color: var(--acc); background: rgba(255, 255, 255, 0.06); transform: translateX(2px); outline: none; }
+  .risposta .num { font: 500 12px/1 var(--mono); color: var(--acc); }
+  .risposta .t small { display: block; margin-top: 2px; font: 400 11px/1.4 var(--mono); color: var(--tenue); }
+  .tag {
+    display: inline-block; margin-left: 8px; padding: 1px 7px; vertical-align: 2px;
+    font: normal 500 9.5px/1.6 var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--acc); border: 1px solid currentColor; border-radius: 99px;
   }
-  .riassunto { font: 500 0.78rem/1 var(--mono); color: var(--grigio); white-space: nowrap; display: flex; gap: 8px; align-items: center; }
-  .grado {
-    font: 500 0.66rem/1.6 var(--mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 1px 6px;
-    border-radius: 2px;
-    color: var(--carta);
-    white-space: nowrap;
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    padding: 3px 9px; border-radius: 99px;
+    font: 500 10px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
   }
-  .grado[data-g="0"] { background: var(--coperto); }
-  .grado[data-g="1"] { background: var(--esposto); }
-  .grado[data-g="2"] { background: var(--scoperto); }
-  .scelta.chiusa { padding: 12px 4px 12px calc(1.6rem + 16px); color: var(--grigio); display: grid; gap: 2px; }
-  .scelta.chiusa .richiede { font: 400 0.78rem/1.4 var(--mono); }
+  .pill b { font-weight: 600; letter-spacing: 0; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .pill[data-g="0"] { color: var(--coperto); background: rgba(99, 196, 155, 0.12); }
+  .pill[data-g="1"] { color: var(--esposto); background: rgba(232, 178, 78, 0.12); }
+  .pill[data-g="2"] { color: var(--scoperto); background: rgba(238, 106, 80, 0.14); }
+  .risposta.chiusa { opacity: 0.5; cursor: default; border-style: dashed; }
 
-  /* ---- la ricevuta ---- */
-  .ricevuta {
-    margin: 0 0 12px calc(1.6rem + 16px);
-    padding: 14px 16px;
-    background: var(--carta-2);
-    border-top: 1px dashed var(--grigio);
-    border-bottom: 1px dashed var(--grigio);
-    font: 400 0.82rem/1.5 var(--mono);
-    overflow-x: auto;
-  }
-  .righe { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-  .riga { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 8px; }
-  .riga small, .totale small { display: block; color: var(--grigio); font-size: 0.74rem; }
-  .riga.spenta > span:last-child { color: var(--grigio); }
-  .riga.spenta .num { color: var(--grigio); text-decoration: line-through; }
-  .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .totale { display: grid; grid-template-columns: 2.4rem auto minmax(0, 1fr); gap: 8px; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--filo); font-weight: 500; }
-  .totale small { grid-column: 1 / -1; padding-left: calc(2.4rem + 8px); }
-  .tiro { margin: 10px 0 0; }
-  .posta { margin: 6px 0 0; color: var(--scoperto); }
-  .azioni { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 16px calc(1.6rem + 16px); }
-  .primario {
-    background: var(--inchiostro);
-    color: var(--carta);
-    border: 0;
-    border-radius: 3px;
-    padding: 9px 18px;
-    font: 500 0.85rem/1.2 var(--mono);
-    cursor: pointer;
-  }
-  .primario:hover { background: var(--verderame); }
+  .confronto { margin: 0 auto 10px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--linea); background: var(--pannello); display: grid; gap: 8px; }
+  .confronto[data-finestra="true"] { border-color: var(--acc); box-shadow: 0 0 24px -6px var(--acc); animation: respira 2.4s ease-in-out infinite; }
+  .confronto[data-difesa="true"] { border-color: var(--scoperto); box-shadow: 0 0 26px -6px var(--scoperto); animation: respira 1.1s ease-in-out infinite; }
+  @keyframes respira { 50% { box-shadow: 0 0 34px -2px currentColor; } }
+  .conf-testa { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .conf-nome { font: 400 20px/1.1 var(--display); }
+  .conf-natura { font: 500 10px/1 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--tenue); }
+  .copertura { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .copertura span { text-align: center; padding: 7px 4px; border-radius: 6px; background: rgba(255, 255, 255, 0.05); font: 500 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--tenue); transition: all 0.4s; }
+  .copertura span.attuale[data-g="0"] { background: var(--coperto); color: #0a0b0f; }
+  .copertura span.attuale[data-g="1"] { background: var(--esposto); color: #0a0b0f; }
+  .copertura span.attuale[data-g="2"] { background: var(--scoperto); color: #0a0b0f; }
+  .allarme { margin: 0; font: 600 13px/1.4 var(--mono); color: var(--scoperto); }
+  .allarme.finestra { color: var(--acc); }
 
-  /* ---- la scheda ---- */
-  aside {
-    align-self: start;
-    position: sticky;
-    top: calc(env(safe-area-inset-top, 0px) + 16px);
-    font-size: 0.88rem;
-    border-left: 1px solid var(--filo);
-    padding-left: 24px;
-    display: grid;
-    gap: 18px;
+  aside#scheda {
+    min-height: 0; overflow-y: auto;
+    padding: 16px 22px 28px;
+    border-left: 1px solid var(--linea);
+    background: rgba(0, 0, 0, 0.22);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,.1) transparent;
   }
-  aside > h2 { margin: 0; font: 400 1.35rem/1.1 var(--display); }
+  .scheda-testa { display: none; }
   #scheda-corpo { display: grid; gap: 18px; }
-  .blocco h3 { margin: 0 0 6px; font: 500 0.68rem/1.4 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; color: var(--grigio); }
-  .tempo { display: grid; gap: 3px; }
-  .momento { display: flex; justify-content: space-between; gap: 8px; }
-  .caselle { display: inline-flex; gap: 3px; align-items: center; }
-  .caselle i { width: 11px; height: 11px; border: 1px solid var(--grigio); border-radius: 1px; }
-  .caselle i.piena { background: var(--inchiostro); border-color: var(--inchiostro); }
-  .caselle.grande i { width: 16px; height: 16px; }
-  .caselle.grande i.piena { background: var(--scoperto); border-color: var(--scoperto); }
-  .coppie { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
-  .coppie li { display: flex; justify-content: space-between; gap: 8px; }
-  .traccia li.qui { font-weight: 600; }
-  .livello { color: var(--grigio); }
-  .stadio[data-s="2"] { color: var(--esposto); font-weight: 600; }
-  .stadio[data-s="3"] { color: var(--scoperto); font-weight: 600; }
-  .elenco { margin: 6px 0 0; padding-left: 1.1em; display: grid; gap: 3px; }
-  .vuoto { margin: 4px 0 0; color: var(--grigio); font-style: italic; }
-  .parole { margin: 8px 0 0; font: 500 0.75rem/1.4 var(--mono); letter-spacing: 0.06em; color: var(--verderame); }
+  .sez { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; font: 500 10px/1.4 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--acc); }
+  .sez span + span { color: var(--tenue); letter-spacing: 0.08em; }
+  .giornata { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .giornata-m { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  .giornata-m span { height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.08); transition: all 0.5s; }
+  .giornata-m span.fatto { background: rgba(236, 228, 212, 0.35); }
+  .giornata-m span.ora { background: var(--acc); box-shadow: 0 0 10px var(--acc); height: 8px; margin-top: -1px; }
+  .giornata-m em { grid-column: 1 / -1; font-size: 11.5px; color: var(--tenue); }
+  .pips { display: inline-flex; gap: 3px; }
+  .pips i { width: 12px; height: 5px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); transition: all 0.5s; }
+  .pips i.on { background: var(--acc); box-shadow: 0 0 6px var(--acc); }
+  .pips.nave { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; width: 100%; }
+  .pips.nave i { width: auto; height: 8px; }
+  .pips.nave i.on { background: var(--scoperto); box-shadow: 0 0 8px var(--scoperto); }
+  .scadenza.urgente { animation: urgente 1.6s ease-in-out infinite; }
+  @keyframes urgente { 50% { filter: drop-shadow(0 0 8px rgba(238, 106, 80, 0.8)); } }
+  .pips.occhi i.on { background: var(--occhi); box-shadow: 0 0 6px var(--occhi); }
+  .pips.liv i.on { background: var(--testo-2); box-shadow: none; }
+  .metro { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline; margin-bottom: 6px; }
+  .metro .nome { font-weight: 600; font-size: 14px; }
+  .metro .stato { font-style: italic; font-size: 13px; color: var(--tenue); }
+  .metro[data-s="2"] .pips i.on { background: var(--esposto); box-shadow: 0 0 6px var(--esposto); }
+  .metro[data-s="3"] .pips i.on { background: var(--scoperto); box-shadow: 0 0 6px var(--scoperto); }
+  .metro[data-s="3"] .stato { color: var(--scoperto); }
+  .righe-scheda { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+  .righe-scheda li { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13.5px; }
+  .righe-scheda li b { font: 500 10.5px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--tenue); }
+  .righe-scheda li.qui span:first-child { color: var(--testo); font-weight: 600; }
+  .righe-scheda li.qui span:first-child::before { content: "◆ "; color: var(--acc); font-size: 9px; vertical-align: 2px; }
+  .righe-scheda li:not(.qui) span:first-child { color: var(--testo-2); }
+  .ferita[data-g="lieve"] b { color: var(--esposto); }
+  .ferita[data-g="grave"] b, .ferita[data-g="mortale"] b { color: var(--scoperto); }
+  .ferita[data-g="mortale"] { animation: urgente 1s infinite; }
+  .capacita .liv { margin-left: auto; font-size: 12px; color: var(--tenue); font-style: italic; }
+  .vuoto { color: var(--tenue); font-style: italic; }
+  .taccuino { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .taccuino li { font-style: italic; font-size: 13.5px; line-height: 1.45; color: var(--testo-2); padding-left: 10px; border-left: 1px solid var(--acc); }
+  .taccuino li.vuoto { border: 0; padding: 0; }
+  .parole { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0 0; }
+  .parole span { font: 500 10px/1 var(--mono); letter-spacing: 0.12em; padding: 5px 8px; border-radius: 99px; border: 1px solid var(--acc); color: var(--acc); }
 
-  .piede { max-width: 1120px; margin: 40px auto 0; padding-top: 16px; border-top: 1px solid var(--filo); font-size: 0.82rem; color: var(--grigio); }
-  .piede p { margin: 0; max-width: 42rem; }
+  /* ---------------- avvisi ---------------- */
+  #avvisi {
+    position: fixed; z-index: 45;
+    top: calc(var(--pan-h) + 14px); right: 340px;
+    width: min(320px, calc(100% - 32px));
+    display: grid; gap: 8px;
+    pointer-events: none;
+    transition: top 0.9s;
+  }
+  .avviso {
+    padding: 10px 14px; border-radius: 10px;
+    background: rgba(14, 16, 22, 0.95);
+    border: 1px solid var(--linea);
+    border-left: 3px solid var(--acc);
+    box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.9);
+    animation: arriva 0.45s cubic-bezier(.2,.8,.2,1) both;
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .avviso.via { opacity: 0; transform: translateX(16px); }
+  @keyframes arriva { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+  .avviso b { display: block; font: 600 10px/1.4 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--acc); }
+  .avviso span { display: block; margin-top: 2px; font-size: 14px; line-height: 1.45; color: var(--testo); }
+  .avviso.rosso { border-left-color: var(--scoperto); } .avviso.rosso b { color: var(--scoperto); }
+  .avviso.oro { border-left-color: var(--oro); } .avviso.oro b { color: var(--oro); }
+  .avviso.ambra { border-left-color: var(--esposto); } .avviso.ambra b { color: var(--esposto); }
+  .avviso.occhi { border-left-color: var(--occhi); } .avviso.occhi b { color: var(--occhi); }
+  .avviso.imprevisto span { font-style: italic; }
 
+  /* ---------------- le reazioni dello schermo ---------------- */
+  #app::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; z-index: 40; }
+  #app.luce::after { background: radial-gradient(70% 60% at 50% 45%, color-mix(in srgb, var(--acc) 28%, transparent), transparent 70%); animation: lampo 1.2s ease-out; }
+  #app.scossa { animation: scossa 0.45s ease; }
+  #app.scossa-forte { animation: scossa-forte 0.65s ease; }
+  #app.scossa-forte::after { background: radial-gradient(75% 70% at 50% 50%, transparent 40%, rgba(170, 30, 16, 0.55)); animation: lampo 1.2s ease-out; }
+  #app.ferita::after { box-shadow: inset 0 0 160px 30px rgba(200, 24, 12, 0.7); animation: battito 1.25s ease-out; }
+  #app.notato::after { background: radial-gradient(80% 80% at 50% 50%, transparent 55%, rgba(120, 18, 10, 0.4)); animation: lampo 1.1s ease-out; }
+  @keyframes lampo { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes battito { 0% { opacity: 0; } 12% { opacity: 1; } 30% { opacity: 0.3; } 45% { opacity: 0.9; } 100% { opacity: 0; } }
+  @keyframes scossa { 0%, 100% { transform: none; } 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
+  @keyframes scossa-forte { 0%, 100% { transform: none; } 15% { transform: translate(-10px, 3px) rotate(-0.3deg); } 30% { transform: translate(9px, -3px) rotate(0.3deg); } 45% { transform: translate(-7px, 2px); } 60% { transform: translate(5px, -1px); } 80% { transform: translate(-2px, 0); } }
+
+  /* ---------------- i veli ---------------- */
+  .velo { position: fixed; inset: 0; z-index: 50; }
+
+  /* il foglio della ricevuta */
+  .velo.foglio {
+    display: grid; place-items: center;
+    padding: 16px;
+    background: var(--velo);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    overflow-y: auto;
+  }
+  .foglio-box { width: min(440px, 100%); display: grid; gap: 14px; justify-items: center; padding-block: 12px; }
+  .foglio.aperto .carta { animation: foglio 0.45s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes foglio { from { opacity: 0; transform: translateY(26px) rotate(-1.5deg); } to { opacity: 1; transform: rotate(-0.6deg); } }
+  .vassoio { height: 112px; width: 100%; display: flex; gap: 38px; justify-content: center; align-items: center; perspective: 700px; }
+  .dado-lancio { animation: salto 1.15s cubic-bezier(.3,.6,.3,1) both; }
+  .dado-lancio:nth-child(2) { animation-delay: 0.06s; }
+  @keyframes salto { 0% { transform: translate(-60px, -70px) scale(0.6); opacity: 0; } 30% { transform: translate(-10px, 10px) scale(1.05); opacity: 1; } 55% { transform: translate(6px, -16px); } 78% { transform: translate(2px, 4px); } 100% { transform: none; } }
+  .dado { width: 58px; height: 58px; position: relative; transform-style: preserve-3d; }
+  .faccia {
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
+    padding: 9px;
+    border-radius: 11px;
+    background: radial-gradient(120% 120% at 30% 25%, #fbf5e8, #e3d7bf);
+    box-shadow: inset 0 0 0 1px rgba(60, 45, 25, 0.25), inset 0 -8px 14px rgba(90, 70, 40, 0.18);
+    backface-visibility: hidden;
+  }
+  .faccia i { width: 10px; height: 10px; border-radius: 50%; place-self: center; }
+  .faccia i.p { background: radial-gradient(circle at 35% 35%, #4a3a2a, #120d08); }
+  .f1 { transform: translateZ(29px); }
+  .f6 { transform: rotateY(180deg) translateZ(29px); }
+  .f2 { transform: rotateY(90deg) translateZ(29px); }
+  .f5 { transform: rotateY(-90deg) translateZ(29px); }
+  .f3 { transform: rotateX(90deg) translateZ(29px); }
+  .f4 { transform: rotateX(-90deg) translateZ(29px); }
+
+  .carta {
+    position: relative;
+    width: 100%;
+    padding: 20px 22px 18px;
+    background:
+      repeating-linear-gradient(to bottom, transparent 0 23px, rgba(120, 100, 70, 0.07) 23px 24px),
+      var(--carta);
+    color: var(--inchiostro);
+    font: 400 12.5px/1.5 var(--mono);
+    transform: rotate(-0.6deg);
+    filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.6));
+  }
+  .carta::before, .carta::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 8px;
+    background-repeat: repeat-x; background-size: 10px 8px;
+  }
+  .carta::before { top: -8px; background-image: linear-gradient(-45deg, var(--carta) 5px, transparent 0), linear-gradient(45deg, var(--carta) 5px, transparent 0); background-position: left bottom; }
+  .carta::after { bottom: -8px; background-image: linear-gradient(-135deg, var(--carta) 5px, transparent 0), linear-gradient(135deg, var(--carta) 5px, transparent 0); background-position: left top; }
+  .carta-testa { display: flex; justify-content: space-between; gap: 8px; padding-bottom: 8px; border-bottom: 1px dashed var(--inch-2); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--inch-2); }
+  .carta-quando { margin: 8px 0 0; font: italic 400 13px/1.3 var(--testo-f); color: var(--inch-2); }
+  .carta-azione { margin: 2px 0 12px; font: 400 22px/1.15 var(--display); color: var(--inchiostro); text-wrap: balance; }
+  .carta-righe { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+  .carta-righe li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 8px; }
+  .carta-righe .v { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .carta-righe small { display: block; font: italic 400 11.5px/1.35 var(--testo-f); color: var(--inch-2); }
+  .carta-righe li.spenta .c { color: var(--inch-2); }
+  .carta-righe li.spenta .v { color: var(--inch-2); text-decoration: line-through; }
+  .carta-totale { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 8px; border-top: 1.5px solid var(--inchiostro); }
+  .carta-totale .v { width: 30px; text-align: right; font-size: 18px; font-weight: 600; }
+  .grado { padding: 3px 9px; border-radius: 3px; font: 600 10.5px/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: #fff; }
+  .grado[data-g="0"] { background: var(--coperto-c); }
+  .grado[data-g="1"] { background: var(--esposto-c); }
+  .grado[data-g="2"] { background: var(--scoperto-c); }
+  .carta-nota { margin: 6px 0 0; font: italic 400 12.5px/1.35 var(--testo-f); color: var(--inch-2); }
+  .carta-prova { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; margin: 14px 0 0; padding-top: 10px; border-top: 1px dashed var(--inch-2); }
+  .carta-prova div { margin: 0; }
+  .carta-prova dt { font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--inch-2); }
+  .carta-prova dd { margin: 2px 0 0; font-size: 13px; font-weight: 600; }
+  .carta-prova .grande dd { font: 400 34px/1 var(--display); }
+  .carta-prova .grande small { font-size: 16px; }
+  .carta-posta { margin: 12px 0 0; font: italic 400 14.5px/1.4 var(--testo-f); color: var(--scoperto-c); }
+  .timbro {
+    position: absolute; right: 16px; top: 38%;
+    padding: 8px 16px;
+    border: 3px double currentColor;
+    border-radius: 6px;
+    text-align: center;
+    transform: rotate(-9deg);
+    mix-blend-mode: multiply;
+    opacity: 0.9;
+    animation: cade 0.5s cubic-bezier(.3,1.6,.5,1) both;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .timbro[data-r="true"] { color: #1f6b4f; }
+  .timbro[data-r="false"] { color: #a8321f; }
+  .timbro b { display: block; font: 600 25px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+  .timbro span { display: block; margin-top: 4px; font: 500 10.5px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
+  @keyframes cade { 0% { opacity: 0; transform: scale(2.6) rotate(-22deg); } 70% { opacity: 0.95; transform: scale(0.94) rotate(-8deg); } 100% { opacity: 0.9; transform: scale(1) rotate(-9deg); } }
+  #conto { margin: 0; min-height: 1.4em; font: 400 13px/1.4 var(--mono); color: var(--testo-2); }
+  #conto b { color: var(--testo); font-size: 15px; }
+  .foglio-azioni { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .primario {
+    padding: 12px 24px; border-radius: 999px; border: 0;
+    background: var(--acc); color: #0b0a0e;
+    font: 600 11.5px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase;
+    box-shadow: 0 10px 30px -10px var(--acc);
+    transition: transform 0.15s, filter 0.2s;
+  }
+  .primario:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .secondario {
+    padding: 11px 20px; border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22); background: rgba(10, 11, 15, 0.5);
+    font: 500 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--testo);
+  }
+  .secondario:hover { border-color: var(--acc); }
+
+  /* il titolo */
+  .velo.titolo {
+    z-index: 70;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 max(16px, 6vw) max(28px, 5vh);
+    background: linear-gradient(to bottom, rgba(10, 11, 15, 0) 30%, rgba(10, 11, 15, 0.75) 58%, var(--fondo) 80%);
+  }
+  .t-sopra { margin: 0; font: 500 11px/1.4 var(--mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--acc); animation: sorge 1.2s 0.2s ease both; }
+  .t-titolo { margin: 8px 0 0; font: 400 clamp(40px, 7.5vw, 88px)/0.98 var(--display); color: #fbf3e4; text-wrap: balance; animation: titolo 2.4s ease both; }
+  .t-titolo em { font-style: italic; }
+  .t-attacco { max-width: 38rem; margin: 16px 0 0; font: italic 400 clamp(17px, 2.2vw, 21px)/1.5 var(--testo-f); color: var(--testo-2); animation: sorge 1.4s 0.9s ease both; }
+  .t-azioni { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; animation: sorge 1.2s 1.4s ease both; }
+  .t-regole { list-style: none; margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid var(--linea); display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 28px; animation: sorge 1.2s 1.8s ease both; }
+  .t-regole li { font-size: 14px; line-height: 1.5; color: var(--testo-2); }
+  .t-regole b { display: block; font: 400 19px/1.2 var(--display); color: var(--testo); margin-bottom: 2px; }
+  @keyframes titolo { 0% { opacity: 0; letter-spacing: 0.3em; filter: blur(12px); } 55% { opacity: 1; letter-spacing: 0; filter: blur(0); } 100% { opacity: 1; letter-spacing: 0; } }
+  @keyframes sorge { from { opacity: 0; transform: translateY(12px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+
+  /* il finale */
+  .velo.finale { z-index: 60; display: grid; place-items: center; padding: 16px; overflow-y: auto; animation: sorge 1s ease both; }
+  .velo.finale[data-tipo="vittoria"] { background: radial-gradient(90% 70% at 50% 30%, rgba(242, 164, 136, 0.32), rgba(10, 11, 15, 0.94) 70%); }
+  .velo.finale[data-tipo="sconfitta"] { background: radial-gradient(90% 70% at 50% 30%, rgba(110, 130, 160, 0.24), rgba(10, 11, 15, 0.95) 70%); }
+  .velo.finale[data-tipo="morte"] { background: radial-gradient(90% 70% at 50% 40%, rgba(120, 18, 10, 0.4), rgba(3, 3, 5, 0.97) 70%); }
+  .finale-box { width: min(620px, 100%); text-align: center; }
+  .fin-sopra { margin: 0; font: 500 11px/1.4 var(--mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--acc); }
+  .finale h2 { margin: 12px 0 0; font: italic 400 clamp(38px, 6vw, 62px)/1.05 var(--display); color: #fbf3e4; animation: titolo 2.2s ease both; }
+  .velo.finale[data-tipo="morte"] h2 { color: #f2b3a6; }
+  .fin-titolo { margin: 8px 0 0; font: italic 400 18px/1.4 var(--testo-f); color: var(--testo-2); }
+  .fin-conti { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 28px 0 0; padding: 16px 0; border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
+  .fin-conti dt { font: 500 9.5px/1.4 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--tenue); }
+  .fin-conti dd { margin: 4px 0 0; font: 400 28px/1 var(--display); font-variant-numeric: tabular-nums; }
+  .fin-azioni { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 26px; }
+
+  /* i pannelli laterali */
+  .velo.pannello { z-index: 55; display: flex; justify-content: flex-end; background: var(--velo); }
+  .pannello-box { width: min(540px, 100%); height: 100%; overflow-y: auto; padding: calc(env(safe-area-inset-top, 0px) + 24px) 28px 32px; background: var(--fondo-2); border-left: 1px solid var(--linea); animation: entra-lato 0.4s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes entra-lato { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .pannello-box > header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .pannello-box h2 { margin: 0; font: 400 30px/1.1 var(--display); }
+  .pannello-box h3 { margin: 22px 0 4px; font: 500 10.5px/1.4 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--acc); }
+  .pannello-box p { margin: 0 0 10px; color: var(--testo-2); font-size: 15px; line-height: 1.6; }
+  .pannello-box p b { color: var(--testo); font-weight: 600; }
+  .gradi-leg { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+  .tasti { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 14px; color: var(--testo-2); }
+  kbd { font: 500 11px/1 var(--mono); padding: 4px 7px; border-radius: 5px; border: 1px solid var(--linea); background: var(--pannello); color: var(--testo); }
+  #cofano-dati { margin: 12px 0 0; padding: 14px; border-radius: 10px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--linea); font: 400 11.5px/1.5 var(--mono); color: #cfe3da; white-space: pre; overflow-x: auto; }
+
+  /* ---------------- telefono ---------------- */
   @media (max-width: 900px) {
-    .pagina { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-    #mostra-scheda { display: inline-block; }
-    aside { position: static; border-left: 0; padding-left: 0; border-top: 1px solid var(--filo); padding-top: 18px; order: -1; }
-    aside[data-aperta="false"] #scheda-corpo, aside[data-aperta="false"] > h2 { display: none; }
-    aside[data-aperta="false"] { border-top: 0; padding-top: 0; }
-    #scheda-corpo { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    :root { --pan-h: 158px; }
+    body.in-titolo #app { grid-template-rows: 48% minmax(0, 1fr); }
+    .corpo { grid-template-columns: minmax(0, 1fr); }
+    #btn-scheda { display: inline-block; }
+    aside#scheda {
+      position: fixed; z-index: 48; top: 0; right: 0; bottom: 0;
+      width: min(360px, 92vw);
+      padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
+      background: var(--fondo-2);
+      transform: translateX(105%);
+      transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+      box-shadow: -20px 0 40px -20px rgba(0, 0, 0, 0.9);
+    }
+    body.scheda-aperta aside#scheda { transform: none; }
+    .scheda-testa { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .scheda-testa h2 { margin: 0; font: 400 24px/1 var(--display); }
+    #avvisi { right: 16px; top: calc(var(--pan-h) + 8px); }
+    .voce { padding-inline: 18px; }
+    .voce h2 { font-size: 25px; }
+    .prosa p { font-size: 16.5px; }
+    .dock { padding: 10px 16px 14px; max-height: 52%; }
+    .luogo { left: 18px; bottom: 10px; }
+    .luogo h1 { font-size: 26px; }
+    .barra { left: 12px; right: 12px; }
   }
-  @media (max-width: 520px) {
-    .riassunto { grid-column: 2; }
-    .voce { grid-template-columns: 1.6rem minmax(0, 1fr); }
-    .ricevuta, .azioni, .scelta.chiusa { margin-left: 0; padding-left: 12px; }
+  @media (max-width: 600px) {
+    .marchio { display: none; }
+    .comandi { justify-content: flex-end; width: 100%; }
+    .comandi button { padding: 7px 9px; font-size: 9px; letter-spacing: 0.1em; }
+    .risposta { grid-template-columns: 18px minmax(0, 1fr); }
+    .risposta .pill { grid-column: 2; justify-self: start; }
+    .fin-conti { grid-template-columns: repeat(2, 1fr); }
+    .carta { padding: 18px 16px 16px; }
+    .vassoio { gap: 26px; }
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .cronaca { animation: entra 0.35s ease-out; }
-    @keyframes entra { from { opacity: 0.35; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   }
 </style>
 
-<header class="testata">
-  <div>
-    <h1>Il registro della <em>Santa Rita</em></h1>
-    <p>Un librogame per ESPOSIZIONE · versione elettronica</p>
-  </div>
-  <div class="comandi">
-    <button type="button" id="mostra-scheda" aria-expanded="false" aria-controls="scheda">Mostra la scheda</button>
-    <button type="button" id="ricomincia">Ricomincia</button>
-  </div>
-</header>
+<div id="app">
+  <header class="panorama">
+    <canvas id="panorama" aria-hidden="true"></canvas>
+    <div class="barra">
+      <p class="marchio"><b>ESPOSIZIONE</b> · Il registro della Santa Rita</p>
+      <nav class="comandi" aria-label="Comandi">
+        <button type="button" id="btn-come">Come si gioca</button>
+        <button type="button" id="btn-cofano">Sotto il cofano</button>
+        <button type="button" id="btn-suono" aria-pressed="false">Suono no</button>
+        <button type="button" id="btn-scheda" aria-controls="scheda">Scheda</button>
+        <button type="button" id="btn-ricomincia">Ricomincia</button>
+      </nav>
+    </div>
+    <div class="luogo"><p id="sopra"></p><h1 id="luogo"></h1></div>
+  </header>
 
-<div class="pagina">
-  <main id="scena" aria-live="polite"></main>
-  <aside id="scheda" data-aperta="false" aria-label="La tua scheda">
-    <h2>La tua scheda</h2>
-    <div id="scheda-corpo"></div>
-  </aside>
+  <div class="corpo">
+    <div class="colonna">
+      <div id="diario" class="diario"></div>
+      <div id="dock" class="dock"></div>
+    </div>
+    <aside id="scheda" aria-label="La tua scheda">
+      <div class="scheda-testa"><h2>La tua scheda</h2><button type="button" class="secondario" id="btn-scheda-chiudi">Chiudi</button></div>
+      <div id="scheda-corpo"></div>
+    </aside>
+  </div>
+
+  <div id="avvisi" aria-live="polite"></div>
 </div>
 
-<footer class="piede">
-  <p>I dadi li tira il programma, con le stesse regole e gli stessi dati del libro stampato: accanto a ogni scena trovi il numero del paragrafo corrispondente. Prima di ogni prova leggi la ricevuta, cioè che cosa rende l'azione costosa e che cosa rischi. La partita resta salvata in questo browser.</p>
-</footer>
+<div id="titolo" class="velo titolo">
+  <p class="t-sopra">ESPOSIZIONE · un librogame · versione elettronica</p>
+  <h2 class="t-titolo">Il registro della <em>Santa Rita</em></h2>
+  <p class="t-attacco">Tuo fratello Matteo è sparito da tre giorni. La nave su cui lo tengono prigioniero salpa con la marea, prima dell'alba.</p>
+  <div class="t-azioni">
+    <button type="button" id="continua-partita" class="primario" hidden>Continua la partita</button>
+    <button type="button" id="inizia" class="primario">Comincia la storia</button>
+  </div>
+  <ul class="t-regole">
+    <li><b>Il dado decide se riesci.</b>Due dadi, più quanto sei bravo, contro una soglia.</li>
+    <li><b>Tu decidi quanto rischi.</b>Dove, quando e come agisci cambia il prezzo. La ricevuta te lo mostra prima.</li>
+    <li><b>C'è sempre una via.</b>Costa tempo, denaro o fatica, ma non si tira.</li>
+  </ul>
+</div>
 
-<script>"use strict";(()=>{var ca={id:"porto",titolo:"Il porto",frase:"Nel porto, essere esposti significa che qualcuno potr\xE0 dire di averti visto.",criterioFondo:"Ha un Fondo ci\xF2 che lascia un segno che resta: un corpo ferito, una porta forzata, una parola detta a qualcuno che se la ricorder\xE0.",ambiti:[{id:"corpo",nome:"corpo"},{id:"mano",nome:"mano"},{id:"mente",nome:"mente"},{id:"voce",nome:"voce"}],capacita:[{id:"muoversi",nome:"Muoversi",ambito:"corpo",partenza:0,fondo:0,causa:"al porto tutti corrono, e nessuno ci fa caso"},{id:"battersi",nome:"Battersi",ambito:"corpo",partenza:2,fondo:1,causa:"la violenza si vede e si ricorda"},{id:"resistere",nome:"Resistere",ambito:"corpo",partenza:0,fondo:0,causa:"reggere la fatica non si nota"},{id:"forzare",nome:"Forzare",ambito:"mano",partenza:1,fondo:1,causa:"una serratura forzata resta forzata"},{id:"sottrarre",nome:"Sottrarre",ambito:"mano",partenza:0,fondo:0,causa:"prendere, fatto bene, non lascia niente"},{id:"curare",nome:"Curare",ambito:"mano",partenza:0,fondo:0,causa:"medicare una ferita non si nota"},{id:"osservare",nome:"Osservare",ambito:"mente",partenza:0,fondo:0,causa:"guardare \xE8 ci\xF2 che fanno tutti"},{id:"sapere",nome:"Sapere",ambito:"mente",partenza:0,fondo:0,causa:"sapere una cosa non lascia segni"},{id:"persuadere",nome:"Persuadere",ambito:"voce",partenza:1,fondo:1,causa:"chi viene convinto sa di esserlo"},{id:"mentire",nome:"Mentire",ambito:"voce",partenza:0,fondo:0,causa:"una bugia ben detta non lascia traccia"},{id:"minacciare",nome:"Minacciare",ambito:"voce",partenza:2,fondo:2,causa:"una minaccia esiste solo se l'altro sa da chi viene"}],luoghi:[{id:"banchina",nome:"La banchina",zona:"banchina",valori:{corpo:0,mano:-1,mente:0,voce:1},cause:{mano:"tra i carichi le mani spariscono",voce:"sulla banchina le voci arrivano lontano"}},{id:"gallo",nome:"La taverna del Gallo",zona:"gallo",valori:{corpo:1,mano:-1,mente:0,voce:-1},cause:{corpo:"al Gallo chi alza le mani si fa notare",mano:"nel chiasso del Gallo le mani passano inosservate",voce:"al Gallo nessuno ascolta i discorsi degli altri"}},{id:"archivio",nome:"L'archivio della capitaneria",zona:"archivio",valori:{corpo:1,mano:1,mente:-1,voce:0},cause:{corpo:"nell'archivio chi gira dove non deve viene notato",mano:"nell'archivio chi tocca le carte degli altri viene guardato",mente:"nell'archivio leggere \xE8 ci\xF2 che fanno tutti"}},{id:"magazzini",nome:"I magazzini",zona:"magazzini",valori:{corpo:-1,mano:0,mente:1,voce:0},cause:{corpo:"i vicoli bui fra i magazzini nascondono chi si muove",mente:"fra i magazzini chi si guarda intorno \xE8 sospetto"}},{id:"chiesa",nome:"La chiesa dei marinai",zona:"chiesa",valori:{corpo:0,mano:1,mente:-1,voce:-1},cause:{mano:"in chiesa le mani vicino alle offerte si vedono",mente:"in chiesa chi sta in silenzio non disturba",voce:"in chiesa si parla solo sussurrando"}},{id:"nave",nome:"La Santa Rita",zona:"nave",valori:{corpo:-1,mano:0,mente:1,voce:1},cause:{corpo:"sottocoperta il buio copre il corpo",mente:"a bordo uno sconosciuto che si guarda intorno d\xE0 nell'occhio",voce:"a bordo ogni voce rimbomba nel legno"}}],momenti:[{id:"alba",nome:"l'alba, col mercato del pesce",passi:4,valori:{corpo:0,mano:-1,mente:0,voce:-1},cause:{mano:"all'alba la confusione del mercato copre le mani",voce:"all'alba il rumore del mercato copre le parole"}},{id:"giorno",nome:"il giorno",passi:4,valori:{corpo:0,mano:0,mente:0,voce:0},cause:{}},{id:"sera",nome:"la sera, con le taverne piene",passi:4,valori:{corpo:0,mano:0,mente:1,voce:-1},cause:{mente:"di sera, fra gente che beve, chi resta sobrio a guardare si nota",voce:"di sera tutti parlano e nessuno ascolta"}},{id:"notte",nome:"la notte",passi:4,valori:{corpo:-1,mano:1,mente:0,voce:1},cause:{corpo:"il buio copre il corpo",mano:"di notte ogni rumore di mani si sente",voce:"di notte ogni voce si sente"}}],aggravanti:[{id:"visto",testo:"qui ti hanno gi\xE0 visto",quando:{tracciaQui:2}},{id:"logorio",testo:"la stanchezza o i nervi ti pesano",quando:{logorioSuAmbito:2}},{id:"tanti",testo:"sono in tanti a guardare",quando:{tagScena:"sorvegliato"}},{id:"compromettente",testo:"porti addosso qualcosa che non dovresti",quando:{oggettoTag:"compromettente"}}],preparazioni:[{id:"osservato",testo:"hai osservato il posto",costo:"un passo sul luogo",durata:"luogo"},{id:"travestimento",testo:"hai un travestimento adatto",costo:"procurarlo; si perde con un rovescio",durata:"oggetto",oggetto:"casacca"},{id:"complice",testo:"qualcuno ti copre",costo:"un favore da restituire",durata:"prova"},{id:"diversivo",testo:"hai creato un diversivo",costo:"un oggetto o una moneta",durata:"prova"}],soglie:[{id:"porta_casa",cosa:"la porta chiusa a chiave di una casa",soglia:6},{id:"facchino",cosa:"convincere un facchino o un oste",soglia:6},{id:"rete_carico",cosa:"arrampicarsi su una rete di carico, rovesciare qualcosa addosso a qualcuno",soglia:6},{id:"lucchetto",cosa:"un lucchetto vecchio o da armadio",soglia:6},{id:"tasca_addormentato",cosa:"prendere qualcosa a chi dorme",soglia:6},{id:"ubriaco",cosa:"difendersi da un ubriaco",soglia:6},{id:"serratura_magazzino",cosa:"una serratura di magazzino, un portone",soglia:8},{id:"archivista",cosa:"un archivista sospettoso, un carceriere",soglia:8},{id:"sotto_gli_occhi",cosa:"prendere qualcosa sotto gli occhi di chi lo sorveglia",soglia:8},{id:"grondaia",cosa:"arrampicarsi su una grondaia o su un tetto",soglia:8},{id:"nuotare_notte",cosa:"nuotare nel porto di notte",soglia:8},{id:"confondersi",cosa:"confondersi fra i facchini sotto gli occhi di un nostromo",soglia:8},{id:"nostromo",cosa:"ingannare un nostromo diffidente",soglia:8},{id:"ascoltare",cosa:"cogliere un discorso in una taverna",soglia:8},{id:"registro_errore",cosa:"trovare l'errore in un registro",soglia:8},{id:"marinaio_coltello",cosa:"difendersi da un marinaio col coltello, o fermarlo con le parole",soglia:8},{id:"cassaforte",cosa:"la cassaforte della capitaneria",soglia:10},{id:"ufficiale",cosa:"convincere un ufficiale della guardia",soglia:10},{id:"soldato",cosa:"difendersi da un soldato",soglia:10},{id:"dogana",cosa:"la serratura della dogana reale",soglia:12},{id:"confessione",cosa:"far confessare chi rischia la forca",soglia:12}],tempo:{passo:"circa un'ora e mezza",conCalma:2},logorii:[{id:"fatica",nome:"Fatica",stadi:["leggera","pesante","allo stremo"],ogniPassi:8,saleCon:["rovescio"],ambiti:["corpo","mano"],rimedio:"dormire al sicuro: quattro passi",crollo:{testo:"Ti addormenti in piedi, appoggiato a un muro. Quando riapri gli occhi \xE8 passato del tempo.",effetti:[{tempo:2}]}},{id:"nervi",nome:"Nervi",stadi:["saldi","tesi","a pezzi"],ogniPassi:0,saleCon:["ferita"],ambiti:["mente","voce"],rimedio:"fermarsi in un posto sicuro finch\xE9 le mani non smettono di tremare",crollo:{testo:"Ti tremano le mani e non riesci a pensare. Ti fermi finch\xE9 non passa.",effetti:[{tempo:1}]}}],armi:[{id:"pugni",nome:"i pugni",tipo:"botta",colpisce:"corpo",daEsposto:"lieve",daScoperto:"grave"},{id:"coltello",nome:"il coltello",tipo:"taglio",colpisce:"corpo",daEsposto:"grave",daScoperto:"mortale"},{id:"pistola",nome:"la pistola",tipo:"fuoco",colpisce:"corpo",daEsposto:"mortale",daScoperto:"morte"}],ferite:{lieveGuarisceIn:16,graveDiventaMortaleIn:16,mortaleUccideIn:4,conMortaleSoloAmbiti:["voce"]},traccia:{calaOgniPassi:2,imprevistoFinoA:[2,4,6,8]},avversari:[{id:"bressan",nome:"Bressan",natura:"si-chiude",copertura:0,puntiDeboli:[{id:"data",testo:"Fargli notare la riga scritta con un altro inchiostro",capacita:"osservare",gradi:1,soglia:"registro_errore"},{id:"posto",testo:"Ricordargli che, se la cosa viene fuori, il posto lo perde lui",capacita:"persuadere",gradi:1,soglia:"archivista"},{id:"figlio",testo:"Nominare il debito di suo figlio con l'usuraio",capacita:"minacciare",gradi:2,soglia:"archivista",requisito:{fatto:"sai_del_figlio"},richiede:"sapere qualcosa della sua famiglia"}],pericolo:{sociale:"chiama la guardia della capitaneria"},movente:{vuole:"tenersi il posto",smette:"se gli garantisci che il suo nome non verr\xE0 fuori",mantieneLaParola:!0}},{id:"teodoro",nome:"Teodoro il Pesce",natura:"avanza",copertura:0,puntiDeboli:[{id:"addosso",testo:"Rovesciargli addosso quello che hai a portata di mano",capacita:"muoversi",gradi:1,soglia:"rete_carico"},{id:"capitano",testo:"Dirgli che il capitano Serra non vuole morti sulla sua nave",capacita:"sapere",gradi:2,soglia:"marinaio_coltello",requisito:{conoscenza:"nome_capitano"},richiede:"conoscere il nome del suo capitano"},{id:"colpire",testo:"Colpirlo per primo",capacita:"battersi",gradi:1,soglia:"marinaio_coltello"}],pericolo:{arma:"coltello"},sogliaDifesa:"marinaio_coltello",movente:{vuole:"la taglia che Grimani ha messo su chi cerca Matteo",smette:"se gli offri di pi\xF9, o se il rumore attira la guardia",mantieneLaParola:!1}}],protezioni:[{id:"giacca",nome:"La giacca imbottita",contro:["taglio","botta"]}],repertorio:[{id:"doganiere",zona:"banchina",testo:"Un doganiere ti ferma e vuole sapere che cosa fai sulla banchina. Ti lascia andare dopo un bel po' di domande.",effetti:[{tempo:1}]},{id:"rete",zona:"banchina",testo:"Una rete di carico si sgancia dalla gru e ti cade a un palmo dai piedi. Mezza banchina si volta a guardarti.",effetti:[{traccia:"banchina",piu:1}]},{id:"ragazzo",zona:"banchina",testo:"Un ragazzo scalzo ti fissa, poi corre via verso il Gallo.",quando:{traccia:"banchina",almeno:1},effetti:[{traccia:"gallo",piu:1}]},{id:"agguato_banchina",zona:"banchina",testo:"Fra due file di barili, qualcuno ti sbarra la strada.",quando:{tutte:[{fatto:"teodoro_cerca"},{nonFatto:"teodoro_fuori"},{momento:["sera","notte"]}]},effetti:[],vai:"agguato"},{id:"rissa",zona:"gallo",testo:"Scoppia una rissa a due tavoli dal tuo. Una panca vola, qualcuno sanguina dal naso.",effetti:[{logorio:"nervi",piu:1}]},{id:"ubriaco",zona:"gallo",testo:"Un ubriaco ti si attacca al braccio e vuole offrirti da bere. Ci metti un pezzo a liberartene.",effetti:[{tempo:1}]},{id:"agguato_gallo",zona:"gallo",testo:"Teodoro il Pesce si alza dal suo tavolo e ti fa cenno di seguirlo fuori. Non \xE8 un invito.",quando:{tutte:[{fatto:"teodoro_cerca"},{nonFatto:"teodoro_fuori"}]},effetti:[],vai:"agguato"},{id:"capitano",zona:"archivio",testo:"Un capitano ti chiede chi sei e per chi lavori. Rispondi, ma lui ti guarda come chi si ricorder\xE0 della tua faccia.",effetti:[{traccia:"archivio",piu:1}]},{id:"guardia_archivio",zona:"archivio",testo:"Passa una guardia della capitaneria. Aspetti che se ne vada.",effetti:[{tempo:1}]},{id:"cane",zona:"magazzini",testo:"Un cane da guardia si lancia contro un cancello, abbaiando. Ti si stringe lo stomaco.",effetti:[{logorio:"nervi",piu:1}]},{id:"guardiano",zona:"magazzini",testo:"Il guardiano fa il giro con la lanterna. Resti fermo nell'ombra finch\xE9 non passa.",effetti:[{tempo:1}]},{id:"offerta",zona:"chiesa",testo:"Il sagrestano ti tende la cassetta delle offerte e non si sposta finch\xE9 non ci metti qualcosa.",effetti:[{oggetto:"monete",piu:-1}]},{id:"vedova",zona:"chiesa",testo:"Una vedova vestita di nero ti chiede se hai notizie di una nave. Non ne hai, e lei torna a pregare.",effetti:[]},{id:"marinaio",zona:"nave",testo:"Un marinaio ti chiede che cosa fai l\xEC. Borbotti qualcosa, e lui ti guarda allontanarti.",effetti:[{traccia:"nave",piu:1}]},{id:"scricchiolio",zona:"nave",testo:"La nave scricchiola, e sopra di te qualcuno si ferma ad ascoltare. Trattieni il fiato finch\xE9 i passi non si allontanano.",effetti:[{tempo:1}]}],crescita:{tipo:"arco",tacche:[3,5,5]},difesa:["muoversi","battersi"],resistenza:"resistere"};var la={id:"santa-rita",titolo:"Il registro della Santa Rita",ambientazione:"porto",inizio:"inizio",momentoIniziale:"alba",morte:"morte_ferite",personaggio:{livelli:{muoversi:1,resistere:1,sottrarre:1,osservare:2,sapere:1,mentire:1},oggetti:{monete:4,lettera:1},protezioni:["giacca"]},fatti:[{id:"sai_del_figlio",parola:"FIGLIO"},{id:"teodoro_cerca",parola:"TAGLIA"},{id:"teodoro_fuori",parola:"PESCE"},{id:"teodoro_comprato",parola:"COMPRATO"},{id:"matteo_libero",parola:"LIBERO"}],misure:[{id:"fiducia_bressan",nome:"Fiducia di Bressan",max:3}],conoscenze:[{id:"salpa_alba",testo:"La Santa Rita salpa con la marea, prima dell'alba.",verita:"vera"},{id:"carico_grimani",testo:"La Santa Rita porta un carico di Ottavio Grimani, dal magazzino sette.",verita:"vera"},{id:"matteo_a_bordo",testo:"Matteo \xE8 stato imbarcato sulla Santa Rita.",verita:"vera"},{id:"matteo_in_stiva",testo:"Matteo \xE8 tenuto legato nella stiva della Santa Rita.",verita:"vera"},{id:"nome_capitano",testo:"Il capitano della Santa Rita si chiama Nicol\xF2 Serra.",verita:"vera"},{id:"matteo_donna",testo:"Matteo \xE8 scappato con una donna.",verita:"falsa"},{id:"grimani_armi",testo:"Nelle casse di Grimani non ci sono tessuti: ci sono moschetti.",verita:"vera"},{id:"taglia",testo:"Qualcuno ha messo una taglia su chi cerca Matteo.",verita:"vera"},{id:"grimani_taglia",testo:"La taglia la paga Grimani.",verita:"vera"},{id:"bressan_armadio",testo:"Di notte Bressan chiude il registro nell'armadio.",verita:"vera"},{id:"serratura_nuova",testo:"La porta del magazzino sette ha una serratura nuova, di Genova.",verita:"vera"},{id:"ufficiale_testimone",testo:"L'ufficiale della guardia vuole un testimone della capitaneria.",verita:"vera"}],oggetti:[{id:"monete",nome:"Monete"},{id:"lettera",nome:"Il biglietto di Matteo"},{id:"casacca",nome:"Una casacca da facchino"},{id:"bolla",nome:"La bolla di carico di Grimani",tag:["compromettente"]}],fili:[{id:"fratello",nome:"Dov'\xE8 Matteo",tappe:4}],scadenze:[{id:"salpa",nome:"La Santa Rita salpa",caselle:8,ogniPassi:2,alScadere:"salpata",salvoSe:{fatto:"matteo_libero"}}],scene:[{id:"inizio",luogo:"banchina",titolo:"Tre giorni",testo:`Tuo fratello Matteo non torna a casa da tre giorni. Fa il copista per la capitaneria del porto, e non \xE8 tipo da sparire: \xE8 tipo da restare alzato fino a tardi a ricopiare conti che non tornano.
+<div id="foglio" class="velo foglio" hidden role="dialog" aria-modal="true" aria-label="La ricevuta">
+  <div class="foglio-box">
+    <div id="vassoio" class="vassoio" hidden aria-hidden="true"></div>
+    <div id="foglio-carta" class="carta"></div>
+    <p id="conto" aria-live="polite"></p>
+    <div class="foglio-azioni">
+      <button type="button" id="tira" class="primario">Tira i dadi</button>
+      <button type="button" id="altra" class="secondario">Un'altra via</button>
+    </div>
+  </div>
+</div>
+
+<div id="finale" class="velo finale" hidden role="dialog" aria-modal="true" aria-label="Fine della storia">
+  <div class="finale-box">
+    <div id="finale-corpo"></div>
+    <div class="fin-azioni">
+      <button type="button" id="fin-nuova" class="primario">Ricomincia da capo</button>
+      <button type="button" id="fin-rileggi" class="secondario">Rileggi il registro</button>
+      <button type="button" id="fin-copia" class="secondario">Copia il registro</button>
+    </div>
+  </div>
+</div>
+
+<div id="come" class="velo pannello" hidden role="dialog" aria-modal="true" aria-label="Come si gioca">
+  <div class="pannello-box">
+    <header><h2>Come si gioca</h2><button type="button" class="secondario" data-chiudi>Chiudi</button></header>
+    <h3>Le due domande</h3>
+    <p>Quando tenti qualcosa di rischioso, il gioco risponde a due domande separate. <b>Ci riesci?</b> Lo decidono i dadi: due dadi a sei facce, più il tuo livello nella capacità, contro una soglia. <b>Quanto ti costa?</b> Questo i dadi non lo toccano: dipende da che cosa fai, dove e quando.</p>
+    <h3>I tre gradi</h3>
+    <div class="gradi-leg"><span class="grado" data-g="0">al coperto</span><span class="grado" data-g="1">esposto</span><span class="grado" data-g="2">allo scoperto</span></div>
+    <p><b>Al coperto</b> il peggio che ti può capitare è non riuscire. <b>Esposto</b>, anche se riesci qualcuno ti nota. <b>Allo scoperto</b>, qualunque cosa succeda succede davanti a tutti, e un fallimento cambia la storia.</p>
+    <h3>La ricevuta</h3>
+    <p>Prima di ogni prova compare la ricevuta della capitaneria: riga per riga, che cosa rende l'azione costosa. Le righe barrate non contano. In fondo leggi la probabilità di riuscire e la posta, cioè che cosa rischi. Puoi sempre scegliere un'altra via.</p>
+    <h3>Il tempo e la nave</h3>
+    <p>Spostarti, aspettare e ritentare costano tempo. Il giorno cambia la luce, e la luce cambia i costi: il buio copre chi si muove, ma di notte ogni rumore si sente. La <em>Santa Rita</em> salpa prima dell'alba.</p>
+    <h3>La via povera</h3>
+    <p>Davanti a ogni ostacolo c'è almeno una via che non si tira. Costa tempo, denaro o fatica, ma c'è sempre.</p>
+    <h3>La tastiera</h3>
+    <div class="tasti"><kbd>1–9</kbd><span>scegli</span><kbd>Invio</kbd><span>tira i dadi, poi continua</span><kbd>Esc</kbd><span>chiudi</span></div>
+  </div>
+</div>
+
+<div id="cofano" class="velo pannello" hidden role="dialog" aria-modal="true" aria-label="Sotto il cofano">
+  <div class="pannello-box">
+    <header><h2>Sotto il cofano</h2><button type="button" class="secondario" data-chiudi>Chiudi</button></header>
+    <p>Questa app non conosce le regole. Ogni volta che scegli, chiede al motore di ESPOSIZIONE due cose: <b>vista</b>, cioè che cosa mostrare, e <b>agisci</b>, cioè che cosa succede. Poi disegna quello che riceve: il panorama, la carta, i dadi, il timbro.</p>
+    <p>Dagli stessi dati escono anche il librogame stampato e la partita nel terminale. Un gioco grafico, dal punta e clicca al gioco di ruolo con una mappa, userebbe il motore allo stesso modo, e disegnerebbe altro.</p>
+    <h3>Che cosa ha risposto il motore</h3>
+    <pre id="cofano-dati"></pre>
+  </div>
+</div>
+
+<script>"use strict";(()=>{var Na={id:"porto",titolo:"Il porto",frase:"Nel porto, essere esposti significa che qualcuno potr\xE0 dire di averti visto.",criterioFondo:"Ha un Fondo ci\xF2 che lascia un segno che resta: un corpo ferito, una porta forzata, una parola detta a qualcuno che se la ricorder\xE0.",ambiti:[{id:"corpo",nome:"corpo"},{id:"mano",nome:"mano"},{id:"mente",nome:"mente"},{id:"voce",nome:"voce"}],capacita:[{id:"muoversi",nome:"Muoversi",ambito:"corpo",partenza:0,fondo:0,causa:"al porto tutti corrono, e nessuno ci fa caso"},{id:"battersi",nome:"Battersi",ambito:"corpo",partenza:2,fondo:1,causa:"la violenza si vede e si ricorda"},{id:"resistere",nome:"Resistere",ambito:"corpo",partenza:0,fondo:0,causa:"reggere la fatica non si nota"},{id:"forzare",nome:"Forzare",ambito:"mano",partenza:1,fondo:1,causa:"una serratura forzata resta forzata"},{id:"sottrarre",nome:"Sottrarre",ambito:"mano",partenza:0,fondo:0,causa:"prendere, fatto bene, non lascia niente"},{id:"curare",nome:"Curare",ambito:"mano",partenza:0,fondo:0,causa:"medicare una ferita non si nota"},{id:"osservare",nome:"Osservare",ambito:"mente",partenza:0,fondo:0,causa:"guardare \xE8 ci\xF2 che fanno tutti"},{id:"sapere",nome:"Sapere",ambito:"mente",partenza:0,fondo:0,causa:"sapere una cosa non lascia segni"},{id:"persuadere",nome:"Persuadere",ambito:"voce",partenza:1,fondo:1,causa:"chi viene convinto sa di esserlo"},{id:"mentire",nome:"Mentire",ambito:"voce",partenza:0,fondo:0,causa:"una bugia ben detta non lascia traccia"},{id:"minacciare",nome:"Minacciare",ambito:"voce",partenza:2,fondo:2,causa:"una minaccia esiste solo se l'altro sa da chi viene"}],luoghi:[{id:"banchina",nome:"La banchina",zona:"banchina",valori:{corpo:0,mano:-1,mente:0,voce:1},cause:{mano:"tra i carichi le mani spariscono",voce:"sulla banchina le voci arrivano lontano"}},{id:"gallo",nome:"La taverna del Gallo",zona:"gallo",valori:{corpo:1,mano:-1,mente:0,voce:-1},cause:{corpo:"al Gallo chi alza le mani si fa notare",mano:"nel chiasso del Gallo le mani passano inosservate",voce:"al Gallo nessuno ascolta i discorsi degli altri"}},{id:"archivio",nome:"L'archivio della capitaneria",zona:"archivio",valori:{corpo:1,mano:1,mente:-1,voce:0},cause:{corpo:"nell'archivio chi gira dove non deve viene notato",mano:"nell'archivio chi tocca le carte degli altri viene guardato",mente:"nell'archivio leggere \xE8 ci\xF2 che fanno tutti"}},{id:"magazzini",nome:"I magazzini",zona:"magazzini",valori:{corpo:-1,mano:0,mente:1,voce:0},cause:{corpo:"i vicoli bui fra i magazzini nascondono chi si muove",mente:"fra i magazzini chi si guarda intorno \xE8 sospetto"}},{id:"chiesa",nome:"La chiesa dei marinai",zona:"chiesa",valori:{corpo:0,mano:1,mente:-1,voce:-1},cause:{mano:"in chiesa le mani vicino alle offerte si vedono",mente:"in chiesa chi sta in silenzio non disturba",voce:"in chiesa si parla solo sussurrando"}},{id:"nave",nome:"La Santa Rita",zona:"nave",valori:{corpo:-1,mano:0,mente:1,voce:1},cause:{corpo:"sottocoperta il buio copre il corpo",mente:"a bordo uno sconosciuto che si guarda intorno d\xE0 nell'occhio",voce:"a bordo ogni voce rimbomba nel legno"}}],momenti:[{id:"alba",nome:"l'alba, col mercato del pesce",passi:4,valori:{corpo:0,mano:-1,mente:0,voce:-1},cause:{mano:"all'alba la confusione del mercato copre le mani",voce:"all'alba il rumore del mercato copre le parole"}},{id:"giorno",nome:"il giorno",passi:4,valori:{corpo:0,mano:0,mente:0,voce:0},cause:{}},{id:"sera",nome:"la sera, con le taverne piene",passi:4,valori:{corpo:0,mano:0,mente:1,voce:-1},cause:{mente:"di sera, fra gente che beve, chi resta sobrio a guardare si nota",voce:"di sera tutti parlano e nessuno ascolta"}},{id:"notte",nome:"la notte",passi:4,valori:{corpo:-1,mano:1,mente:0,voce:1},cause:{corpo:"il buio copre il corpo",mano:"di notte ogni rumore di mani si sente",voce:"di notte ogni voce si sente"}}],aggravanti:[{id:"visto",testo:"qui ti hanno gi\xE0 visto",quando:{tracciaQui:2}},{id:"logorio",testo:"la stanchezza o i nervi ti pesano",quando:{logorioSuAmbito:2}},{id:"tanti",testo:"sono in tanti a guardare",quando:{tagScena:"sorvegliato"}},{id:"compromettente",testo:"porti addosso qualcosa che non dovresti",quando:{oggettoTag:"compromettente"}}],preparazioni:[{id:"osservato",testo:"hai osservato il posto",costo:"un passo sul luogo",durata:"luogo"},{id:"travestimento",testo:"hai un travestimento adatto",costo:"procurarlo; si perde con un rovescio",durata:"oggetto",oggetto:"casacca"},{id:"complice",testo:"qualcuno ti copre",costo:"un favore da restituire",durata:"prova"},{id:"diversivo",testo:"hai creato un diversivo",costo:"un oggetto o una moneta",durata:"prova"}],soglie:[{id:"porta_casa",cosa:"la porta chiusa a chiave di una casa",soglia:6},{id:"facchino",cosa:"convincere un facchino o un oste",soglia:6},{id:"rete_carico",cosa:"arrampicarsi su una rete di carico, rovesciare qualcosa addosso a qualcuno",soglia:6},{id:"lucchetto",cosa:"un lucchetto vecchio o da armadio",soglia:6},{id:"tasca_addormentato",cosa:"prendere qualcosa a chi dorme",soglia:6},{id:"ubriaco",cosa:"difendersi da un ubriaco",soglia:6},{id:"serratura_magazzino",cosa:"una serratura di magazzino, un portone",soglia:8},{id:"archivista",cosa:"un archivista sospettoso, un carceriere",soglia:8},{id:"sotto_gli_occhi",cosa:"prendere qualcosa sotto gli occhi di chi lo sorveglia",soglia:8},{id:"grondaia",cosa:"arrampicarsi su una grondaia o su un tetto",soglia:8},{id:"nuotare_notte",cosa:"nuotare nel porto di notte",soglia:8},{id:"confondersi",cosa:"confondersi fra i facchini sotto gli occhi di un nostromo",soglia:8},{id:"nostromo",cosa:"ingannare un nostromo diffidente",soglia:8},{id:"ascoltare",cosa:"cogliere un discorso in una taverna",soglia:8},{id:"registro_errore",cosa:"trovare l'errore in un registro",soglia:8},{id:"marinaio_coltello",cosa:"difendersi da un marinaio col coltello, o fermarlo con le parole",soglia:8},{id:"cassaforte",cosa:"la cassaforte della capitaneria",soglia:10},{id:"ufficiale",cosa:"convincere un ufficiale della guardia",soglia:10},{id:"soldato",cosa:"difendersi da un soldato",soglia:10},{id:"dogana",cosa:"la serratura della dogana reale",soglia:12},{id:"confessione",cosa:"far confessare chi rischia la forca",soglia:12}],tempo:{passo:"circa un'ora e mezza",conCalma:2},logorii:[{id:"fatica",nome:"Fatica",stadi:["leggera","pesante","allo stremo"],ogniPassi:8,saleCon:["rovescio"],ambiti:["corpo","mano"],rimedio:"dormire al sicuro: quattro passi",crollo:{testo:"Ti addormenti in piedi, appoggiato a un muro. Quando riapri gli occhi \xE8 passato del tempo.",effetti:[{tempo:2}]}},{id:"nervi",nome:"Nervi",stadi:["saldi","tesi","a pezzi"],ogniPassi:0,saleCon:["ferita"],ambiti:["mente","voce"],rimedio:"fermarsi in un posto sicuro finch\xE9 le mani non smettono di tremare",crollo:{testo:"Ti tremano le mani e non riesci a pensare. Ti fermi finch\xE9 non passa.",effetti:[{tempo:1}]}}],armi:[{id:"pugni",nome:"i pugni",tipo:"botta",colpisce:"corpo",daEsposto:"lieve",daScoperto:"grave"},{id:"coltello",nome:"il coltello",tipo:"taglio",colpisce:"corpo",daEsposto:"grave",daScoperto:"mortale"},{id:"pistola",nome:"la pistola",tipo:"fuoco",colpisce:"corpo",daEsposto:"mortale",daScoperto:"morte"}],ferite:{lieveGuarisceIn:16,graveDiventaMortaleIn:16,mortaleUccideIn:4,conMortaleSoloAmbiti:["voce"]},traccia:{calaOgniPassi:2,imprevistoFinoA:[2,4,6,8]},avversari:[{id:"bressan",nome:"Bressan",natura:"si-chiude",copertura:0,puntiDeboli:[{id:"data",testo:"Fargli notare la riga scritta con un altro inchiostro",capacita:"osservare",gradi:1,soglia:"registro_errore"},{id:"posto",testo:"Ricordargli che, se la cosa viene fuori, il posto lo perde lui",capacita:"persuadere",gradi:1,soglia:"archivista"},{id:"figlio",testo:"Nominare il debito di suo figlio con l'usuraio",capacita:"minacciare",gradi:2,soglia:"archivista",requisito:{fatto:"sai_del_figlio"},richiede:"sapere qualcosa della sua famiglia"}],pericolo:{sociale:"chiama la guardia della capitaneria"},movente:{vuole:"tenersi il posto",smette:"se gli garantisci che il suo nome non verr\xE0 fuori",mantieneLaParola:!0}},{id:"teodoro",nome:"Teodoro il Pesce",natura:"avanza",copertura:0,puntiDeboli:[{id:"addosso",testo:"Rovesciargli addosso quello che hai a portata di mano",capacita:"muoversi",gradi:1,soglia:"rete_carico"},{id:"capitano",testo:"Dirgli che il capitano Serra non vuole morti sulla sua nave",capacita:"sapere",gradi:2,soglia:"marinaio_coltello",requisito:{conoscenza:"nome_capitano"},richiede:"conoscere il nome del suo capitano"},{id:"colpire",testo:"Colpirlo per primo",capacita:"battersi",gradi:1,soglia:"marinaio_coltello"}],pericolo:{arma:"coltello"},sogliaDifesa:"marinaio_coltello",movente:{vuole:"la taglia che Grimani ha messo su chi cerca Matteo",smette:"se gli offri di pi\xF9, o se il rumore attira la guardia",mantieneLaParola:!1}}],protezioni:[{id:"giacca",nome:"La giacca imbottita",contro:["taglio","botta"]}],repertorio:[{id:"doganiere",zona:"banchina",testo:"Un doganiere ti ferma e vuole sapere che cosa fai sulla banchina. Ti lascia andare dopo un bel po' di domande.",effetti:[{tempo:1}]},{id:"rete",zona:"banchina",testo:"Una rete di carico si sgancia dalla gru e ti cade a un palmo dai piedi. Mezza banchina si volta a guardarti.",effetti:[{traccia:"banchina",piu:1}]},{id:"ragazzo",zona:"banchina",testo:"Un ragazzo scalzo ti fissa, poi corre via verso il Gallo.",quando:{traccia:"banchina",almeno:1},effetti:[{traccia:"gallo",piu:1}]},{id:"agguato_banchina",zona:"banchina",testo:"Fra due file di barili, qualcuno ti sbarra la strada.",quando:{tutte:[{fatto:"teodoro_cerca"},{nonFatto:"teodoro_fuori"},{momento:["sera","notte"]}]},effetti:[],vai:"agguato"},{id:"rissa",zona:"gallo",testo:"Scoppia una rissa a due tavoli dal tuo. Una panca vola, qualcuno sanguina dal naso.",effetti:[{logorio:"nervi",piu:1}]},{id:"ubriaco",zona:"gallo",testo:"Un ubriaco ti si attacca al braccio e vuole offrirti da bere. Ci metti un pezzo a liberartene.",effetti:[{tempo:1}]},{id:"agguato_gallo",zona:"gallo",testo:"Teodoro il Pesce si alza dal suo tavolo e ti fa cenno di seguirlo fuori. Non \xE8 un invito.",quando:{tutte:[{fatto:"teodoro_cerca"},{nonFatto:"teodoro_fuori"}]},effetti:[],vai:"agguato"},{id:"capitano",zona:"archivio",testo:"Un capitano ti chiede chi sei e per chi lavori. Rispondi, ma lui ti guarda come chi si ricorder\xE0 della tua faccia.",effetti:[{traccia:"archivio",piu:1}]},{id:"guardia_archivio",zona:"archivio",testo:"Passa una guardia della capitaneria. Aspetti che se ne vada.",effetti:[{tempo:1}]},{id:"cane",zona:"magazzini",testo:"Un cane da guardia si lancia contro un cancello, abbaiando. Ti si stringe lo stomaco.",effetti:[{logorio:"nervi",piu:1}]},{id:"guardiano",zona:"magazzini",testo:"Il guardiano fa il giro con la lanterna. Resti fermo nell'ombra finch\xE9 non passa.",effetti:[{tempo:1}]},{id:"offerta",zona:"chiesa",testo:"Il sagrestano ti tende la cassetta delle offerte e non si sposta finch\xE9 non ci metti qualcosa.",effetti:[{oggetto:"monete",piu:-1}]},{id:"vedova",zona:"chiesa",testo:"Una vedova vestita di nero ti chiede se hai notizie di una nave. Non ne hai, e lei torna a pregare.",effetti:[]},{id:"marinaio",zona:"nave",testo:"Un marinaio ti chiede che cosa fai l\xEC. Borbotti qualcosa, e lui ti guarda allontanarti.",effetti:[{traccia:"nave",piu:1}]},{id:"scricchiolio",zona:"nave",testo:"La nave scricchiola, e sopra di te qualcuno si ferma ad ascoltare. Trattieni il fiato finch\xE9 i passi non si allontanano.",effetti:[{tempo:1}]}],crescita:{tipo:"arco",tacche:[3,5,5]},difesa:["muoversi","battersi"],resistenza:"resistere"};var Va={id:"santa-rita",titolo:"Il registro della Santa Rita",ambientazione:"porto",inizio:"inizio",momentoIniziale:"alba",morte:"morte_ferite",personaggio:{livelli:{muoversi:1,resistere:1,sottrarre:1,osservare:2,sapere:1,mentire:1},oggetti:{monete:4,lettera:1},protezioni:["giacca"]},fatti:[{id:"sai_del_figlio",parola:"FIGLIO"},{id:"teodoro_cerca",parola:"TAGLIA"},{id:"teodoro_fuori",parola:"PESCE"},{id:"teodoro_comprato",parola:"COMPRATO"},{id:"matteo_libero",parola:"LIBERO"}],misure:[{id:"fiducia_bressan",nome:"Fiducia di Bressan",max:3}],conoscenze:[{id:"salpa_alba",testo:"La Santa Rita salpa con la marea, prima dell'alba.",verita:"vera"},{id:"carico_grimani",testo:"La Santa Rita porta un carico di Ottavio Grimani, dal magazzino sette.",verita:"vera"},{id:"matteo_a_bordo",testo:"Matteo \xE8 stato imbarcato sulla Santa Rita.",verita:"vera"},{id:"matteo_in_stiva",testo:"Matteo \xE8 tenuto legato nella stiva della Santa Rita.",verita:"vera"},{id:"nome_capitano",testo:"Il capitano della Santa Rita si chiama Nicol\xF2 Serra.",verita:"vera"},{id:"matteo_donna",testo:"Matteo \xE8 scappato con una donna.",verita:"falsa"},{id:"grimani_armi",testo:"Nelle casse di Grimani non ci sono tessuti: ci sono moschetti.",verita:"vera"},{id:"taglia",testo:"Qualcuno ha messo una taglia su chi cerca Matteo.",verita:"vera"},{id:"grimani_taglia",testo:"La taglia la paga Grimani.",verita:"vera"},{id:"bressan_armadio",testo:"Di notte Bressan chiude il registro nell'armadio.",verita:"vera"},{id:"serratura_nuova",testo:"La porta del magazzino sette ha una serratura nuova, di Genova.",verita:"vera"},{id:"ufficiale_testimone",testo:"L'ufficiale della guardia vuole un testimone della capitaneria.",verita:"vera"}],oggetti:[{id:"monete",nome:"Monete"},{id:"lettera",nome:"Il biglietto di Matteo"},{id:"casacca",nome:"Una casacca da facchino"},{id:"bolla",nome:"La bolla di carico di Grimani",tag:["compromettente"]}],fili:[{id:"fratello",nome:"Dov'\xE8 Matteo",tappe:4}],scadenze:[{id:"salpa",nome:"La Santa Rita salpa",caselle:8,ogniPassi:2,alScadere:"salpata",salvoSe:{fatto:"matteo_libero"}}],scene:[{id:"inizio",luogo:"banchina",titolo:"Tre giorni",testo:`Tuo fratello Matteo non torna a casa da tre giorni. Fa il copista per la capitaneria del porto, e non \xE8 tipo da sparire: \xE8 tipo da restare alzato fino a tardi a ricopiare conti che non tornano.
 
 Stamattina, sotto la porta, hai trovato un biglietto con la sua calligrafia: *Se non torno, cerca Lucia alla chiesa dei marinai. Non fidarti di nessuno che lavori per Grimani.*
 
@@ -372,41 +628,60 @@ Quella notte, Ottavio Grimani non dorme a casa sua.`,entrando:[{fatto:"matteo_li
 
 Tunisi \xE8 lontana, e il viaggio \xE8 lungo. Forse, da qualche parte, ci sar\xE0 un'altra occasione.`,finale:{tipo:"sconfitta"}},{id:"salpata",luogo:"banchina",titolo:"La marea",testo:[{testo:"La marea gira. Dal molo guardi la *Santa Rita* sciogliere gli ormeggi e scivolare fuori dal porto, con le vele grigie nella prima luce. Matteo \xE8 l\xEC sotto, da qualche parte."},{se:{conoscenza:"matteo_a_bordo"},testo:"Adesso almeno sai dove lo portano: Tunisi. \xC8 poco, ma \xE8 qualcosa."}],finale:{tipo:"sconfitta"}},{id:"morte_ferite",luogo:"banchina",titolo:"La fine",testo:`Le forze ti lasciano. Il porto continua a lavorare intorno a te, con le sue gru, le sue grida e le sue navi, come se niente fosse.
 
-La *Santa Rita* salpa prima dell'alba, con Matteo nella stiva.`,finale:{tipo:"morte"}}]};function Ca(o){let a=o|0;a=a+1831565813|0;let i=Math.imul(a^a>>>15,1|a);return i=i+Math.imul(i^i>>>7,61|i)^i,{valore:((i^i>>>14)>>>0)/4294967296,stato:a}}function _(o,a,i){let e=Ca(o);return{valore:a+Math.floor(e.valore*(i-a+1)),stato:e.stato}}function A(o){let a=_(o,1,6),i=_(a.stato,1,6);return{dadi:[a.valore,i.valore],totale:a.valore+i.valore,stato:i.stato}}var Ia=[0,0,1,2,3,4,5,6,5,4,3,2,1];function Aa(o){if(o<=2)return 1;if(o>12)return 0;let a=0;for(let i=o;i<=12;i++)a+=Ia[i];return a/36}function N(o,a,i){return Aa(o-a+i)}function x(o){return Math.round(o*100)}function W(o,a){return{amb:o,storia:a,scene:new Map(a.scene.map(i=>[i.id,i]))}}function da(o){return structuredClone(o)}function q(o,a){let i=o.scene.get(a);if(!i)throw new Error(`Scena inesistente: ${a}`);return i}function m(o,a){let i=q(o,a.scena).luogo,e=o.amb.luoghi.find(n=>n.id===i);if(!e)throw new Error(`Luogo inesistente: ${i}`);return e}function E(o,a){let i=o.amb.momenti,e=i.reduce((c,r)=>c+r.passi,0),n=i.findIndex(c=>c.id===o.storia.momentoIniziale),t=a.passo%e;for(;t>=i[n].passi;)t-=i[n].passi,n=(n+1)%i.length;return i[n]}function v(o,a,i,e){if("tutte"in i)return i.tutte.every(n=>v(o,a,n,e));if("una"in i)return i.una.some(n=>v(o,a,n,e));if("non"in i)return!v(o,a,i.non,e);if("fatto"in i)return!!a.fatti[i.fatto];if("nonFatto"in i)return!a.fatti[i.nonFatto];if("misura"in i){let n=a.misure[i.misura]??0;return n>=(i.almeno??-1/0)&&n<=(i.alPiu??1/0)}if("oggetto"in i)return(a.oggetti[i.oggetto]??0)>=(i.almeno??1);if("conoscenza"in i)return!!a.conoscenze[i.conoscenza];if("nonConoscenza"in i)return!a.conoscenze[i.nonConoscenza];if("traccia"in i)return(a.traccia[i.traccia]??0)>=i.almeno;if("momento"in i){let n=E(o,a).id;return Array.isArray(i.momento)?i.momento.includes(n):i.momento===n}if("logorio"in i)return(a.logorio[i.logorio]?.stadio??1)>=i.almeno;if("ferita"in i){let n=["lieve","grave","mortale","morte"];return a.ferite.some(t=>n.indexOf(t.gravita)>=n.indexOf(i.ferita))}return"filo"in i?(a.fili[i.filo]??0)>=i.almeno:"scadenza"in i?(a.scadenze[i.scadenza]??0)>=i.almeno:"tracciaQui"in i?(a.traccia[m(o,a).zona]??0)>=i.tracciaQui:"logorioSuAmbito"in i?e?o.amb.logorii.some(n=>n.ambiti.includes(e.ambito)&&(a.logorio[n.id]?.stadio??1)>=i.logorioSuAmbito):!1:"tagScena"in i?!!e&&e.tag.includes(i.tagScena):"oggettoTag"in i?o.storia.oggetti.some(n=>n.tag?.includes(i.oggettoTag)&&(a.oggetti[n.id]??0)>0):!1}function ua(o,a,i){return typeof i=="string"?i:i.filter(e=>!e.se||v(o,a,e.se)).map(e=>e.testo).join(`
+La *Santa Rita* salpa prima dell'alba, con Matteo nella stiva.`,finale:{tipo:"morte"}}]};function Co(a){let o=a|0;o=o+1831565813|0;let e=Math.imul(o^o>>>15,1|o);return e=e+Math.imul(e^e>>>7,61|e)^e,{valore:((e^e>>>14)>>>0)/4294967296,stato:o}}function V(a,o,e){let i=Co(a);return{valore:o+Math.floor(i.valore*(e-o+1)),stato:i.stato}}function H(a){let o=V(a,1,6),e=V(o.stato,1,6);return{dadi:[o.valore,e.valore],totale:o.valore+e.valore,stato:e.stato}}var Po=[0,0,1,2,3,4,5,6,5,4,3,2,1];function Lo(a){if(a<=2)return 1;if(a>12)return 0;let o=0;for(let e=a;e<=12;e++)o+=Po[e];return o/36}function ea(a,o,e){return Lo(a-o+e)}function ia(a){return Math.round(a*100)}function ha(a,o){return{amb:a,storia:o,scene:new Map(o.scene.map(e=>[e.id,e]))}}function Ba(a){return structuredClone(a)}function Q(a,o){let e=a.scene.get(o);if(!e)throw new Error(`Scena inesistente: ${o}`);return e}function S(a,o){let e=Q(a,o.scena).luogo,i=a.amb.luoghi.find(n=>n.id===e);if(!i)throw new Error(`Luogo inesistente: ${e}`);return i}function x(a,o){let e=a.amb.momenti,i=e.reduce((s,r)=>s+r.passi,0),n=e.findIndex(s=>s.id===a.storia.momentoIniziale),t=o.passo%i;for(;t>=e[n].passi;)t-=e[n].passi,n=(n+1)%e.length;return e[n]}function C(a,o,e,i){if("tutte"in e)return e.tutte.every(n=>C(a,o,n,i));if("una"in e)return e.una.some(n=>C(a,o,n,i));if("non"in e)return!C(a,o,e.non,i);if("fatto"in e)return!!o.fatti[e.fatto];if("nonFatto"in e)return!o.fatti[e.nonFatto];if("misura"in e){let n=o.misure[e.misura]??0;return n>=(e.almeno??-1/0)&&n<=(e.alPiu??1/0)}if("oggetto"in e)return(o.oggetti[e.oggetto]??0)>=(e.almeno??1);if("conoscenza"in e)return!!o.conoscenze[e.conoscenza];if("nonConoscenza"in e)return!o.conoscenze[e.nonConoscenza];if("traccia"in e)return(o.traccia[e.traccia]??0)>=e.almeno;if("momento"in e){let n=x(a,o).id;return Array.isArray(e.momento)?e.momento.includes(n):e.momento===n}if("logorio"in e)return(o.logorio[e.logorio]?.stadio??1)>=e.almeno;if("ferita"in e){let n=["lieve","grave","mortale","morte"];return o.ferite.some(t=>n.indexOf(t.gravita)>=n.indexOf(e.ferita))}return"filo"in e?(o.fili[e.filo]??0)>=e.almeno:"scadenza"in e?(o.scadenze[e.scadenza]??0)>=e.almeno:"tracciaQui"in e?(o.traccia[S(a,o).zona]??0)>=e.tracciaQui:"logorioSuAmbito"in e?i?a.amb.logorii.some(n=>n.ambiti.includes(i.ambito)&&(o.logorio[n.id]?.stadio??1)>=e.logorioSuAmbito):!1:"tagScena"in e?!!i&&i.tag.includes(e.tagScena):"oggettoTag"in e?a.storia.oggetti.some(n=>n.tag?.includes(e.oggettoTag)&&(o.oggetti[n.id]??0)>0):!1}function ka(a,o,e){return typeof e=="string"?e:e.filter(i=>!i.se||C(a,o,i.se)).map(i=>i.testo).join(`
 
-`)}function Z(o,a){let i=o.storia.personaggio;return{seme:a,rng:a,scena:o.storia.inizio,passo:0,fatti:{},misure:{},oggetti:{...i.oggetti},conoscenze:{},traccia:{},quiete:{},logorio:Object.fromEntries(o.amb.logorii.map(n=>[n.id,{stadio:1,passi:0}])),ferite:[],protezioni:Object.fromEntries(i.protezioni.map(n=>[n,0])),livelli:Object.fromEntries(o.amb.capacita.map(n=>[n.id,i.livelli[n.id]??0])),tacche:{},taccheScena:{},fili:{},scadenze:Object.fromEntries(o.storia.scadenze.map(n=>[n.id,0])),preparazioni:[],usate:{},tentativi:{},primaVolta:{}}}var Ea={morte:"mortale",mortale:"grave",grave:"lieve",lieve:null};function K(o,a){return o.storia.fatti.find(i=>i.id===a)?.parola??a}function f(o,a,i,e){let n=0;for(let t of i??[])if("fatto"in t)a.fatti[t.fatto]=!0,e.push({tipo:"qualita",testo:`Parola chiave: ${K(o,t.fatto)}`});else if("togliFatto"in t)delete a.fatti[t.togliFatto];else if("misura"in t){let c=o.storia.misure.find(r=>r.id===t.misura);a.misure[t.misura]=Math.max(0,Math.min(c?.max??99,(a.misure[t.misura]??0)+t.piu)),e.push({tipo:"qualita",testo:`${c?.nome??t.misura}: ${a.misure[t.misura]}`})}else if("oggetto"in t){a.oggetti[t.oggetto]=Math.max(0,(a.oggetti[t.oggetto]??0)+t.piu);let c=o.storia.oggetti.find(r=>r.id===t.oggetto);e.push({tipo:"qualita",testo:`${c?.nome??t.oggetto}: ${t.piu>0?"+":""}${t.piu} (ora ${a.oggetti[t.oggetto]})`})}else if("conoscenza"in t){if(!a.conoscenze[t.conoscenza]){a.conoscenze[t.conoscenza]=!0;let c=o.storia.conoscenze.find(r=>r.id===t.conoscenza);e.push({tipo:"qualita",testo:`Sai che: ${c?.testo??t.conoscenza}`})}}else if("traccia"in t)$(o,a,t.traccia==="qui"?m(o,a).zona:t.traccia,t.piu,e);else if("logorio"in t)X(o,a,t.logorio,t.piu,e);else if("rimedio"in t){a.logorio[t.rimedio]={stadio:1,passi:0};let c=o.amb.logorii.find(r=>r.id===t.rimedio);e.push({tipo:"logorio",testo:`${c?.nome??t.rimedio}: ${c?.stadi[0]??"a posto"}`})}else if("ferita"in t)Y(o,a,t.ferita.nome,t.ferita.gravita,t.ferita.ambito,t.ferita.tipo,e);else if("cura"in t)Ma(a,e);else if("tempo"in t)n+=t.tempo;else if("filo"in t){a.fili[t.filo]=(a.fili[t.filo]??0)+t.piu;let c=o.storia.fili.find(r=>r.id===t.filo);e.push({tipo:"qualita",testo:`${c?.nome??t.filo}: ${a.fili[t.filo]} su ${c?.tappe??"?"}`})}else if("preparazione"in t){let c=o.amb.preparazioni.find(r=>r.id===t.preparazione);c&&!a.preparazioni.some(r=>r.id===c.id)&&(a.preparazioni.push({id:c.id,luogo:c.durata==="luogo"?m(o,a).id:void 0}),e.push({tipo:"qualita",testo:`Preparazione: ${c.testo}`}))}else"tacca"in t&&L(o,a,t.tacca,e,!0);return n}function $(o,a,i,e,n){let t=a.traccia[i]??0;if(a.traccia[i]=Math.max(0,Math.min(3,t+e)),e>0&&(a.quiete[i]=0),a.traccia[i]!==t){let c=o.amb.luoghi.find(r=>r.zona===i)?.nome??i;n.push({tipo:"traccia",testo:`Traccia (${c}): ${a.traccia[i]}`})}}function X(o,a,i,e,n){let t=o.amb.logorii.find(d=>d.id===i);if(!t)return;let c=a.logorio[i],r=Math.max(1,Math.min(3,c.stadio+e));r!==c.stadio&&(c.stadio=r,n.push({tipo:"logorio",testo:`${t.nome}: ${t.stadi[r-1]}`}))}function Y(o,a,i,e,n,t,c){let r=e;if(t)for(let[d,s]of Object.entries(a.protezioni)){let l=o.amb.protezioni.find(u=>u.id===d);if(l&&s<2&&l.contro.includes(t)&&r){a.protezioni[d]=s+1,r=Ea[r],c.push({tipo:"protezione",testo:`${l.nome} attutisce il colpo (ora ${["intatta","intaccata","inservibile"][a.protezioni[d]]}).`});break}}if(!r){c.push({tipo:"ferita",testo:"Il colpo non lascia ferite."});return}if(r==="morte"){pa(o,a,c,`${i}: un colpo mortale.`);return}a.ferite.push({nome:i,gravita:r,ambito:n,passi:0}),c.push({tipo:"ferita",testo:`Ferita ${r}: ${i} (${n}).`});for(let d of o.amb.logorii)d.saleCon.includes("ferita")&&X(o,a,d.id,1,c)}function Ma(o,a){let i=["mortale","grave","lieve"];for(let e of i){let n=o.ferite.find(t=>t.gravita===e);if(n){e==="lieve"?o.ferite.splice(o.ferite.indexOf(n),1):(n.gravita=e==="mortale"?"grave":"lieve",n.passi=0),a.push({tipo:"ferita",testo:`Curata: ${n.nome}, ora ${e==="lieve"?"guarita":n.gravita}.`});return}}}function pa(o,a,i,e){i.push({tipo:"morte",testo:e}),a.deviazione=o.storia.morte}function L(o,a,i,e,n=!1){if(o.amb.crescita.tipo==="fissa"||!n&&a.taccheScena[i])return;a.taccheScena[i]=!0;let t=a.livelli[i]??0;if(t>=3)return;a.tacche[i]=(a.tacche[i]??0)+1;let c=o.amb.crescita.tacche[t],r=o.amb.capacita.find(d=>d.id===i);if(a.tacche[i]>=c){if(t===2&&!a.fatti[`maestro:${i}`])return;a.livelli[i]=t+1,a.tacche[i]=0,e.push({tipo:"crescita",testo:`${r?.nome??i}: ora sei ${M[t+1]}.`})}}var M=["Inesperto","Pratico","Esperto","Maestro"];function y(o,a,i,e){let n=i,t=0;for(;n>0&&!a.deviazione&&t++<200;){n--,a.passo++;let c=E(o,a);e.push({tipo:"tempo",testo:`Passa un passo (${c.nome}).`});for(let r of o.storia.scadenze){let d=a.scadenze[r.id];a.scadenze[r.id]=Math.min(r.caselle,Math.floor(a.passo/r.ogniPassi)),a.scadenze[r.id]!==d&&e.push({tipo:"scadenza",testo:`${r.nome}: ${a.scadenze[r.id]} su ${r.caselle}`}),a.scadenze[r.id]>=r.caselle&&d<r.caselle&&!(r.salvoSe&&v(o,a,r.salvoSe))&&(a.deviazione||(a.deviazione=r.alScadere))}for(let r of o.amb.logorii){let d=a.logorio[r.id];if(d.passi++,r.ogniPassi>0&&d.passi%r.ogniPassi===0&&X(o,a,r.id,1,e),d.stadio===3){let s=a.livelli[o.amb.resistenza]??0,l=A(a.rng);a.rng=l.stato;let u=l.totale+s>=8;e.push({tipo:"tiro",testo:`${r.nome} allo stremo: prova di resistenza, ${l.dadi[0]}+${l.dadi[1]}+${s} contro 8: ${u?"reggi":"non reggi"}.`}),u||(e.push({tipo:"logorio",testo:r.crollo.testo}),n+=f(o,a,r.crollo.effetti,e))}}for(let r of[...a.ferite])r.passi++,r.gravita==="lieve"&&r.passi>=o.amb.ferite.lieveGuarisceIn?(a.ferite.splice(a.ferite.indexOf(r),1),e.push({tipo:"ferita",testo:`${r.nome}: guarita.`})):r.gravita==="grave"&&r.passi>=o.amb.ferite.graveDiventaMortaleIn?(r.gravita="mortale",r.passi=0,e.push({tipo:"ferita",testo:`${r.nome}: senza cure, \xE8 diventata mortale.`})):r.gravita==="mortale"&&r.passi>=o.amb.ferite.mortaleUccideIn&&pa(o,a,e,`${r.nome}: nessuno ti ha curato in tempo.`);for(let r of Object.keys(a.traccia))a.traccia[r]<=0||(a.quiete[r]=(a.quiete[r]??0)+1,a.quiete[r]>=o.amb.traccia.calaOgniPassi&&(a.quiete[r]=0,$(o,a,r,-1,e)));Da(o,a,e,r=>n+=r)}}function Da(o,a,i,e){let n=m(o,a).zona,t=A(a.rng);a.rng=t.stato;let c=o.amb.traccia.imprevistoFinoA[a.traccia[n]??0];if(t.totale>c)return;let r=o.amb.repertorio.filter(l=>l.zona===n&&(!l.quando||v(o,a,l.quando)));if(r.length===0)return;let d=_(a.rng,0,r.length-1);a.rng=d.stato;let s=r[d.valore];i.push({tipo:"imprevisto",testo:s.testo}),e(f(o,a,s.effetti,i)),s.vai&&!a.deviazione&&!a.confronto&&(a.deviazione=s.vai)}function ma(o,a,i){let e=m(o,a).zona,n=o.amb.repertorio.filter(c=>c.zona===e&&!c.vai&&(!c.quando||v(o,a,c.quando)));if(n.length===0)return 0;let t=_(a.rng,0,n.length-1);return a.rng=t.stato,i.push({tipo:"imprevisto",testo:n[t.valore].testo}),f(o,a,n[t.valore].effetti,i)}function D(o){return["al coperto","esposto","allo scoperto"][o]}var ga=["AL COPERTO","ESPOSTO","ALLO SCOPERTO"],fa=["al coperto","esposto","allo scoperto"];function Oa(o,a){return o<a?a:o>2?2:o}function ja(o){return o===1?"ne servirebbe un'altra":`ne servirebbero altre ${o}`}function aa(o,a,i){let e=[{tipo:"partenza",testo:o.testo,valore:o.valore,conta:!0}];for(let s of a)s.valore!==0&&e.push({...s,conta:!0});let n=e.reduce((s,l)=>s+l.valore,0),t=Oa(n,i),c=e.filter(s=>s.tipo!=="partenza"&&s.valore>0),r=e.filter(s=>s.tipo!=="partenza"&&s.valore<0),d=(s,l)=>{s.conta=!1,s.nota=l};if(i===2){for(let s of[...c,...r])d(s,"non conta");return{righe:e,somma:n,fondo:i,grado:t,nota:"questa azione costa sempre il massimo"}}if(n>=2){let s=n-1;for(let u of r)d(u,u.tipo==="preparazione"?`non basta: ${ja(s)}`:"non conta: resti allo scoperto");let l=n-2;for(let u of c.slice(c.length-l))l>0&&d(u,"non conta: sei gi\xE0 allo scoperto")}else if(n<=i){for(let l of c)d(l,`non conta: saresti comunque ${fa[i]}`);let s=i-n;if(s>0)for(let l of r.slice(r.length-s))d(l,`${l.tipo==="preparazione"?"non serve":"non conta"}: pi\xF9 in basso di ${fa[i]} non si scende`)}return{righe:e,somma:n,fondo:i,grado:t}}var wa={6:"Facile",8:"Impegnativa",10:"Ardua",12:"Estrema"};function va(o,a){let i=o.amb.soglie.find(e=>e.id===a);if(!i)throw new Error(`Soglia non in catalogo: ${a}`);return{soglia:i.soglia,nome:wa[i.soglia]}}function ha(o,a,i){let e=a.ferite.filter(t=>t.gravita==="lieve"&&t.ambito===i).length,n=o.amb.logorii.filter(t=>a.logorio[t.id]?.stadio===3).length;return Math.min(3,e+n)}function Fa(o,a){let i=m(o,a).id,e=new Set;for(let n of a.preparazioni)(!n.luogo||n.luogo===i)&&e.add(n.id);for(let n of o.amb.preparazioni)n.durata==="oggetto"&&n.oggetto&&(a.oggetti[n.oggetto]??0)>0&&e.add(n.id);return[...e]}function P(o,a,i,e,n,t,c,r,d=!1){let s=o.amb.capacita.find(z=>z.id===e);if(!s)throw new Error(`Capacit\xE0 inesistente: ${e}`);let l=m(o,a),u=E(o,a),g=q(o,a.scena),h={ambito:s.ambito,tag:g.tag??[]},S=[{tipo:"luogo",testo:l.cause[s.ambito]??l.nome,valore:l.valori[s.ambito]??0},{tipo:"momento",testo:u.cause[s.ambito]??u.nome,valore:u.valori[s.ambito]??0},...(t??[]).map(z=>({tipo:"scena",testo:z.testo,valore:z.valore})),...o.amb.aggravanti.filter(z=>v(o,a,z.quando,h)).map(z=>({tipo:"aggravante",testo:z.testo,valore:1})),...Fa(o,a).map(z=>({tipo:"preparazione",testo:o.amb.preparazioni.find(Ga=>Ga.id===z).testo,valore:-1}))],k=aa({testo:s.causa,valore:s.partenza},S,s.fondo),{soglia:I,nome:H}=va(o,n),J=a.livelli[s.id]??0,sa=ha(o,a,s.ambito);return{...k,azione:i,capacita:s.nome,livello:M[J],bonus:J,penalita:sa,soglia:I,sogliaNome:H,probabilita:x(N(I,J,sa)),posta:c,ritento:(a.tentativi[r]??0)>0,unColpoSolo:d}}function U(o,a,i){let e=o.amb.capacita.find(t=>t.id===i);if(!e)return;let n=a.ferite.find(t=>t.gravita==="grave"&&t.ambito===e.ambito);if(n)return`${n.nome} te lo impedisce`;if(a.ferite.some(t=>t.gravita==="mortale")&&!o.amb.ferite.conMortaleSoloAmbiti.includes(e.ambito))return"una ferita mortale te lo impedisce"}function ba(o,a,i,e){let n=`${i.id}:${e.id}`;if(a.usate[n]&&e.unaVolta)return null;let t=!e.requisito||v(o,a,e.requisito);if(!t&&e.nascondiSeChiusa)return null;if(e.prova){if(a.usate[n])return{id:e.id,testo:e.testo,tipo:"prova",disponibile:!1,richiede:"l'hai gi\xE0 tentata: si poteva fare una volta sola"};let c=U(o,a,e.prova.capacita),r=P(o,a,e.testo,e.prova.capacita,e.prova.soglia,e.prova.righe,e.prova.posta,n,e.prova.unColpoSolo);return{id:e.id,testo:e.testo,tipo:"prova",disponibile:t&&!c,richiede:t?c:e.richiede,ricevuta:r}}return{id:e.id,testo:e.testo,tipo:"vai",disponibile:t,richiede:t?void 0:e.richiede,povera:e.povera}}function oa(o,a,i){let e=o.amb.avversari.find(n=>n.id===a);if(e.pericolo.arma){let n=o.amb.armi.find(c=>c.id===e.pericolo.arma);if(i===0)return`Al coperto: ${n.nome} non ti raggiunge.`;let t=i===1?n.daEsposto:n.daScoperto;return`Se ti colpisce: ${t==="morte"?"la vita":`ferita ${t}`} (${n.nome}).`}return i===2?`Se va male: ${e.pericolo.sociale}.`:"Se va male: si chiude di pi\xF9."}function O(o,a){let i=q(o,a.scena),e=m(o,a),n=E(o,a),t=[],c;if(!a.finita&&i.confronto&&a.confronto){let r=a.confronto,d=o.amb.avversari.find(s=>s.id===r.avversario);if(c={avversario:d.nome,natura:d.natura==="avanza"?"chi avanza":"chi si chiude",copertura:D(r.esposizione),finestra:r.esposizione===2&&!r.inDifesa,inDifesa:r.inDifesa},r.inDifesa){for(let s of o.amb.difesa){let l=o.amb.capacita.find(H=>H.id===s),{soglia:u,nome:g}=va(o,d.sogliaDifesa),h=a.livelli[s]??0,S=ha(o,a,l.ambito),k=aa({testo:"il grado della tua ultima azione",valore:r.ultimoGrado},[],0),I=U(o,a,s);t.push({id:`difesa:${s}`,testo:`Difenderti: ${l.nome}`,tipo:"difesa",disponibile:!I,richiede:I,ricevuta:{...k,azione:`Difenderti (${l.nome})`,capacita:l.nome,livello:M[h],bonus:h,penalita:S,soglia:u,sogliaNome:g,probabilita:x(N(u,h,S)),posta:oa(o,d.id,r.ultimoGrado),ritento:!1,unColpoSolo:!1}})}t.some(s=>s.disponibile)||t.push({id:"subisci",testo:`Non puoi difenderti: subire il colpo. ${oa(o,d.id,r.ultimoGrado)}`,tipo:"difesa",disponibile:!0})}else if(r.esposizione===2)for(let s of i.confronto.fini)t.push({id:`fine:${s.id}`,testo:s.testo,tipo:"finestra",disponibile:!0});else{for(let l of d.puntiDeboli){let u=!l.requisito||v(o,a,l.requisito);if(!u&&!l.richiede)continue;let g=U(o,a,l.capacita),h=`${oa(o,d.id,2)} Se riesci, lo scopri di ${l.gradi===1?"un grado":"due gradi"}.`,S=P(o,a,l.testo,l.capacita,l.soglia,[],h,`${i.id}:debole:${l.id}`);t.push({id:`debole:${l.id}`,testo:l.testo,tipo:"prova",disponibile:u&&!g,richiede:u?g:l.richiede,ricevuta:S})}let s=i.confronto.parlare;if(s&&!r.parlato){let l=!s.requisito||v(o,a,s.requisito),u=P(o,a,s.testo,s.capacita,s.soglia,[],"Se non riesci, questa porta si chiude per tutto il confronto.",`${i.id}:parlare`,!0);t.push({id:"parlare",testo:s.testo,tipo:"parlare",disponibile:l,richiede:l?void 0:s.richiede,ricevuta:u})}t.push({id:"andarsene",testo:i.confronto.andarsene.testo,tipo:"andarsene",disponibile:!0,povera:!0})}}else if(!a.finita){for(let r of i.scelte??[]){let d=ba(o,a,i,r);d&&t.push(d)}a.ritento&&a.ritento.verso===i.id&&a.ritento.scena!==i.id&&t.unshift({id:"riprova",testo:"Riprovare (costa un passo)",tipo:"riprova",disponibile:!0})}return{scena:{id:i.id,titolo:i.titolo,testo:ua(o,a,i.testo),luogo:e.nome,momento:n.nome,presentazione:i.presentazione},stato:{passo:a.passo,momento:n.nome,scadenze:o.storia.scadenze.map(r=>`${r.nome}: ${a.scadenze[r.id]} su ${r.caselle}`),logorio:o.amb.logorii.map(r=>`${r.nome}: ${r.stadi[a.logorio[r.id].stadio-1]}`),ferite:a.ferite.map(r=>`${r.nome} (${r.gravita})`),tracciaQui:a.traccia[e.zona]??0,oggetti:Object.entries(a.oggetti).filter(([,r])=>r>0).map(([r,d])=>`${o.storia.oggetti.find(s=>s.id===r)?.nome??r}${d>1?` \xD7${d}`:""}`),parole:Object.keys(a.fatti).map(r=>K(o,r)),conoscenze:Object.keys(a.conoscenze).map(r=>o.storia.conoscenze.find(d=>d.id===r)?.testo??r),capacita:o.amb.capacita.map(r=>`${r.nome}: ${M[a.livelli[r.id]??0]}`),protezioni:Object.entries(a.protezioni).map(([r,d])=>`${o.amb.protezioni.find(s=>s.id===r)?.nome??r}: ${["intatta","intaccata","inservibile"][d]}`)},confronto:c,scelte:t,finale:a.finita?.tipo}}function V(o,a,i){let e=A(o.rng);o.rng=e.stato;let n=e.totale+a.bonus-a.penalita,t=n>=a.soglia,c=a.penalita?` \u2212 ${a.penalita}`:"";return i.push({tipo:"tiro",testo:`${a.azione}: ${e.dadi[0]} + ${e.dadi[1]} + ${a.bonus}${c} = ${n} contro ${a.soglia}. ${t?"Riesci":"Non riesci"}, ${ga[a.grado].toLowerCase()}.`}),t}var Na=[["Successo pieno","Fallimento pulito"],["Successo sporco","Rovescio minore"],["Successo a caro prezzo","Rovescio"]];function ta(o,a){a.preparazioni=a.preparazioni.filter(i=>o.amb.preparazioni.find(e=>e.id===i.id)?.durata!=="prova")}function xa(o,a,i,e,n){let t=a.primaVolta[i];if(t===void 0)a.primaVolta[i]=e;else{let c=o.amb.capacita.find(r=>r.id===i)?.nome??i;n.push({tipo:"crescita",testo:`${c}: ${e} ${e===1?"tentativo":"tentativi"}. La prima volta: ${t}.`})}}function ya(o,a,i,e,n){let t=e.prova,c=`${i.id}:${e.id}`,r=P(o,a,e.testo,t.capacita,t.soglia,t.righe,t.posta,c,t.unColpoSolo),d=o.amb.capacita.find(u=>u.id===t.capacita);a.tentativi[c]=(a.tentativi[c]??0)+1;let s=V(a,r,n);ta(o,a),t.unColpoSolo&&(a.usate[c]=!0),n.push({tipo:"esito",testo:Na[r.grado][s?0:1]});let l=0;if(s)return L(o,a,d.id,n),xa(o,a,d.id,a.tentativi[c],n),delete a.tentativi[c],r.grado>=1&&$(o,a,m(o,a).zona,1,n),r.grado===2&&t.prezzo&&(n.push({tipo:"esito",testo:t.prezzo.testo}),l+=f(o,a,t.prezzo.effetti,n)),l+=f(o,a,t.riesci.effetti,n),{verso:t.riesci.vai,tempo:l};if(r.grado===2){$(o,a,m(o,a).zona,1,n);for(let u of o.amb.logorii)u.saleCon.includes("rovescio")&&u.ambiti.includes(d.ambito)&&(l+=f(o,a,[{logorio:u.id,piu:1}],n));for(let u of o.amb.preparazioni)u.durata==="oggetto"&&u.oggetto&&(a.oggetti[u.oggetto]??0)>0&&(l+=f(o,a,[{oggetto:u.oggetto,piu:-1}],n));return l+=f(o,a,t.rovescio.effetti,n),{verso:t.rovescio.vai,tempo:l}}return r.grado===0&&t.conoscenza&&(l+=f(o,a,[{conoscenza:t.conoscenza}],n)),r.grado===1&&($(o,a,m(o,a).zona,1,n),l+=ma(o,a,n)),l+=f(o,a,t.nonRiesci.effetti,n),t.unColpoSolo||(a.ritento={scena:i.id,scelta:e.id,verso:t.nonRiesci.vai}),{verso:t.nonRiesci.vai,tempo:l}}function ia(o,a,i,e,n){let t=a.confronto,c=o.amb.avversari.find(r=>r.id===t.avversario);c.natura==="si-chiude"?(e&&t.esposizione>t.partenza&&(t.esposizione=t.esposizione-1,n.push({tipo:"confronto",testo:`${c.nome} si ricopre: ora \xE8 ${D(t.esposizione)}.`})),e&&t.ultimoGrado===2&&(c.pericolo.arma?(t.inDifesa=!0,n.push({tipo:"confronto",testo:`${c.nome} ti attacca.`})):c.pericolo.sociale&&i.confronto?.seTiPrende&&(n.push({tipo:"confronto",testo:`${c.nome}: ${c.pericolo.sociale}.`}),a.deviazione=i.confronto.seTiPrende))):(t.esposizione<2&&(t.esposizione=t.esposizione+1),n.push({tipo:"confronto",testo:`${c.nome} si avvicina: ora \xE8 ${D(t.esposizione)}.`}),t.esposizione>=1&&c.pericolo.arma&&(t.inDifesa=!0,n.push({tipo:"confronto",testo:`${c.nome} ti \xE8 addosso e colpisce.`})))}function Va(o,a,i,e,n){let t=a.confronto,c=i.confronto,r=o.amb.avversari.find(s=>s.id===t.avversario),d={verso:i.id,tempo:0};if(e.startsWith("difesa:")||e==="subisci"){if(!t.inDifesa)throw new Error("Non c'\xE8 niente da cui difendersi.");let s=e.slice(7),l=O(o,a).scelte.find(h=>h.id===e);if(!l||!l.disponibile||e!=="subisci"&&!l.ricevuta)throw new Error(`Difesa non disponibile: ${s}`);let u=e==="subisci"?!1:V(a,l.ricevuta,n);t.inDifesa=!1;let g=o.amb.armi.find(h=>h.id===r.pericolo.arma);if(u)L(o,a,s,n),n.push({tipo:"esito",testo:"Eviti il colpo."}),t.ultimoGrado>=1&&$(o,a,m(o,a).zona,1,n);else if(t.ultimoGrado===0)n.push({tipo:"esito",testo:"Al coperto: il colpo non ti raggiunge."});else{let h=t.ultimoGrado===1?g.daEsposto:g.daScoperto;Y(o,a,`un colpo (${g.nome})`,h,g.colpisce,g.tipo,n),$(o,a,m(o,a).zona,1,n)}return d}if(e.startsWith("fine:")){if(t.esposizione!==2||t.inDifesa)throw new Error("La finestra non \xE8 aperta.");let s=c.fini.find(l=>`fine:${l.id}`===e);if(!s)throw new Error(`Fine inesistente: ${e}`);return{verso:s.vai,tempo:f(o,a,s.effetti,n)}}if(t.inDifesa)throw new Error("Prima devi difenderti.");if(t.esposizione===2)throw new Error("La finestra \xE8 aperta: scegli come finisce.");if(e==="andarsene")return{verso:c.andarsene.vai,tempo:f(o,a,c.andarsene.effetti,n)};if(e==="parlare"){let s=c.parlare;if(!s||t.parlato)throw new Error("Non puoi pi\xF9 parlare.");if(s.requisito&&!v(o,a,s.requisito))throw new Error("Scelta chiusa.");let l=P(o,a,s.testo,s.capacita,s.soglia,[],"",`${i.id}:parlare`,!0);t.parlato=!0,t.ultimoGrado=l.grado;let u=V(a,l,n);return ta(o,a),l.grado>=1&&$(o,a,m(o,a).zona,1,n),u?(L(o,a,s.capacita,n),{verso:s.riesci.vai,tempo:f(o,a,s.riesci.effetti,n)}):(n.push({tipo:"confronto",testo:"Non ti ascolta, e non ti ascolter\xE0 pi\xF9."}),ia(o,a,i,!0,n),d)}if(e.startsWith("debole:")){let s=r.puntiDeboli.find(g=>`debole:${g.id}`===e);if(!s)throw new Error(`Punto debole inesistente: ${e}`);if(s.requisito&&!v(o,a,s.requisito))throw new Error("Scelta chiusa.");if(U(o,a,s.capacita))throw new Error("Una ferita te lo impedisce.");let l=P(o,a,s.testo,s.capacita,s.soglia,[],"",`${i.id}:${e}`);t.ultimoGrado=l.grado;let u=V(a,l,n);if(ta(o,a),l.grado>=1&&$(o,a,m(o,a).zona,1,n),u){if(L(o,a,s.capacita,n),t.esposizione=Math.min(2,t.esposizione+s.gradi),n.push({tipo:"confronto",testo:`${r.nome} \xE8 ${D(t.esposizione)}.`}),t.esposizione===2)return n.push({tipo:"confronto",testo:"Si apre la finestra: decidi tu come finisce."}),d;ia(o,a,i,!1,n)}else ia(o,a,i,!0,n);return d}return null}function ea(o,a,i,e){let n=m(o,a).id;a.scena=i;let t=q(o,i);if(t.luogo!==n&&(a.preparazioni=a.preparazioni.filter(r=>!r.luogo)),a.taccheScena={},a.ritento&&a.ritento.verso!==i&&a.ritento.scena!==i&&delete a.ritento,t.confronto){let r=o.amb.avversari.find(d=>d.id===t.confronto.avversario);(!a.confronto||a.confronto.scena!==i)&&(a.confronto={scena:i,avversario:r.id,esposizione:r.copertura,partenza:r.copertura,ultimoGrado:0,parlato:!1,inDifesa:!1})}else delete a.confronto;let c=f(o,a,t.entrando,e);c&&y(o,a,c,e),t.finale&&(a.finita={tipo:t.finale.tipo})}function za(o,a,i){let e=da(a),n=[];if(e.finita)throw new Error("La partita \xE8 finita.");let t=q(o,e.scena),c=null;if(t.confronto&&e.confronto&&(c=Va(o,e,t,i,n)),!c&&i==="riprova"){if(!e.ritento||e.ritento.verso!==t.id)throw new Error("Non c'\xE8 niente da riprovare.");c={verso:e.ritento.scena,tempo:0}}if(!c){let d=(t.scelte??[]).find(l=>l.id===i);if(!d)throw new Error(`Scelta inesistente: ${i}`);let s=ba(o,e,t,d);if(!s||!s.disponibile)throw new Error(`Scelta non disponibile: ${i}`);if(d.unaVolta&&(e.usate[`${t.id}:${d.id}`]=!0),d.prova){if((e.tentativi[`${t.id}:${d.id}`]??0)>0&&(y(o,e,1,n),e.deviazione)){let l=e.deviazione;return delete e.deviazione,ea(o,e,l,n),{partita:e,eventi:n}}c=ya(o,e,t,d,n),c.tempo+=f(o,e,d.effetti,n)}else c={verso:d.vai??t.id,tempo:f(o,e,d.effetti,n)}}c.tempo>0&&y(o,e,c.tempo,n);let r=c.verso;if(e.deviazione&&(r=e.deviazione,delete e.deviazione),r!==e.scena)ea(o,e,r,n);else if(e.deviazione){let d=e.deviazione;delete e.deviazione,ea(o,e,d,n)}return{partita:e,eventi:n}}function $a(o,a=7){let i=o.scene.filter(n=>n.id!==o.inizio).map(n=>n.id),e=a;for(let n=i.length-1;n>0;n--){let t=_(e,0,n);e=t.stato,[i[n],i[t.valore]]=[i[t.valore],i[n]]}return new Map([[o.inizio,1],...i.map((n,t)=>[n,t+2])])}var j=ca,ra=la,F=W(j,ra),Ua=$a(ra),La="esposizione:santa-rita:partita",b,C=[],R=null,T=!1,w=o=>document.querySelector(o);function Pa(){try{localStorage.setItem(La,JSON.stringify({partita:b,eventi:C}))}catch{}}function Ba(){try{let o=localStorage.getItem(La);if(!o)return null;let a=JSON.parse(o);return O(F,a.partita),a}catch{return null}}function na(){b=Z(F,Math.floor(Math.random()*1e6)),C=[],R=null,T=!1,Pa()}function p(o){return o.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}function Qa(o){return o.split(/\n\n+/).map(a=>`<p>${p(a).replace(/\*([^*]+)\*/g,"<em>$1</em>")}</p>`).join("")}var _a=["","\u2680","\u2681","\u2682","\u2683","\u2684","\u2685"],Q=["al coperto","esposto","allo scoperto"];function ka(o){let a=o.righe.map(e=>{let n=e.tipo==="partenza"?String(e.valore):e.valore>0?`+${e.valore}`:`\u2212${-e.valore}`;return`<li class="riga${e.conta?"":" spenta"}"><span class="num">${n}</span><span>${p(e.testo)}${e.nota?`<small>${p(e.nota)}</small>`:""}</span></li>`}).join(""),i=o.nota??(o.somma<o.grado?`${o.capacita} non scende sotto ${Q[o.fondo]}`:o.somma>2?"pi\xF9 di allo scoperto non si va":"");return`
-    <div class="ricevuta">
-      <ol class="righe">${a}</ol>
-      <div class="totale"><span class="num">${o.somma<0?`\u2212${-o.somma}`:o.somma}</span><span class="grado" data-g="${o.grado}">${Q[o.grado]}</span>${i?`<small>${p(i)}</small>`:""}</div>
-      <p class="tiro">Prova <strong>${o.sogliaNome}</strong> (${o.soglia}) \xB7 ${p(o.capacita)}, ${o.livello} (+${o.bonus})${o.penalita?`, penalit\xE0 \u2212${o.penalita}`:""} \xB7 <strong>riesci ${o.probabilita} volte su 100</strong>${o.unColpoSolo?" \xB7 <em>una volta sola</em>":""}${o.ritento?" \xB7 ritentare costa un passo":""}</p>
-      ${o.posta?`<p class="posta">${p(o.posta)}</p>`:""}
-    </div>`}function Ha(o){return o.length?`<ul class="cronaca" aria-label="Che cosa \xE8 appena successo">${o.map(i=>{if(i.tipo==="tiro"){let e=i.testo.match(/^(.*?): (\d) \+ (\d) (.*)$/);if(e)return`<li class="ev tiro"><span class="dadi" aria-hidden="true">${_a[+e[2]]}${_a[+e[3]]}</span><span>${p(e[1])}: ${e[2]} + ${e[3]} ${p(e[4])}</span></li>`}return`<li class="ev ${i.tipo}">${p(i.testo)}</li>`}).join("")}</ul>`:""}function Ja(o,a){if(!o.disponibile)return`<li class="scelta chiusa"><span class="testo">${p(o.testo)}</span><span class="richiede">Richiede: ${p(o.richiede??"non disponibile")}</span></li>`;let i=o.tipo==="finestra"?"finestra":o.povera?"via povera":o.tipo==="difesa"?"difesa":o.tipo==="parlare"?"una volta sola":"",e=o.ricevuta,n=e?`<span class="riassunto"><span class="grado" data-g="${e.grado}">${Q[e.grado]}</span> ${e.probabilita}%</span>`:"",t=R===o.id;return`
-    <li class="scelta${t?" aperta":""}">
-      <button type="button" class="voce" data-scelta="${p(o.id)}" ${e?`aria-expanded="${t}"`:""}>
-        <span class="indice">${a}</span>
-        <span class="testo">${p(o.testo)}${i?` <span class="etichetta">${i}</span>`:""}</span>
-        ${n}
-      </button>
-      ${e&&t?`${ka(e)}<div class="azioni"><button type="button" class="primario" data-tira="${p(o.id)}">Tira i dadi</button><button type="button" class="secondario" data-chiudi>Scegli un'altra via</button></div>`:""}
-    </li>`}function Wa(o){let a=j.momenti.reduce((s,l)=>s+l.passi,0),i=b.passo%a,e=0,n=j.momenti.map(s=>{let l=Array.from({length:s.passi},()=>`<i class="${e++<i?"piena":""}"></i>`).join("");return`<div class="momento"><span>${p(s.nome.split(",")[0])}</span><span class="caselle">${l}</span></div>`}).join(""),t=ra.scadenze.map(s=>`<div class="blocco"><h3>${p(s.nome)}</h3><span class="caselle grande">${Array.from({length:s.caselle},(l,u)=>`<i class="${u<b.scadenze[s.id]?"piena":""}"></i>`).join("")}</span></div>`).join(""),c=j.logorii.map(s=>{let l=b.logorio[s.id].stadio;return`<li><span>${p(s.nome)}</span><span class="stadio" data-s="${l}">${p(s.stadi[l-1])}</span></li>`}).join(""),r=j.luoghi.map(s=>{let l=b.traccia[s.zona]??0;return`<li${s.nome===o.scena.luogo?' class="qui"':""}><span>${p(s.nome)}</span><span class="caselle">${[0,1,2].map(u=>`<i class="${u<l?"piena":""}"></i>`).join("")}</span></li>`}).join(""),d=(s,l)=>s.length?`<ul class="elenco">${s.map(u=>`<li>${p(u)}</li>`).join("")}</ul>`:`<p class="vuoto">${l}</p>`;return`
-    <div class="blocco"><h3>Il tempo</h3><div class="tempo">${n}</div></div>
-    ${t}
-    <div class="blocco"><h3>Come stai</h3><ul class="coppie">${c}</ul>${d(o.stato.ferite,"Nessuna ferita.")}${d(o.stato.protezioni,"")}</div>
-    <div class="blocco"><h3>Traccia</h3><ul class="coppie traccia">${r}</ul></div>
-    <div class="blocco"><h3>Capacit\xE0</h3><ul class="coppie">${o.stato.capacita.map(s=>{let[l,u]=s.split(": ");return`<li><span>${p(l)}</span><span class="livello">${p(u)}</span></li>`}).join("")}</ul></div>
-    <div class="blocco"><h3>Oggetti</h3>${d(o.stato.oggetti,"Niente.")}</div>
-    <div class="blocco"><h3>Taccuino</h3>${d(o.stato.conoscenze,"Non sai ancora niente di preciso.")}${o.stato.parole.length?`<p class="parole">${o.stato.parole.map(p).join(" \xB7 ")}</p>`:""}</div>`}function G(){let o=O(F,b),a=Ua.get(o.scena.id),i=0,e=o.confronto?`<div class="confronto" data-finestra="${o.confronto.finestra}">
-         <div><strong>${p(o.confronto.avversario)}</strong> \xB7 ${p(o.confronto.natura)}</div>
-         <div class="copertura" aria-label="Copertura: ${p(o.confronto.copertura)}">${Q.map(c=>`<span class="${c===o.confronto.copertura?"attuale":""}">${c}</span>`).join("")}</div>
-         ${o.confronto.inDifesa?'<p class="allarme">Ti attacca: difenditi.</p>':o.confronto.finestra?'<p class="allarme finestra">La finestra \xE8 aperta: decidi tu come finisce.</p>':""}
-       </div>`:"",n=o.finale?`<div class="finale" data-tipo="${o.finale}"><p>${{vittoria:"Ce l'hai fatta.",sconfitta:"La storia finisce qui.",morte:"La tua storia finisce qui."}[o.finale]}</p><button type="button" class="primario" data-nuova>Ricomincia da capo</button></div>`:"";w("#scena").innerHTML=`
-    ${Ha(C)}
-    <header class="intestazione">
-      <p class="dove">${p(o.scena.luogo)} \xB7 ${p(o.scena.momento)}${a?` \xB7 <span title="Il paragrafo corrispondente nel libro stampato">paragrafo ${a}</span>`:""}</p>
-      <h2>${p(o.scena.titolo)}</h2>
+`)}function ba(a,o){let e=a.storia.personaggio;return{seme:o,rng:o,scena:a.storia.inizio,passo:0,fatti:{},misure:{},oggetti:{...e.oggetti},conoscenze:{},traccia:{},quiete:{},logorio:Object.fromEntries(a.amb.logorii.map(n=>[n.id,{stadio:1,passi:0}])),ferite:[],protezioni:Object.fromEntries(e.protezioni.map(n=>[n,0])),livelli:Object.fromEntries(a.amb.capacita.map(n=>[n.id,e.livelli[n.id]??0])),tacche:{},taccheScena:{},fili:{},scadenze:Object.fromEntries(a.storia.scadenze.map(n=>[n.id,0])),preparazioni:[],usate:{},tentativi:{},primaVolta:{}}}var Mo={morte:"mortale",mortale:"grave",grave:"lieve",lieve:null};function za(a,o){return a.storia.fatti.find(e=>e.id===o)?.parola??o}function _(a,o,e,i){let n=0;for(let t of e??[])if("fatto"in t)o.fatti[t.fatto]=!0,i.push({tipo:"qualita",testo:`Parola chiave: ${za(a,t.fatto)}`});else if("togliFatto"in t)delete o.fatti[t.togliFatto];else if("misura"in t){let s=a.storia.misure.find(r=>r.id===t.misura);o.misure[t.misura]=Math.max(0,Math.min(s?.max??99,(o.misure[t.misura]??0)+t.piu)),i.push({tipo:"qualita",testo:`${s?.nome??t.misura}: ${o.misure[t.misura]}`})}else if("oggetto"in t){o.oggetti[t.oggetto]=Math.max(0,(o.oggetti[t.oggetto]??0)+t.piu);let s=a.storia.oggetti.find(r=>r.id===t.oggetto);i.push({tipo:"qualita",testo:`${s?.nome??t.oggetto}: ${t.piu>0?"+":""}${t.piu} (ora ${o.oggetti[t.oggetto]})`})}else if("conoscenza"in t){if(!o.conoscenze[t.conoscenza]){o.conoscenze[t.conoscenza]=!0;let s=a.storia.conoscenze.find(r=>r.id===t.conoscenza);i.push({tipo:"qualita",testo:`Sai che: ${s?.testo??t.conoscenza}`})}}else if("traccia"in t)M(a,o,t.traccia==="qui"?S(a,o).zona:t.traccia,t.piu,i);else if("logorio"in t)$a(a,o,t.logorio,t.piu,i);else if("rimedio"in t){o.logorio[t.rimedio]={stadio:1,passi:0};let s=a.amb.logorii.find(r=>r.id===t.rimedio);i.push({tipo:"logorio",testo:`${s?.nome??t.rimedio}: ${s?.stadi[0]??"a posto"}`})}else if("ferita"in t)Sa(a,o,t.ferita.nome,t.ferita.gravita,t.ferita.ambito,t.ferita.tipo,i);else if("cura"in t)Go(o,i);else if("tempo"in t)n+=t.tempo;else if("filo"in t){o.fili[t.filo]=(o.fili[t.filo]??0)+t.piu;let s=a.storia.fili.find(r=>r.id===t.filo);i.push({tipo:"qualita",testo:`${s?.nome??t.filo}: ${o.fili[t.filo]} su ${s?.tappe??"?"}`})}else if("preparazione"in t){let s=a.amb.preparazioni.find(r=>r.id===t.preparazione);s&&!o.preparazioni.some(r=>r.id===s.id)&&(o.preparazioni.push({id:s.id,luogo:s.durata==="luogo"?S(a,o).id:void 0}),i.push({tipo:"qualita",testo:`Preparazione: ${s.testo}`}))}else"tacca"in t&&J(a,o,t.tacca,i,!0);return n}function M(a,o,e,i,n){let t=o.traccia[e]??0;if(o.traccia[e]=Math.max(0,Math.min(3,t+i)),i>0&&(o.quiete[e]=0),o.traccia[e]!==t){let s=a.amb.luoghi.find(r=>r.zona===e)?.nome??e;n.push({tipo:"traccia",testo:`Traccia (${s}): ${o.traccia[e]}`})}}function $a(a,o,e,i,n){let t=a.amb.logorii.find(c=>c.id===e);if(!t)return;let s=o.logorio[e],r=Math.max(1,Math.min(3,s.stadio+i));r!==s.stadio&&(s.stadio=r,n.push({tipo:"logorio",testo:`${t.nome}: ${t.stadi[r-1]}`}))}function Sa(a,o,e,i,n,t,s){let r=i;if(t)for(let[c,l]of Object.entries(o.protezioni)){let d=a.amb.protezioni.find(u=>u.id===c);if(d&&l<2&&d.contro.includes(t)&&r){o.protezioni[c]=l+1,r=Mo[r],s.push({tipo:"protezione",testo:`${d.nome} attutisce il colpo (ora ${["intatta","intaccata","inservibile"][o.protezioni[c]]}).`});break}}if(!r){s.push({tipo:"ferita",testo:"Il colpo non lascia ferite."});return}if(r==="morte"){Ua(a,o,s,`${e}: un colpo mortale.`);return}o.ferite.push({nome:e,gravita:r,ambito:n,passi:0}),s.push({tipo:"ferita",testo:`Ferita ${r}: ${e} (${n}).`});for(let c of a.amb.logorii)c.saleCon.includes("ferita")&&$a(a,o,c.id,1,s)}function Go(a,o){let e=["mortale","grave","lieve"];for(let i of e){let n=a.ferite.find(t=>t.gravita===i);if(n){i==="lieve"?a.ferite.splice(a.ferite.indexOf(n),1):(n.gravita=i==="mortale"?"grave":"lieve",n.passi=0),o.push({tipo:"ferita",testo:`Curata: ${n.nome}, ora ${i==="lieve"?"guarita":n.gravita}.`});return}}}function Ua(a,o,e,i){e.push({tipo:"morte",testo:i}),o.deviazione=a.storia.morte}function J(a,o,e,i,n=!1){if(a.amb.crescita.tipo==="fissa"||!n&&o.taccheScena[e])return;o.taccheScena[e]=!0;let t=o.livelli[e]??0;if(t>=3)return;o.tacche[e]=(o.tacche[e]??0)+1;let s=a.amb.crescita.tacche[t],r=a.amb.capacita.find(c=>c.id===e);if(o.tacche[e]>=s){if(t===2&&!o.fatti[`maestro:${e}`])return;o.livelli[e]=t+1,o.tacche[e]=0,i.push({tipo:"crescita",testo:`${r?.nome??e}: ora sei ${aa[t+1]}.`})}}var aa=["Inesperto","Pratico","Esperto","Maestro"];function ta(a,o,e,i){let n=e,t=0;for(;n>0&&!o.deviazione&&t++<200;){n--,o.passo++;let s=x(a,o);i.push({tipo:"tempo",testo:`Passa un passo (${s.nome}).`});for(let r of a.storia.scadenze){let c=o.scadenze[r.id];o.scadenze[r.id]=Math.min(r.caselle,Math.floor(o.passo/r.ogniPassi)),o.scadenze[r.id]!==c&&i.push({tipo:"scadenza",testo:`${r.nome}: ${o.scadenze[r.id]} su ${r.caselle}`}),o.scadenze[r.id]>=r.caselle&&c<r.caselle&&!(r.salvoSe&&C(a,o,r.salvoSe))&&(o.deviazione||(o.deviazione=r.alScadere))}for(let r of a.amb.logorii){let c=o.logorio[r.id];if(c.passi++,r.ogniPassi>0&&c.passi%r.ogniPassi===0&&$a(a,o,r.id,1,i),c.stadio===3){let l=o.livelli[a.amb.resistenza]??0,d=H(o.rng);o.rng=d.stato;let u=d.totale+l>=8;i.push({tipo:"tiro",testo:`${r.nome} allo stremo: prova di resistenza, ${d.dadi[0]}+${d.dadi[1]}+${l} contro 8: ${u?"reggi":"non reggi"}.`}),u||(i.push({tipo:"logorio",testo:r.crollo.testo}),n+=_(a,o,r.crollo.effetti,i))}}for(let r of[...o.ferite])r.passi++,r.gravita==="lieve"&&r.passi>=a.amb.ferite.lieveGuarisceIn?(o.ferite.splice(o.ferite.indexOf(r),1),i.push({tipo:"ferita",testo:`${r.nome}: guarita.`})):r.gravita==="grave"&&r.passi>=a.amb.ferite.graveDiventaMortaleIn?(r.gravita="mortale",r.passi=0,i.push({tipo:"ferita",testo:`${r.nome}: senza cure, \xE8 diventata mortale.`})):r.gravita==="mortale"&&r.passi>=a.amb.ferite.mortaleUccideIn&&Ua(a,o,i,`${r.nome}: nessuno ti ha curato in tempo.`);for(let r of Object.keys(o.traccia))o.traccia[r]<=0||(o.quiete[r]=(o.quiete[r]??0)+1,o.quiete[r]>=a.amb.traccia.calaOgniPassi&&(o.quiete[r]=0,M(a,o,r,-1,i)));yo(a,o,i,r=>n+=r)}}function yo(a,o,e,i){let n=S(a,o).zona,t=H(o.rng);o.rng=t.stato;let s=a.amb.traccia.imprevistoFinoA[o.traccia[n]??0];if(t.totale>s)return;let r=a.amb.repertorio.filter(d=>d.zona===n&&(!d.quando||C(a,o,d.quando)));if(r.length===0)return;let c=V(o.rng,0,r.length-1);o.rng=c.stato;let l=r[c.valore];e.push({tipo:"imprevisto",testo:l.testo}),i(_(a,o,l.effetti,e)),l.vai&&!o.deviazione&&!o.confronto&&(o.deviazione=l.vai)}function Qa(a,o,e){let i=S(a,o).zona,n=a.amb.repertorio.filter(s=>s.zona===i&&!s.vai&&(!s.quando||C(a,o,s.quando)));if(n.length===0)return 0;let t=V(o.rng,0,n.length-1);return o.rng=t.stato,e.push({tipo:"imprevisto",testo:n[t.valore].testo}),_(a,o,n[t.valore].effetti,e)}function oa(a){return["al coperto","esposto","allo scoperto"][a]}var Za=["AL COPERTO","ESPOSTO","ALLO SCOPERTO"],Ja=["al coperto","esposto","allo scoperto"];function Ao(a,o){return a<o?o:a>2?2:a}function Io(a){return a===1?"ne servirebbe un'altra":`ne servirebbero altre ${a}`}function _a(a,o,e){let i=[{tipo:"partenza",testo:a.testo,valore:a.valore,conta:!0}];for(let l of o)l.valore!==0&&i.push({...l,conta:!0});let n=i.reduce((l,d)=>l+d.valore,0),t=Ao(n,e),s=i.filter(l=>l.tipo!=="partenza"&&l.valore>0),r=i.filter(l=>l.tipo!=="partenza"&&l.valore<0),c=(l,d)=>{l.conta=!1,l.nota=d};if(e===2){for(let l of[...s,...r])c(l,"non conta");return{righe:i,somma:n,fondo:e,grado:t,nota:"questa azione costa sempre il massimo"}}if(n>=2){let l=n-1;for(let u of r)c(u,u.tipo==="preparazione"?`non basta: ${Io(l)}`:"non conta: resti allo scoperto");let d=n-2;for(let u of s.slice(s.length-d))d>0&&c(u,"non conta: sei gi\xE0 allo scoperto")}else if(n<=e){for(let d of s)c(d,`non conta: saresti comunque ${Ja[e]}`);let l=e-n;if(l>0)for(let d of r.slice(r.length-l))c(d,`${d.tipo==="preparazione"?"non serve":"non conta"}: pi\xF9 in basso di ${Ja[e]} non si scende`)}return{righe:i,somma:n,fondo:e,grado:t}}var Eo={6:"Facile",8:"Impegnativa",10:"Ardua",12:"Estrema"};function Ya(a,o){let e=a.amb.soglie.find(i=>i.id===o);if(!e)throw new Error(`Soglia non in catalogo: ${o}`);return{soglia:e.soglia,nome:Eo[e.soglia]}}function Ka(a,o,e){let i=o.ferite.filter(t=>t.gravita==="lieve"&&t.ambito===e).length,n=a.amb.logorii.filter(t=>o.logorio[t.id]?.stadio===3).length;return Math.min(3,i+n)}function Do(a,o){let e=S(a,o).id,i=new Set;for(let n of o.preparazioni)(!n.luogo||n.luogo===e)&&i.add(n.id);for(let n of a.amb.preparazioni)n.durata==="oggetto"&&n.oggetto&&(o.oggetti[n.oggetto]??0)>0&&i.add(n.id);return[...i]}function Z(a,o,e,i,n,t,s,r,c=!1){let l=a.amb.capacita.find(L=>L.id===i);if(!l)throw new Error(`Capacit\xE0 inesistente: ${i}`);let d=S(a,o),u=x(a,o),p=Q(a,o.scena),m={ambito:l.ambito,tag:p.tag??[]},b=[{tipo:"luogo",testo:d.cause[l.ambito]??d.nome,valore:d.valori[l.ambito]??0},{tipo:"momento",testo:u.cause[l.ambito]??u.nome,valore:u.valori[l.ambito]??0},...(t??[]).map(L=>({tipo:"scena",testo:L.testo,valore:L.valore})),...a.amb.aggravanti.filter(L=>C(a,o,L.quando,m)).map(L=>({tipo:"aggravante",testo:L.testo,valore:1})),...Do(a,o).map(L=>({tipo:"preparazione",testo:a.amb.preparazioni.find(To=>To.id===L).testo,valore:-1}))],f=_a({testo:l.causa,valore:l.partenza},b,l.fondo),{soglia:$,nome:y}=Ya(a,n),D=o.livelli[l.id]??0,Fa=Ka(a,o,l.ambito);return{...f,azione:e,capacita:l.nome,livello:aa[D],bonus:D,penalita:Fa,soglia:$,sogliaNome:y,probabilita:ia(ea($,D,Fa)),posta:s,ritento:(o.tentativi[r]??0)>0,unColpoSolo:c}}function ra(a,o,e){let i=a.amb.capacita.find(t=>t.id===e);if(!i)return;let n=o.ferite.find(t=>t.gravita==="grave"&&t.ambito===i.ambito);if(n)return`${n.nome} te lo impedisce`;if(o.ferite.some(t=>t.gravita==="mortale")&&!a.amb.ferite.conMortaleSoloAmbiti.includes(i.ambito))return"una ferita mortale te lo impedisce"}function Wa(a,o,e,i){let n=`${e.id}:${i.id}`;if(o.usate[n]&&i.unaVolta)return null;let t=!i.requisito||C(a,o,i.requisito);if(!t&&i.nascondiSeChiusa)return null;if(i.prova){if(o.usate[n])return{id:i.id,testo:i.testo,tipo:"prova",disponibile:!1,richiede:"l'hai gi\xE0 tentata: si poteva fare una volta sola"};let s=ra(a,o,i.prova.capacita),r=Z(a,o,i.testo,i.prova.capacita,i.prova.soglia,i.prova.righe,i.prova.posta,n,i.prova.unColpoSolo);return{id:i.id,testo:i.testo,tipo:"prova",disponibile:t&&!s,richiede:t?s:i.richiede,ricevuta:r}}return{id:i.id,testo:i.testo,tipo:"vai",disponibile:t,richiede:t?void 0:i.richiede,povera:i.povera}}function Ta(a,o,e){let i=a.amb.avversari.find(n=>n.id===o);if(i.pericolo.arma){let n=a.amb.armi.find(s=>s.id===i.pericolo.arma);if(e===0)return`Al coperto: ${n.nome} non ti raggiunge.`;let t=e===1?n.daEsposto:n.daScoperto;return`Se ti colpisce: ${t==="morte"?"la vita":`ferita ${t}`} (${n.nome}).`}return e===2?`Se va male: ${i.pericolo.sociale}.`:"Se va male: si chiude di pi\xF9."}function A(a,o){let e=Q(a,o.scena),i=S(a,o),n=x(a,o),t=[],s;if(!o.finita&&e.confronto&&o.confronto){let r=o.confronto,c=a.amb.avversari.find(l=>l.id===r.avversario);if(s={avversario:c.nome,natura:c.natura==="avanza"?"chi avanza":"chi si chiude",copertura:oa(r.esposizione),finestra:r.esposizione===2&&!r.inDifesa,inDifesa:r.inDifesa},r.inDifesa){for(let l of a.amb.difesa){let d=a.amb.capacita.find(y=>y.id===l),{soglia:u,nome:p}=Ya(a,c.sogliaDifesa),m=o.livelli[l]??0,b=Ka(a,o,d.ambito),f=_a({testo:"il grado della tua ultima azione",valore:r.ultimoGrado},[],0),$=ra(a,o,l);t.push({id:`difesa:${l}`,testo:`Difenderti: ${d.nome}`,tipo:"difesa",disponibile:!$,richiede:$,ricevuta:{...f,azione:`Difenderti (${d.nome})`,capacita:d.nome,livello:aa[m],bonus:m,penalita:b,soglia:u,sogliaNome:p,probabilita:ia(ea(u,m,b)),posta:Ta(a,c.id,r.ultimoGrado),ritento:!1,unColpoSolo:!1}})}t.some(l=>l.disponibile)||t.push({id:"subisci",testo:`Non puoi difenderti: subire il colpo. ${Ta(a,c.id,r.ultimoGrado)}`,tipo:"difesa",disponibile:!0})}else if(r.esposizione===2)for(let l of e.confronto.fini)t.push({id:`fine:${l.id}`,testo:l.testo,tipo:"finestra",disponibile:!0});else{for(let d of c.puntiDeboli){let u=!d.requisito||C(a,o,d.requisito);if(!u&&!d.richiede)continue;let p=ra(a,o,d.capacita),m=`${Ta(a,c.id,2)} Se riesci, lo scopri di ${d.gradi===1?"un grado":"due gradi"}.`,b=Z(a,o,d.testo,d.capacita,d.soglia,[],m,`${e.id}:debole:${d.id}`);t.push({id:`debole:${d.id}`,testo:d.testo,tipo:"prova",disponibile:u&&!p,richiede:u?p:d.richiede,ricevuta:b})}let l=e.confronto.parlare;if(l&&!r.parlato){let d=!l.requisito||C(a,o,l.requisito),u=Z(a,o,l.testo,l.capacita,l.soglia,[],"Se non riesci, questa porta si chiude per tutto il confronto.",`${e.id}:parlare`,!0);t.push({id:"parlare",testo:l.testo,tipo:"parlare",disponibile:d,richiede:d?void 0:l.richiede,ricevuta:u})}t.push({id:"andarsene",testo:e.confronto.andarsene.testo,tipo:"andarsene",disponibile:!0,povera:!0})}}else if(!o.finita){for(let r of e.scelte??[]){let c=Wa(a,o,e,r);c&&t.push(c)}o.ritento&&o.ritento.verso===e.id&&o.ritento.scena!==e.id&&t.unshift({id:"riprova",testo:"Riprovare (costa un passo)",tipo:"riprova",disponibile:!0})}return{scena:{id:e.id,titolo:e.titolo,testo:ka(a,o,e.testo),luogo:i.nome,momento:n.nome,presentazione:e.presentazione},stato:{passo:o.passo,momento:n.nome,scadenze:a.storia.scadenze.map(r=>`${r.nome}: ${o.scadenze[r.id]} su ${r.caselle}`),logorio:a.amb.logorii.map(r=>`${r.nome}: ${r.stadi[o.logorio[r.id].stadio-1]}`),ferite:o.ferite.map(r=>`${r.nome} (${r.gravita})`),tracciaQui:o.traccia[i.zona]??0,oggetti:Object.entries(o.oggetti).filter(([,r])=>r>0).map(([r,c])=>`${a.storia.oggetti.find(l=>l.id===r)?.nome??r}${c>1?` \xD7${c}`:""}`),parole:Object.keys(o.fatti).map(r=>za(a,r)),conoscenze:Object.keys(o.conoscenze).map(r=>a.storia.conoscenze.find(c=>c.id===r)?.testo??r),capacita:a.amb.capacita.map(r=>`${r.nome}: ${aa[o.livelli[r.id]??0]}`),protezioni:Object.entries(o.protezioni).map(([r,c])=>`${a.amb.protezioni.find(l=>l.id===r)?.nome??r}: ${["intatta","intaccata","inservibile"][c]}`)},confronto:s,scelte:t,finale:o.finita?.tipo}}function na(a,o,e){let i=H(a.rng);a.rng=i.stato;let n=i.totale+o.bonus-o.penalita,t=n>=o.soglia,s=o.penalita?` \u2212 ${o.penalita}`:"";return e.push({tipo:"tiro",testo:`${o.azione}: ${i.dadi[0]} + ${i.dadi[1]} + ${o.bonus}${s} = ${n} contro ${o.soglia}. ${t?"Riesci":"Non riesci"}, ${Za[o.grado].toLowerCase()}.`,dati:{dadi:i.dadi,bonus:o.bonus,penalita:o.penalita,totale:n,soglia:o.soglia,riesce:t,grado:o.grado}}),t}var Xa=[["Successo pieno","Fallimento pulito"],["Successo sporco","Rovescio minore"],["Successo a caro prezzo","Rovescio"]];function Ca(a,o){o.preparazioni=o.preparazioni.filter(e=>a.amb.preparazioni.find(i=>i.id===e.id)?.durata!=="prova")}function wo(a,o,e,i,n){let t=o.primaVolta[e];if(t===void 0)o.primaVolta[e]=i;else{let s=a.amb.capacita.find(r=>r.id===e)?.nome??e;n.push({tipo:"crescita",testo:`${s}: ${i} ${i===1?"tentativo":"tentativi"}. La prima volta: ${t}.`})}}function Oo(a,o,e,i,n){let t=i.prova,s=`${e.id}:${i.id}`,r=Z(a,o,i.testo,t.capacita,t.soglia,t.righe,t.posta,s,t.unColpoSolo),c=a.amb.capacita.find(u=>u.id===t.capacita);o.tentativi[s]=(o.tentativi[s]??0)+1;let l=na(o,r,n);Ca(a,o),t.unColpoSolo&&(o.usate[s]=!0),n.push({tipo:"esito",testo:Xa[r.grado][l?0:1],dati:{casella:Xa[r.grado][l?0:1],riesce:l,grado:r.grado}});let d=0;if(l)return J(a,o,c.id,n),wo(a,o,c.id,o.tentativi[s],n),delete o.tentativi[s],r.grado>=1&&M(a,o,S(a,o).zona,1,n),r.grado===2&&t.prezzo&&(n.push({tipo:"esito",testo:t.prezzo.testo}),d+=_(a,o,t.prezzo.effetti,n)),d+=_(a,o,t.riesci.effetti,n),{verso:t.riesci.vai,tempo:d};if(r.grado===2){M(a,o,S(a,o).zona,1,n);for(let u of a.amb.logorii)u.saleCon.includes("rovescio")&&u.ambiti.includes(c.ambito)&&(d+=_(a,o,[{logorio:u.id,piu:1}],n));for(let u of a.amb.preparazioni)u.durata==="oggetto"&&u.oggetto&&(o.oggetti[u.oggetto]??0)>0&&(d+=_(a,o,[{oggetto:u.oggetto,piu:-1}],n));return d+=_(a,o,t.rovescio.effetti,n),{verso:t.rovescio.vai,tempo:d}}return r.grado===0&&t.conoscenza&&(d+=_(a,o,[{conoscenza:t.conoscenza}],n)),r.grado===1&&(M(a,o,S(a,o).zona,1,n),d+=Qa(a,o,n)),d+=_(a,o,t.nonRiesci.effetti,n),t.unColpoSolo||(o.ritento={scena:e.id,scelta:i.id,verso:t.nonRiesci.vai}),{verso:t.nonRiesci.vai,tempo:d}}function qa(a,o,e,i,n){let t=o.confronto,s=a.amb.avversari.find(r=>r.id===t.avversario);s.natura==="si-chiude"?(i&&t.esposizione>t.partenza&&(t.esposizione=t.esposizione-1,n.push({tipo:"confronto",testo:`${s.nome} si ricopre: ora \xE8 ${oa(t.esposizione)}.`})),i&&t.ultimoGrado===2&&(s.pericolo.arma?(t.inDifesa=!0,n.push({tipo:"confronto",testo:`${s.nome} ti attacca.`})):s.pericolo.sociale&&e.confronto?.seTiPrende&&(n.push({tipo:"confronto",testo:`${s.nome}: ${s.pericolo.sociale}.`}),o.deviazione=e.confronto.seTiPrende))):(t.esposizione<2&&(t.esposizione=t.esposizione+1),n.push({tipo:"confronto",testo:`${s.nome} si avvicina: ora \xE8 ${oa(t.esposizione)}.`}),t.esposizione>=1&&s.pericolo.arma&&(t.inDifesa=!0,n.push({tipo:"confronto",testo:`${s.nome} ti \xE8 addosso e colpisce.`})))}function jo(a,o,e,i,n){let t=o.confronto,s=e.confronto,r=a.amb.avversari.find(l=>l.id===t.avversario),c={verso:e.id,tempo:0};if(i.startsWith("difesa:")||i==="subisci"){if(!t.inDifesa)throw new Error("Non c'\xE8 niente da cui difendersi.");let l=i.slice(7),d=A(a,o).scelte.find(m=>m.id===i);if(!d||!d.disponibile||i!=="subisci"&&!d.ricevuta)throw new Error(`Difesa non disponibile: ${l}`);let u=i==="subisci"?!1:na(o,d.ricevuta,n);t.inDifesa=!1;let p=a.amb.armi.find(m=>m.id===r.pericolo.arma);if(u)J(a,o,l,n),n.push({tipo:"esito",testo:"Eviti il colpo."}),t.ultimoGrado>=1&&M(a,o,S(a,o).zona,1,n);else if(t.ultimoGrado===0)n.push({tipo:"esito",testo:"Al coperto: il colpo non ti raggiunge."});else{let m=t.ultimoGrado===1?p.daEsposto:p.daScoperto;Sa(a,o,`un colpo (${p.nome})`,m,p.colpisce,p.tipo,n),M(a,o,S(a,o).zona,1,n)}return c}if(i.startsWith("fine:")){if(t.esposizione!==2||t.inDifesa)throw new Error("La finestra non \xE8 aperta.");let l=s.fini.find(d=>`fine:${d.id}`===i);if(!l)throw new Error(`Fine inesistente: ${i}`);return{verso:l.vai,tempo:_(a,o,l.effetti,n)}}if(t.inDifesa)throw new Error("Prima devi difenderti.");if(t.esposizione===2)throw new Error("La finestra \xE8 aperta: scegli come finisce.");if(i==="andarsene")return{verso:s.andarsene.vai,tempo:_(a,o,s.andarsene.effetti,n)};if(i==="parlare"){let l=s.parlare;if(!l||t.parlato)throw new Error("Non puoi pi\xF9 parlare.");if(l.requisito&&!C(a,o,l.requisito))throw new Error("Scelta chiusa.");let d=Z(a,o,l.testo,l.capacita,l.soglia,[],"",`${e.id}:parlare`,!0);t.parlato=!0,t.ultimoGrado=d.grado;let u=na(o,d,n);return Ca(a,o),d.grado>=1&&M(a,o,S(a,o).zona,1,n),u?(J(a,o,l.capacita,n),{verso:l.riesci.vai,tempo:_(a,o,l.riesci.effetti,n)}):(n.push({tipo:"confronto",testo:"Non ti ascolta, e non ti ascolter\xE0 pi\xF9."}),qa(a,o,e,!0,n),c)}if(i.startsWith("debole:")){let l=r.puntiDeboli.find(p=>`debole:${p.id}`===i);if(!l)throw new Error(`Punto debole inesistente: ${i}`);if(l.requisito&&!C(a,o,l.requisito))throw new Error("Scelta chiusa.");if(ra(a,o,l.capacita))throw new Error("Una ferita te lo impedisce.");let d=Z(a,o,l.testo,l.capacita,l.soglia,[],"",`${e.id}:${i}`);t.ultimoGrado=d.grado;let u=na(o,d,n);if(Ca(a,o),d.grado>=1&&M(a,o,S(a,o).zona,1,n),u){if(J(a,o,l.capacita,n),t.esposizione=Math.min(2,t.esposizione+l.gradi),n.push({tipo:"confronto",testo:`${r.nome} \xE8 ${oa(t.esposizione)}.`}),t.esposizione===2)return n.push({tipo:"confronto",testo:"Si apre la finestra: decidi tu come finisce."}),c;qa(a,o,e,!1,n)}else qa(a,o,e,!0,n);return c}return null}function Ra(a,o,e,i){let n=S(a,o).id;o.scena=e;let t=Q(a,e);if(t.luogo!==n&&(o.preparazioni=o.preparazioni.filter(r=>!r.luogo)),o.taccheScena={},o.ritento&&o.ritento.verso!==e&&o.ritento.scena!==e&&delete o.ritento,t.confronto){let r=a.amb.avversari.find(c=>c.id===t.confronto.avversario);(!o.confronto||o.confronto.scena!==e)&&(o.confronto={scena:e,avversario:r.id,esposizione:r.copertura,partenza:r.copertura,ultimoGrado:0,parlato:!1,inDifesa:!1})}else delete o.confronto;let s=_(a,o,t.entrando,i);s&&ta(a,o,s,i),t.finale&&(o.finita={tipo:t.finale.tipo})}function Pa(a,o,e){let i=Ba(o),n=[];if(i.finita)throw new Error("La partita \xE8 finita.");let t=Q(a,i.scena),s=null;if(t.confronto&&i.confronto&&(s=jo(a,i,t,e,n)),!s&&e==="riprova"){if(!i.ritento||i.ritento.verso!==t.id)throw new Error("Non c'\xE8 niente da riprovare.");s={verso:i.ritento.scena,tempo:0}}if(!s){let c=(t.scelte??[]).find(d=>d.id===e);if(!c)throw new Error(`Scelta inesistente: ${e}`);let l=Wa(a,i,t,c);if(!l||!l.disponibile)throw new Error(`Scelta non disponibile: ${e}`);if(c.unaVolta&&(i.usate[`${t.id}:${c.id}`]=!0),c.prova){if((i.tentativi[`${t.id}:${c.id}`]??0)>0&&(ta(a,i,1,n),i.deviazione)){let d=i.deviazione;return delete i.deviazione,Ra(a,i,d,n),{partita:i,eventi:n}}s=Oo(a,i,t,c,n),s.tempo+=_(a,i,c.effetti,n)}else s={verso:c.vai??t.id,tempo:_(a,i,c.effetti,n)}}s.tempo>0&&ta(a,i,s.tempo,n);let r=s.verso;if(i.deviazione&&(r=i.deviazione,delete i.deviazione),r!==i.scena)Ra(a,i,r,n);else if(i.deviazione){let c=i.deviazione;delete i.deviazione,Ra(a,i,c,n)}return{partita:i,eventi:n}}function Ha(a,o=7){let e=a.scene.filter(n=>n.id!==a.inizio).map(n=>n.id),i=o;for(let n=e.length-1;n>0;n--){let t=V(i,0,n);i=t.stato,[e[n],e[t.valore]]=[e[t.valore],e[n]]}return new Map([[a.inizio,1],...e.map((n,t)=>[n,t+2])])}var la={alba:{cielo:["#1d1a33","#5b3f63","#c8747a","#f4b98f"],astro:{tipo:"sole",x:.8,y:.8,r:20,col:"#ffe2bd",alone:"rgba(255,168,130,.42)"},mare:"#2c2542",riflesso:"#f6bf98",sagoma:"#1a1428",luci:null,accento:"#f2a488",uccelli:!0},giorno:{cielo:["#2b5b82","#6b9bbb","#b9d3dc","#e2ece8"],astro:{tipo:"sole",x:.24,y:.2,r:16,col:"#fffbef",alone:"rgba(255,255,226,.4)"},mare:"#29506b",riflesso:"#e4f1f4",sagoma:"#1b2c3a",luci:null,accento:"#8ccde2",uccelli:!0},sera:{cielo:["#191327","#4a2a45","#b5563f","#f0a45a"],astro:{tipo:"sole",x:.12,y:.84,r:22,col:"#ffd59e",alone:"rgba(255,138,80,.45)"},mare:"#2b1c2c",riflesso:"#f2a85e",sagoma:"#140d16",luci:"#ffc46a",accento:"#f2a650"},notte:{cielo:["#02040a","#060d1c","#0e1a31","#1a2a4c"],astro:{tipo:"luna",x:.78,y:.2,r:11,col:"#eef1ff",alone:"rgba(170,195,255,.28)"},mare:"#06101f",riflesso:"#a3b9ea",sagoma:"#03060c",luci:"#ffcf7a",accento:"#ffcf7a",stelle:!0}};function w(a){let o=a>>>0;return()=>{o=o+1831565813>>>0;let e=o;return e=Math.imul(e^e>>>15,e|1),e^=e+Math.imul(e^e>>>7,e|61),((e^e>>>14)>>>0)/4294967296}}function R(a,o){let e=parseInt(a.slice(1),16);return`rgba(${e>>16&255},${e>>8&255},${e&255},${o})`}function X(a,o,e,i,n,t,s,r){if(t){let c=.75+.25*Math.sin(s*(1.3+r%5*.2)+r);a.fillStyle=R(t,.55+.4*c),a.fillRect(o,e,i,n),a.fillStyle=R(t,.12*c),a.fillRect(o-i,e-n*.6,i*3,n*2.2)}else a.fillStyle="rgba(255,255,255,.07)",a.fillRect(o,e,i,n)}function sa(a,o,e,i,n,t=1){let s=(.8+.2*Math.sin(n*7+o))*t,r=a.createRadialGradient(o,e,0,o,e,34*s);r.addColorStop(0,R(i,.55)),r.addColorStop(1,R(i,0)),a.fillStyle=r,a.beginPath(),a.arc(o,e,34*s,0,Math.PI*2),a.fill(),a.fillStyle=i,a.fillRect(o-2,e-3,4,6)}function Fo(a,o,e,i,n){let t=a.createLinearGradient(0,0,0,e*.78);if(i.cielo.forEach((u,p)=>t.addColorStop(p/(i.cielo.length-1),u)),a.fillStyle=t,a.fillRect(0,0,o,e),i.stelle){let u=w(7);for(let p=0;p<90;p++){let m=u()*o,b=u()*e*.62,f=u();a.fillStyle=`rgba(230,236,255,${.25+.55*(.5+.5*Math.sin(n*(.6+f*2)+p))})`,a.fillRect(m,b,f>.9?2:1,f>.9?2:1)}}let s=i.astro,r=s.x*o,c=s.y*e*.78,l=a.createRadialGradient(r,c,0,r,c,s.r*6);l.addColorStop(0,s.alone),l.addColorStop(1,"rgba(0,0,0,0)"),a.fillStyle=l,a.fillRect(0,0,o,e),a.fillStyle=s.col,a.beginPath(),a.arc(r,c,s.r,0,Math.PI*2),a.fill(),s.tipo==="luna"&&(a.fillStyle=i.cielo[1],a.beginPath(),a.arc(r+s.r*.45,c-s.r*.2,s.r*.9,0,Math.PI*2),a.fill());let d=w(3);for(let u=0;u<5;u++){let p=120+d()*200,m=14+d()*e*.34,b=(d()*o+n*(4+d()*5))%(o+p*2)-p;a.fillStyle=i.stelle?"rgba(40,55,90,.18)":R(i.cielo[i.cielo.length-1],.16),a.beginPath(),a.ellipse(b,m,p/2,7+d()*6,0,0,Math.PI*2),a.fill()}if(i.uccelli){a.strokeStyle=R(i.sagoma,.7),a.lineWidth=1.3;for(let u=0;u<4;u++){let p=(n*(18+u*3)+u*230)%(o+60)-30,m=e*(.18+.05*u)+Math.sin(n*1.5+u)*6,b=4+2*Math.sin(n*8+u*2);a.beginPath(),a.moveTo(p-7,m-b),a.quadraticCurveTo(p-3,m-1,p,m),a.quadraticCurveTo(p+3,m-1,p+7,m-b),a.stroke()}}}function xa(a,o,e,i,n,t,s){a.fillStyle=t.mare,a.fillRect(0,i,o,n-i);let r=w(11);for(let c=0;c<70;c++){let l=i+3+r()*(n-i-4),d=8+r()*30,u=(r()*o+Math.sin(s*.7+c)*12)%o,p=1-Math.abs(u/o-t.astro.x)*1.6;a.fillStyle=R(t.riflesso,Math.max(.06,.12+.35*p)*(.6+.4*Math.sin(s*2+c))),a.fillRect(u,l,d,1)}}function ao(a,o,e,i,n){let t=e*.66;xa(a,o,e,t,e*.86,i,n);let s=o*.6,r=t+6,c=Math.sin(n*.8)*1.5;a.save(),a.translate(0,c),a.fillStyle=i.sagoma,a.beginPath(),a.moveTo(s-150,r-18),a.lineTo(s+160,r-22),a.lineTo(s+130,r+6),a.lineTo(s-120,r+6),a.closePath(),a.fill(),a.fillRect(s+110,r-34,44,14),a.strokeStyle=i.sagoma,a.lineWidth=3;let l=[s-90,s,s+80],d=[e*.46,e*.56,e*.42];l.forEach((b,f)=>{a.beginPath(),a.moveTo(b,r-18),a.lineTo(b,r-18-d[f]),a.stroke();for(let $=1;$<=3;$++){let y=r-18-d[f]*($/3.4),D=34-$*6;a.lineWidth=2,a.beginPath(),a.moveTo(b-D,y),a.lineTo(b+D,y),a.stroke(),a.fillStyle=R(i.sagoma,.9),a.fillRect(b-D+2,y,D*2-4,4)}a.lineWidth=3}),a.lineWidth=.8,a.strokeStyle=R(i.sagoma,.8),a.beginPath(),a.moveTo(s-150,r-18),a.lineTo(l[0],r-18-d[0]),a.lineTo(l[1],r-18-d[1]),a.lineTo(l[2],r-18-d[2]),a.lineTo(s+160,r-24),a.stroke(),i.luci&&(sa(a,s+150,r-38,i.luci,n,.9),sa(a,l[1],r-18-d[1]*.3,i.luci,n,.6)),a.restore();let u=o*.16;a.strokeStyle=i.sagoma,a.lineWidth=5,a.beginPath(),a.moveTo(u-30,e*.88),a.lineTo(u,e*.34),a.lineTo(u+30,e*.88),a.moveTo(u,e*.36),a.lineTo(u+120,e*.3),a.stroke();let p=Math.sin(n*1.1)*6;a.lineWidth=1,a.beginPath(),a.moveTo(u+116,e*.31),a.lineTo(u+116+p,e*.56),a.stroke(),a.fillStyle=i.sagoma,a.fillRect(u+104+p,e*.56,24,16),a.fillRect(0,e*.86,o,e*.14);let m=w(5);for(let b=0;b<9;b++){let f=o*.28+b*26+m()*10,$=12+m()*18;a.fillRect(f,e*.86-$,22,$)}i.luci&&sa(a,o*.34,e*.7,i.luci,n,.8)}function No(a,o,e,i,n){let t=e*.9,s=w(21);a.fillStyle=i.sagoma;let r=-10,c=0;for(;r<o;){let l=60+s()*70,d=e*(.32+s()*.22),u=r<o*.5&&r+l>o*.42;a.fillStyle=i.sagoma,a.fillRect(r,t-d,l,d),a.beginPath(),a.moveTo(r-3,t-d),a.lineTo(r+l/2,t-d-14-s()*8),a.lineTo(r+l+3,t-d),a.fill();for(let p=0;p<3;p++)X(a,r+10+p*(l/3.2),t-d+16,8,10,i.luci,n,c++);if(u){X(a,r+l*.35,t-34,l*.3,34,i.luci??"#ffcf8a",n,99),a.fillStyle=i.sagoma,a.fillRect(r+l,t-d*.62,26,2);let p=Math.sin(n*1.6)*.12;a.save(),a.translate(r+l+20,t-d*.62+2),a.rotate(p),a.fillRect(-1,0,2,6),a.beginPath(),a.arc(0,16,11,0,Math.PI*2),a.fill(),a.fillStyle=i.luci?R(i.luci,.8):"rgba(255,255,255,.18)",a.beginPath(),a.moveTo(-5,12),a.lineTo(-2,7),a.lineTo(0,11),a.lineTo(3,6),a.lineTo(5,12),a.fill(),a.restore()}if(s()<.5){a.fillStyle=i.sagoma,a.fillRect(r+l*.7,t-d-22,8,16);for(let p=0;p<5;p++){let m=(n*.2+p/5)%1;a.fillStyle=`rgba(200,190,185,${.14*(1-m)})`,a.beginPath(),a.arc(r+l*.7+4+m*24,t-d-24-m*50,4+m*10,0,Math.PI*2),a.fill()}}r+=l+2}a.fillStyle=i.sagoma,a.fillRect(0,t,o,e-t)}function Vo(a,o,e,i,n){let t=e*.9,s=o*.5,r=Math.min(o*.6,520),c=e*.44;a.fillStyle=i.sagoma,a.fillRect(0,t,o,e-t);let l=w(33);for(let u=0;u<o;u+=70){if(Math.abs(u+30-s)<r/2+30)continue;let p=e*(.25+l()*.15);a.fillRect(u,t-p,64,p),X(a,u+14,t-p+14,7,9,i.luci,n,u),X(a,u+40,t-p+14,7,9,i.luci,n,u+3)}a.fillStyle=i.sagoma,a.fillRect(s-r/2,t-c,r,c),a.beginPath(),a.moveTo(s-r/2-12,t-c),a.lineTo(s,t-c-e*.16),a.lineTo(s+r/2+12,t-c),a.fill(),a.fillRect(s-r/2-16,t-10,r+32,10),a.fillStyle=R(i.cielo[i.cielo.length-1],.09);for(let u=0;u<7;u++)a.fillRect(s-r/2+18+u*((r-40)/6),t-c+10,6,c-22);for(let u=0;u<6;u++)X(a,s-r/2+30+u*((r-60)/5.3),t-c*.55,10,22,i.luci,n,u+40);a.strokeStyle=i.sagoma,a.lineWidth=2,a.beginPath(),a.moveTo(s,t-c-e*.16),a.lineTo(s,t-c-e*.3),a.stroke(),a.fillStyle=i.sagoma,a.beginPath();let d=t-c-e*.3;a.moveTo(s,d);for(let u=0;u<=10;u++)a.lineTo(s+u*3,d+Math.sin(n*4+u*.7)*2);for(let u=10;u>=0;u--)a.lineTo(s+u*3,d+14+Math.sin(n*4+u*.7)*2);a.fill()}function Bo(a,o,e,i,n){let t=e*.9;a.fillStyle=i.sagoma,a.fillRect(0,t,o,e-t);let s=Math.max(5,Math.ceil(o/150)),r=o/s;for(let c=0;c<s;c++){let l=c*r,d=e*.42;a.fillStyle=i.sagoma,a.fillRect(l+4,t-d,r-8,d),a.beginPath(),a.moveTo(l,t-d),a.lineTo(l+r/2,t-d-e*.12),a.lineTo(l+r,t-d),a.fill(),a.fillStyle=R(i.cielo[i.cielo.length-1],.08),a.fillRect(l+r*.3,t-d*.62,r*.4,d*.62);let u=c+5;a.font=`600 ${Math.round(e*.1)}px "IM Fell English", Georgia, serif`,a.textAlign="center",a.fillStyle=u===7?i.luci??i.accento:R(i.cielo[i.cielo.length-1],.22),a.fillText(String(u),l+r/2,t-d*.7)}if(i.luci){let c=(Math.sin(n*.25)+1)/2*o;sa(a,c,t-18,i.luci,n,.9)}}function ko(a,o,e,i,n){let t=e*.7;xa(a,o,e,t,e*.9,i,n),a.fillStyle=i.sagoma,a.fillRect(0,e*.9,o,e*.1);let s=o*.42,r=150,c=e*.42,l=e*.9;a.fillRect(s-r/2,l-c,r,c),a.beginPath(),a.moveTo(s-r/2-6,l-c),a.lineTo(s,l-c-40),a.lineTo(s+r/2+6,l-c),a.fill(),a.fillRect(s+r/2-6,l-c-e*.22,34,c+e*.22),a.beginPath(),a.moveTo(s+r/2-10,l-c-e*.22),a.lineTo(s+r/2+11,l-c-e*.34),a.lineTo(s+r/2+32,l-c-e*.22),a.fill(),a.fillRect(s-1,l-c-58,2,18),a.fillRect(s-6,l-c-52,12,2);let d=i.luci??"#ffe4b0",u=.7+.3*Math.sin(n*2.3);a.fillStyle=R(d,i.luci?.75*u:.18),a.beginPath(),a.arc(s,l-c+30,12,0,Math.PI*2),a.fill(),a.fillRect(s-12,l-44,24,44);let p=w(9);for(let m=s+r;m<o;m+=58){let b=26+p()*30;a.fillStyle=i.sagoma,a.fillRect(m+30,l-b,50,b),X(a,m+50,l-b+10,7,8,i.luci,n,m)}}function Uo(a,o,e,i,n){let t=a.createLinearGradient(0,0,0,e);t.addColorStop(0,"#1a120c"),t.addColorStop(1,"#070503"),a.fillStyle=t,a.fillRect(0,0,o,e);let s=o*.72,r=a.createLinearGradient(0,0,0,40);i.cielo.forEach((m,b)=>r.addColorStop(b/(i.cielo.length-1),m)),a.fillStyle=r,a.fillRect(s,0,90,38),a.fillStyle=R(i.cielo[i.cielo.length-1],.08),a.beginPath(),a.moveTo(s,38),a.lineTo(s-60,e),a.lineTo(s+170,e),a.lineTo(s+90,38),a.fill(),a.strokeStyle="#2c1e13",a.lineWidth=9;for(let m=-40;m<o+80;m+=110)a.beginPath(),a.moveTo(m,e),a.quadraticCurveTo(m+30,e*.3,m+10,-10),a.stroke();a.fillStyle="#23180f",a.fillRect(0,36,o,10),a.fillStyle="#120c07";let c=w(17);for(let m=0;m<8;m++){let b=m*(o/8)+c()*20,f=26+c()*30,$=44+c()*30;a.fillRect(b,e-f,$,f)}a.strokeStyle="#3a2c20",a.lineWidth=2;for(let m=0;m<9;m++)a.beginPath(),a.ellipse(o*.24,50+m*12,3,6,0,0,Math.PI*2),a.stroke();let l=Math.sin(n*1.2)*.22,d=o*.44+Math.sin(l)*70,u=46+Math.cos(l)*70;a.strokeStyle="#2c1e13",a.lineWidth=1.5,a.beginPath(),a.moveTo(o*.44,46),a.lineTo(d,u),a.stroke();let p=a.createRadialGradient(d,u,0,d,u,e*1.1);p.addColorStop(0,"rgba(255,196,110,.36)"),p.addColorStop(.4,"rgba(255,170,80,.1)"),p.addColorStop(1,"rgba(0,0,0,0)"),a.fillStyle=p,a.fillRect(0,0,o,e),a.fillStyle="#ffd28a",a.fillRect(d-3,u,6,8)}var Qo={banchina:ao,gallo:No,archivio:Vo,magazzini:Bo,chiesa:ko,nave:Uo};function oo(a,o,e,i,n,t,s){let r=la[n]??la.giorno;a.clearRect(0,0,o,e),i!=="nave"&&Fo(a,o,e,r,t),(Qo[i]??ao)(a,o,e,r,t);let c=a.createLinearGradient(0,e*.45,0,e);if(c.addColorStop(0,"rgba(10,11,15,0)"),c.addColorStop(1,"rgba(10,11,15,.96)"),a.fillStyle=c,a.fillRect(0,0,o,e),s>0){let l=a.createRadialGradient(o/2,e/2,Math.min(o,e)*.3,o/2,e/2,o*.75);l.addColorStop(0,"rgba(0,0,0,0)"),l.addColorStop(1,`rgba(120,20,12,${.12*s})`),a.fillStyle=l,a.fillRect(0,0,o,e)}}var z=null,B=null,O=null,j=!1;function eo(a,o=!1){let e=z,i=e.createBuffer(1,Math.floor(e.sampleRate*a),e.sampleRate),n=i.getChannelData(0),t=0;for(let s=0;s<n.length;s++){let r=Math.random()*2-1;o?(t=(t+.02*r)/1.02,n[s]=t*3.5):n[s]=r}return i}function io(){try{return z||(z=new AudioContext,B=z.createGain(),B.gain.value=.7,B.connect(z.destination)),z.resume(),j=!0,Jo(),!0}catch{return!1}}function to(){if(j=!1,O&&z){O.guadagno.gain.setTargetAtTime(0,z.currentTime,.4);let a=O;setTimeout(()=>a.sorgente.stop(),1500),O=null}}function La(){return j}function Jo(){if(!z||!B||O)return;let a=z.createBufferSource();a.buffer=eo(8,!0),a.loop=!0;let o=z.createBiquadFilter();o.type="lowpass",o.frequency.value=420;let e=z.createGain();e.gain.value=0,e.gain.setTargetAtTime(.16,z.currentTime,1.5);let i=z.createOscillator();i.frequency.value=.09;let n=z.createGain();n.gain.value=.07,i.connect(n).connect(e.gain),i.start(),a.connect(o).connect(e).connect(B),a.start(),O={sorgente:a,guadagno:e}}function no(a){O&&z&&O.guadagno.gain.setTargetAtTime(.16*a,z.currentTime,.8)}function ca(a,o,e,i,n="bandpass"){let t=z,s=t.createBufferSource();s.buffer=eo(e);let r=t.createBiquadFilter();r.type=n,r.frequency.value=o,r.Q.value=3;let c=t.createGain();c.gain.setValueAtTime(i,a),c.gain.exponentialRampToValueAtTime(.001,a+e),s.connect(r).connect(c).connect(B),s.start(a)}function I(a,o,e,i,n="sine",t){let s=z,r=s.createOscillator();r.type=n,r.frequency.setValueAtTime(o,a),t&&r.frequency.exponentialRampToValueAtTime(t,a+e);let c=s.createGain();c.gain.setValueAtTime(1e-4,a),c.gain.exponentialRampToValueAtTime(i,a+.015),c.gain.exponentialRampToValueAtTime(1e-4,a+e),r.connect(c).connect(B),r.start(a),r.stop(a+e+.05)}function ro(a=1.1){if(!j||!z)return;let o=z.currentTime,e=0;for(;e<a;)ca(o+e,1800+Math.random()*2200,.04,.35*(1-e/a)+.08),e+=.035+Math.random()*.09*(e/a+.3);ca(o+a,900,.08,.3)}function so(a){if(!j||!z)return;let o=z.currentTime;I(o,140,.22,.6,"sine",50),ca(o,320,.12,.5,"lowpass"),a?(I(o+.18,523,.6,.08,"triangle"),I(o+.26,784,.8,.06,"triangle")):I(o+.18,196,.8,.09,"triangle",174)}function lo(){if(!j||!z)return;let a=z.currentTime;I(a,70,.25,.7,"sine",40),I(a+.28,64,.3,.55,"sine",38)}function co(){if(!j||!z)return;let a=z.currentTime;for(let o=0;o<5;o++)ca(a+o*.05,5200,.05,.05,"highpass")}function Ma(){if(!j||!z)return;let a=z.currentTime;I(a,220,3,.12,"sine"),I(a,440*1.19,2.2,.05,"sine"),I(a,660*1.01,1.6,.03,"sine")}var q=Na,K=Va,P=ha(q,K),Xo=Ha(K),zo="esposizione:santa-rita:app",fa=["al coperto","esposto","allo scoperto"],Yo=[["Successo pieno","Fallimento pulito"],["Successo sporco","Rovescio minore"],["Successo a caro prezzo","Rovescio"]],N=()=>!matchMedia("(prefers-reduced-motion: reduce)").matches,g,T=[],Aa=[],W=0,Ga=!1,E=null,F="ricevuta",ga=null,v=a=>document.querySelector(a);function va(){try{localStorage.setItem(zo,JSON.stringify({partita:g,diario:T.slice(-40),ricevute:W,suono:La()}))}catch{}}function Ko(){try{let a=localStorage.getItem(zo);if(!a)return null;let o=JSON.parse(a);return A(P,o.partita),o}catch{return null}}function Ia(a,o=!1){let e=A(P,a);return{scena:e.scena.id,titolo:e.scena.titolo,luogo:e.scena.luogo,momento:e.scena.momento,n:Xo.get(e.scena.id),testo:e.scena.testo,continua:o,eventi:[]}}function da(){g=ba(P,Math.floor(Math.random()*1e6)),T=[Ia(g)],Aa=[],W=0,va()}function h(a){return a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}function Wo(a){return a.split(/\n\n+/).map(o=>`<p>${h(o).replace(/\*([^*]+)\*/g,"<em>$1</em>").replace(/«([^»]+)»/g,'<span class="battuta">\xAB$1\xBB</span>')}</p>`).join("")}var Ho=a=>{let o=q.momenti.reduce((n,t)=>n+t.passi,0),e=a.passo%o,i=q.momenti.findIndex(n=>n.id===K.momentoIniziale);for(;e>=q.momenti[i].passi;)e-=q.momenti[i].passi,i=(i+1)%q.momenti.length;return q.momenti[i].id},Ea=a=>P.scene.get(a.scena).luogo,Da=()=>v("#panorama"),Y={luogo:"banchina",momento:"alba",tensione:0},xo=performance.now();function uo(){let a=Da(),o=a.getBoundingClientRect(),e=Math.min(2,window.devicePixelRatio||1);a.width=Math.max(1,Math.round(o.width*e)),a.height=Math.max(1,Math.round(o.height*e)),a.getContext("2d").setTransform(e,0,0,e,0,0),wa()}function wa(){let a=Da(),o=a.getBoundingClientRect(),e=N()?(performance.now()-xo)/1e3:12;oo(a.getContext("2d"),o.width,o.height,Y.luogo,Y.momento,e,Y.tensione)}function $o(){N()&&!document.hidden&&wa(),requestAnimationFrame($o)}function So(a){let o=Ea(a),e=Ho(a),i=q.luoghi.find(t=>t.id===o).zona,n=o!==Y.luogo||e!==Y.momento;if(Y={luogo:o,momento:e,tensione:a.traccia[i]??0},document.documentElement.style.setProperty("--acc",la[e]?.accento??"#8ccde2"),n&&N()){let t=v(".panorama");t.classList.remove("cambio"),t.offsetWidth,t.classList.add("cambio")}no({nave:1.4,banchina:1,chiesa:.8,magazzini:.5,archivio:.3,gallo:.2}[o]??.6),wa()}var po=["","\u2680","\u2681","\u2682","\u2683","\u2684","\u2685"];function ae(a){let o=[],e=0,i="",n=()=>{e&&o.push(`<li class="ev tempo">${e===1?"Passa un passo":`Passano ${e} passi`}${i?`: ${h(i)}`:""}.</li>`),e=0};for(let t of a){if(t.tipo==="tempo"){e++,i=t.testo.match(/\((.*)\)/)?.[1]??"";continue}if(n(),t.tipo==="tiro"&&t.dati&&"dadi"in t.dati){let s=t.dati;o.push(`<li class="ev tiro"><span class="glifi">${po[s.dadi[0]]}${po[s.dadi[1]]}</span>${h(t.testo.split(":")[0])}: ${s.dadi[0]} + ${s.dadi[1]} + ${s.bonus}${s.penalita?` \u2212 ${s.penalita}`:""} = ${s.totale} contro ${s.soglia}</li>`)}else if(t.tipo==="esito"){let s=t.dati;o.push(`<li class="ev esito" data-g="${s?.grado??1}" data-r="${s?.riesce??""}">${h(t.testo)}</li>`)}else o.push(`<li class="ev ${t.tipo}">${h(t.testo)}</li>`)}return n(),o.length?`<ul class="eventi">${o.join("")}</ul>`:""}function oe(){let a=v("#diario");a.innerHTML=T.map((e,i)=>{let n=i===T.length-1,t=e.continua?`<p class="sopra">${h(e.titolo)} \xB7 la scena continua</p>`:`<p class="sopra">${h(e.luogo)} \xB7 ${h(e.momento.split(",")[0])}${e.n?` \xB7 paragrafo ${e.n}`:""}</p><h2>${h(e.titolo)}</h2>`;return`<article class="voce${n?" presente":" passata"}">
+        ${t}
+        ${e.continua?"":`<div class="prosa">${Wo(e.testo)}</div>`}
+        ${e.scelta?`<p class="scelto"><span>\xBB</span> ${h(e.scelta)}</p>`:""}
+        ${ae(e.eventi)}
+      </article>`}).join("");let o=a.querySelector(".presente");if(o){let e=o.offsetTop-12;a.scrollTo({top:e,behavior:N()&&Ga?"smooth":"auto"})}}function ee(a){return a.tipo==="finestra"?"finestra":a.tipo==="difesa"?"difesa":a.tipo==="parlare"||a.ricevuta?.unColpoSolo?"una volta sola":a.povera?"via povera":a.tipo==="riprova"?"costa un passo":""}function ie(a){let o=0,e=a.confronto?`<div class="confronto" data-finestra="${a.confronto.finestra}" data-difesa="${a.confronto.inDifesa}">
+        <div class="conf-testa"><span class="conf-nome">${h(a.confronto.avversario)}</span><span class="conf-natura">${h(a.confronto.natura)}</span></div>
+        <div class="copertura">${fa.map((n,t)=>`<span data-g="${t}" class="${n===a.confronto.copertura?"attuale":""}">${n}</span>`).join("")}</div>
+        ${a.confronto.inDifesa?'<p class="allarme">Ti attacca. Difenditi.</p>':a.confronto.finestra?'<p class="allarme finestra">La finestra \xE8 aperta: decidi tu come finisce.</p>':""}
+      </div>`:"",i=a.scelte.map(n=>{if(!n.disponibile)return`<li><div class="risposta chiusa"><span class="num">\xB7</span><span class="t">${h(n.testo)}<small>Richiede: ${h(n.richiede??"non disponibile")}</small></span></div></li>`;o++;let t=n.ricevuta,s=ee(n);return`<li><button type="button" class="risposta${t?" prova":""}" data-scelta="${h(n.id)}" aria-keyshortcuts="${o}">
+        <span class="num">${o}</span>
+        <span class="t">${h(n.testo)}${s?`<em class="tag">${s}</em>`:""}</span>
+        ${t?`<span class="pill" data-g="${t.grado}">${fa[t.grado]}<b>${t.probabilita}%</b></span>`:""}
+      </button></li>`}).join("");v("#dock").innerHTML=a.finale?"":`${e}<ol class="risposte">${i}</ol>`}function ua(a,o,e=""){return`<span class="pips ${e}">${Array.from({length:a},(i,n)=>`<i class="${n<o?"on":""}"></i>`).join("")}</span>`}function te(a){let o=q.momenti.reduce((f,$)=>f+$.passi,0),e=g.passo%o,i=0,n=q.momenti.map(f=>`<div class="giornata-m" data-m="${f.id}">${Array.from({length:f.passi},()=>{let $=i<e?"fatto":i===e?"ora":"";return i++,`<span class="${$}"></span>`}).join("")}<em>${h(f.nome.split(",")[0].replace(/^(l'|il |la )/,""))}</em></div>`).join(""),t=K.scadenze[0],s=g.scadenze[t.id],r=`<div class="scadenza${s>=t.caselle-2?" urgente":""}"><div class="sez"><span>${h(t.nome)}</span><span>${s} / ${t.caselle}</span></div>${ua(t.caselle,s,"nave")}</div>`,c=q.logorii.map(f=>{let $=g.logorio[f.id].stadio;return`<div class="metro" data-s="${$}"><span class="nome">${h(f.nome)}</span><span class="stato">${h(f.stadi[$-1])}</span>${ua(3,$,"stadio")}</div>`}).join(""),l=g.ferite.length?g.ferite.map(f=>`<li class="ferita" data-g="${f.gravita}"><span>${h(f.nome)}</span><b>${f.gravita}</b></li>`).join(""):'<li class="vuoto">Nessuna ferita</li>',d=Object.entries(g.protezioni).map(([f,$])=>`<li><span>${h(q.protezioni.find(y=>y.id===f)?.nome??f)}</span><b>${["intatta","intaccata","inservibile"][$]}</b></li>`).join(""),u=Ea(g),p=q.luoghi.map(f=>`<li class="${f.id===u?"qui":""}"><span>${h(f.nome.replace(/^(La |L'|I |Il )/,""))}</span>${ua(3,g.traccia[f.zona]??0,"occhi")}</li>`).join(""),m=q.capacita.map(f=>{let $=g.livelli[f.id]??0;return`<li><span>${h(f.nome)}</span><span class="liv">${["Inesperto","Pratico","Esperto","Maestro"][$]}</span>${ua(3,$,"liv")}</li>`}).join(""),b=a.stato.conoscenze.length?a.stato.conoscenze.map(f=>`<li>${h(f)}</li>`).join(""):'<li class="vuoto">Non sai ancora niente di preciso.</li>';v("#scheda-corpo").innerHTML=`
+    <section><div class="sez"><span>La giornata</span><span>passo ${g.passo}</span></div><div class="giornata">${n}</div></section>
+    <section>${r}</section>
+    <section><div class="sez"><span>Come stai</span></div>${c}<ul class="righe-scheda">${l}${d}</ul></section>
+    <section><div class="sez"><span>Traccia</span><span>chi ti ha notato</span></div><ul class="righe-scheda">${p}</ul></section>
+    <section><div class="sez"><span>Taccuino</span><span>${a.stato.conoscenze.length}</span></div><ul class="taccuino">${b}</ul>${a.stato.parole.length?`<p class="parole">${a.stato.parole.map(f=>`<span>${h(f)}</span>`).join("")}</p>`:""}</section>
+    <section><div class="sez"><span>Capacit\xE0</span></div><ul class="righe-scheda capacita">${m}</ul></section>
+    <section><div class="sez"><span>Oggetti</span></div><ul class="righe-scheda">${a.stato.oggetti.map(f=>`<li><span>${h(f)}</span></li>`).join("")||'<li class="vuoto">Niente</li>'}</ul></section>`}var ne={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]},re={1:[0,0],6:[0,180],2:[0,-90],5:[0,90],3:[-90,0],4:[90,0]};function mo(a){let o=[1,2,3,4,5,6].map(e=>`<div class="faccia f${e}">${Array.from({length:9},(i,n)=>`<i class="${ne[e].includes(n)?"p":""}"></i>`).join("")}</div>`).join("");return`<div class="dado-lancio"><div class="dado" id="${a}">${o}</div></div>`}function se(a){return a.righe.map(o=>{let e=o.tipo==="partenza"?String(o.valore):o.valore>0?`+${o.valore}`:`\u2212${-o.valore}`;return`<li class="${o.conta?"":"spenta"}"><span class="v">${e}</span><span class="c">${h(o.testo)}${o.nota?`<small>${h(o.nota)}</small>`:""}</span></li>`}).join("")}function le(a){let o=a.ricevuta;ga=a,F="ricevuta";let e=o.nota??(o.somma<o.grado?`${o.capacita} non scende sotto ${fa[o.fondo]}`:o.somma>2?"pi\xF9 di allo scoperto non si va":"");v("#foglio-carta").innerHTML=`
+    <header class="carta-testa">
+      <span>Capitaneria del porto</span>
+      <span>Ricevuta n. ${String(W+1).padStart(4,"0")}</span>
     </header>
-    <div class="prosa">${Qa(o.scena.testo)}</div>
-    ${e}
-    ${n}
-    ${o.scelte.length?`<ol class="scelte">${o.scelte.map(c=>Ja(c,c.disponibile?++i:0)).join("")}</ol>`:""}`,w("#scheda-corpo").innerHTML=Wa(o);let t=w("#ricomincia");t.textContent=T?"Sicuro? Ricomincia":"Ricomincia",t.classList.toggle("avviso",T)}function Sa(o){let a=za(F,b,o);b=a.partita,C=a.eventi,R=null,Pa(),G(),w("#scena").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})}function qa(o){let a=o.partita?{partita:o.partita,eventi:o.eventi??[]}:Ba();a?(b=a.partita,C=a.eventi):na(),document.addEventListener("click",i=>{let e=i.target.closest("button");if(!e)return;if(e.id==="ricomincia"){T?na():T=!0,G();return}if(T=!1,e.id==="mostra-scheda"){let c=w("#scheda"),r=c.dataset.aperta==="true";c.dataset.aperta=String(!r),e.setAttribute("aria-expanded",String(!r)),e.textContent=r?"Mostra la scheda":"Nascondi la scheda";return}if(e.dataset.nuova!==void 0){na(),G();return}if(e.dataset.chiudi!==void 0){R=null,G();return}if(e.dataset.tira)return Sa(e.dataset.tira);let n=e.dataset.scelta;if(!n)return;let t=O(F,b).scelte.find(c=>c.id===n);t&&(t.ricevuta?(R=R===n?null:n,G()):Sa(n))}),G()}var B=window.claude?.hot;B?.snapshot?.(()=>({partita:b,eventi:C}));B?.ready?B.ready(qa):qa(B?.data??{});})();
+    <p class="carta-quando">${h(A(P,g).scena.momento.split(",")[0])} \xB7 passo ${g.passo}</p>
+    <h3 class="carta-azione">${h(a.testo)}</h3>
+    <ol class="carta-righe">${se(o)}</ol>
+    <div class="carta-totale"><span class="v">${o.somma<0?`\u2212${-o.somma}`:o.somma}</span><span class="grado" data-g="${o.grado}">${fa[o.grado]}</span></div>
+    ${e?`<p class="carta-nota">${h(e)}</p>`:""}
+    <dl class="carta-prova">
+      <div><dt>Prova</dt><dd>${o.sogliaNome} \xB7 ${o.soglia}</dd></div>
+      <div><dt>${h(o.capacita)}</dt><dd>${o.livello} +${o.bonus}${o.penalita?` \u2212${o.penalita}`:""}</dd></div>
+      <div class="grande"><dt>Riesci</dt><dd>${o.probabilita}<small>%</small></dd></div>
+    </dl>
+    ${o.posta?`<p class="carta-posta">${h(o.posta)}</p>`:""}
+    ${o.unColpoSolo?'<p class="carta-nota">Una volta sola: non si ritenta.</p>':""}
+    ${o.ritento?'<p class="carta-nota">Ritentare costa un passo.</p>':""}
+    <div class="timbro" id="timbro" hidden></div>`,v("#vassoio").innerHTML=mo("d1")+mo("d2"),v("#vassoio").hidden=!0,v("#conto").textContent="",v("#tira").hidden=!1,v("#tira").textContent="Tira i dadi",v("#altra").hidden=!1,v("#foglio").hidden=!1,requestAnimationFrame(()=>v("#foglio").classList.add("aperto")),v("#tira").focus()}function ya(){v("#foglio").classList.remove("aperto"),v("#foglio").hidden=!0,ga=null}function fo(a,o){let[e,i]=re[o];if(!N()){a.style.transition="none",a.style.transform=`rotateX(${e}deg) rotateY(${i}deg)`;return}a.style.transition="none",a.style.transform=`rotateX(${Math.random()*360}deg) rotateY(${Math.random()*360}deg) rotateZ(${Math.random()*360}deg)`,a.offsetWidth;let n=2+Math.floor(Math.random()*2);a.style.transition="transform 1.15s cubic-bezier(.15,.75,.25,1)",a.style.transform=`rotateX(${e+360*n}deg) rotateY(${i+360*n}deg) rotateZ(0deg)`}function go(){if(!ga||F!=="ricevuta")return;let a=ga,o=g,e=Pa(P,g,a.id);E={id:a.id,esito:e,prima:o,testo:a.testo,ricevuta:a.ricevuta},W++,g=e.partita,ce();let i=e.eventi.find(t=>t.tipo==="tiro"&&t.dati&&"dadi"in t.dati)?.dati;F="tiro",v("#tira").hidden=!0,v("#altra").hidden=!0;let n=v("#vassoio");n.hidden=!1,i&&(ro(),fo(v("#d1"),i.dadi[0]),fo(v("#d2"),i.dadi[1])),setTimeout(()=>de(i,e.eventi),N()?1250:50)}function ce(){let a=T;T=[...T],E&&Oa(E.testo,E.esito.eventi,E.prima,!0),va(),T=a}function de(a,o){F="timbro";let e=o.find(r=>r.tipo==="esito")?.dati,i=a?.riesce??e?.riesce??!1,n=a?.grado??e?.grado??0,t=e?.casella??Yo[n][i?0:1],s=v("#timbro");s.innerHTML=`<b>${i?"Riesci":"Non riesci"}</b><span>${h(t)}</span>`,s.dataset.r=String(i),s.hidden=!1,a&&(v("#conto").innerHTML=`${a.dadi[0]} + ${a.dadi[1]} + ${a.bonus}${a.penalita?` \u2212 ${a.penalita}`:""} = <b>${a.totale}</b> contro ${a.soglia}`),so(i),pa(i?"luce":n===2?"scossa-forte":"scossa"),v("#tira").hidden=!1,v("#tira").textContent="Continua",v("#tira").focus()}function vo(){if(!E)return;let a=E;E=null,ya(),Oa(a.testo,a.esito.eventi,a.prima),_o(a.esito.eventi,a.prima,g),va(),U(),ja()}function Oa(a,o,e,i=!1){let n=T[T.length-1];T[T.length-1]={...n,scelta:a,eventi:o};let t=Ia(g,g.scena===e.scena);T.push(t),i||(Aa=o)}function ue(a){let o=g,e=Pa(P,g,a.id);g=e.partita,Oa(a.testo,e.eventi,o),_o(e.eventi,o,g),va(),U(),ja()}function ho(a){if(E)return;let o=A(P,g).scelte.find(e=>e.id===a&&e.disponibile);o&&(o.ricevuta?le(o):ue(o))}function pa(a){if(!N()&&a!=="ferita")return;let o=v("#app");o.classList.remove("luce","scossa","scossa-forte","ferita","notato"),o.offsetWidth,o.classList.add(a),setTimeout(()=>o.classList.remove(a),1300)}function G(a,o,e){let i=v("#avvisi"),n=document.createElement("div");for(n.className=`avviso ${a}`,n.innerHTML=`<b>${h(o)}</b><span>${h(e)}</span>`,i.appendChild(n);i.children.length>4;)i.firstElementChild.remove();setTimeout(()=>n.classList.add("via"),5200),setTimeout(()=>n.remove(),5800)}function _o(a,o,e){for(let n of a)n.tipo==="ferita"&&/^Ferita/.test(n.testo)?(pa("ferita"),lo(),G("rosso","Sei ferito",n.testo.replace(/^Ferita \w+: /,""))):n.tipo==="protezione"?G("","La giacca ti salva",n.testo):n.tipo==="imprevisto"?G("imprevisto","Imprevisto",n.testo):n.tipo==="crescita"&&/ora sei/.test(n.testo)?G("oro","Stai migliorando",n.testo):n.tipo==="crescita"?G("oro","Tentativi risparmiati",n.testo):n.tipo==="qualita"&&n.testo.startsWith("Sai che:")?(co(),G("inchiostro","Nel taccuino",n.testo.slice(9))):n.tipo==="qualita"&&n.testo.startsWith("Parola chiave")?G("inchiostro","Parola chiave",n.testo.slice(15)):n.tipo==="logorio"?G("ambra","Come stai",n.testo):n.tipo==="morte"&&pa("ferita");for(let[n,t]of Object.entries(e.traccia))if(t>(o.traccia[n]??0)){let s=q.luoghi.find(r=>r.zona===n)?.nome??n;G("occhi","Ti hanno notato",`${s}: Traccia ${t}${t>=2?". Qui ti guardano.":""}`),n===q.luoghi.find(r=>r.id===Ea(e))?.zona&&pa("notato")}let i=K.scadenze[0];e.scadenze[i.id]>=i.caselle-2&&e.scadenze[i.id]>o.scadenze[i.id]&&(G("rosso","Il tempo stringe",`${i.nome}: ${e.scadenze[i.id]} su ${i.caselle}`),Ma())}function ja(){if(!g.finita)return;let a=g.finita.tipo,o=A(P,g),e=T.flatMap(n=>n.eventi).filter(n=>n.tipo==="tiro").length,i=Object.values(g.traccia).reduce((n,t)=>n+t,0);v("#finale").dataset.tipo=a,v("#finale-corpo").innerHTML=`
+    <p class="fin-sopra">${{vittoria:"Vittoria",sconfitta:"Sconfitta",morte:"Morte"}[a]} \xB7 ${h(o.scena.momento.split(",")[0])} \xB7 passo ${g.passo}</p>
+    <h2>${{vittoria:"Ce l'hai fatta.",sconfitta:"La storia finisce qui.",morte:"La tua storia finisce qui."}[a]}</h2>
+    <p class="fin-titolo">${h(o.scena.titolo)}</p>
+    <dl class="fin-conti">
+      <div><dt>Passi</dt><dd>${g.passo}</dd></div>
+      <div><dt>Dadi tirati</dt><dd>${e}</dd></div>
+      <div><dt>Traccia lasciata</dt><dd>${i}</dd></div>
+      <div><dt>Nel taccuino</dt><dd>${o.stato.conoscenze.length} / ${K.conoscenze.length}</dd></div>
+    </dl>`,setTimeout(()=>{v("#finale").hidden=!1,Ma()},N()?900:0)}function pe(){return T.map(a=>`${a.continua?"":`${a.titolo.toUpperCase()} (${a.luogo}, ${a.momento})
+${a.testo.replace(/\*/g,"")}
+`}${a.scelta?`\xBB ${a.scelta}
+`:""}${a.eventi.filter(o=>o.tipo!=="tempo").map(o=>`  \xB7 ${o.testo}`).join(`
+`)}`).join(`
+
+`)}function me(a){let o={scena:a.scena.id,luogo:a.scena.luogo,momento:a.scena.momento,confronto:a.confronto??null,scelte:a.scelte.map(e=>({id:e.id,tipo:e.tipo,disponibile:e.disponibile,...e.richiede?{richiede:e.richiede}:{},...e.ricevuta?{somma:e.ricevuta.somma,grado:e.ricevuta.grado,soglia:e.ricevuta.soglia,probabilita:e.ricevuta.probabilita}:{}})),eventiUltimaAzione:Aa.map(e=>e.dati?{tipo:e.tipo,testo:e.testo,dati:e.dati}:{tipo:e.tipo,testo:e.testo})};v("#cofano-dati").textContent=JSON.stringify(o,null,2)}function U(){let a=A(P,g);So(g),v("#sopra").textContent=`${a.scena.momento.split(",")[0]} \xB7 passo ${g.passo}`,v("#luogo").textContent=a.scena.luogo,oe(),ie(a),te(a),me(a)}function k(a,o){let e=v(a);e.hidden=!o}function bo(a){let o=a.partita?{partita:a.partita,diario:a.diario??[],ricevute:a.ricevute??0}:Ko();o?(g=o.partita,T=o.diario.length?o.diario:[Ia(g)],W=o.ricevute,v("#continua-partita").hidden=!!g.finita,v("#inizia").textContent=g.finita?"Comincia la storia":"Nuova partita",g.finita||(v("#inizia").className="secondario")):da(),document.body.classList.add("in-titolo"),new ResizeObserver(uo).observe(Da()),uo(),requestAnimationFrame($o),U(),document.addEventListener("click",e=>{let i=e.target.closest("button");if(i){switch(i.id){case"inizia":(o&&!g.finita||g.finita)&&da(),Ga=!0,document.body.classList.remove("in-titolo"),k("#titolo",!1),U();return;case"continua-partita":Ga=!0,document.body.classList.remove("in-titolo"),k("#titolo",!1),U(),ja();return;case"btn-scheda-chiudi":document.body.classList.remove("scheda-aperta");return;case"tira":return F==="timbro"?vo():go();case"altra":return ya();case"btn-come":return k("#come",!0);case"btn-cofano":return k("#cofano",!0);case"btn-scheda":return document.body.classList.toggle("scheda-aperta");case"btn-suono":{let n=La()?(to(),!1):io();i.textContent=n?"Suono s\xEC":"Suono no",i.setAttribute("aria-pressed",String(n)),n&&So(g);return}case"btn-ricomincia":i.dataset.conferma==="si"?(da(),i.dataset.conferma="",i.textContent="Ricomincia",k("#finale",!1),U()):(i.dataset.conferma="si",i.textContent="Sicuro? Ricomincia",setTimeout(()=>{i.dataset.conferma="",i.textContent="Ricomincia"},4e3));return;case"fin-nuova":da(),k("#finale",!1),U();return;case"fin-rileggi":return k("#finale",!1);case"fin-copia":{let n=pe();navigator.clipboard?.writeText(n).then(()=>i.textContent="Registro copiato",()=>i.textContent="Copia non riuscita");return}}if(i.dataset.chiudi!==void 0){i.closest(".velo").hidden=!0;return}i.dataset.scelta&&ho(i.dataset.scelta)}}),document.addEventListener("keydown",e=>{if(e.key==="Escape"){!v("#foglio").hidden&&F==="ricevuta"&&ya();for(let n of["#come","#cofano"])v(n).hidden=!0;document.body.classList.remove("scheda-aperta");return}if(!v("#foglio").hidden){e.key==="Enter"&&(e.preventDefault(),F==="timbro"?vo():F==="ricevuta"&&go());return}if(!v("#titolo").hidden||!v("#finale").hidden)return;let i=Number(e.key);if(i>=1&&i<=9){let n=A(P,g).scelte.filter(t=>t.disponibile);n[i-1]&&ho(n[i-1].id)}})}var ma=window.claude?.hot;ma?.snapshot?.(()=>({partita:g,diario:T,ricevute:W}));ma?.ready?ma.ready(bo):bo(ma?.data??{});})();
 </script>

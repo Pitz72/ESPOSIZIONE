@@ -9,6 +9,24 @@ import { intero, tiraDueDadi } from "./dadi.ts";
 export interface Evento {
   tipo: "testo" | "tiro" | "esito" | "traccia" | "imprevisto" | "ferita" | "tempo" | "logorio" | "crescita" | "protezione" | "scadenza" | "morte" | "confronto" | "qualita";
   testo: string;
+  /** Dati per le interfacce grafiche: i dadi di un tiro, la casella di un esito. */
+  dati?: DatiTiro | DatiEsito;
+}
+
+export interface DatiTiro {
+  dadi: [number, number];
+  bonus: number;
+  penalita: number;
+  totale: number;
+  soglia: number;
+  riesce: boolean;
+  grado: Grado;
+}
+
+export interface DatiEsito {
+  casella: string;
+  riesce: boolean;
+  grado: Grado;
 }
 
 export interface Ferita {

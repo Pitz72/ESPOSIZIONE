@@ -264,7 +264,11 @@ function tira(p: Partita, r: RicevutaPiena, eventi: Evento[]): boolean {
   const totale = t.totale + r.bonus - r.penalita;
   const ok = totale >= r.soglia;
   const pen = r.penalita ? ` − ${r.penalita}` : "";
-  eventi.push({ tipo: "tiro", testo: `${r.azione}: ${t.dadi[0]} + ${t.dadi[1]} + ${r.bonus}${pen} = ${totale} contro ${r.soglia}. ${ok ? "Riesci" : "Non riesci"}, ${NOMI_GRADO[r.grado].toLowerCase()}.` });
+  eventi.push({
+    tipo: "tiro",
+    testo: `${r.azione}: ${t.dadi[0]} + ${t.dadi[1]} + ${r.bonus}${pen} = ${totale} contro ${r.soglia}. ${ok ? "Riesci" : "Non riesci"}, ${NOMI_GRADO[r.grado].toLowerCase()}.`,
+    dati: { dadi: t.dadi, bonus: r.bonus, penalita: r.penalita, totale, soglia: r.soglia, riesce: ok, grado: r.grado },
+  });
   return ok;
 }
 
@@ -297,7 +301,7 @@ function risolviProva(g: Gioco, p: Partita, scena: Scena, s: Scelta, eventi: Eve
   const ok = tira(p, r, eventi);
   consumaPreparazioni(g, p);
   if (pr.unColpoSolo) p.usate[chiave] = true;
-  eventi.push({ tipo: "esito", testo: CASELLE[r.grado][ok ? 0 : 1] });
+  eventi.push({ tipo: "esito", testo: CASELLE[r.grado][ok ? 0 : 1], dati: { casella: CASELLE[r.grado][ok ? 0 : 1], riesce: ok, grado: r.grado } });
   let tempo = 0;
 
   if (ok) {
