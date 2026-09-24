@@ -24,6 +24,13 @@ $documenti = @(
         extra = @('--tipografia', '--inizia-da', '^## Come leggere')
     },
     @{
+        nome  = 'design-3'
+        fonte = Join-Path $radice 'ESPOSIZIONE-DESIGN-3.md'
+        testa = 'head-design-3.typ'
+        pdf   = Join-Path $uscita 'ESPOSIZIONE-DESIGN-3.pdf'
+        extra = @('--tipografia', '--inizia-da', '^## Come leggere')
+    },
+    @{
         nome  = 'librogame'
         # il libro si rigenera prima dai dati: node strumento/motore/src/cli.ts libro
         fonte = Join-Path $radice 'strumento\motore\libro\santa-rita.md'
