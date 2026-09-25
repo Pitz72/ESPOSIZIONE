@@ -21,6 +21,7 @@ Tutto sta in un documento: [`ESPOSIZIONE-DESIGN-3.md`](ESPOSIZIONE-DESIGN-3.md),
 
 | Se vuoi | Leggi |
 |---|---|
+| capire tutto il progetto in una pagina | [`PANORAMICA.md`](PANORAMICA.md): che cosa fa, che cosa farà, dove ci serve un parere |
 | capire l'idea in dieci minuti | la Parte I, con la scena giocata del §2 |
 | sapere com'è fatto il personaggio | la Parte II |
 | sapere come si gioca | le Parti IV e V: le quattro domande e le quattro fasce |
