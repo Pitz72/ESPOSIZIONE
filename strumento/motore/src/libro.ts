@@ -72,6 +72,8 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if ("persona" in c) return `${persona(c.persona)} ha ${DIMENSIONI[c.dimensione]} almeno ${c.almeno ?? 0}`;
     if ("conosci" in c) return `conosci ${persona(c.conosci)}`;
     if ("tradisce" in c) return `${persona(c.tradisce)} ha rancore 3, oppure paura 2 e rancore 2`;
+    if ("compagno" in c) return `${persona(c.compagno)} è con te`;
+    if ("trattoCompagno" in c) return `con te c'è qualcuno che è ${tratto(c.trattoCompagno)}`;
     if ("traccia" in c) return `la Traccia a ${luogo(c.traccia).nome} è almeno ${c.almeno}`;
     if ("momento" in c) return `è ${[c.momento].flat().map(momentoBreve).join(" o ")}`;
     if ("luogo" in c) return `sei ${[c.luogo].flat().map((l) => luogo(l).nome).join(" o ")}`;
@@ -95,6 +97,8 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if ("togliTratto" in e) return `cancella il tratto ${tratto(e.togliTratto)}`;
     if ("persona" in e) return `${persona(e.persona)}: ${Object.entries(e.cambia).map(([d, v]) => `${d} ${segno(v!)}`).join(", ")}`;
     if ("conosci" in e) return `conosci ${persona(e.conosci)}`;
+    if ("compagno" in e) return `${persona(e.compagno)} viene con te: segnala fra i compagni`;
+    if ("congeda" in e) return `${persona(e.congeda)} non è più con te`;
     if ("statoAnimo" in e) return `sei ${stato(e.statoAnimo)}`;
     if ("passaStatoAnimo" in e) return `non sei più ${stato(e.passaStatoAnimo)}`;
     if ("misura" in e) return `${misura(e.misura)} ${segno(e.piu)}`;
@@ -234,6 +238,11 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     p(`**Le cose.** ${storia.combinazioni.map((c) => `${c.testo}: se hai ${c.da.map((x) => cosa(x).toLowerCase()).join(" e ")}, cancellale e segna ${cosa(c.cosa).toLowerCase()}.`).join(" ")} Una cosa fragile usata come attrezzo si rovina a ogni «non riesci»; rovinata funziona ancora, rotta no.`);
     p();
   }
+  const compagni = storia.persone.filter((x) => x.compagno);
+  if (compagni.length) {
+    p(`**I compagni.** Qualcuno può venire con te. Finché è con te, in ogni prova in cui conosce la capacità puoi chiedergli di **aiutarti** (+1 al tiro, se si fida di te almeno 2 o ti deve un favore; poi il debito scende di 1) oppure di **farla al posto tuo**: usa il suo livello e i suoi tratti al posto dei tuoi, e se finisce in un rovescio le ferite sono sue e il suo rancore sale di 1. Se il rancore di un compagno arriva a 3, se ne va. Le sue ferite guariscono e peggiorano come le tue. ${compagni.map((x) => `${persona(x.id)}: ${Object.entries(x.compagno!.capacita).map(([k, v]) => `${cap(k).nome} ${["Inesperta", "Pratica", "Esperta", "Maestra"][v]}`.replace(/a$/, x.femminile ? "a" : "o")).join(", ")}; ${x.compagno!.tratti.map(tratto).join(", ")}.`).join(" ")}`);
+    p();
+  }
   p(`**Le persone.** Sulla scheda ogni persona ha le sue caselle: fiducia, debito, paura, affetto, rancore. Chi si fida di te almeno 2 ti aiuta, se glielo chiedi; chi ce l'ha con te almeno 2 non ti aiuta. Quando un paragrafo ti dice di cambiare una casella, fallo.`);
   p();
   p(`**Crescere.** Ogni prova finita in «in pieno» o «riesci» dà una tacca alla capacità usata (una per paragrafo). Con ${amb.crescita.tacche[0]} tacche un Inesperto diventa Pratico, con altre ${amb.crescita.tacche[1]} un Pratico diventa Esperto. Maestro non si diventa senza un maestro.`);
@@ -296,6 +305,10 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   p(`**Parole chiave:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_`);
   p();
+  if (storia.persone.some((x) => x.compagno)) {
+    p(`**Con te:** \_\_\_\_\_\_\_\_\_\_\_\_ · ferite del compagno: \_\_\_\_\_\_\_\_\_\_\_\_`);
+    p();
+  }
   p(`**Le persone**`);
   p();
   p(`| Persona | Fiducia | Debito | Paura | Affetto | Rancore |`);

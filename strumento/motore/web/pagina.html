@@ -431,6 +431,10 @@
   @keyframes cade { 0% { opacity: 0; transform: scale(2.6) rotate(-22deg); } 70% { opacity: 0.95; transform: scale(0.94) rotate(-8deg); } 100% { opacity: 0.9; transform: scale(1) rotate(-9deg); } }
   #conto { margin: 0; min-height: 1.4em; font: 400 13px/1.4 var(--mono); color: var(--testo-2); }
   #conto b { color: var(--testo); font-size: 15px; }
+  .chi { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .chi-b { padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.22); background: rgba(10,11,15,.6); font: 500 10.5px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--testo-2); }
+  .chi-b.attivo { border-color: var(--acc); color: var(--testo); background: color-mix(in srgb, var(--acc) 18%, transparent); }
+  .chi-b:disabled { opacity: 0.4; cursor: default; }
   .foglio-azioni { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
   .primario {
     padding: 12px 24px; border-radius: 999px; border: 0;
@@ -587,6 +591,7 @@
 
 <div id="foglio" class="velo foglio" hidden role="dialog" aria-modal="true" aria-label="Il quadro">
   <div class="foglio-box">
+    <div id="chi" class="chi" hidden role="group" aria-label="Chi fa la prova"></div>
     <div id="vassoio" class="vassoio" hidden aria-hidden="true"></div>
     <div id="foglio-carta" class="carta"></div>
     <p id="conto" aria-live="polite"></p>

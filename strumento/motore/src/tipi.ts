@@ -32,6 +32,10 @@ export type Condizione =
   | { conosci: string; almeno?: number }
   /** La persona tradirebbe, se ne avesse l'occasione (§30.4). */
   | { tradisce: string }
+  /** La persona viaggia con te come compagno (§33). */
+  | { compagno: string }
+  /** Uno dei compagni che viaggiano con te ha questo tratto. */
+  | { trattoCompagno: string }
   | { traccia: string; almeno: number }
   | { momento: string | string[] }
   | { luogo: string | string[] }
@@ -62,6 +66,10 @@ export type Effetto =
   | { togliTratto: string }
   | { persona: string; cambia: Partial<Record<Dimensione, number>> }
   | { conosci: string; livello: 1 | 2 }
+  /** La persona si unisce al personaggio come compagno (§33). */
+  | { compagno: string }
+  /** Il compagno se ne va. */
+  | { congeda: string }
   | { statoAnimo: string }
   | { passaStatoAnimo: string }
   | { traccia: string; piu: number } // "qui" = la zona del luogo attuale
@@ -427,6 +435,8 @@ export interface Persona {
   puoTradire?: boolean;
   /** Per accordare le parole con cui il gioco la descrive: «affezionata», «terrorizzata». */
   femminile?: boolean;
+  /** Se può viaggiare con il personaggio: le sue capacità (da due a quattro) e i suoi tratti (uno o due). */
+  compagno?: { capacita: Record<string, 0 | 1 | 2 | 3>; tratti: string[] };
 }
 
 export interface Storia {

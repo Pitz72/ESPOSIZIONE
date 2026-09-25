@@ -71,7 +71,7 @@
       "id": "acqua", "nome": "Acqua",
       "valori": {}, "cause": {},
       "sposta": [{ "generi": ["nuotare"], "se": { "momento": "notte" }, "gradini": 1, "testo": "di notte l'acqua è nera e gelata" }],
-      "serve": [{ "generi": ["nuotare"], "se": { "tratto": "sa_nuotare" }, "testo": "serve saper nuotare" }]
+      "serve": [{ "generi": ["nuotare"], "se": { "una": [{ "tratto": "sa_nuotare" }, { "trattoCompagno": "sa_nuotare" }] }, "testo": "serve saper nuotare, o qualcuno che nuoti con te" }]
     },
     {
       "id": "altezza", "nome": "Altezza",

@@ -29,7 +29,7 @@ Chi conosce il 2.0 trova nell'appendice D che cosa resta, che cosa cambia e che 
 
 **Provato.** Il motore 2.0 esiste, in `strumento/motore/`: legge i dati, applica le regole, fa i diciannove controlli sui dati, passa i suoi test, e i giocatori automatici hanno giocato migliaia di partite senza restare bloccati. Una storia di cinquantadue scene, *Il registro della Santa Rita*, si gioca nel terminale, nell'app e sul librogame stampato. Il 24 settembre 2026 una persona l'ha giocata nell'app dall'inizio alla fine, vincendo. Da quella partita vengono tre correzioni di questo documento: le parole che non dicevano la cosa giusta, le scelte che restavano sullo schermo quando non servivano più, e il bisogno di una struttura per la difficoltà.
 
-Il 25 settembre 2026 il motore è stato adeguato al 3.0 (appendice E). Passa 32 test, che controllano anche che i numeri di questo documento siano quelli che il motore produce, e i trenta controlli del §47 sui dati della Santa Rita riscritta. Mille partite simulate per ciascuna di nove strategie finiscono tutte, senza blocchi né errori, e le fasce vi escono con le frequenze delle tabelle. Le strategie contano: chi si prepara vince il 49% delle volte, chi sceglie a caso il 21%. Un primo risultato non va nella direzione sperata: nel *Quasi*, scegliere secondo la situazione vince quanto scegliere sempre «tutto», e il criterio 3 del §54.2 non è ancora superato.
+Il 25 settembre 2026 il motore è stato adeguato al 3.0 (appendice E). Passa 37 test, che controllano anche che i numeri di questo documento siano quelli che il motore produce, e i trenta controlli del §47 sui dati della Santa Rita riscritta. Mille partite simulate per ciascuna di nove strategie finiscono tutte, senza blocchi né errori, e le fasce vi escono con le frequenze delle tabelle. Le strategie contano: chi si prepara vince il 49% delle volte, chi sceglie a caso il 21%. Un primo risultato non va nella direzione sperata: nel *Quasi*, scegliere secondo la situazione vince quanto scegliere sempre «tutto», e il criterio 3 del §54.2 non è ancora superato.
 
 **Non provato.** Nessuno ha ancora giocato il 3.0. I conti delle probabilità sono esatti e si rifanno a mano dalle tabelle dell'appendice A. Ma che le quattro fasce si sentano diverse, che il *Quasi* sia davvero una scelta, che i tratti e i legami arricchiscano la scheda senza appesantirla, che un quadro con quattro sezioni si legga in pochi secondi: tutto questo lo possono dire soltanto le persone che giocano. Il rischio più grande è proprio il quadro: il 2.0 chiedeva di leggere una ricevuta, il 3.0 chiede di leggerne una più lunga. La Parte XI dice come lo si verifica, e che cosa deve succedere perché la prova sia superata.
 
@@ -544,6 +544,7 @@ La prima domanda non si risponde con i dadi. Il personaggio sa una cosa o non la
 | una **cosa** | cose | la chiave dell'armadio; una luce per leggere al buio |
 | una **notizia** | notizie | sapere che Matteo è a bordo, per andare alla nave |
 | un **legame** | legami | conoscere Lucia, per chiederle aiuto |
+| chi è **con te** | legami | con Lucia, che sa nuotare, puoi entrare in acqua anche se tu non sai |
 | una **posizione** | il mondo | essere nell'archivio; che sia notte; essere a portata di mano |
 | una **condizione** | condizioni | non avere una ferita grave al corpo, per arrampicarti |
 
@@ -1113,7 +1114,15 @@ Un **compagno** è una persona con un legame che viaggia con il personaggio. È 
 - uno o due **tratti**;
 - le sue **condizioni**: può ferirsi, stancarsi, spaventarsi.
 
-Un compagno può **aiutarti** (+1 al tiro, §30.3), oppure **agire al posto tuo**: la prova è sua, con il suo livello e con il costo calcolato sulla sua capacità. Il suo legame cambia con come lo tratti, e se il rancore arriva a 3 se ne va, o peggio. Nel librogame un compagno alla volta è già molto da tenere sulla scheda.
+Finché è con te, un compagno cambia ogni prova in cui **conosce la capacità**, cioè in cui ha almeno il livello Pratico. Il gioco ti offre la stessa prova in tre modi, e il quadro ti mostra i conti di ciascuno:
+
+- **da solo**, come sempre;
+- **con il suo aiuto**: +1 al tiro, se si fida di te almeno 2 o ti deve un favore. L'aiuto costa come ogni aiuto (§30.3): se ti doveva un favore, il debito scende di 1, altrimenti glielo devi tu;
+- **al posto tuo**: la prova è sua. Contano il suo livello, i suoi tratti e le sue ferite al posto dei tuoi; il costo si calcola sulla stessa capacità, nello stesso luogo e nello stesso momento. Chi non agisce non cresce: la tacca della pratica non va a nessuno.
+
+I tratti del compagno contano anche per ciò che il gruppo può fare, dove l'ambientazione lo dice: Lucia sa nuotare, e con lei l'acqua del porto si apre anche per chi non sa nuotare.
+
+Il compagno paga con te. Se una prova in cui ti ha aiutato finisce in un rovescio, il suo rancore sale di 1; se l'ha fatta al posto tuo, sale lo stesso, e le ferite del rovescio sono sue. Le sue ferite guariscono e peggiorano come le tue, e un medico cura prima le tue, poi le sue. Il suo legame cambia con come lo tratti: se il rancore arriva a 3, se ne va. Nel librogame un compagno alla volta è già molto da tenere sulla scheda.
 
 Le storie con più protagonisti, in cui chi gioca passa da uno all'altro, sono una delle domande aperte della prova dei generi (§52).
 
@@ -1728,7 +1737,7 @@ Un criterio mancato non si corregge spostando il criterio. Si corregge il motore
 ## 55. Prossimi passi
 
 1. **Approvare questo documento.** Fino ad allora il 2.0 resta il riferimento.
-2. **Adeguare il motore e i dati.** Fatto il 25 settembre 2026, secondo l'appendice E. Restano i compagni, il giocatore automatico con un obiettivo, e l'editor.
+2. **Adeguare il motore e i dati.** Fatto il 25 settembre 2026, secondo l'appendice E, compresi i compagni. Restano il giocatore automatico con un obiettivo e l'editor.
 3. **Riscrivere la Santa Rita** nel 3.0. Fatto anche questo: le scelte in prima persona, i ripieghi, le proprietà dei luoghi, le persone con i loro legami, i tratti del personaggio, le notizie con il loro stato, una convinzione che si può lasciare andare.
 4. **La prova del quadro sulla carta** (§54.1), che si può fare anche prima del punto 2.
 5. **La prova con le persone** (§54.3), che diventa la Fase 1 della roadmap.
@@ -1861,7 +1870,7 @@ Il personaggio della Santa Rita ha *Vista acuta*, *Sa leggere*, *Minuto*, *Soffr
 | **folla** | | −1 | | −1 | seguire qualcuno: un gradino in più |
 | **sorveglianza** | +1 | +1 | | | — |
 | **posto di lavoro** | | | +1 | | fra chi lavora, uno sconosciuto che si guarda intorno si nota |
-| **acqua** | | | | | nuotare: serve *Sa nuotare*, o una barca · di notte, un gradino in più |
+| **acqua** | | | | | nuotare: serve *Sa nuotare*, o un compagno che sappia nuotare · di notte, un gradino in più |
 | **altezza** | | | | | chi soffre le vertigini: un gradino in più · la posta di una caduta è una ferita |
 
 **7. I luoghi.** Ogni luogo è una zona.
@@ -1969,7 +1978,7 @@ Le righe proprie della sera: *di sera, fra gente che beve, chi resta sobrio a gu
 
 *Zeno, l'oste del Gallo.* Fiducia 2; ti deve un favore. Reazioni: se lo minacci, fiducia 0 e rancore 2.
 
-*Lucia, alla chiesa dei marinai.* Affetto 1 (per Matteo, e quindi per te), fiducia 0. Reazioni: se le mostri il biglietto di Matteo, fiducia +2. In un'altra storia potrebbe diventare una compagna: *Muoversi* Pratico, *Mentire* Esperto, *Sa nuotare*.
+*Lucia, alla chiesa dei marinai.* Affetto 1 (per Matteo, e quindi per te), fiducia 0. Reazioni: se le mostri il biglietto di Matteo, fiducia +2. Se si fida di te, può diventare una compagna: *Muoversi* Pratica, *Mentire* Esperta, *Sapere* Pratica; tratto *Sa nuotare*.
 
 *Teodoro detto il Pesce.* Avversario: chi avanza, al coperto, gli basta uno scambio per esserti addosso. Punti deboli: quello che gli rovesci addosso (*Muoversi*, 1); il nome del suo capitano, che non vuole morti a bordo (*Sapere*, 2); colpirlo per primo (*Battersi*, 1). Pericolo: coltello. Movente: la taglia che Grimani ha messo su chi cerca Matteo; smette se gli offri di più o se il rumore attira la guardia; non mantiene la parola.
 
@@ -2107,7 +2116,7 @@ Escono dal glossario: *casella* e i nomi delle sei caselle (successo pieno, succ
 
 # APPENDICE E — Che cosa cambiare nel motore e nei dati
 
-Questo era l'elenco del lavoro per adeguare `strumento/motore/`. È stato fatto il 25 settembre 2026, con tre eccezioni: i compagni (§33), il giocatore automatico con un obiettivo (§54.2) e l'editor di ESPOSIZIONE Studio restano da fare. Il `README.md` del motore dice com'è fatto adesso.
+Questo era l'elenco del lavoro per adeguare `strumento/motore/`. È stato fatto il 25 settembre 2026, compresi i compagni (§33), aggiunti lo stesso giorno. Restano da fare il giocatore automatico con un obiettivo (§54.2) e l'editor di ESPOSIZIONE Studio. Il `README.md` del motore dice com'è fatto adesso.
 
 **Il formato dei dati** (`src/tipi.ts`)
 

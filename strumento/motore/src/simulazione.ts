@@ -90,7 +90,7 @@ export function simula(g: Gioco, politica: Politica, partite: number, semeInizia
       while (!p.finita && n < 600) {
         r.sceneViste.add(p.scena);
         const v = vista(g, p);
-        const disponibili = v.scelte.filter((s) => s.disponibile);
+        const disponibili = v.scelte.flatMap((s) => [s, ...(s.varianti ?? [])]).filter((s) => s.disponibile);
         if (disponibili.length === 0) {
           r.bloccate.push(`${p.scena} (seme ${seme})`);
           break;

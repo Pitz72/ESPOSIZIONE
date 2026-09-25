@@ -94,7 +94,8 @@
       ]
     },
     { "id": "zeno", "nome": "Zeno, l'oste del Gallo", "dimensioni": { "fiducia": 2, "debito": 1 }, "conosciuta": 1 },
-    { "id": "lucia", "nome": "Lucia", "dimensioni": { "fiducia": 0, "affetto": 1 }, "femminile": true },
+    { "id": "lucia", "nome": "Lucia", "dimensioni": { "fiducia": 0, "affetto": 1 }, "femminile": true,
+      "compagno": { "capacita": { "muoversi": 1, "mentire": 2, "sapere": 1 }, "tratti": ["sa_nuotare"] } },
     {
       "id": "teodoro", "nome": "Teodoro il Pesce", "dimensioni": { "paura": 0, "rancore": 0 }, "puoTradire": true,
       "reazioni": [
@@ -524,7 +525,15 @@
         { "se": { "notizia": "matteo_donna" }, "testo": "Quando le racconti che al porto dicono che Matteo è scappato con una lavandaia, sorride appena. «La lavandaia sono io. E Matteo non è scappato da nessuna parte.»" }
       ],
       "entrando": [{ "fatto": "sai_del_figlio" }, { "notizia": "carico_grimani" }, { "notizia": "casse_pesanti" }, { "cosa": "casacca", "piu": 1 }, { "persona": "lucia", "cambia": { "fiducia": 2 } }, { "conosci": "lucia", "livello": 2 }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "torna", "testo": "La saluto", "vai": "chiesa" }]
+      "scelte": [
+        { "id": "vieni", "testo": "Le chiedo di venire con me", "requisito": { "persona": "lucia", "dimensione": "fiducia", "almeno": 2 }, "richiede": "che Lucia si fidi di te", "effetti": [{ "compagno": "lucia" }], "vai": "lucia_viene" },
+        { "id": "torna", "testo": "La saluto", "vai": "chiesa" }
+      ]
+    },
+    {
+      "id": "lucia_viene", "luogo": "chiesa", "titolo": "Lucia viene con te",
+      "testo": "Lucia si alza e si toglie il velo. «Conosco il nostromo della *Santa Rita* da quando ero bambina, e so nuotare meglio di tuo fratello», dice. «Ma se mi fai finire in cella, me ne torno a lavare i panni e non mi vedi più.»",
+      "scelte": [{ "id": "torna", "testo": "Usciamo insieme", "vai": "chiesa" }]
     },
     {
       "id": "passerella", "luogo": "banchina", "titolo": "La passerella",
@@ -534,7 +543,8 @@
         { "se": { "momento": "notte" }, "testo": "Di notte a bordo c'è solo la guardia. La cima dell'ancora scende nell'acqua nera a poche braccia da te." },
         { "se": { "notizia": "grimani_armi" }, "testo": "Sai che cosa c'è davvero in quelle casse." },
         { "se": { "notizia": "nostromo_conta" }, "testo": "Il nostromo guarda le casse, non le facce." },
-        { "se": { "notizia": "nome_capitano" }, "testo": "A poppa, sotto una tenda, un uomo con la barba bianca guarda il porto: il capitano Nicolò Serra." }
+        { "se": { "notizia": "nome_capitano" }, "testo": "A poppa, sotto una tenda, un uomo con la barba bianca guarda il porto: il capitano Nicolò Serra." },
+        { "se": { "compagno": "lucia" }, "testo": "Lucia ti tocca il braccio. «Il nostromo lo conosco io. Se c'è da raccontargli una storia, lascia parlare me.»" }
       ],
       "scelte": [
         {
@@ -707,7 +717,10 @@
     },
     {
       "id": "allarme", "luogo": "nave", "titolo": "All'erta",
-      "testo": "«All'erta! A poppa!» Le lanterne si accendono una dopo l'altra. Il nostromo blocca la passerella con due uomini. Resta il parapetto, e sotto c'è l'acqua nera del porto. A poppa, appesa a due cime, oscilla la lancia della nave.",
+      "testo": [
+        { "testo": "«All'erta! A poppa!» Le lanterne si accendono una dopo l'altra. Il nostromo blocca la passerella con due uomini. Resta il parapetto, e sotto c'è l'acqua nera del porto. A poppa, appesa a due cime, oscilla la lancia della nave." },
+        { "se": { "compagno": "lucia" }, "testo": "Lucia è già sul parapetto. «Buttatevi! Vi tengo io!»" }
+      ],
       "scelte": [
         {
           "id": "tuffo", "testo": "Ci buttiamo in acqua, io e Matteo",
@@ -779,7 +792,7 @@
     },
     {
       "id": "finale_acqua", "luogo": "banchina", "titolo": "Sotto il molo",
-      "testo": "L'acqua gelata vi strappa il fiato. Nuotate nel buio, tu davanti e Matteo aggrappato alla tua giacca, finché non sbattete contro i pali del molo, coperti d'alghe. Sopra di voi le lanterne corrono avanti e indietro sul ponte della *Santa Rita*, e nessuno pensa a guardare sotto.\n\nMatteo trema e batte i denti, ma è vivo, ed è libero.",
+      "testo": "L'acqua gelata vi strappa il fiato. Nuotate nel buio, e chi non sa nuotare si aggrappa a chi sa, finché non sbattete contro i pali del molo, coperti d'alghe. Sopra di voi le lanterne corrono avanti e indietro sul ponte della *Santa Rita*, e nessuno pensa a guardare sotto.\n\nMatteo trema e batte i denti, ma è vivo, ed è libero.",
       "entrando": [{ "fatto": "matteo_libero" }],
       "finale": { "tipo": "vittoria" }
     },

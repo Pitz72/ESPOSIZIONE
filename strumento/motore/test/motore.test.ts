@@ -362,6 +362,75 @@ test("una luce accesa annulla il buio: niente gradino in più, e niente copertur
 });
 
 // ---------------------------------------------------------------------------
+// I compagni (§33)
+// ---------------------------------------------------------------------------
+
+function conLucia(scena: string, ora = 6): Partita {
+  const p = in_(scena, ora);
+  p.persone.lucia.dim.fiducia = 2;
+  p.persone.lucia.livello = 2;
+  p.compagni = { lucia: { ferite: [] } };
+  return p;
+}
+
+test("Lucia viene con te se si fida di te", () => {
+  let p = in_("lucia");
+  p.persone.lucia.dim.fiducia = 2;
+  p = a(p, "vieni");
+  assert.ok(p.compagni.lucia);
+  assert.equal(vista(g, p).stato.compagni[0].nome, "Lucia");
+});
+
+test("un compagno aiuta (+1) o agisce al posto tuo, con il suo livello, solo in ciò che sa fare", () => {
+  const p = conLucia("passerella");
+  const mentire = vista(g, p).scelte.find((s) => s.id === "mentire")!;
+  const ids = (mentire.varianti ?? []).map((v) => v.id);
+  assert.deepEqual(ids, ["mentire@aiuto:lucia", "mentire@fa:lucia"]);
+  const aiuto = mentire.varianti![0].quadro!;
+  assert.equal(aiuto.riesci.bonus, mentire.quadro!.riesci.bonus + 1);
+  const lei = mentire.varianti![1].quadro!;
+  assert.equal(lei.chi, "lucia");
+  assert.match(lei.riesci.righe.find((r) => r.tipo === "livello")!.testo, /Lucia è Esperta in Mentire/);
+  // Forzare non lo sa fare: niente varianti.
+  const l = conLucia("liberare", 20);
+  assert.equal(vista(g, l).scelte.find((s) => s.id === "forza")!.varianti, undefined);
+});
+
+test("con un compagno che sa nuotare, l'acqua si apre (§33)", () => {
+  const al = conLucia("allarme", 20);
+  assert.equal(vista(g, al).scelte.find((s) => s.id === "tuffo")!.disponibile, true);
+});
+
+test("se una prova fatta dal compagno va in rovescio, le ferite sono sue e il rancore sale", () => {
+  for (let seme = 1; seme < 5000; seme++) {
+    const p = conLucia("archivio", 18);
+    // Allo scoperto: la guardia alla porta e la Traccia a 2.
+    p.fatti.registro_preso = true;
+    p.traccia.archivio = 2;
+    p.rng = seme;
+    if (seme === 1) assert.equal(vista(g, p).scelte.find((s) => s.id === "grondaia")!.varianti![1].quadro!.grado, 2);
+    const r = agisci(g, p, "grondaia@fa:lucia");
+    if (r.partita.scena !== "sorpreso") continue;
+    assert.equal(r.partita.ferite.length, 0, "la caviglia storta non è tua");
+    assert.equal(r.partita.compagni.lucia.ferite[0].nome, "una caviglia storta");
+    assert.equal(r.partita.persone.lucia.dim.rancore, 1);
+    return;
+  }
+  assert.fail("nessun rovescio");
+});
+
+test("un compagno con rancore 3 se ne va", () => {
+  const p = conLucia("chiesa", 1);
+  p.persone.lucia.dim.rancore = 2;
+  const r = agisci(g, p, "dormi");
+  assert.ok(r.partita.compagni.lucia, "rancore 2: resta");
+  r.partita.persone.lucia.dim.rancore = 3;
+  const s = agisci(g, r.partita, "dormi");
+  assert.equal(s.partita.compagni.lucia, undefined);
+  assert.ok(s.eventi.some((e) => /se ne va/.test(e.testo)));
+});
+
+// ---------------------------------------------------------------------------
 // Confronto, violenza, ripetibilità
 // ---------------------------------------------------------------------------
 

@@ -95,6 +95,8 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       if ("cosa" in x && !cose.has(x.cosa)) err("rimandi", dove, `Cosa inesistente: ${x.cosa}.`);
       if ("persona" in x && !persone.has(x.persona)) err("rimandi", dove, `Persona inesistente: ${x.persona}.`);
       if ("convinzione" in x && !storia.convinzioni.some((k) => k.id === x.convinzione)) err("rimandi", dove, `Convinzione inesistente: ${x.convinzione}.`);
+      if ("compagno" in x && !storia.persone.find((k) => k.id === x.compagno)?.compagno) err("rimandi", dove, `Non è un compagno: ${x.compagno}.`);
+      if ("trattoCompagno" in x && !tratti.has(x.trattoCompagno)) err("rimandi", dove, `Tratto inesistente: ${x.trattoCompagno}.`);
     }
   };
   const rimandiEffetti = (effetti: Effetto[], dove: string) => {
@@ -109,6 +111,7 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       if ("tratto" in e && !tratti.has(e.tratto)) err("rimandi", dove, `Tratto inesistente: ${e.tratto}.`);
       if ("persona" in e && !persone.has(e.persona)) err("rimandi", dove, `Persona inesistente: ${e.persona}.`);
       if ("statoAnimo" in e && !amb.statiAnimo.some((x) => x.id === e.statoAnimo)) err("rimandi", dove, `Stato d'animo inesistente: ${e.statoAnimo}.`);
+      if ("compagno" in e && !storia.persone.find((k) => k.id === e.compagno)?.compagno) err("33", dove, `${e.compagno} non ha una scheda da compagno.`);
       if ("preparazione" in e && !amb.preparazioni.some((p) => p.id === e.preparazione)) err("rimandi", dove, `Preparazione inesistente: ${e.preparazione}.`);
     }
   };
@@ -116,7 +119,10 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
   // Chi legge i tratti (controllo 8).
   const trattiLetti = new Set<string>();
   const leggiTratti = (c: Condizione | undefined) => {
-    for (const x of condizioni(c)) if ("tratto" in x) trattiLetti.add(x.tratto);
+    for (const x of condizioni(c)) {
+      if ("tratto" in x) trattiLetti.add(x.tratto);
+      if ("trattoCompagno" in x) trattiLetti.add(x.trattoCompagno);
+    }
   };
 
   // --- L'ambientazione ------------------------------------------------------
@@ -250,6 +256,19 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
     if (notizie.get(d.notizia)?.verita === "falsa") err("17", `deduzione ${d.id}`, "Una deduzione non dà una notizia falsa.");
   }
   for (const c of storia.combinazioni) for (const x of [...c.da, c.cosa]) if (!cose.has(x)) err("rimandi", `combinazione ${c.id}`, `Cosa inesistente: ${x}.`);
+  // I compagni (§33): da due a quattro capacità, uno o due tratti.
+  for (const pers of storia.persone) {
+    const c = pers.compagno;
+    if (!c) continue;
+    const n = Object.keys(c.capacita).length;
+    if (n < 2 || n > 4) err("33", `persona ${pers.id}`, `Un compagno ha da due a quattro capacità: ne ha ${n}.`);
+    if (c.tratti.length < 1 || c.tratti.length > 2) err("33", `persona ${pers.id}`, `Un compagno ha uno o due tratti: ne ha ${c.tratti.length}.`);
+    for (const k of Object.keys(c.capacita)) if (!capacita.has(k)) err("rimandi", `persona ${pers.id}`, `Capacità inesistente: ${k}.`);
+    for (const t of c.tratti) {
+      if (!tratti.has(t)) err("rimandi", `persona ${pers.id}`, `Tratto inesistente: ${t}.`);
+      trattiLetti.add(t);
+    }
+  }
   // Controllo 21: chi può tradire lo dichiara.
   for (const pers of storia.persone) {
     for (const re of pers.reazioni ?? []) rimandi(re.se, `persona ${pers.id}`);

@@ -17,6 +17,7 @@ import {
   convinzioneCheChiude,
   dim,
   ferisci,
+  ferisciCompagno,
   haCosa,
   luogoDi,
   momentoDi,
@@ -50,6 +51,8 @@ import {
 
 export interface Quadro {
   azione: string;
+  /** Chi fa la prova: il personaggio, oppure un compagno (§33). */
+  chi?: string;
   capacita: string;
   ambito: string;
   livello: string;
@@ -76,6 +79,8 @@ export interface VistaScelta {
   quadro?: Quadro;
   /** Per le possibilità del Quasi: che cosa costa sceglierla. */
   costa?: string;
+  /** Le stesse prove con un compagno: con il suo aiuto, oppure fatte da lui (§33). */
+  varianti?: VistaScelta[];
 }
 
 export interface Vista {
@@ -94,6 +99,7 @@ export interface Vista {
     convinzioni: Array<{ id: string; testo: string; inDubbio: boolean }>;
     tratti: Array<{ id: string; nome: string; effetti: string; origine: string }>;
     persone: Array<{ id: string; nome: string; parole: string }>;
+    compagni: Array<{ id: string; nome: string; capacita: string[]; tratti: string[]; ferite: string[] }>;
     capacita: string[];
     protezioni: string[];
   };
@@ -156,13 +162,39 @@ export function puoAiutare(p: Partita, persona: string): boolean {
   return dim(p, persona, "fiducia") >= 2 || dim(p, persona, "debito") > 0;
 }
 
-/** Una ferita che impedisce la capacità (§36). */
-function impedimento(g: Gioco, p: Partita, capacitaId: string): string | undefined {
+/** Una ferita che impedisce la capacità (§36), a te o al compagno che agisce. */
+function impedimento(g: Gioco, p: Partita, capacitaId: string, attore?: string): string | undefined {
   const cap = capDi(g, capacitaId);
-  const grave = p.ferite.find((f) => f.gravita === "grave" && f.ambito === cap.ambito);
-  if (grave) return `${grave.nome} te lo impedisce`;
-  if (p.ferite.some((f) => f.gravita === "mortale") && !g.amb.ferite.conMortaleSoloAmbiti.includes(cap.ambito)) return "una ferita mortale te lo impedisce";
+  const ferite = attore ? p.compagni[attore]?.ferite ?? [] : p.ferite;
+  const grave = ferite.find((f) => f.gravita === "grave" && f.ambito === cap.ambito);
+  if (grave) return `${grave.nome} ${attore ? "glielo" : "te lo"} impedisce`;
+  if (ferite.some((f) => f.gravita === "mortale") && !g.amb.ferite.conMortaleSoloAmbiti.includes(cap.ambito)) return `una ferita mortale ${attore ? "glielo" : "te lo"} impedisce`;
   return undefined;
+}
+
+function femminile(g: Gioco, id: string): boolean {
+  return !!g.storia.persone.find((x) => x.id === id)?.femminile;
+}
+
+/** Il livello a parole, accordato: «Esperta» per una compagna. */
+function nomeLivello(g: Gioco, livello: number, attore?: string): string {
+  const n = NOMI_LIVELLO[livello];
+  return attore && femminile(g, attore) ? n.replace(/o$/, "a") : n;
+}
+
+/**
+ * La partita vista da chi agisce: se è un compagno, contano i suoi tratti, le sue
+ * ferite e nessuno stato d'animo del personaggio. Il resto (luogo, cose, Traccia) è lo stesso.
+ */
+function vistaDi(g: Gioco, p: Partita, attore?: string): Partita {
+  if (!attore) return p;
+  const def = g.storia.persone.find((x) => x.id === attore)?.compagno;
+  return { ...p, tratti: Object.fromEntries((def?.tratti ?? []).map((t) => [t, ""])), ferite: p.compagni[attore]?.ferite ?? [], statiAnimo: [] };
+}
+
+/** Il livello di un compagno in una capacità; 0 se non la conosce. */
+function livelloCompagno(g: Gioco, id: string, capacita: string): number {
+  return g.storia.persone.find((x) => x.id === id)?.compagno?.capacita[capacita] ?? 0;
 }
 
 export interface SpecProva {
@@ -179,10 +211,15 @@ export interface SpecProva {
   prova?: Prova;
   /** Il grado da cui partire invece di calcolarlo: la difesa usa quello dell'ultima azione. */
   gradoFisso?: { testo: string; grado: Grado };
+  /** Un compagno che fa la prova al posto tuo. */
+  attore?: string;
+  /** Un compagno che ti aiuta. */
+  aiutoCompagno?: string;
 }
 
 /** Il quadro di una prova nello stato attuale: le quattro domande (§17–20). */
-export function quadroProva(g: Gioco, p: Partita, spec: SpecProva): Quadro {
+export function quadroProva(g: Gioco, p0: Partita, spec: SpecProva): Quadro {
+  const p = vistaDi(g, p0, spec.attore);
   const cap = capDi(g, spec.capacita);
   const voce = voceDi(g, spec.soglia);
   const generi = voce.generi ?? [];
@@ -241,6 +278,10 @@ export function quadroProva(g: Gioco, p: Partita, spec: SpecProva): Quadro {
 
   const spinte: Ragione[] = attrezzi(g, p, cap.id, generi).map((id) => ({ testo: `${nomeCosa(g, id).toLowerCase()}: ${g.storia.cose.find((o) => o.id === id)!.attrezzo!.testo}`, parte: "cosa" as const }));
   if (spec.aiuto && puoAiutare(p, spec.aiuto)) spinte.push({ testo: `${nomePersona(g, spec.aiuto)} ti aiuta`, parte: "aiuto" });
+  if (spec.aiutoCompagno) {
+    if (puoAiutare(p, spec.aiutoCompagno)) spinte.push({ testo: `${nomePersona(g, spec.aiutoCompagno)} ti aiuta`, parte: "aiuto" });
+    else richiede ??= `che ${nomePersona(g, spec.aiutoCompagno)} si fidi di te, o ti debba un favore`;
+  }
 
   const penalita: Ragione[] = [];
   for (const f of p.ferite) if (f.gravita === "lieve" && f.ambito === cap.ambito) penalita.push({ testo: `${f.nome}`, parte: "ferita" });
@@ -251,8 +292,9 @@ export function quadroProva(g: Gioco, p: Partita, spec: SpecProva): Quadro {
     if (pen && (pen.capacita?.includes(cap.id) || pen.ambiti?.includes(cap.ambito))) penalita.push({ testo: pen.testo, parte: "stato d'animo" });
   }
 
-  const livello = p.livelli[cap.id] ?? 0;
-  const ris = riuscita({ testo: `${TIPO_SOGLIA[voce.soglia]}: ${voce.cosa}`, soglia: voce.soglia }, giu, su, { testo: `sei ${NOMI_LIVELLO[livello]} in ${cap.nome}`, valore: livello }, spinte, penalita);
+  const livello = spec.attore ? livelloCompagno(g, spec.attore, cap.id) : p.livelli[cap.id] ?? 0;
+  const chi = spec.attore ? `${nomePersona(g, spec.attore)} è` : "sei";
+  const ris = riuscita({ testo: `${TIPO_SOGLIA[voce.soglia]}: ${voce.cosa}`, soglia: voce.soglia }, giu, su, { testo: `${chi} ${nomeLivello(g, livello, spec.attore)} in ${cap.nome}`, valore: livello }, spinte, penalita);
   for (const n of note) ris.righe.push({ tipo: "nota", testo: n, valore: 0, conta: false });
   if (ris.troppoDifficile) richiede ??= "troppo difficile per te adesso";
 
@@ -285,14 +327,16 @@ export function quadroProva(g: Gioco, p: Partita, spec: SpecProva): Quadro {
   if (meta) quasi.push(`la metà: ${meta}`);
   quasi.push("lasci perdere");
   const persone: string[] = [];
-  if (spec.aiuto && puoAiutare(p, spec.aiuto)) persone.push(dim(p, spec.aiuto, "debito") > 0 ? `${nomePersona(g, spec.aiuto)} non ti dovrà più un favore` : `dovrai un favore a ${nomePersona(g, spec.aiuto)}`);
+  for (const x of [spec.aiuto, spec.aiutoCompagno]) if (x && puoAiutare(p, x)) persone.push(dim(p, x, "debito") > 0 ? `${nomePersona(g, x)} non ti dovrà più un favore` : `dovrai un favore a ${nomePersona(g, x)}`);
+  if (spec.attore) persone.push(`se va male, ci va di mezzo ${nomePersona(g, spec.attore)}`);
   const nonRiesci = ["scopri qualcosa sull'ostacolo", grado === 1 ? "e la scena si complica" : grado === 2 ? "e arriva il rovescio" : ""].filter(Boolean).join(", ");
 
   return {
     azione: spec.azione,
+    chi: spec.attore,
     capacita: cap.nome,
     ambito: cap.ambito,
-    livello: NOMI_LIVELLO[livello],
+    livello: nomeLivello(g, livello, spec.attore),
     puoi: { aperta: !richiede, righe: puoiRighe, richiede },
     riesci: { ...ris, sogliaNome: TIPO_SOGLIA[ris.soglia] ?? String(ris.soglia) },
     costo,
@@ -358,9 +402,47 @@ export function esaurita(g: Gioco, p: Partita, scena: Scena, s: Scelta): boolean
 // Vista
 // ---------------------------------------------------------------------------
 
-function specDi(scena: Scena, s: Scelta): SpecProva {
+function specDi(scena: Scena, s: Scelta, modo?: string): SpecProva {
   const pr = s.prova!;
-  return { azione: s.testo, capacita: pr.capacita, soglia: pr.soglia, righe: pr.righe, sposta: pr.sposta, persona: pr.persona, aiuto: pr.aiuto, posta: pr.posta, unColpoSolo: pr.unColpoSolo, chiave: `${scena.id}:${s.id}`, prova: pr };
+  const [tipo, chi] = (modo ?? "").split(":");
+  return {
+    azione: s.testo,
+    capacita: pr.capacita,
+    soglia: pr.soglia,
+    righe: pr.righe,
+    sposta: pr.sposta,
+    persona: pr.persona,
+    aiuto: pr.aiuto,
+    posta: pr.posta,
+    unColpoSolo: pr.unColpoSolo,
+    chiave: `${scena.id}:${s.id}`,
+    prova: pr,
+    attore: tipo === "fa" ? chi : undefined,
+    aiutoCompagno: tipo === "aiuto" ? chi : undefined,
+  };
+}
+
+/** Le varianti di una prova con i compagni presenti: con il loro aiuto, o fatta da loro (§33). */
+function varianti(g: Gioco, p: Partita, scena: Scena, s: Scelta): VistaScelta[] {
+  const out: VistaScelta[] = [];
+  const pr = s.prova!;
+  for (const id of Object.keys(p.compagni ?? {})) {
+    const liv = livelloCompagno(g, id, pr.capacita);
+    if (liv < 1) continue; // un compagno aiuta o agisce solo in ciò che sa fare
+    const nome = nomePersona(g, id);
+    for (const modo of [`aiuto:${id}`, `fa:${id}`]) {
+      const spec = specDi(scena, s, modo);
+      const attore = spec.attore;
+      const pa = vistaDi(g, p, attore);
+      const aperta = !s.requisito || vale(g, pa, s.requisito);
+      const quadro = quadroProva(g, p, spec);
+      const imp = impedimento(g, p, pr.capacita, attore);
+      const richiede = !aperta ? s.richiede : imp ?? (!quadro.puoi.aperta ? quadro.puoi.richiede : undefined);
+      const testo = attore ? `Lascio fare a ${nome}: «${s.testo}»` : `${s.testo}, con l'aiuto di ${nome}`;
+      out.push({ id: `${s.id}@${modo}`, testo, tipo: "prova", disponibile: !richiede && !p.usate[`${scena.id}:${s.id}`], richiede, quadro });
+    }
+  }
+  return out;
 }
 
 function sceltaNormale(g: Gioco, p: Partita, scena: Scena, s: Scelta): VistaScelta | null {
@@ -377,7 +459,8 @@ function sceltaNormale(g: Gioco, p: Partita, scena: Scena, s: Scelta): VistaScel
     const imp = impedimento(g, p, s.prova.capacita);
     const quadro = quadroProva(g, p, specDi(scena, s));
     const altro = perRequisito ?? (imp ? chiusa(imp, "ferita") : !quadro.puoi.aperta ? chiusa(quadro.puoi.richiede, quadro.riesci.troppoDifficile ? "difficile" : "forza") : undefined);
-    return { id: s.id, testo: s.testo, tipo: "prova", disponibile: !altro, ...(altro ?? {}), quadro };
+    const v = varianti(g, p, scena, s);
+    return { id: s.id, testo: s.testo, tipo: "prova", disponibile: !altro, ...(altro ?? {}), quadro, ...(v.length ? { varianti: v } : {}) };
   }
   return { id: s.id, testo: s.testo, tipo: "vai", disponibile: aperta, ...(perRequisito ?? {}), ripiego: s.ripiego };
 }
@@ -449,6 +532,16 @@ function statoVista(g: Gioco, p: Partita): Vista["stato"] {
       return { id, nome: t?.nome ?? id, effetti: t?.effetti ?? "", origine };
     }),
     persone: g.storia.persone.filter((x) => (p.persone[x.id]?.livello ?? 0) >= 1).map((x) => ({ id: x.id, nome: x.nome, parole: parolePersona(g, p, x.id) })),
+    compagni: Object.entries(p.compagni ?? {}).map(([id, c]) => {
+      const def = g.storia.persone.find((x) => x.id === id)!.compagno!;
+      return {
+        id,
+        nome: nomePersona(g, id),
+        capacita: Object.entries(def.capacita).map(([k, v]) => `${capDi(g, k).nome}: ${nomeLivello(g, v, id)}`),
+        tratti: def.tratti.map((t) => g.amb.tratti.find((x) => x.id === t)?.nome ?? t),
+        ferite: c.ferite.map((f) => `${f.nome} (${f.gravita})`),
+      };
+    }),
     capacita: g.amb.capacita.map((c) => `${c.nome}: ${NOMI_LIVELLO[p.livelli[c.id] ?? 0]}`),
     protezioni: Object.entries(p.protezioni).map(([id, s]) => `${g.amb.protezioni.find((x) => x.id === id)?.nome ?? id}: ${STATI_COSA[s]}`),
   };
@@ -636,31 +729,42 @@ function costoOttenuto(g: Gioco, p: Partita, grado: Grado, pr: Prova | undefined
   return tempo;
 }
 
-/** Il rovescio (§28.5): Traccia, logorio, il travestimento perso, gli effetti della scena. */
-function rovescio(g: Gioco, p: Partita, capacita: string, pr: Prova, usati: string[], eventi: Evento[]): number {
+/** Il rovescio (§28.5): Traccia, logorio, il travestimento perso, gli effetti della scena. Le ferite vanno a chi ha agito. */
+function rovescio(g: Gioco, p: Partita, capacita: string, pr: Prova, usati: string[], eventi: Evento[], attore?: string): number {
   const cap = capDi(g, capacita);
   let tempo = 0;
   aggiungiTraccia(g, p, luogoDi(g, p).zona, 1, eventi);
-  for (const l of g.amb.logorii) if (l.saleCon.includes("rovescio") && l.ambiti.includes(cap.ambito)) tempo += applica(g, p, [{ logorio: l.id, piu: 1 }], eventi);
+  if (!attore) for (const l of g.amb.logorii) if (l.saleCon.includes("rovescio") && l.ambiti.includes(cap.ambito)) tempo += applica(g, p, [{ logorio: l.id, piu: 1 }], eventi);
   for (const def of g.amb.preparazioni) if (def.durata === "cosa" && def.cosa && haCosa(p, def.cosa)) tempo += applica(g, p, [{ cosa: def.cosa, piu: -1 }], eventi);
   for (const id of usati) rompi(g, p, id, eventi);
-  tempo += applica(g, p, pr.rovescio?.effetti, eventi);
+  const effetti = pr.rovescio?.effetti ?? [];
+  if (attore) {
+    for (const e of effetti) if ("ferita" in e) ferisciCompagno(g, p, attore, e.ferita.nome, e.ferita.gravita, e.ferita.ambito, eventi);
+    tempo += applica(g, p, effetti.filter((e) => !("ferita" in e)), eventi);
+  } else tempo += applica(g, p, effetti, eventi);
   return tempo;
 }
 
-function dopoAiuto(g: Gioco, p: Partita, pr: Prova, rovesciata: boolean, eventi: Evento[]): void {
-  if (!pr.aiuto || !puoAiutare(p, pr.aiuto)) return;
-  cambiaPersona(g, p, pr.aiuto, { debito: -1 }, eventi, "ti ha aiutato");
-  if (rovesciata) cambiaPersona(g, p, pr.aiuto, { rancore: 1 }, eventi, "ci è finito dentro con te");
+/** Il prezzo di un aiuto (§30.3): un favore, e il rancore di chi ci finisce dentro con te. */
+function dopoAiuto(g: Gioco, p: Partita, pr: Prova, rovesciata: boolean, eventi: Evento[], modo?: string): void {
+  const [tipo, chi] = (modo ?? "").split(":");
+  const aiutante = tipo === "aiuto" ? chi : pr.aiuto;
+  if (aiutante && puoAiutare(p, aiutante)) {
+    cambiaPersona(g, p, aiutante, { debito: -1 }, eventi, "ti ha aiutato");
+    if (rovesciata) cambiaPersona(g, p, aiutante, { rancore: 1 }, eventi, "ci è finito dentro con te");
+  }
+  if (tipo === "fa" && rovesciata) cambiaPersona(g, p, chi, { rancore: 1 }, eventi, "ha pagato al posto tuo");
 }
 
 type Uscita = { verso: string; tempo: number };
 
 /** Una prova fuori dal confronto: il tiro, la fascia, il costo (§28). */
-function risolviProva(g: Gioco, p: Partita, scena: Scena, s: Scelta, eventi: Evento[]): Uscita {
+function risolviProva(g: Gioco, p: Partita, scena: Scena, s: Scelta, eventi: Evento[], modo?: string): Uscita {
   const pr = s.prova!;
   const chiave = `${scena.id}:${s.id}`;
-  const q = quadroProva(g, p, specDi(scena, s));
+  const spec = specDi(scena, s, modo);
+  const attore = spec.attore;
+  const q = quadroProva(g, p, spec);
   const cap = capDi(g, pr.capacita);
   const usati = attrezzi(g, p, cap.id, voceDi(g, pr.soglia).generi ?? []);
   p.tentativi[chiave] = (p.tentativi[chiave] ?? 0) + 1;
@@ -671,20 +775,22 @@ function risolviProva(g: Gioco, p: Partita, scena: Scena, s: Scelta, eventi: Eve
   if (g.amb.sociali.paura.includes(cap.id) && pr.persona && (fascia === "pieno" || fascia === "riesci")) cambiaPersona(g, p, pr.persona, { paura: 1, rancore: 1 }, eventi, "l'hai minacciato");
 
   if (fascia === "quasi") {
-    p.quasi = { tipo: "prova", scena: scena.id, scelta: s.id, grado: q.grado, capacita: cap.id, chiave };
+    p.quasi = { tipo: "prova", modo, scena: scena.id, scelta: s.id, grado: q.grado, capacita: cap.id, chiave };
     esito(eventi, fascia, q.grado, "scegli tu");
     return { verso: scena.id, tempo: 0 };
   }
 
   if (fascia === "pieno" || fascia === "riesci") {
     let tempo = 0;
-    tacca(g, p, cap.id, eventi);
-    mostraCrescita(g, p, cap.id, p.tentativi[chiave], fascia, eventi);
+    if (!attore) {
+      tacca(g, p, cap.id, eventi);
+      mostraCrescita(g, p, cap.id, p.tentativi[chiave], fascia, eventi);
+    }
     delete p.tentativi[chiave];
-    esito(eventi, fascia, q.grado, "ottieni ciò che volevi");
+    esito(eventi, fascia, q.grado, attore ? `${nomePersona(g, attore)} ci riesce` : "ottieni ciò che volevi");
     tempo += costoOttenuto(g, p, q.grado, pr, eventi);
     if (fascia === "pieno") tempo -= dono(g, p, pr, s, eventi);
-    dopoAiuto(g, p, pr, false, eventi);
+    dopoAiuto(g, p, pr, false, eventi, modo);
     tempo += applica(g, p, pr.riesci.effetti, eventi);
     return { verso: pr.riesci.vai, tempo };
   }
@@ -697,8 +803,8 @@ function risolviProva(g: Gioco, p: Partita, scena: Scena, s: Scelta, eventi: Eve
   for (const id of usati) if (g.storia.cose.find((o) => o.id === id)?.fragile) rompi(g, p, id, eventi);
   if (q.grado === 2) {
     if (!pr.rovescio) throw new Error(`La prova ${chiave} è allo scoperto e non ha un rovescio.`);
-    tempo += rovescio(g, p, cap.id, pr, usati, eventi);
-    dopoAiuto(g, p, pr, true, eventi);
+    tempo += rovescio(g, p, cap.id, pr, usati, eventi, attore);
+    dopoAiuto(g, p, pr, true, eventi, modo);
     return { verso: pr.rovescio.vai, tempo };
   }
   if (q.grado === 1) {
@@ -706,6 +812,7 @@ function risolviProva(g: Gioco, p: Partita, scena: Scena, s: Scelta, eventi: Eve
     tempo += complicazione(g, p, eventi);
   }
   tempo += applica(g, p, pr.nonRiesci.effetti, eventi);
+  dopoAiuto(g, p, pr, false, eventi, modo);
   if (!pr.unColpoSolo) p.ritento = { scena: scena.id, scelta: s.id, verso: pr.nonRiesci.vai };
   return { verso: pr.nonRiesci.vai, tempo };
 }
@@ -763,10 +870,11 @@ function risolviQuasi(g: Gioco, p: Partita, id: string, eventi: Evento[]): Uscit
   const s = (scena.scelte ?? []).find((x) => x.id === q.scelta)!;
   const pr = s.prova!;
   const usati: string[] = [];
+  const attore = q.modo?.startsWith("fa:") ? q.modo.slice(3) : undefined;
   if (id === "quasi:tutto") {
-    tacca(g, p, q.capacita, eventi);
+    if (!attore) tacca(g, p, q.capacita, eventi);
     delete p.tentativi[q.chiave];
-    dopoAiuto(g, p, pr, q.grado === 2, eventi);
+    dopoAiuto(g, p, pr, q.grado === 2, eventi, q.modo);
     if (q.grado < 2) {
       const su = (q.grado + 1) as Grado;
       esito(eventi, "quasi", q.grado, `prendi tutto, ma adesso sei ${NOMI_GRADO_MINUSCOLI[su]}`);
@@ -777,7 +885,7 @@ function risolviQuasi(g: Gioco, p: Partita, id: string, eventi: Evento[]): Uscit
     esito(eventi, "quasi", q.grado, "prendi tutto, e arriva il rovescio lo stesso");
     const dentro = (scenaDi(g, pr.riesci.vai).entrando ?? []).filter((e) => !("tempo" in e));
     let tempo = applica(g, p, [...(pr.riesci.effetti ?? []), ...dentro], eventi);
-    tempo += rovescio(g, p, q.capacita, pr, usati, eventi);
+    tempo += rovescio(g, p, q.capacita, pr, usati, eventi, attore);
     return { verso: pr.rovescio!.vai, tempo };
   }
   if (id === "quasi:meta") {
@@ -1030,6 +1138,7 @@ function risolviRipensa(g: Gioco, p: Partita, id: string, eventi: Evento[]): Usc
 /** Risolve una scelta. Non modifica la partita ricevuta: ne restituisce una nuova. */
 export function agisci(g: Gioco, p0: Partita, sceltaId: string): { partita: Partita; eventi: Evento[] } {
   const p = clona(p0);
+  p.compagni ??= {};
   const eventi: Evento[] = [];
   if (p.finita) throw new Error("La partita è finita.");
   const scena = scenaDi(g, p.scena);
@@ -1047,9 +1156,11 @@ export function agisci(g: Gioco, p0: Partita, sceltaId: string): { partita: Part
   if (!uscita) uscita = agisciAutomatica(g, p, scena, sceltaId, eventi);
 
   if (!uscita) {
-    const s = (scena.scelte ?? []).find((x) => x.id === sceltaId);
+    const [base, modo] = sceltaId.split("@");
+    const s = (scena.scelte ?? []).find((x) => x.id === base);
     if (!s) throw new Error(`Scelta inesistente: ${sceltaId}`);
-    const v = sceltaNormale(g, p, scena, s);
+    const v0 = sceltaNormale(g, p, scena, s);
+    const v = modo ? v0?.varianti?.find((x) => x.id === sceltaId) : v0;
     if (!v || !v.disponibile) throw new Error(`Scelta non disponibile: ${sceltaId}`);
     if (s.unaVolta) p.usate[`${scena.id}:${s.id}`] = true;
     if (s.prova) {
@@ -1065,7 +1176,7 @@ export function agisci(g: Gioco, p0: Partita, sceltaId: string): { partita: Part
         }
       }
       const tempoScelta = applica(g, p, s.effetti, eventi);
-      uscita = risolviProva(g, p, scena, s, eventi);
+      uscita = risolviProva(g, p, scena, s, eventi, modo);
       uscita.tempo += tempoScelta;
     } else {
       uscita = { verso: s.vai ?? scena.id, tempo: applica(g, p, s.effetti, eventi) };

@@ -55,6 +55,8 @@ export interface StatoConfronto {
 /** Una prova finita nel Quasi, in attesa della scelta di chi gioca (§28.3). */
 export interface Sospeso {
   tipo: "prova" | "difesa" | "debole" | "parlare";
+  /** Chi ha agito o aiutato, se non il personaggio da solo: «fa:lucia», «aiuto:lucia». */
+  modo?: string;
   scena: string;
   scelta: string;
   grado: Grado;
@@ -86,6 +88,8 @@ export interface Partita {
   /** I tratti, con la loro origine (vuota per quelli iniziali). */
   tratti: Record<string, string>;
   persone: Record<string, StatoPersona>;
+  /** I compagni che viaggiano con il personaggio, con le loro ferite (§33). */
+  compagni: Record<string, { ferite: Ferita[] }>;
   reazioniFatte: Record<string, true>;
   statiAnimo: Array<{ id: string; ore: number }>;
   traccia: Record<string, number>;
@@ -242,6 +246,8 @@ export function vale(g: Gioco, p: Partita, c: Condizione, ctx?: ContestoProva): 
   }
   if ("conosci" in c) return (p.persone[c.conosci]?.livello ?? 0) >= (c.almeno ?? 1);
   if ("tradisce" in c) return tradirebbe(g, p, c.tradisce);
+  if ("compagno" in c) return !!p.compagni?.[c.compagno];
+  if ("trattoCompagno" in c) return Object.keys(p.compagni ?? {}).some((id) => g.storia.persone.find((x) => x.id === id)?.compagno?.tratti.includes(c.trattoCompagno));
   if ("traccia" in c) return (p.traccia[c.traccia] ?? 0) >= c.almeno;
   if ("momento" in c) {
     const m = momentoDi(g, p).id;
@@ -304,6 +310,7 @@ export function nuovaPartita(g: Gioco, seme: number): Partita {
     convinzioni: Object.fromEntries(pers.convinzioni.map((id) => [id, "salda" as const])),
     tratti: Object.fromEntries(pers.tratti.map((id) => [id, ""])),
     persone: Object.fromEntries(g.storia.persone.map((x) => [x.id, { dim: { ...x.dimensioni }, livello: x.conosciuta ?? 0 }])),
+    compagni: {},
     reazioniFatte: {},
     statiAnimo: [],
     traccia: {},
@@ -422,6 +429,18 @@ export function applica(g: Gioco, p: Partita, effetti: Effetto[] | undefined, ev
     else if ("conosci" in e) {
       const st = p.persone[e.conosci];
       if (st && st.livello < e.livello) st.livello = e.livello;
+    } else if ("compagno" in e) {
+      if (!p.compagni[e.compagno] && g.storia.persone.find((x) => x.id === e.compagno)?.compagno) {
+        p.compagni[e.compagno] = { ferite: [] };
+        const st = p.persone[e.compagno];
+        if (st && st.livello < 1) st.livello = 1;
+        eventi.push({ tipo: "persona", testo: `${nomePersona(g, e.compagno)} viene con te.` });
+      }
+    } else if ("congeda" in e) {
+      if (p.compagni[e.congeda]) {
+        delete p.compagni[e.congeda];
+        eventi.push({ tipo: "persona", testo: `${nomePersona(g, e.congeda)} non è più con te.` });
+      }
     } else if ("statoAnimo" in e) aggiungiStatoAnimo(g, p, e.statoAnimo, eventi);
     else if ("passaStatoAnimo" in e) passaStatoAnimo(g, p, e.passaStatoAnimo, eventi);
     else if ("traccia" in e) aggiungiTraccia(g, p, e.traccia === "qui" ? luogoDi(g, p).zona : e.traccia, e.piu, eventi);
@@ -519,17 +538,20 @@ export function ferisci(g: Gioco, p: Partita, nome: string, gravita: Gravita, am
 }
 
 function cura(g: Gioco, p: Partita, eventi: Evento[]): void {
+  // Prima le tue ferite; se non ne hai, quelle di un compagno.
+  const elenchi = [p.ferite, ...Object.values(p.compagni).map((c) => c.ferite)];
+  const ferite = elenchi.find((x) => x.length) ?? p.ferite;
   const ordine = ["mortale", "grave", "lieve"] as const;
   for (const gr of ordine) {
-    const f = p.ferite.find((x) => x.gravita === gr);
+    const f = ferite.find((x) => x.gravita === gr);
     if (!f) continue;
-    if (gr === "lieve") p.ferite.splice(p.ferite.indexOf(f), 1);
+    if (gr === "lieve") ferite.splice(ferite.indexOf(f), 1);
     else {
       f.gravita = gr === "mortale" ? "grave" : "lieve";
       f.ore = 0;
     }
     eventi.push({ tipo: "ferita", testo: `Curata: ${f.nome}, ora ${gr === "lieve" ? "guarita" : f.gravita}.` });
-    if (gr === "grave" && f.segno) applica(g, p, [{ tratto: f.segno, origine: `da ${f.nome}` }], eventi);
+    if (gr === "grave" && f.segno && ferite === p.ferite) applica(g, p, [{ tratto: f.segno, origine: `da ${f.nome}` }], eventi);
     return;
   }
 }
@@ -568,6 +590,27 @@ export function reagisci(g: Gioco, p: Partita, eventi: Evento[]): void {
       cambiaPersona(g, p, pers.id, r.cambia, eventi, r.testo);
     }
   }
+  // Un compagno a cui porti rancore 3 se ne va (§33).
+  for (const id of Object.keys(p.compagni)) {
+    if (dim(p, id, "rancore") >= 3) {
+      delete p.compagni[id];
+      eventi.push({ tipo: "persona", testo: `${nomePersona(g, id)} ne ha abbastanza di te, e se ne va.` });
+    }
+  }
+}
+
+/** Una ferita a un compagno (§33): le protezioni del personaggio non lo coprono. */
+export function ferisciCompagno(g: Gioco, p: Partita, id: string, nome: string, gravita: Gravita, ambito: string, eventi: Evento[]): void {
+  const c = p.compagni[id];
+  if (!c) return;
+  const chi = nomePersona(g, id);
+  if (gravita === "morte") {
+    delete p.compagni[id];
+    eventi.push({ tipo: "morte", testo: `${chi} muore: ${nome}.` });
+    return;
+  }
+  c.ferite.push({ nome, gravita, ambito, ore: 0 });
+  eventi.push({ tipo: "ferita", testo: `${chi} è ferit${g.storia.persone.find((x) => x.id === id)?.femminile ? "a" : "o"}, ${gravita}: ${nome} (${ambito}).` });
 }
 
 // ---------------------------------------------------------------------------
@@ -628,6 +671,23 @@ export function avanza(g: Gioco, p: Partita, ore: number, eventi: Evento[]): voi
         eventi.push({ tipo: "ferita", testo: `${f.nome}: senza cure, è diventata mortale.` });
       } else if (f.gravita === "mortale" && f.ore >= g.amb.ferite.mortaleUccideIn) {
         muori(g, p, eventi, `${f.nome}: nessuno ti ha curato in tempo.`);
+      }
+    }
+
+    // 4b. le ferite dei compagni: guariscono e peggiorano allo stesso modo
+    for (const [id, c] of Object.entries(p.compagni)) {
+      for (const f of [...c.ferite]) {
+        f.ore++;
+        if (f.gravita === "lieve" && f.ore >= g.amb.ferite.lieveGuarisceIn) c.ferite.splice(c.ferite.indexOf(f), 1);
+        else if (f.gravita === "grave" && f.ore >= g.amb.ferite.graveDiventaMortaleIn) {
+          f.gravita = "mortale";
+          f.ore = 0;
+          eventi.push({ tipo: "ferita", testo: `${nomePersona(g, id)}: ${f.nome}, senza cure, è diventata mortale.` });
+        } else if (f.gravita === "mortale" && f.ore >= g.amb.ferite.mortaleUccideIn) {
+          delete p.compagni[id];
+          eventi.push({ tipo: "morte", testo: `${nomePersona(g, id)} muore: nessuno l'ha curato in tempo.` });
+          break;
+        }
       }
     }
 

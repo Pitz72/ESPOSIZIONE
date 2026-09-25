@@ -43,6 +43,8 @@ let iniziata = false;
 let rollio: { id: string; esito: ReturnType<typeof agisci>; prima: Partita; testo: string } | null = null;
 let fase: "quadro" | "tiro" | "timbro" = "quadro";
 let aperta: VistaScelta | null = null;
+/** La prova di partenza, con le sue varianti: da solo, con l'aiuto di un compagno, fatta da lui. */
+let base: VistaScelta | null = null;
 
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
 
@@ -63,6 +65,7 @@ function carica(): { partita: Partita; diario: VoceDiario[]; quadri: number; suo
     const s = localStorage.getItem(CHIAVE);
     if (!s) return null;
     const d = JSON.parse(s);
+    d.partita.compagni ??= {};
     vista(g, d.partita);
     return d;
   } catch {
@@ -232,7 +235,9 @@ function disegnaScelte(v: Vista): void {
   const sospeso = v.sospeso ? `<p class="sospeso" data-t="${v.sospeso.tipo}">${esc(v.sospeso.testo)}</p>` : "";
   const voci = v.scelte
     .map((s) => {
-      if (!s.disponibile) {
+      // Una prova che da solo non puoi tentare, ma con un compagno sì, resta cliccabile (§33).
+      const conAltri = !s.disponibile && s.varianti?.some((x) => x.disponibile);
+      if (!s.disponibile && !conAltri) {
         return `<li><div class="risposta chiusa" data-da="${s.chiusaDa ?? ""}"><span class="num">·</span><span class="t">${esc(s.testo)}<small>${s.chiusaDa === "convinzione" ? "" : "Richiede: "}${esc(s.richiede ?? "non disponibile")}</small></span></div></li>`;
       }
       i++;
@@ -240,7 +245,7 @@ function disegnaScelte(v: Vista): void {
       const tag = etichetta(s);
       return `<li><button type="button" class="risposta${q ? " prova" : ""}${s.tipo === "quasi" ? " quasi" : ""}" data-scelta="${esc(s.id)}" aria-keyshortcuts="${i}">
         <span class="num">${i}</span>
-        <span class="t">${esc(s.testo)}${tag ? `<em class="tag">${tag}</em>` : ""}${s.costa ? `<small>Costa: ${esc(s.costa)}</small>` : ""}</span>
+        <span class="t">${esc(s.testo)}${tag ? `<em class="tag">${tag}</em>` : ""}${s.costa ? `<small>Costa: ${esc(s.costa)}</small>` : ""}${conAltri ? `<small>Da solo no: ${esc(s.richiede ?? "")}. Con un compagno sì.</small>` : s.varianti?.some((x) => x.disponibile) ? "<small>Puoi farti aiutare, o lasciarla fare a chi è con te.</small>" : ""}</span>
         ${q ? `<span class="pill" data-g="${q.grado}">${GRADI[q.grado]}<b>${q.riesci.nonSiTira ? "sicuro" : `${q.riesci.probabilita}%`}</b></span>` : ""}
       </button></li>`;
     })
@@ -303,6 +308,7 @@ function disegnaScheda(v: Vista): void {
     <section><div class="sez"><span>Come stai</span></div>${logorio}<ul class="righe-scheda">${umori}${ferite}${prot}</ul></section>
     <section><div class="sez"><span>Tratti</span></div><ul class="lista-scheda">${tratti}</ul></section>
     <section><div class="sez"><span>Traccia</span><span>chi ti ha notato</span></div><ul class="righe-scheda">${traccia}</ul></section>
+    ${v.stato.compagni.length ? `<section><div class="sez"><span>Con te</span></div><ul class="lista-scheda">${v.stato.compagni.map((c) => `<li><b class="nome-t">${esc(c.nome)}</b><small>${esc(c.capacita.join(" · "))} · ${esc(c.tratti.join(", "))}${c.ferite.length ? ` · ferite: ${esc(c.ferite.join(", "))}` : ""}</small></li>`).join("")}</ul></section>` : ""}
     <section><div class="sez"><span>Persone</span></div><ul class="lista-scheda">${persone}</ul></section>
     <section><div class="sez"><span>Taccuino</span><span>${v.stato.notizie.length}</span></div><ul class="taccuino">${taccuino}</ul>${v.stato.parole.length ? `<p class="parole">${v.stato.parole.map((p) => `<span>${esc(p)}</span>`).join("")}</p>` : ""}</section>
     <section><div class="sez"><span>Convinzioni</span></div><ul class="taccuino convinzioni">${convinzioni}</ul></section>
@@ -387,6 +393,11 @@ function apriFoglio(s: VistaScelta): void {
     ${sezioneCosta(q)}
     ${sezioneDopo(q)}
     <div class="timbri" id="timbri" hidden></div>`;
+  const modi = base ? [base, ...(base.varianti ?? [])] : [s];
+  $("#chi").innerHTML = modi.length > 1
+    ? modi.map((m) => `<button type="button" class="chi-b${m.id === s.id ? " attivo" : ""}" data-chi="${esc(m.id)}" ${m.disponibile ? "" : "disabled"}>${m.id === base!.id ? "Da solo" : m.id.includes("@aiuto:") ? `Con ${esc(nomeDi(m.id))}` : `${esc(nomeDi(m.id))} al posto tuo`}</button>`).join("")
+    : "";
+  $("#chi").hidden = modi.length <= 1;
   $("#vassoio").innerHTML = dado("d1") + dado("d2");
   $("#vassoio").hidden = true;
   $("#conto").textContent = "";
@@ -397,6 +408,11 @@ function apriFoglio(s: VistaScelta): void {
   $("#foglio").scrollTop = 0;
   requestAnimationFrame(() => $("#foglio").classList.add("aperto"));
   $<HTMLButtonElement>("#tira").focus();
+}
+
+function nomeDi(id: string): string {
+  const chi = id.split(":")[1];
+  return storia.persone.find((x) => x.id === chi)?.nome.split(",")[0] ?? chi;
 }
 
 function chiudiFoglio(): void {
@@ -434,6 +450,7 @@ function tira(): void {
   fase = "tiro";
   $("#tira").hidden = true;
   $("#altra").hidden = true;
+  $("#chi").hidden = true;
   const vassoio = $("#vassoio");
   if (tiro) {
     vassoio.hidden = false;
@@ -511,10 +528,12 @@ function esegui(s: VistaScelta): void {
 
 function scegli(id: string): void {
   if (rollio) return;
-  const s = vista(g, partita).scelte.find((x) => x.id === id && x.disponibile);
+  const s = vista(g, partita).scelte.find((x) => x.id === id && (x.disponibile || x.varianti?.some((y) => y.disponibile)));
   if (!s) return;
-  if (s.quadro) apriFoglio(s);
-  else esegui(s);
+  if (s.quadro) {
+    base = s;
+    apriFoglio(s.disponibile ? s : s.varianti!.find((x) => x.disponibile)!);
+  } else esegui(s);
 }
 
 // ---------------------------------------------------------------------------
@@ -751,6 +770,11 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
         );
         return;
       }
+    }
+    if (b.dataset.chi && fase === "quadro" && base) {
+      const m = [base, ...(base.varianti ?? [])].find((x) => x.id === b.dataset.chi && x.disponibile);
+      if (m) apriFoglio(m);
+      return;
     }
     if (b.dataset.chiudi !== undefined) {
       (b.closest(".velo") as HTMLElement).hidden = true;

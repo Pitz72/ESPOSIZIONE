@@ -76,7 +76,7 @@ function mostra(v: Vista, eventi: Evento[]): string {
   }
   out.push("");
   let i = 0;
-  for (const s of v.scelte) {
+  for (const s of scelteInElenco(v)) {
     if (s.disponibile) {
       i++;
       out.push(`  ${i}. ${s.ripiego ? "[ripiego] " : ""}${s.testo}${s.costa ? `  (${s.costa})` : ""}`);
@@ -84,6 +84,11 @@ function mostra(v: Vista, eventi: Evento[]): string {
     if (s.quadro && s.disponibile) out.push(quadro(s.quadro));
   }
   return out.join(A_CAPO);
+}
+
+/** Le scelte con le varianti dei compagni subito dopo la loro prova (§33). */
+function scelteInElenco(v: Vista) {
+  return v.scelte.flatMap((s) => [s, ...(s.varianti ?? [])]);
 }
 
 function scheda(v: Vista): string {
@@ -99,6 +104,7 @@ function scheda(v: Vista): string {
     ...s.convinzioni.map((k) => `    - ${k.testo}${k.inDubbio ? " (in dubbio)" : ""}`),
     "  Persone:",
     ...s.persone.map((k) => `    - ${k.nome}: ${k.parole}`),
+    ...(s.compagni.length ? ["  Con te:", ...s.compagni.map((c) => `    - ${c.nome}: ${c.capacita.join(", ")}; ${c.tratti.join(", ")}${c.ferite.length ? `; ferite: ${c.ferite.join(", ")}` : ""}`)] : []),
     "  Taccuino:",
     ...s.notizie.map((k) => `    - ${k.testo} [${k.stato}]${k.contrasto.length ? ` (in contrasto con: ${k.contrasto.join("; ")})` : ""}`),
   ].join(A_CAPO);
@@ -114,7 +120,7 @@ async function gioca(): Promise<void> {
     const v = vista(g, p);
     console.log(mostra(v, eventi));
     if (v.finale) break;
-    const disponibili = v.scelte.filter((s) => s.disponibile);
+    const disponibili = scelteInElenco(v).filter((s) => s.disponibile);
     let n: number;
     if (copione) {
       if (passo >= copione.length) break;
