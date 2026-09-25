@@ -7,70 +7,135 @@
   "morte": "morte_ferite",
   "personaggio": {
     "livelli": { "muoversi": 1, "resistere": 1, "sottrarre": 1, "osservare": 2, "sapere": 1, "mentire": 1 },
-    "oggetti": { "monete": 4, "lettera": 1 },
-    "protezioni": ["giacca"]
+    "cose": { "monete": 4, "lettera": 1, "borsa": 1, "lanterna": 1, "olio": 2 },
+    "protezioni": ["giacca"],
+    "tratti": ["vista_acuta", "sa_leggere", "minuto", "soffre_mare"],
+    "convinzioni": ["matteo_fedele", "grimani_nemici"]
   },
   "fatti": [
     { "id": "sai_del_figlio", "parola": "FIGLIO" },
     { "id": "teodoro_cerca", "parola": "TAGLIA" },
     { "id": "teodoro_fuori", "parola": "PESCE" },
     { "id": "teodoro_comprato", "parola": "COMPRATO" },
+    { "id": "registro_preso", "parola": "REGISTRO" },
+    { "id": "serra_complice", "parola": "SERRA" },
     { "id": "matteo_libero", "parola": "LIBERO" }
   ],
-  "misure": [{ "id": "fiducia_bressan", "nome": "Fiducia di Bressan", "max": 3 }],
-  "conoscenze": [
+  "misure": [],
+  "notizie": [
     { "id": "salpa_alba", "testo": "La Santa Rita salpa con la marea, prima dell'alba.", "verita": "vera" },
     { "id": "carico_grimani", "testo": "La Santa Rita porta un carico di Ottavio Grimani, dal magazzino sette.", "verita": "vera" },
     { "id": "matteo_a_bordo", "testo": "Matteo è stato imbarcato sulla Santa Rita.", "verita": "vera" },
     { "id": "matteo_in_stiva", "testo": "Matteo è tenuto legato nella stiva della Santa Rita.", "verita": "vera" },
     { "id": "nome_capitano", "testo": "Il capitano della Santa Rita si chiama Nicolò Serra.", "verita": "vera" },
-    { "id": "matteo_donna", "testo": "Matteo è scappato con una donna.", "verita": "falsa" },
+    { "id": "matteo_donna", "testo": "Matteo è scappato con una donna.", "verita": "falsa", "smentitaDa": ["matteo_a_bordo", "matteo_in_stiva"], "contrasto": ["matteo_a_bordo"] },
+    { "id": "casse_pesanti", "testo": "Le casse di Grimani pesano troppo per essere tessuti.", "verita": "vera" },
     { "id": "grimani_armi", "testo": "Nelle casse di Grimani non ci sono tessuti: ci sono moschetti.", "verita": "vera" },
     { "id": "taglia", "testo": "Qualcuno ha messo una taglia su chi cerca Matteo.", "verita": "vera" },
     { "id": "grimani_taglia", "testo": "La taglia la paga Grimani.", "verita": "vera" },
-    { "id": "bressan_armadio", "testo": "Di notte Bressan chiude il registro nell'armadio.", "verita": "vera" },
-    { "id": "serratura_nuova", "testo": "La porta del magazzino sette ha una serratura nuova, di Genova.", "verita": "vera" },
-    { "id": "ufficiale_testimone", "testo": "L'ufficiale della guardia vuole un testimone della capitaneria.", "verita": "vera" }
+    { "id": "serra_no_morti", "testo": "Il capitano Serra non vuole morti sulla sua nave.", "verita": "vera" },
+    { "id": "ufficiale_testimone", "testo": "L'ufficiale della guardia vuole un testimone della capitaneria.", "verita": "vera" },
+    { "id": "bressan_armadio", "testo": "Di notte Bressan chiude il registro nell'armadio, e la chiave la porta alla cintura.", "verita": "vera" },
+    { "id": "bressan_paura", "testo": "Bressan ha paura: quando senti il nome di Grimani, la penna gli si ferma.", "verita": "vera" },
+    { "id": "registro_riga", "testo": "Nel registro della Santa Rita, in fondo all'equipaggio, c'è una riga aggiunta dopo.", "verita": "vera" },
+    { "id": "cortile_finestra", "testo": "La finestra del cortile dell'archivio ha il chiavistello rotto.", "verita": "vera" },
+    { "id": "portone_catenaccio", "testo": "Il portone dell'archivio ha anche un catenaccio interno: da fuori non si apre.", "verita": "vera" },
+    { "id": "lucchetto_ruggine", "testo": "Il lucchetto dell'armadio è arrugginito: basta far leva.", "verita": "vera" },
+    { "id": "carceriere_monete", "testo": "Il carceriere si lascia convincere più dalle monete che dalle parole.", "verita": "vera" },
+    { "id": "marinai_santa_rita", "testo": "I marinai della Santa Rita bevono al tavolo in fondo, e parlano solo fra loro.", "verita": "vera" },
+    { "id": "zeno_paura", "testo": "Zeno si irrigidisce ogni volta che entra qualcuno della Santa Rita.", "verita": "vera" },
+    { "id": "serratura_nuova", "testo": "La porta del magazzino sette ha una serratura nuova, di Genova: si apre sollevando i perni uno alla volta.", "verita": "vera" },
+    { "id": "lucernario_inchiodato", "testo": "Il lucernario del magazzino sette è inchiodato dall'interno.", "verita": "vera" },
+    { "id": "nostromo_conta", "testo": "Il nostromo conta le casse, non le facce: guarda solo chi sale senza carico.", "verita": "vera" },
+    { "id": "nostromo_grimani", "testo": "Il nostromo non ha mai visto Grimani in faccia.", "verita": "vera" },
+    { "id": "cima_ancora", "testo": "La cima dell'ancora è viscida d'alghe fino a metà.", "verita": "vera" },
+    { "id": "portello_vele", "testo": "Il portello delle ancore dà sul deposito delle vele, accanto alla stiva.", "verita": "vera" },
+    { "id": "serra_teme_grimani", "testo": "Il capitano Serra teme Grimani più di quanto tema la guardia.", "verita": "vera" },
+    { "id": "lucchetto_catena", "testo": "Il lucchetto della catena è vecchio: lo tiene chiuso la ruggine, più della serratura.", "verita": "vera" },
+    { "id": "chiave_teodoro", "testo": "Teodoro tiene la chiave in una tasca cucita dentro la giacca.", "verita": "vera" },
+    { "id": "catena_trave", "testo": "La catena di Matteo è inchiodata a una trave marcia.", "verita": "vera" },
+    { "id": "lancia_cime", "testo": "Le cime della lancia si tagliano con un colpo di coltello.", "verita": "vera" }
   ],
-  "oggetti": [
-    { "id": "monete", "nome": "Monete" },
+  "convinzioni": [
+    {
+      "id": "matteo_fedele", "testo": "Matteo non scapperebbe mai di casa.", "dubbioDa": [],
+      "lasciare": { "testo": "La lascio andare: forse non conoscevo davvero mio fratello." },
+      "tenere": { "testo": "Ci credo ancora: lo conosco da sempre." }
+    },
+    {
+      "id": "grimani_nemici", "testo": "Non ci si può fidare di chi lavora per Grimani.", "dubbioDa": ["serra_no_morti"],
+      "lasciare": { "testo": "La lascio andare: non tutti quelli che lavorano per Grimani sono come lui." },
+      "tenere": { "testo": "Ci credo ancora: Matteo me l'ha scritto, e Matteo non sbaglia." }
+    }
+  ],
+  "deduzioni": [
+    { "id": "armi", "da": ["carico_grimani", "casse_pesanti"], "notizia": "grimani_armi", "testo": "Il carico è di Grimani, e le casse pesano troppo per essere tessuti. Quello che c'è dentro deve essere pesante, e deve valere la vita di un copista: armi." }
+  ],
+  "cose": [
+    { "id": "monete", "nome": "Monete", "scorta": true },
     { "id": "lettera", "nome": "Il biglietto di Matteo" },
+    { "id": "borsa", "nome": "Una borsa da facchino", "attrezzo": { "generi": ["mani_leste"], "testo": "dentro ci sparisce qualunque cosa" } },
+    { "id": "lanterna", "nome": "Una lanterna spenta", "fragile": true },
+    { "id": "olio", "nome": "Olio per la lanterna", "scorta": true },
+    { "id": "lanterna_accesa", "nome": "La lanterna accesa", "proprieta": ["luce"], "fragile": true },
     { "id": "casacca", "nome": "Una casacca da facchino" },
-    { "id": "bolla", "nome": "La bolla di carico di Grimani", "tag": ["compromettente"] }
+    { "id": "leva", "nome": "Una leva di ferro", "proprieta": ["ingombrante"], "attrezzo": { "capacita": ["forzare"], "testo": "fa leva" } },
+    { "id": "bolla", "nome": "La bolla di carico di Grimani", "proprieta": ["compromettente"] }
+  ],
+  "combinazioni": [
+    { "id": "accendi", "da": ["lanterna", "olio"], "cosa": "lanterna_accesa", "consuma": ["lanterna", "olio"], "testo": "Accendo la lanterna", "ore": 0 },
+    { "id": "spegni", "da": ["lanterna_accesa"], "cosa": "lanterna", "consuma": ["lanterna_accesa"], "testo": "Spengo la lanterna", "ore": 0 }
+  ],
+  "persone": [
+    {
+      "id": "bressan", "nome": "Bressan, l'archivista", "dimensioni": { "fiducia": 0, "paura": 0, "rancore": 0 },
+      "reazioni": [
+        { "id": "furto", "se": { "tutte": [{ "fatto": "registro_preso" }, { "traccia": "archivio", "almeno": 1 }] }, "cambia": { "fiducia": -2, "rancore": 1 }, "testo": "ha saputo che hai preso il registro" }
+      ]
+    },
+    { "id": "zeno", "nome": "Zeno, l'oste del Gallo", "dimensioni": { "fiducia": 2, "debito": 1 }, "conosciuta": 1 },
+    { "id": "lucia", "nome": "Lucia", "dimensioni": { "fiducia": 0, "affetto": 1 }, "femminile": true },
+    {
+      "id": "teodoro", "nome": "Teodoro il Pesce", "dimensioni": { "paura": 0, "rancore": 0 }, "puoTradire": true,
+      "reazioni": [
+        { "id": "battuto", "se": { "fatto": "teodoro_fuori" }, "cambia": { "paura": 2, "rancore": 2 }, "testo": "l'hai battuto" }
+      ]
+    },
+    { "id": "serra", "nome": "Il capitano Serra", "dimensioni": { "fiducia": 0 } }
   ],
   "fili": [{ "id": "fratello", "nome": "Dov'è Matteo", "tappe": 4 }],
   "scadenze": [
-    { "id": "salpa", "nome": "La Santa Rita salpa", "caselle": 8, "ogniPassi": 2, "alScadere": "salpata", "salvoSe": { "fatto": "matteo_libero" } }
+    { "id": "salpa", "nome": "La Santa Rita salpa", "caselle": 8, "ogniOre": 3, "alScadere": "salpata", "salvoSe": { "fatto": "matteo_libero" } }
   ],
   "scene": [
     {
       "id": "inizio", "luogo": "banchina", "titolo": "Tre giorni",
       "testo": "Tuo fratello Matteo non torna a casa da tre giorni. Fa il copista per la capitaneria del porto, e non è tipo da sparire: è tipo da restare alzato fino a tardi a ricopiare conti che non tornano.\n\nStamattina, sotto la porta, hai trovato un biglietto con la sua calligrafia: *Se non torno, cerca Lucia alla chiesa dei marinai. Non fidarti di nessuno che lavori per Grimani.*\n\nÈ l'alba. Il mercato del pesce riempie la banchina di voci e di casse. In fondo al molo una nave a tre alberi sta caricando barili. Sulla poppa c'è scritto *Santa Rita*.",
-      "scelte": [{ "id": "via", "testo": "Cominciare a cercare", "vai": "banchina" }]
+      "scelte": [{ "id": "via", "testo": "Vado a cercarlo", "vai": "banchina" }]
     },
     {
       "id": "banchina", "luogo": "banchina", "titolo": "La banchina",
       "testo": [
         { "testo": "La banchina corre lungo tutto il porto, fra le gru, le reti stese ad asciugare e le barche dei pescatori. Da qui si va dappertutto." },
         { "se": { "momento": "notte" }, "testo": "Di notte è deserta. Le lanterne delle navi ondeggiano sull'acqua nera." },
-        { "se": { "conoscenza": "salpa_alba" }, "testo": "In fondo al molo, la *Santa Rita* carica le ultime casse. Salpa con la marea, prima dell'alba." },
+        { "se": { "notizia": "salpa_alba" }, "testo": "In fondo al molo, la *Santa Rita* carica le ultime casse. Salpa con la marea, prima dell'alba." },
         { "se": { "traccia": "banchina", "almeno": 2 }, "testo": "Qualche scaricatore smette di lavorare quando passi. Ti hanno notato." }
       ],
       "scelte": [
-        { "id": "archivio", "testo": "Andare all'archivio della capitaneria", "effetti": [{ "tempo": 1 }], "vai": "archivio" },
-        { "id": "gallo", "testo": "Andare alla taverna del Gallo", "effetti": [{ "tempo": 1 }], "vai": "gallo" },
-        { "id": "magazzini", "testo": "Andare ai magazzini", "effetti": [{ "tempo": 1 }], "vai": "magazzini" },
-        { "id": "chiesa", "testo": "Andare alla chiesa dei marinai", "effetti": [{ "tempo": 1 }], "vai": "chiesa" },
-        { "id": "facchini", "testo": "Offrire una moneta ai facchini per sapere della Santa Rita", "unaVolta": true, "requisito": { "oggetto": "monete" }, "richiede": "una moneta", "effetti": [{ "oggetto": "monete", "piu": -1 }, { "tempo": 1 }], "vai": "facchini" },
-        { "id": "nave", "testo": "Avvicinarti alla Santa Rita", "requisito": { "una": [{ "conoscenza": "matteo_a_bordo" }, { "conoscenza": "matteo_in_stiva" }] }, "richiede": "sapere che Matteo è a bordo", "vai": "passerella" },
-        { "id": "guardia", "testo": "Portare la bolla di carico alla guardia del porto", "requisito": { "oggetto": "bolla" }, "richiede": "una prova di ciò che trasporta Grimani", "nascondiSeChiusa": true, "effetti": [{ "tempo": 1 }], "vai": "guardia" }
+        { "id": "archivio", "testo": "Vado all'archivio della capitaneria", "effetti": [{ "tempo": 1 }], "vai": "archivio" },
+        { "id": "gallo", "testo": "Vado alla taverna del Gallo", "effetti": [{ "tempo": 1 }], "vai": "gallo" },
+        { "id": "magazzini", "testo": "Vado ai magazzini", "effetti": [{ "tempo": 1 }], "vai": "magazzini" },
+        { "id": "chiesa", "testo": "Vado alla chiesa dei marinai", "effetti": [{ "tempo": 1 }], "vai": "chiesa" },
+        { "id": "facchini", "testo": "Offro una moneta ai facchini per sapere della Santa Rita (un'ora)", "unaVolta": true, "requisito": { "cosa": "monete" }, "richiede": "una moneta", "effetti": [{ "cosa": "monete", "piu": -1 }, { "tempo": 1 }], "vai": "facchini" },
+        { "id": "nave", "testo": "Mi avvicino alla Santa Rita", "requisito": { "una": [{ "notizia": "matteo_a_bordo" }, { "notizia": "matteo_in_stiva" }] }, "richiede": "sapere che Matteo è a bordo", "vai": "passerella" },
+        { "id": "guardia", "testo": "Porto la bolla di carico alla guardia del porto (un'ora)", "requisito": { "cosa": "bolla" }, "richiede": "una prova di ciò che trasporta Grimani", "nascondiSeChiusa": true, "effetti": [{ "tempo": 1 }], "vai": "guardia" }
       ]
     },
     {
       "id": "facchini", "luogo": "banchina", "titolo": "I facchini",
       "testo": "Un facchino con le spalle larghe intasca la moneta e si guarda intorno prima di parlare. «La *Santa Rita*? Salpa con la marea, prima dell'alba. Porta roba di Grimani, dal magazzino sette. Tessuti, dicono.» Ride, come se la parola fosse uno scherzo.\n\n«Il copista? Quello magro, con le dita sporche d'inchiostro? L'hanno visto al Gallo con una donna, qualche sera fa. Sarà scappato con lei.»",
-      "entrando": [{ "conoscenza": "salpa_alba" }, { "conoscenza": "carico_grimani" }, { "conoscenza": "matteo_donna" }],
-      "scelte": [{ "id": "torna", "testo": "Ringraziarlo e tornare sulla banchina", "vai": "banchina" }]
+      "entrando": [{ "notizia": "salpa_alba" }, { "notizia": "carico_grimani" }, { "notizia": "matteo_donna" }],
+      "scelte": [{ "id": "torna", "testo": "Lo ringrazio e torno sulla banchina", "vai": "banchina" }]
     },
     {
       "id": "archivio", "luogo": "archivio", "titolo": "L'archivio della capitaneria",
@@ -80,56 +145,89 @@
         { "se": { "momento": "giorno" }, "testo": "Di giorno il salone è tranquillo. Bressan scrive, e ogni tanto alza gli occhi sul registro degli imbarchi aperto davanti a lui." },
         { "se": { "momento": "sera" }, "testo": "Di sera restano pochi capitani ritardatari. Bressan ha fretta di chiudere." },
         { "se": { "momento": "notte" }, "testo": "Di notte l'archivio è chiuso. Le finestre del cortile sono buie, e il portone ha una serratura pesante." },
-        { "se": { "conoscenza": "bressan_armadio" }, "testo": "Sai che di notte Bressan chiude il registro nell'armadio." }
+        { "se": { "tutte": [{ "momento": "notte" }, { "notizia": "cortile_finestra" }] }, "testo": "Sai che una delle finestre del cortile ha il chiavistello rotto." },
+        { "se": { "tutte": [{ "momento": "notte" }, { "notizia": "portone_catenaccio" }] }, "testo": "Sai che dietro il portone c'è un catenaccio: forzarlo non basterebbe." },
+        { "se": { "fatto": "registro_preso" }, "testo": "Da quando è sparito il registro, alla porta c'è una guardia." },
+        { "se": { "notizia": "bressan_armadio" }, "testo": "Sai che di notte Bressan chiude il registro nell'armadio." }
       ],
       "scelte": [
-        { "id": "osserva", "testo": "Osservare il salone prima di agire (un passo)", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true, "effetti": [{ "preparazione": "osservato" }, { "tempo": 1 }], "vai": "archivio" },
+        { "id": "osserva", "testo": "Osservo il salone prima di agire (un'ora)", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true, "effetti": [{ "preparazione": "osservato" }, { "tempo": 1 }], "vai": "archivio" },
         {
-          "id": "sottrarre", "testo": "Prendere il registro di nascosto", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
+          "id": "sottrarre", "testo": "Prendo il registro di nascosto", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
           "prova": {
-            "capacita": "sottrarre", "soglia": "sotto_gli_occhi", "posta": "Se va male: Bressan chiama la guardia.",
-            "riesci": { "vai": "registro" }, "nonRiesci": { "vai": "registro_fallito" }, "rovescio": { "vai": "sorpreso" },
-            "prezzo": { "testo": "Un capitano ti vede infilare il registro sotto la giacca. Non dice niente, ma ti guarda uscire.", "effetti": [{ "traccia": "archivio", "piu": 1 }] },
-            "conoscenza": "bressan_armadio"
+            "capacita": "sottrarre", "soglia": "sotto_gli_occhi", "posta": "Se va male: Bressan chiama la guardia.", "ottieni": "il registro", "persona": "bressan",
+            "riesci": { "vai": "registro", "effetti": [{ "fatto": "registro_preso" }] },
+            "nonRiesci": { "vai": "registro_fallito", "notizia": "bressan_armadio" },
+            "rovescio": { "vai": "sorpreso" },
+            "meta": { "testo": "la nave, non i nomi", "vai": "registro_meta" },
+            "prezzo": { "testo": "un capitano ti vede infilare il registro nella borsa. Non dice niente, ma Bressan lo saprà.", "effetti": [{ "persona": "bressan", "cambia": { "rancore": 1 } }] }
           }
         },
         {
-          "id": "chiedere", "testo": "Chiedere a Bressan di Matteo", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
+          "id": "leggi", "testo": "Leggo il registro al contrario, dall'altra parte del banco", "requisito": { "tutte": [{ "non": { "momento": "notte" } }, { "tratto": "vista_acuta" }, { "tratto": "sa_leggere" }] }, "nascondiSeChiusa": true,
           "prova": {
-            "capacita": "persuadere", "soglia": "archivista", "posta": "Se va male: Bressan chiama la guardia.",
-            "riesci": { "vai": "bressan_parla", "effetti": [{ "misura": "fiducia_bressan", "piu": 1 }] }, "nonRiesci": { "vai": "bressan_nega" }, "rovescio": { "vai": "sorpreso" }
+            "capacita": "osservare", "soglia": "leggere_lontano", "posta": "Se va male: Bressan si accorge di dove guardi.", "ottieni": "i nomi dell'equipaggio",
+            "riesci": { "vai": "registro_letto" },
+            "nonRiesci": { "vai": "registro_fallito", "notizia": "registro_riga" },
+            "rovescio": { "vai": "sorpreso" },
+            "meta": { "testo": "la nave, non i nomi", "vai": "registro_meta" }
           }
         },
-        { "id": "facchino", "testo": "Pagare un facchino perché legga il registro al posto tuo (due monete, un passo)", "povera": true, "requisito": { "tutte": [{ "non": { "momento": "notte" } }, { "oggetto": "monete", "almeno": 2 }] }, "richiede": "due monete, e l'archivio aperto", "effetti": [{ "oggetto": "monete", "piu": -2 }, { "tempo": 1 }], "vai": "registro_mezzo" },
         {
-          "id": "grondaia", "testo": "Arrampicarti sulla grondaia del cortile ed entrare da una finestra", "requisito": { "momento": "notte" }, "nascondiSeChiusa": true,
+          "id": "chiedere", "testo": "Chiedo a Bressan di Matteo", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
           "prova": {
-            "capacita": "muoversi", "soglia": "grondaia", "posta": "Se va male: cadi nel cortile, e arriva la ronda.",
-            "riesci": { "vai": "archivio_notte" }, "nonRiesci": { "vai": "entrata_fallita" },
+            "capacita": "persuadere", "soglia": "archivista", "posta": "Se va male: Bressan chiama la guardia.", "ottieni": "che Bressan ti dica che cosa sa", "persona": "bressan",
+            "riesci": { "vai": "bressan_parla", "effetti": [{ "persona": "bressan", "cambia": { "fiducia": 1 } }] },
+            "nonRiesci": { "vai": "bressan_nega", "notizia": "bressan_paura" },
+            "rovescio": { "vai": "sorpreso" },
+            "meta": { "testo": "il nome della nave, e niente di più", "vai": "bressan_mezzo" }
+          }
+        },
+        { "id": "facchino", "testo": "Pago un facchino perché legga il registro al posto mio (due monete, un'ora)", "ripiego": true, "requisito": { "tutte": [{ "non": { "momento": "notte" } }, { "cosa": "monete", "almeno": 2 }] }, "richiede": "due monete, e l'archivio aperto", "effetti": [{ "cosa": "monete", "piu": -2 }, { "tempo": 1 }], "vai": "registro_mezzo" },
+        {
+          "id": "grondaia", "testo": "Mi arrampico sulla grondaia del cortile ed entro da una finestra", "requisito": { "momento": "notte" }, "nascondiSeChiusa": true,
+          "prova": {
+            "capacita": "muoversi", "soglia": "grondaia", "posta": "Se va male: cadi nel cortile, e arriva la ronda.", "ottieni": "di entrare nell'archivio",
+            "riesci": { "vai": "archivio_notte" },
+            "nonRiesci": { "vai": "entrata_fallita", "notizia": "cortile_finestra" },
             "rovescio": { "vai": "sorpreso", "effetti": [{ "ferita": { "nome": "una caviglia storta", "gravita": "lieve", "ambito": "corpo" } }] }
           }
         },
         {
-          "id": "portone", "testo": "Forzare il portone", "requisito": { "momento": "notte" }, "nascondiSeChiusa": true,
+          "id": "portone", "testo": "Forzo il portone", "requisito": { "momento": "notte" }, "nascondiSeChiusa": true,
           "prova": {
-            "capacita": "forzare", "soglia": "serratura_magazzino", "posta": "Se va male: la ronda ti trova col grimaldello in mano.",
-            "riesci": { "vai": "archivio_notte" }, "nonRiesci": { "vai": "entrata_fallita" }, "rovescio": { "vai": "sorpreso" }
+            "capacita": "forzare", "soglia": "serratura_magazzino", "posta": "Se va male: la ronda ti trova con le mani sulla serratura.", "ottieni": "di entrare nell'archivio",
+            "riesci": { "vai": "archivio_notte" },
+            "nonRiesci": { "vai": "entrata_fallita", "notizia": "portone_catenaccio" },
+            "rovescio": { "vai": "sorpreso" }
           }
         },
-        { "id": "aspetta", "testo": "Aspettare che riapra, seduto sui gradini (due passi)", "povera": true, "requisito": { "momento": "notte" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 2 }], "vai": "archivio" },
-        { "id": "esci", "testo": "Tornare sulla banchina", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
+        { "id": "aspetta", "testo": "Aspetto che riapra, seduto sui gradini (tre ore)", "ripiego": true, "sempre": true, "requisito": { "momento": "notte" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 3 }], "vai": "archivio" },
+        { "id": "esci", "testo": "Torno sulla banchina", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
       ]
     },
     {
       "id": "registro", "luogo": "archivio", "titolo": "Il registro",
       "testo": "Sfogli il registro fino alla data di tre giorni fa. *Santa Rita*, capitano Nicolò Serra, carico di tessuti per conto di Ottavio Grimani, dal magazzino sette. In fondo all'elenco dell'equipaggio c'è una riga aggiunta dopo, con un inchiostro più chiaro: *Matteo Ferro, mozzo.* Al posto della firma, una croce.\n\nMatteo sa scrivere meglio di chiunque in questo porto. Quella croce non l'ha fatta lui.",
-      "entrando": [{ "conoscenza": "matteo_a_bordo" }, { "conoscenza": "nome_capitano" }, { "conoscenza": "carico_grimani" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "esci", "testo": "Rimettere il registro al suo posto e uscire", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
+      "entrando": [{ "verifica": "matteo_a_bordo" }, { "verifica": "nome_capitano" }, { "verifica": "carico_grimani" }, { "verifica": "registro_riga" }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "esci", "testo": "Esco, con il registro nella borsa (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
+    },
+    {
+      "id": "registro_letto", "luogo": "archivio", "titolo": "Al contrario",
+      "testo": "Le lettere sono piccole e rovesciate, ma i tuoi occhi ci arrivano. *Santa Rita*, capitano Nicolò Serra, per conto di Ottavio Grimani. In fondo all'equipaggio, con un inchiostro più chiaro degli altri: *Matteo Ferro, mozzo.* Al posto della firma, una croce.\n\nNessuno ti ha visto leggere. Il registro è ancora lì, sotto il naso di Bressan.",
+      "entrando": [{ "verifica": "matteo_a_bordo" }, { "verifica": "nome_capitano" }, { "verifica": "carico_grimani" }, { "verifica": "registro_riga" }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "torna", "testo": "Distolgo gli occhi e torno fra i capitani", "vai": "archivio" }]
+    },
+    {
+      "id": "registro_meta", "luogo": "archivio", "titolo": "Una riga sola",
+      "testo": "Fai in tempo a leggere soltanto la riga della nave: *Santa Rita*, carico di Grimani, magazzino sette, salpa con la marea. Poi Bressan gira la pagina, e l'equipaggio sparisce sotto il suo gomito.",
+      "entrando": [{ "notizia": "carico_grimani" }, { "notizia": "salpa_alba" }],
+      "scelte": [{ "id": "torna", "testo": "Mi allontano dal banco", "vai": "archivio" }]
     },
     {
       "id": "registro_fallito", "luogo": "archivio", "titolo": "Il gomito di Bressan",
-      "testo": "Allunghi la mano, ma Bressan posa il gomito sul registro proprio in quell'istante, senza nemmeno guardarti. Ti allontani e fingi di cercare qualcos'altro sugli scaffali.",
-      "scelte": [{ "id": "torna", "testo": "Tornare verso il banco", "vai": "archivio" }]
+      "testo": "Bressan posa il gomito sul registro proprio in quell'istante, senza nemmeno guardarti. Ti allontani e fingi di cercare qualcos'altro sugli scaffali.",
+      "scelte": [{ "id": "torna", "testo": "Torno verso il banco", "vai": "archivio" }]
     },
     {
       "id": "sorpreso", "luogo": "archivio", "titolo": "Guardie",
@@ -137,46 +235,64 @@
         { "se": { "non": { "momento": "notte" } }, "testo": "«Guardie!» La voce di Bressan copre tutte le altre. Due uomini della capitaneria ti prendono per le braccia prima che tu arrivi alla porta." },
         { "se": { "momento": "notte" }, "testo": "Una lanterna ti acceca. «Fermo lì!» La ronda della capitaneria ti butta a terra e ti lega le mani dietro la schiena." }
       ],
-      "scelte": [{ "id": "cella", "testo": "Lasciarti portare via", "vai": "cella" }]
+      "entrando": [{ "statoAnimo": "umiliato" }],
+      "scelte": [{ "id": "cella", "testo": "Mi lascio portare via", "vai": "cella" }]
     },
     {
       "id": "cella", "luogo": "archivio", "titolo": "La cella",
-      "testo": "Ti chiudono in una cella della capitaneria che sa di muffa e di pesce. Il carceriere, un vecchio con un solo dente, gioca a dadi da solo sul tavolo del corridoio.",
+      "testo": [
+        { "testo": "Ti chiudono in una cella della capitaneria che sa di muffa e di pesce. Il carceriere, un vecchio con un solo dente, gioca a dadi da solo sul tavolo del corridoio." },
+        { "se": { "notizia": "carceriere_monete" }, "testo": "Ogni tanto guarda verso di te, e si gratta il palmo della mano." }
+      ],
       "entrando": [{ "tempo": 1 }],
       "scelte": [
-        { "id": "paga", "testo": "Offrire tre monete al carceriere", "povera": true, "requisito": { "oggetto": "monete", "almeno": 3 }, "richiede": "tre monete", "effetti": [{ "oggetto": "monete", "piu": -3 }, { "tempo": 1 }], "vai": "banchina" },
+        { "id": "paga", "testo": "Offro tre monete al carceriere (un'ora)", "ripiego": true, "sempre": true, "requisito": { "cosa": "monete", "almeno": 3 }, "richiede": "tre monete", "effetti": [{ "cosa": "monete", "piu": -3 }, { "tempo": 1 }], "vai": "banchina" },
         {
-          "id": "convinci", "testo": "Convincere il carceriere che c'è stato un errore",
+          "id": "convinci", "testo": "Convinco il carceriere che c'è stato un errore",
           "prova": {
-            "capacita": "persuadere", "soglia": "archivista", "posta": "Se va male: il carceriere si offende, e ti lascia lì a lungo.",
-            "riesci": { "vai": "banchina", "effetti": [{ "tempo": 1 }] }, "nonRiesci": { "vai": "cella" }, "rovescio": { "vai": "cella_lunga" }
+            "capacita": "persuadere", "soglia": "carceriere", "posta": "Se va male: il carceriere si offende, e ti lascia lì a lungo.", "ottieni": "di uscire",
+            "riesci": { "vai": "banchina", "effetti": [{ "tempo": 1 }] },
+            "nonRiesci": { "vai": "cella_attesa", "notizia": "carceriere_monete" },
+            "rovescio": { "vai": "cella_lunga" }
           }
         },
-        { "id": "aspetta", "testo": "Aspettare che ti rilascino (sei passi)", "povera": true, "effetti": [{ "tempo": 6 }], "vai": "banchina" }
+        { "id": "aspetta", "testo": "Aspetto che mi rilascino (nove ore)", "ripiego": true, "sempre": true, "effetti": [{ "tempo": 9 }], "vai": "banchina" }
       ]
+    },
+    {
+      "id": "cella_attesa", "luogo": "archivio", "titolo": "Il carceriere ride",
+      "testo": "Il carceriere ride senza denti. «Errore? Qui dentro sono tutti errori.» Poi torna ai suoi dadi.",
+      "scelte": [{ "id": "torna", "testo": "Mi siedo sulla panca", "vai": "cella" }]
     },
     {
       "id": "cella_lunga", "luogo": "archivio", "titolo": "Ore di attesa",
       "testo": "Il carceriere sputa per terra e se ne va. Torna dopo ore, quando si ricorda di te, e ti butta fuori a calci.",
-      "entrando": [{ "tempo": 6 }],
-      "scelte": [{ "id": "esci", "testo": "Tornare sulla banchina", "vai": "banchina" }]
+      "entrando": [{ "tempo": 9 }],
+      "scelte": [{ "id": "esci", "testo": "Torno sulla banchina", "vai": "banchina" }]
     },
     {
-      "id": "bressan_parla", "luogo": "archivio", "titolo": "Bressan",
+      "id": "bressan_parla", "luogo": "archivio", "titolo": "Bressan parla",
       "testo": "Bressan si guarda intorno, poi abbassa la voce. «Tuo fratello è venuto qui quattro giorni fa. Voleva vedere le bolle di Grimani: diceva che i pesi non tornavano. Il giorno dopo sono arrivati due uomini del capitano Serra e hanno scritto il suo nome sul registro della *Santa Rita*. Io non ho visto niente, hai capito? Niente.»\n\nGira il registro verso di te, quanto basta per leggere: *Matteo Ferro, mozzo.* Al posto della firma, una croce.",
-      "entrando": [{ "conoscenza": "matteo_a_bordo" }, { "conoscenza": "nome_capitano" }, { "conoscenza": "carico_grimani" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "esci", "testo": "Ringraziarlo e uscire", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
+      "entrando": [{ "verifica": "matteo_a_bordo" }, { "notizia": "nome_capitano" }, { "notizia": "carico_grimani" }, { "notizia": "casse_pesanti" }, { "conosci": "bressan", "livello": 1 }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "esci", "testo": "Lo ringrazio ed esco (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
+    },
+    {
+      "id": "bressan_mezzo", "luogo": "archivio", "titolo": "Un nome",
+      "testo": "Bressan ti guarda a lungo, con la penna ferma sul foglio. «*Santa Rita*», dice soltanto. «E adesso vattene, prima che qualcuno ci senta.»",
+      "entrando": [{ "notizia": "matteo_a_bordo" }, { "conosci": "bressan", "livello": 1 }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "esci", "testo": "Esco (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
     },
     {
       "id": "bressan_nega", "luogo": "archivio", "titolo": "Bressan non ricorda",
       "testo": "Bressan non alza gli occhi dal foglio. «Non so di chi parli. Qui passano cento persone al giorno.» Ma la penna gli si è fermata a metà di una parola.",
+      "entrando": [{ "conosci": "bressan", "livello": 1 }],
       "confronto": {
         "avversario": "bressan",
-        "andarsene": { "testo": "Lasciar perdere e uscire", "effetti": [{ "tempo": 1 }], "vai": "banchina" },
-        "parlare": { "testo": "Promettergli che il suo nome non verrà mai fuori", "capacita": "persuadere", "soglia": "archivista", "riesci": { "vai": "bressan_parla", "effetti": [{ "misura": "fiducia_bressan", "piu": 1 }] } },
+        "andarsene": { "testo": "Lascio perdere ed esco (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" },
+        "parlare": { "testo": "Gli prometto che il suo nome non verrà mai fuori", "capacita": "persuadere", "soglia": "archivista", "riesci": { "vai": "bressan_parla", "effetti": [{ "persona": "bressan", "cambia": { "fiducia": 1 } }] } },
         "fini": [
-          { "id": "parla", "testo": "Farlo parlare, adesso che non può più tirarsi indietro", "effetti": [{ "misura": "fiducia_bressan", "piu": 1 }], "vai": "bressan_parla" },
-          { "id": "rovina", "testo": "Accusarlo davanti a tutti di coprire Grimani", "effetti": [{ "traccia": "archivio", "piu": 2 }], "vai": "bressan_rovinato" }
+          { "id": "parla", "testo": "Lo faccio parlare, adesso che non può più tirarsi indietro", "effetti": [{ "persona": "bressan", "cambia": { "fiducia": 1 } }], "vai": "bressan_parla" },
+          { "id": "rovina", "testo": "Lo accuso davanti a tutti di coprire Grimani", "effetti": [{ "traccia": "archivio", "piu": 2 }, { "persona": "bressan", "cambia": { "rancore": 3 } }], "vai": "bressan_rovinato" }
         ],
         "seTiPrende": "sorpreso"
       }
@@ -184,256 +300,321 @@
     {
       "id": "bressan_rovinato", "luogo": "archivio", "titolo": "Cento occhi",
       "testo": "I capitani si voltano. Bressan diventa bianco, poi rosso. «Il ragazzo è sulla *Santa Rita*», sibila. «Adesso lo sai. Vattene, prima che chiami qualcuno.»\n\nTe ne vai con quello che volevi sapere, e con cento occhi addosso.",
-      "entrando": [{ "conoscenza": "matteo_a_bordo" }, { "conoscenza": "nome_capitano" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "esci", "testo": "Uscire", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
+      "entrando": [{ "notizia": "matteo_a_bordo" }, { "notizia": "nome_capitano" }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "esci", "testo": "Esco (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
     },
     {
       "id": "registro_mezzo", "luogo": "archivio", "titolo": "Il facchino che legge",
       "testo": "Il facchino si fa largo fino al banco con la scusa di una consegna e torna dopo un po', grattandosi la testa. «*Santa Rita*, roba di Grimani, magazzino sette. Salpa con la marea. I nomi dell'equipaggio, quelli non li so leggere bene: erano scritti fitti.»",
-      "entrando": [{ "conoscenza": "carico_grimani" }, { "conoscenza": "salpa_alba" }],
-      "scelte": [{ "id": "torna", "testo": "Tornare nel salone", "vai": "archivio" }]
+      "entrando": [{ "notizia": "carico_grimani" }, { "notizia": "salpa_alba" }],
+      "scelte": [{ "id": "torna", "testo": "Torno nel salone", "vai": "archivio" }]
     },
     {
       "id": "archivio_notte", "luogo": "archivio", "titolo": "L'archivio al buio",
-      "testo": "Dentro, l'archivio è buio e freddo. Trovi il banco a tentoni: il registro non c'è. Bressan lo chiude nell'armadio, e l'armadio ha un lucchetto. Sul muro, alla luce della luna, si legge la lavagna delle partenze.",
+      "testo": [
+        { "testo": "Dentro, l'archivio è buio e freddo. Trovi il banco a tentoni: il registro non c'è. Bressan lo chiude nell'armadio, e l'armadio ha un lucchetto. Sul muro, alla luce della luna, si legge la lavagna delle partenze." },
+        { "se": { "notizia": "lucchetto_ruggine" }, "testo": "Il lucchetto è arrugginito: basterebbe far leva nel punto giusto." }
+      ],
       "scelte": [
         {
-          "id": "armadio", "testo": "Forzare il lucchetto dell'armadio",
+          "id": "armadio", "testo": "Forzo il lucchetto dell'armadio",
           "prova": {
-            "capacita": "forzare", "soglia": "lucchetto", "posta": "Se va male: il rumore richiama la ronda.",
-            "riesci": { "vai": "registro" }, "nonRiesci": { "vai": "archivio_notte" }, "rovescio": { "vai": "sorpreso" }
+            "capacita": "forzare", "soglia": "lucchetto", "posta": "Se va male: il rumore richiama la ronda.", "ottieni": "il registro",
+            "riesci": { "vai": "registro", "effetti": [{ "fatto": "registro_preso" }] },
+            "nonRiesci": { "vai": "archivio_notte", "notizia": "lucchetto_ruggine" },
+            "rovescio": { "vai": "sorpreso" }
           }
         },
-        { "id": "lavagna", "testo": "Copiare quello che c'è sulla lavagna delle partenze (un passo)", "povera": true, "unaVolta": true, "effetti": [{ "tempo": 1 }, { "conoscenza": "salpa_alba" }, { "conoscenza": "nome_capitano" }], "vai": "archivio_notte" },
-        { "id": "esci", "testo": "Uscire dalla finestra", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
+        { "id": "lavagna", "testo": "Copio quello che c'è sulla lavagna delle partenze (un'ora)", "ripiego": true, "effetti": [{ "tempo": 1 }, { "notizia": "salpa_alba" }, { "notizia": "nome_capitano" }], "vai": "archivio_notte" },
+        { "id": "esci", "testo": "Esco dalla finestra (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
       ]
     },
     {
       "id": "entrata_fallita", "luogo": "archivio", "titolo": "Il cortile",
       "testo": "Non riesci a entrare. Resti nel cortile buio, a guardare le finestre chiuse.",
-      "scelte": [{ "id": "torna", "testo": "Tornare davanti all'archivio", "vai": "archivio" }]
+      "scelte": [{ "id": "torna", "testo": "Torno davanti all'archivio", "vai": "archivio" }]
     },
     {
       "id": "gallo", "luogo": "gallo", "titolo": "La taverna del Gallo",
       "testo": [
-        { "testo": "La taverna del Gallo è una stanza bassa e fumosa, con le panche lunghe e l'odore di vino acido. Ci bevono i marinai di tutte le navi del porto." },
-        { "se": { "momento": "alba" }, "testo": "All'alba è quasi vuota. L'oste lava i boccali e guarda chi entra." },
+        { "testo": "La taverna del Gallo è una stanza bassa e fumosa, con le panche lunghe e l'odore di vino acido. Ci bevono i marinai di tutte le navi del porto. Dietro il banco, Zeno asciuga i boccali: ti conosce da quando eri un ragazzino." },
+        { "se": { "momento": "alba" }, "testo": "All'alba è quasi vuota. Zeno lava i boccali e guarda chi entra." },
         { "se": { "momento": "giorno" }, "testo": "Di giorno ci sono gli scaricatori in pausa e qualche marinaio senza nave." },
         { "se": { "momento": "sera" }, "testo": "Di sera è piena da scoppiare. Tutti parlano, nessuno ascolta." },
         { "se": { "momento": "notte" }, "testo": "Di notte restano gli ubriachi, e quelli che non vogliono farsi vedere di giorno." },
+        { "se": { "notizia": "marinai_santa_rita" }, "testo": "Al tavolo in fondo bevono i marinai della *Santa Rita*." },
         { "se": { "tutte": [{ "fatto": "teodoro_cerca" }, { "nonFatto": "teodoro_fuori" }] }, "testo": "Un uomo con una cicatrice sul mento non ti toglie gli occhi di dosso: Teodoro, detto il Pesce." }
       ],
       "scelte": [
         {
-          "id": "ascolta", "testo": "Sederti in un angolo e ascoltare i discorsi dei marinai",
+          "id": "ascolta", "testo": "Mi siedo in un angolo e ascolto i discorsi dei marinai",
           "prova": {
-            "capacita": "osservare", "soglia": "ascoltare", "posta": "Se va male: qualcuno si accorge che stai ascoltando.",
-            "riesci": { "vai": "voci_vere" }, "nonRiesci": { "vai": "voci_false" }, "rovescio": { "vai": "notato" }
+            "capacita": "osservare", "soglia": "ascoltare", "posta": "Se va male: qualcuno si accorge che stai ascoltando.", "ottieni": "qualcosa di vero su Matteo",
+            "riesci": { "vai": "voci_vere" },
+            "nonRiesci": { "vai": "voci_false", "notizia": "marinai_santa_rita" },
+            "rovescio": { "vai": "notato" }
           }
         },
         {
-          "id": "oste", "testo": "Chiedere all'oste",
+          "id": "ascolta_zeno", "testo": "Chiedo a Zeno di distrarre il tavolo accanto mentre ascolto",
           "prova": {
-            "capacita": "persuadere", "soglia": "facchino", "posta": "Se va male: qualcuno sente che fai domande.",
-            "riesci": { "vai": "oste" }, "nonRiesci": { "vai": "oste_muto" }, "rovescio": { "vai": "notato" }
+            "capacita": "osservare", "soglia": "ascoltare", "aiuto": "zeno", "posta": "Se va male: qualcuno si accorge che stai ascoltando, e Zeno ci va di mezzo.", "ottieni": "qualcosa di vero su Matteo",
+            "riesci": { "vai": "voci_vere" },
+            "nonRiesci": { "vai": "voci_false", "notizia": "marinai_santa_rita" },
+            "rovescio": { "vai": "notato" }
           }
         },
-        { "id": "compra", "testo": "Comprare una voce all'oste (due monete)", "povera": true, "unaVolta": true, "requisito": { "oggetto": "monete", "almeno": 2 }, "richiede": "due monete", "effetti": [{ "oggetto": "monete", "piu": -2 }], "vai": "oste" },
-        { "id": "esci", "testo": "Tornare sulla banchina", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
+        {
+          "id": "oste", "testo": "Chiedo a Zeno del copista",
+          "prova": {
+            "capacita": "persuadere", "soglia": "facchino", "persona": "zeno", "posta": "Se va male: qualcuno sente che fai domande.", "ottieni": "che Zeno ti dica che cosa sa",
+            "riesci": { "vai": "oste" },
+            "nonRiesci": { "vai": "oste_muto", "notizia": "zeno_paura" },
+            "rovescio": { "vai": "notato" }
+          }
+        },
+        { "id": "compra", "testo": "Compro una voce da Zeno (due monete)", "ripiego": true, "unaVolta": true, "requisito": { "cosa": "monete", "almeno": 2 }, "richiede": "due monete", "effetti": [{ "cosa": "monete", "piu": -2 }], "vai": "oste" },
+        { "id": "lavandaia", "testo": "Chiedo in giro della lavandaia con cui sarebbe scappato", "requisito": { "tutte": [{ "notizia": "matteo_donna" }, { "non": { "convinzione": "matteo_fedele" } }] }, "richiede": "crederci", "nascondiSeChiusa": true, "vai": "chiesa" },
+        { "id": "esci", "testo": "Torno sulla banchina (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
       ]
     },
     {
       "id": "voci_vere", "luogo": "gallo", "titolo": "Un marinaio che parla troppo",
-      "testo": "Al tavolo accanto, un marinaio della *Santa Rita* si vanta col compare. «...e il nostromo dice che il ragazzino sa leggere, figurati. L'abbiamo legato in stiva come un vitello. A Tunisi ci pensa Grimani.»\n\nIl compare ride, e tu stringi il boccale finché non ti fanno male le dita.",
-      "entrando": [{ "conoscenza": "matteo_in_stiva" }, { "conoscenza": "matteo_a_bordo" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "torna", "testo": "Alzarti senza farti notare", "vai": "gallo" }]
+      "testo": "Al tavolo accanto, un marinaio della *Santa Rita* si vanta col compare. «...e il nostromo dice che il ragazzino sa leggere, figurati. L'abbiamo legato in stiva come un vitello. A Tunisi ci pensa Grimani. Il capitano non vuole grane, dice che morti a bordo non ne vuole: e allora che se lo tenga vivo.»\n\nIl compare ride, e tu stringi il boccale finché non ti fanno male le dita.",
+      "entrando": [{ "notizia": "matteo_in_stiva" }, { "notizia": "matteo_a_bordo" }, { "notizia": "serra_no_morti" }, { "filo": "fratello", "piu": 1 }, { "statoAnimo": "furioso" }],
+      "scelte": [{ "id": "torna", "testo": "Mi alzo senza farmi notare", "vai": "gallo" }]
     },
     {
       "id": "voci_false", "luogo": "gallo", "titolo": "Chiacchiere",
       "testo": "Senti soltanto chiacchiere: una rissa al molo nuovo, il prezzo del sale, e la storia di un copista che sarebbe scappato con una lavandaia. Tutti ridono, e nessuno sa niente di preciso.",
-      "entrando": [{ "conoscenza": "matteo_donna" }],
-      "scelte": [{ "id": "torna", "testo": "Lasciar perdere", "vai": "gallo" }]
+      "entrando": [{ "notizia": "matteo_donna" }],
+      "scelte": [{ "id": "torna", "testo": "Lascio perdere", "vai": "gallo" }]
     },
     {
       "id": "notato", "luogo": "gallo", "titolo": "Il Pesce",
-      "testo": "Ti accorgi troppo tardi che un uomo con una cicatrice sul mento ti sta guardando. Quando alzi gli occhi, lui sorride ed esce.\n\nL'oste ti versa da bere senza che tu lo chieda. «Quello era Teodoro, il Pesce», mormora. «Cerca chi fa domande sul copista. C'è una taglia.»",
-      "entrando": [{ "fatto": "teodoro_cerca" }, { "conoscenza": "taglia" }],
-      "scelte": [{ "id": "torna", "testo": "Bere, e pensare", "vai": "gallo" }]
+      "testo": "Ti accorgi troppo tardi che un uomo con una cicatrice sul mento ti sta guardando. Quando alzi gli occhi, lui sorride ed esce.\n\nZeno ti versa da bere senza che tu lo chieda. «Quello era Teodoro, il Pesce», mormora. «Cerca chi fa domande sul copista. C'è una taglia.»",
+      "entrando": [{ "fatto": "teodoro_cerca" }, { "notizia": "taglia" }, { "statoAnimo": "spaventato" }],
+      "scelte": [{ "id": "torna", "testo": "Bevo, e penso", "vai": "gallo" }]
     },
     {
-      "id": "oste", "luogo": "gallo", "titolo": "L'oste",
-      "testo": "L'oste asciuga un boccale con uno straccio più sporco del boccale. «Il copista? Veniva qui a scrivere lettere per i marinai che non sanno scrivere. L'ultima sera è uscito con due uomini della *Santa Rita*, e non mi sembrava contento.»\n\nAbbassa la voce. «E stai attento a Teodoro il Pesce. Qualcuno ha messo una taglia su chi fa troppe domande sul ragazzo.»",
-      "entrando": [{ "conoscenza": "matteo_a_bordo" }, { "conoscenza": "taglia" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "torna", "testo": "Lasciare una moneta sul banco", "vai": "gallo" }]
+      "id": "oste", "luogo": "gallo", "titolo": "Zeno",
+      "testo": "Zeno asciuga un boccale con uno straccio più sporco del boccale. «Il copista? Veniva qui a scrivere lettere per i marinai che non sanno scrivere. L'ultima sera è uscito con due uomini della *Santa Rita*, e non mi sembrava contento.»\n\nAbbassa la voce. «E stai attento a Teodoro il Pesce. Qualcuno ha messo una taglia su chi fa troppe domande sul ragazzo.»",
+      "entrando": [{ "notizia": "matteo_a_bordo" }, { "notizia": "taglia" }, { "fatto": "teodoro_cerca" }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "torna", "testo": "Lascio una moneta sul banco", "vai": "gallo" }]
     },
     {
-      "id": "oste_muto", "luogo": "gallo", "titolo": "L'oste non sente",
-      "testo": "L'oste fa finta di non sentire. Ma ogni volta che la porta si apre ed entra qualcuno della *Santa Rita*, lo vedi irrigidirsi.",
-      "scelte": [{ "id": "torna", "testo": "Lasciarlo stare", "vai": "gallo" }]
+      "id": "oste_muto", "luogo": "gallo", "titolo": "Zeno non sente",
+      "testo": "Zeno fa finta di non sentire. Ma ogni volta che la porta si apre ed entra qualcuno della *Santa Rita*, lo vedi irrigidirsi.",
+      "scelte": [{ "id": "torna", "testo": "Lo lascio stare", "vai": "gallo" }]
     },
     {
       "id": "agguato", "luogo": "banchina", "titolo": "Teodoro il Pesce",
       "tag": ["agguato"],
       "testo": [
         { "testo": "Teodoro il Pesce ti sbarra la strada fra due file di barili. Ha in mano un coltello da pesce e lo tiene basso, come chi sa usarlo. «Niente di personale», dice. «Mi pagano.» Tre passi vi separano." },
-        { "se": { "conoscenza": "taglia" }, "testo": "È la taglia di cui parlava l'oste." }
+        { "se": { "notizia": "taglia" }, "testo": "È la taglia di cui parlava Zeno." }
       ],
+      "entrando": [{ "statoAnimo": "spaventato" }, { "conosci": "teodoro", "livello": 1 }],
       "confronto": {
         "avversario": "teodoro",
-        "andarsene": { "testo": "Gettargli due monete e scappare fra i barili", "effetti": [{ "oggetto": "monete", "piu": -2 }, { "traccia": "banchina", "piu": 1 }], "vai": "banchina" },
-        "parlare": { "testo": "Offrirgli più di quanto lo pagano (quattro monete)", "capacita": "persuadere", "soglia": "marinaio_coltello", "requisito": { "oggetto": "monete", "almeno": 4 }, "richiede": "quattro monete", "riesci": { "vai": "teodoro_comprato", "effetti": [{ "oggetto": "monete", "piu": -4 }, { "fatto": "teodoro_comprato" }] } },
+        "andarsene": { "testo": "Gli getto due monete e scappo fra i barili", "effetti": [{ "cosa": "monete", "piu": -2 }, { "traccia": "banchina", "piu": 1 }], "vai": "banchina" },
+        "parlare": { "testo": "Gli offro più di quanto lo pagano (quattro monete)", "capacita": "persuadere", "soglia": "marinaio_coltello", "requisito": { "cosa": "monete", "almeno": 4 }, "richiede": "quattro monete", "riesci": { "vai": "teodoro_comprato", "effetti": [{ "cosa": "monete", "piu": -4 }, { "fatto": "teodoro_comprato" }] } },
         "fini": [
-          { "id": "atterra", "testo": "Metterlo fuori combattimento", "effetti": [{ "fatto": "teodoro_fuori" }, { "traccia": "banchina", "piu": 1 }, { "logorio": "nervi", "piu": 1 }], "vai": "teodoro_a_terra" },
-          { "id": "chi", "testo": "Costringerlo a dirti chi paga la taglia", "vai": "teodoro_confessa" },
-          { "id": "via", "testo": "Andartene, adesso che non può seguirti", "vai": "banchina" }
+          { "id": "atterra", "testo": "Lo metto fuori combattimento", "effetti": [{ "fatto": "teodoro_fuori" }, { "traccia": "banchina", "piu": 1 }, { "logorio": "nervi", "piu": 1 }], "vai": "teodoro_a_terra" },
+          { "id": "chi", "testo": "Lo costringo a dirmi chi paga la taglia", "vai": "teodoro_confessa" },
+          { "id": "via", "testo": "Me ne vado, adesso che non può seguirmi", "vai": "banchina" }
         ]
       }
     },
     {
       "id": "teodoro_a_terra", "luogo": "banchina", "titolo": "Sui ciottoli",
       "testo": "Teodoro scivola sui ciottoli bagnati e batte la testa contro un barile. Non si rialza. Resti a guardarlo un istante di troppo, col fiato corto, poi te ne vai prima che arrivi qualcuno.",
-      "scelte": [{ "id": "via", "testo": "Allontanarti in fretta", "vai": "banchina" }]
+      "scelte": [{ "id": "via", "testo": "Mi allontano in fretta", "vai": "banchina" }]
     },
     {
       "id": "teodoro_confessa", "luogo": "banchina", "titolo": "Chi paga",
-      "testo": "«Grimani», sputa Teodoro, col tuo ginocchio sul petto. «Paga Grimani. Il ragazzo ha visto le casse. Stanotte lo portano a Tunisi, e io dovevo badare che nessuno venisse a cercarlo.»\n\nPoi si divincola e scappa, lasciando il coltello per terra.",
-      "entrando": [{ "conoscenza": "grimani_taglia" }, { "conoscenza": "matteo_in_stiva" }, { "conoscenza": "matteo_a_bordo" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "via", "testo": "Tornare sulla banchina", "vai": "banchina" }]
+      "testo": "«Grimani», sputa Teodoro, col tuo ginocchio sul petto. «Paga Grimani. Il ragazzo ha visto le casse. Stanotte lo portano a Tunisi, e io dovevo badare che nessuno venisse a cercarlo. Il capitano non vuole morti sulla sua nave, per questo è ancora vivo.»\n\nPoi si divincola e scappa, lasciando il coltello per terra.",
+      "entrando": [{ "notizia": "grimani_taglia" }, { "notizia": "matteo_in_stiva" }, { "notizia": "matteo_a_bordo" }, { "notizia": "serra_no_morti" }, { "filo": "fratello", "piu": 1 }, { "passaStatoAnimo": "spaventato" }, { "statoAnimo": "sicuro" }],
+      "scelte": [{ "id": "via", "testo": "Torno sulla banchina", "vai": "banchina" }]
     },
     {
       "id": "teodoro_comprato", "luogo": "banchina", "titolo": "Un affare",
       "testo": "Teodoro conta le monete due volte, poi le fa sparire. «Non ti ho visto», dice, e se ne va fischiettando.",
-      "scelte": [{ "id": "via", "testo": "Guardarlo andare via", "vai": "banchina" }]
+      "scelte": [{ "id": "via", "testo": "Lo guardo andare via", "vai": "banchina" }]
     },
     {
       "id": "magazzini", "luogo": "magazzini", "titolo": "I magazzini",
       "testo": [
-        { "testo": "I magazzini sono una fila di capannoni di pietra dietro il porto, con i numeri dipinti sulle porte e vicoli stretti fra l'uno e l'altro." },
+        { "testo": "I magazzini sono una fila di capannoni di pietra dietro il porto, con i numeri dipinti sulle porte e vicoli stretti e bui fra l'uno e l'altro." },
         { "se": { "momento": "notte" }, "testo": "Di notte è buio pesto. Solo la lanterna del guardiano si muove, lontana." },
         { "se": { "non": { "momento": "notte" } }, "testo": "I carri vanno e vengono. Il guardiano siede su una sedia davanti al magazzino sette e fuma la pipa." },
-        { "se": { "nonConoscenza": "carico_grimani" }, "testo": "I magazzini sono venti, e non sai quale sia quello di Grimani." },
-        { "se": { "conoscenza": "serratura_nuova" }, "testo": "La serratura del sette è nuova, di Genova: forse conviene un'altra strada." }
+        { "se": { "nonNotizia": "carico_grimani" }, "testo": "I magazzini sono venti, e non sai quale sia quello di Grimani." },
+        { "se": { "notizia": "serratura_nuova" }, "testo": "La serratura del sette è nuova, di Genova. Adesso sai come si apre." },
+        { "se": { "notizia": "lucernario_inchiodato" }, "testo": "Il lucernario del sette, lo sai, è inchiodato dall'interno." }
       ],
       "scelte": [
-        { "id": "cerca", "testo": "Girare fra i magazzini cercando il marchio di Grimani (due passi)", "povera": true, "requisito": { "nonConoscenza": "carico_grimani" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 2 }, { "conoscenza": "carico_grimani" }], "vai": "magazzini" },
-        { "id": "osserva", "testo": "Osservare i giri del guardiano (un passo)", "requisito": { "conoscenza": "carico_grimani" }, "nascondiSeChiusa": true, "effetti": [{ "preparazione": "osservato" }, { "tempo": 1 }], "vai": "magazzini" },
+        { "id": "cerca", "testo": "Giro fra i magazzini cercando il marchio di Grimani (tre ore)", "ripiego": true, "requisito": { "nonNotizia": "carico_grimani" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 3 }, { "notizia": "carico_grimani" }], "vai": "magazzini" },
+        { "id": "osserva", "testo": "Osservo i giri del guardiano (un'ora)", "requisito": { "notizia": "carico_grimani" }, "nascondiSeChiusa": true, "effetti": [{ "preparazione": "osservato" }, { "tempo": 1 }], "vai": "magazzini" },
         {
-          "id": "forza", "testo": "Forzare la porta del magazzino sette", "requisito": { "conoscenza": "carico_grimani" }, "richiede": "sapere qual è il magazzino di Grimani",
+          "id": "forza", "testo": "Forzo la porta del magazzino sette", "requisito": { "notizia": "carico_grimani" }, "richiede": "sapere qual è il magazzino di Grimani",
           "prova": {
-            "capacita": "forzare", "soglia": "serratura_magazzino", "posta": "Se va male: il guardiano ti prende sul fatto.",
-            "riesci": { "vai": "dentro" }, "nonRiesci": { "vai": "porta_resiste" }, "rovescio": { "vai": "guardiano" }, "conoscenza": "serratura_nuova"
+            "capacita": "forzare", "soglia": "serratura_sette", "posta": "Se va male: il guardiano ti prende sul fatto.", "ottieni": "di entrare nel magazzino sette",
+            "riesci": { "vai": "dentro" },
+            "nonRiesci": { "vai": "porta_resiste", "notizia": "serratura_nuova" },
+            "rovescio": { "vai": "guardiano" }
           }
         },
         {
-          "id": "tetto", "testo": "Salire sul tetto ed entrare dal lucernario", "requisito": { "conoscenza": "carico_grimani" }, "richiede": "sapere qual è il magazzino di Grimani",
+          "id": "tetto", "testo": "Salgo sul tetto ed entro dal lucernario", "requisito": { "notizia": "carico_grimani" }, "richiede": "sapere qual è il magazzino di Grimani",
           "prova": {
-            "capacita": "muoversi", "soglia": "grondaia", "posta": "Se va male: cadi dal tetto, e il guardiano ti trova.",
-            "riesci": { "vai": "dentro" }, "nonRiesci": { "vai": "lucernario_fallito" },
+            "capacita": "muoversi", "soglia": "grondaia", "posta": "Se va male: cadi dal tetto, e il guardiano ti trova.", "ottieni": "di entrare nel magazzino sette",
+            "riesci": { "vai": "dentro" },
+            "nonRiesci": { "vai": "lucernario_fallito", "notizia": "lucernario_inchiodato" },
             "rovescio": { "vai": "guardiano", "effetti": [{ "ferita": { "nome": "una spalla ammaccata", "gravita": "lieve", "ambito": "corpo" } }] }
           }
         },
-        { "id": "aspetta", "testo": "Aspettare che il guardiano si addormenti ed entrare dalla porta di servizio (tre passi)", "povera": true, "requisito": { "conoscenza": "carico_grimani" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 3 }], "vai": "dentro" },
-        { "id": "esci", "testo": "Tornare sulla banchina", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
+        { "id": "aspetta", "testo": "Aspetto che il guardiano si addormenti ed entro dalla porta di servizio (quattro ore)", "ripiego": true, "requisito": { "notizia": "carico_grimani" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 4 }], "vai": "dentro" },
+        { "id": "esci", "testo": "Torno sulla banchina (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
       ]
     },
     {
       "id": "dentro", "luogo": "magazzini", "titolo": "Il magazzino sette",
-      "testo": "Dentro, il magazzino sette odora di catrame. Sulle casse c'è scritto *tessuti*. Ne apri una con un ferro lasciato su un barile: sotto uno strato di lana grezza ci sono moschetti, lucidi di grasso.\n\nSul tavolo, fra le carte, trovi la bolla di carico della *Santa Rita*, firmata da Grimani e dal capitano Serra. Accanto, un biglietto: *il mozzo resta in stiva fino a Tunisi.*",
-      "entrando": [{ "oggetto": "bolla", "piu": 1 }, { "conoscenza": "grimani_armi" }, { "conoscenza": "matteo_in_stiva" }, { "conoscenza": "matteo_a_bordo" }, { "conoscenza": "nome_capitano" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "esci", "testo": "Nascondere la bolla sotto la giacca e uscire", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
+      "testo": "Dentro, il magazzino sette odora di catrame. Sulle casse c'è scritto *tessuti*. Ne apri una con una leva di ferro lasciata su un barile: sotto uno strato di lana grezza ci sono moschetti, lucidi di grasso.\n\nSul tavolo, fra le carte, trovi la bolla di carico della *Santa Rita*, firmata da Grimani e dal capitano Serra. Accanto, un biglietto: *il mozzo resta in stiva fino a Tunisi.*",
+      "entrando": [{ "cosa": "bolla", "piu": 1 }, { "verifica": "grimani_armi" }, { "notizia": "casse_pesanti" }, { "notizia": "matteo_in_stiva" }, { "notizia": "matteo_a_bordo" }, { "notizia": "nome_capitano" }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [
+        { "id": "leva", "testo": "Prendo anche la leva di ferro", "effetti": [{ "cosa": "leva", "piu": 1 }], "vai": "dentro" },
+        { "id": "esci", "testo": "Nascondo la bolla sotto la giacca ed esco (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
+      ]
     },
     {
       "id": "porta_resiste", "luogo": "magazzini", "titolo": "La serratura",
-      "testo": "La serratura non cede. È nuova, pesante, e il grimaldello ti scivola fra le dita.",
-      "scelte": [{ "id": "torna", "testo": "Allontanarti dalla porta", "vai": "magazzini" }]
+      "testo": "La serratura non cede. È nuova, pesante, e i perni si muovono in un modo che non conosci. Ma adesso che l'hai sentita scattare a metà, sai come è fatta.",
+      "scelte": [{ "id": "torna", "testo": "Mi allontano dalla porta", "vai": "magazzini" }]
     },
     {
       "id": "lucernario_fallito", "luogo": "magazzini", "titolo": "Il lucernario",
       "testo": "Le tegole sono viscide, e il lucernario è inchiodato dall'interno. Torni giù prima che qualcuno ti veda.",
-      "scelte": [{ "id": "torna", "testo": "Tornare nel vicolo", "vai": "magazzini" }]
+      "scelte": [{ "id": "torna", "testo": "Torno nel vicolo", "vai": "magazzini" }]
     },
     {
       "id": "guardiano", "luogo": "magazzini", "titolo": "Il guardiano",
       "testo": "Una lanterna ti acceca. «Al ladro!» Il guardiano ha una voce che sveglia mezzo porto, e in pochi istanti sei circondato da scaricatori che non aspettavano altro.",
-      "scelte": [{ "id": "cella", "testo": "Lasciarti portare alla capitaneria", "vai": "cella" }]
+      "scelte": [{ "id": "cella", "testo": "Mi lascio portare alla capitaneria", "vai": "cella" }]
     },
     {
       "id": "chiesa", "luogo": "chiesa", "titolo": "La chiesa dei marinai",
       "testo": [
-        { "testo": "La chiesa dei marinai è piccola e piena di ex voto: navi dipinte, reti, remi appesi alle pareti. Odora di cera e di sale." },
+        { "testo": "La chiesa dei marinai è piccola e piena di ex voto: navi dipinte, reti, remi appesi alle pareti. Odora di cera e di sale. Qui dentro il porto sembra lontano." },
         { "se": { "momento": "notte" }, "testo": "Di notte è vuota e silenziosa. Qualcuno dorme sulle panche in fondo." },
-        { "se": { "tutte": [{ "non": { "momento": "notte" } }, { "oggetto": "lettera" }] }, "testo": "Vicino alla fonte, una ragazza con le mani arrossate dalla lisciva sta pregando. Deve essere Lucia." },
-        { "se": { "conoscenza": "matteo_donna" }, "testo": "Ti torna in mente la storia del copista scappato con una lavandaia." }
+        { "se": { "tutte": [{ "non": { "momento": "notte" } }, { "cosa": "lettera" }, { "nonNotizia": "casse_pesanti" }] }, "testo": "Vicino alla fonte, una ragazza con le mani arrossate dalla lisciva sta pregando. Deve essere Lucia." },
+        { "se": { "notizia": "matteo_donna" }, "testo": "Ti torna in mente la storia del copista scappato con una lavandaia." }
       ],
       "scelte": [
-        { "id": "lucia", "testo": "Parlare con Lucia", "unaVolta": true, "requisito": { "tutte": [{ "non": { "momento": "notte" } }, { "oggetto": "lettera" }] }, "richiede": "tornare quando è giorno", "vai": "lucia" },
-        { "id": "dormi", "testo": "Dormire su una panca in fondo (quattro passi)", "effetti": [{ "tempo": 4 }, { "rimedio": "fatica" }], "vai": "chiesa" },
-        { "id": "calma", "testo": "Sederti su una panca in silenzio, finché le mani non smettono di tremare (due passi)", "requisito": { "logorio": "nervi", "almeno": 2 }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 2 }, { "rimedio": "nervi" }], "vai": "chiesa" },
-        { "id": "medico", "testo": "Farti medicare dal medico degli annegati (una moneta)", "requisito": { "tutte": [{ "ferita": "lieve" }, { "oggetto": "monete" }] }, "richiede": "una ferita da curare e una moneta", "nascondiSeChiusa": true, "effetti": [{ "oggetto": "monete", "piu": -1 }, { "tempo": 1 }, { "cura": true }], "vai": "chiesa" },
-        { "id": "esci", "testo": "Tornare sulla banchina", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
+        { "id": "lucia", "testo": "Parlo con Lucia", "unaVolta": true, "requisito": { "tutte": [{ "non": { "momento": "notte" } }, { "cosa": "lettera" }] }, "richiede": "tornare quando è giorno", "vai": "lucia" },
+        { "id": "dormi", "testo": "Dormo su una panca in fondo (sei ore)", "sempre": true, "effetti": [{ "tempo": 6 }, { "rimedio": "fatica" }], "vai": "chiesa" },
+        { "id": "calma", "testo": "Mi siedo su una panca in silenzio, finché le mani non smettono di tremare (un'ora)", "sempre": true, "requisito": { "logorio": "nervi", "almeno": 2 }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 1 }, { "rimedio": "nervi" }], "vai": "chiesa" },
+        { "id": "medico", "testo": "Mi faccio medicare dal medico degli annegati (una moneta, un'ora)", "sempre": true, "requisito": { "tutte": [{ "ferita": "lieve" }, { "cosa": "monete" }] }, "richiede": "una ferita da curare e una moneta", "nascondiSeChiusa": true, "effetti": [{ "cosa": "monete", "piu": -1 }, { "tempo": 1 }, { "cura": true }], "vai": "chiesa" },
+        { "id": "esci", "testo": "Torno sulla banchina (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
       ]
     },
     {
       "id": "lucia", "luogo": "chiesa", "titolo": "Lucia",
       "testo": [
         { "testo": "Lucia legge il biglietto due volte, poi se lo stringe al petto. «Matteo ricopiava le bolle di Grimani per la capitaneria. Diceva che i pesi non tornavano: troppo pesanti per essere tessuti. Gliel'avevo detto, di lasciar perdere.»\n\nSi asciuga gli occhi col dorso della mano. «Bressan, l'archivista, sa tutto. Ha paura, perché suo figlio deve dei soldi all'usuraio di Grimani.»\n\nPoi ti mette in mano una casacca da facchino, grigia di polvere. «Era di mio padre. Con questa addosso, sulla banchina nessuno ti guarda due volte.»" },
-        { "se": { "conoscenza": "matteo_donna" }, "testo": "Quando le racconti che al porto dicono che Matteo è scappato con una lavandaia, sorride appena. «La lavandaia sono io. E Matteo non è scappato da nessuna parte.»" }
+        { "se": { "notizia": "matteo_donna" }, "testo": "Quando le racconti che al porto dicono che Matteo è scappato con una lavandaia, sorride appena. «La lavandaia sono io. E Matteo non è scappato da nessuna parte.»" }
       ],
-      "entrando": [{ "fatto": "sai_del_figlio" }, { "conoscenza": "carico_grimani" }, { "oggetto": "casacca", "piu": 1 }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "torna", "testo": "Salutarla", "vai": "chiesa" }]
+      "entrando": [{ "fatto": "sai_del_figlio" }, { "notizia": "carico_grimani" }, { "notizia": "casse_pesanti" }, { "cosa": "casacca", "piu": 1 }, { "persona": "lucia", "cambia": { "fiducia": 2 } }, { "conosci": "lucia", "livello": 2 }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "torna", "testo": "La saluto", "vai": "chiesa" }]
     },
     {
       "id": "passerella", "luogo": "banchina", "titolo": "La passerella",
       "tag": ["sorvegliato"],
       "testo": [
-        { "testo": "La *Santa Rita* è ormeggiata in fondo al molo. Una passerella di tavole sale fino al ponte, dove un nostromo con la barba grigia conta le casse che salgono a bordo." },
+        { "testo": "La *Santa Rita* è ormeggiata in fondo al molo. Una passerella di tavole sale fino al ponte, dove un nostromo con la barba grigia conta le casse che salgono a bordo. Sotto la prua, un portello delle ancore è aperto per far prendere aria al legno." },
         { "se": { "momento": "notte" }, "testo": "Di notte a bordo c'è solo la guardia. La cima dell'ancora scende nell'acqua nera a poche braccia da te." },
-        { "se": { "conoscenza": "grimani_armi" }, "testo": "Sai che cosa c'è davvero in quelle casse." }
+        { "se": { "notizia": "grimani_armi" }, "testo": "Sai che cosa c'è davvero in quelle casse." },
+        { "se": { "notizia": "nostromo_conta" }, "testo": "Il nostromo guarda le casse, non le facce." },
+        { "se": { "notizia": "nome_capitano" }, "testo": "A poppa, sotto una tenda, un uomo con la barba bianca guarda il porto: il capitano Nicolò Serra." }
       ],
       "scelte": [
         {
-          "id": "facchini", "testo": "Metterti in fila coi facchini e salire con una cassa in spalla", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
+          "id": "facchini", "testo": "Mi metto in fila coi facchini e salgo con una cassa in spalla", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
           "prova": {
-            "capacita": "muoversi", "soglia": "confondersi", "posta": "Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.",
-            "riesci": { "vai": "stiva" }, "nonRiesci": { "vai": "respinto" }, "rovescio": { "vai": "scoperto_a_bordo" }
+            "capacita": "muoversi", "soglia": "confondersi", "posta": "Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.", "ottieni": "di scendere nella stiva",
+            "riesci": { "vai": "stiva" },
+            "nonRiesci": { "vai": "respinto", "notizia": "nostromo_conta" },
+            "rovescio": { "vai": "scoperto_a_bordo" }
           }
         },
         {
-          "id": "mentire", "testo": "Dire al nostromo che ti manda Grimani a controllare il carico", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
+          "id": "mentire", "testo": "Dico al nostromo che mi manda Grimani a controllare il carico", "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true,
           "prova": {
-            "capacita": "mentire", "soglia": "nostromo", "posta": "Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.", "unColpoSolo": true,
-            "riesci": { "vai": "stiva" }, "nonRiesci": { "vai": "respinto" }, "rovescio": { "vai": "scoperto_a_bordo" }
+            "capacita": "mentire", "soglia": "nostromo", "posta": "Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.", "unColpoSolo": true, "ottieni": "di scendere nella stiva",
+            "riesci": { "vai": "stiva" },
+            "nonRiesci": { "vai": "respinto", "notizia": "nostromo_grimani" },
+            "rovescio": { "vai": "scoperto_a_bordo" }
           }
         },
-        { "id": "lavora", "testo": "Offrirti come facchino e caricare casse fino a quando ti lasciano scendere nella stiva (tre passi)", "povera": true, "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 3 }, { "logorio": "fatica", "piu": 1 }], "vai": "stiva" },
         {
-          "id": "nuota", "testo": "Scendere in acqua e risalire lungo la cima dell'ancora", "requisito": { "momento": "notte" }, "nascondiSeChiusa": true,
+          "id": "portello", "testo": "Mi infilo dal portello delle ancore", "requisito": { "tratto": "minuto" }, "richiede": "essere minuto: da lì passa solo un ragazzo",
           "prova": {
-            "capacita": "muoversi", "soglia": "nuotare_notte", "posta": "Se va male: la vita. L'acqua del porto, di notte, non perdona.", "unColpoSolo": true,
-            "riesci": { "vai": "stiva" }, "nonRiesci": { "vai": "acqua_gelida" }, "rovescio": { "vai": "annegato" }
+            "capacita": "muoversi", "soglia": "portello", "posta": "Se va male: resti incastrato, e la guardia ti tira fuori per i piedi.", "ottieni": "di arrivare accanto alla stiva",
+            "riesci": { "vai": "stiva" },
+            "nonRiesci": { "vai": "respinto", "notizia": "portello_vele" },
+            "rovescio": { "vai": "scoperto_a_bordo" }
           }
         },
-        { "id": "attendi", "testo": "Aspettare che la guardia si addormenti e salire dalla passerella (due passi)", "povera": true, "requisito": { "momento": "notte" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 2 }], "vai": "stiva" },
-        { "id": "guardia", "testo": "Andare invece dalla guardia del porto, con la bolla", "requisito": { "oggetto": "bolla" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 1 }], "vai": "guardia" },
-        { "id": "via", "testo": "Tornare indietro", "vai": "banchina" }
+        { "id": "serra", "testo": "Chiedo di parlare con il capitano Serra", "requisito": { "tutte": [{ "non": { "momento": "notte" } }, { "notizia": "serra_no_morti" }, { "non": { "convinzione": "grimani_nemici" } }] }, "richiede": "sapere qualcosa del capitano, e che sia giorno", "vai": "serra" },
+        { "id": "lavora", "testo": "Mi offro come facchino e carico casse finché non mi lasciano scendere nella stiva (quattro ore)", "ripiego": true, "requisito": { "non": { "momento": "notte" } }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 4 }, { "logorio": "fatica", "piu": 1 }], "vai": "stiva" },
+        {
+          "id": "nuota", "testo": "Scendo in acqua e risalgo lungo la cima dell'ancora", "requisito": { "momento": "notte" }, "nascondiSeChiusa": true,
+          "prova": {
+            "capacita": "muoversi", "soglia": "nuotare_porto", "posta": "Se va male: la vita. L'acqua del porto, di notte, non perdona.", "unColpoSolo": true, "ottieni": "di salire a bordo",
+            "riesci": { "vai": "stiva" },
+            "nonRiesci": { "vai": "acqua_gelida", "notizia": "cima_ancora" },
+            "rovescio": { "vai": "annegato" }
+          }
+        },
+        { "id": "attendi", "testo": "Aspetto che la guardia si addormenti e salgo dalla passerella (tre ore)", "ripiego": true, "requisito": { "momento": "notte" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 3 }], "vai": "stiva" },
+        { "id": "guardia", "testo": "Vado invece dalla guardia del porto, con la bolla (un'ora)", "requisito": { "cosa": "bolla" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 1 }], "vai": "guardia" },
+        { "id": "via", "testo": "Torno indietro", "vai": "banchina" }
+      ]
+    },
+    {
+      "id": "serra", "luogo": "nave", "titolo": "Il capitano Serra",
+      "testo": "Il capitano Serra ti riceve a poppa, sotto la tenda, con le mani dietro la schiena. È un uomo stanco, con la barba bianca e gli occhi di chi ha fatto troppi viaggi per conto di altri. «Chi sei, e che cosa vuoi dalla mia nave?»",
+      "entrando": [{ "conosci": "serra", "livello": 1 }],
+      "scelte": [
+        {
+          "id": "convinci", "testo": "Gli dico che mio fratello è legato nella sua stiva, e che non sarà l'ultimo morto di questa storia", "requisito": { "notizia": "matteo_in_stiva" }, "richiede": "sapere dove tengono Matteo",
+          "prova": {
+            "capacita": "persuadere", "soglia": "capitano", "persona": "serra", "posta": "Se va male: Serra chiama il nostromo, e ti fa gettare in stiva con tuo fratello.", "ottieni": "che Serra ti lasci scendere nella stiva",
+            "riesci": { "vai": "stiva", "effetti": [{ "fatto": "serra_complice" }, { "persona": "serra", "cambia": { "fiducia": 2 } }] },
+            "nonRiesci": { "vai": "respinto", "notizia": "serra_teme_grimani" },
+            "rovescio": { "vai": "scoperto_a_bordo" }
+          }
+        },
+        { "id": "paga", "testo": "Gli offro tre monete per un'ora nella stiva, senza domande", "ripiego": true, "requisito": { "cosa": "monete", "almeno": 3 }, "richiede": "tre monete", "effetti": [{ "cosa": "monete", "piu": -3 }], "vai": "stiva" },
+        { "id": "via", "testo": "Chiedo scusa e torno a terra", "vai": "passerella" }
       ]
     },
     {
       "id": "respinto", "luogo": "banchina", "titolo": "Giù dalla passerella",
-      "testo": "«Tu non sei dei nostri», dice il nostromo, e ti spinge giù dalla passerella con una mano sola. Ti guarda finché non ti allontani.",
-      "scelte": [{ "id": "torna", "testo": "Allontanarti, e riprovare più tardi", "vai": "passerella" }]
+      "testo": "«Tu non sei dei nostri», dice il nostromo, e ti spinge giù dalla passerella con una mano sola. Mezza banchina ride. Lui ti guarda finché non ti allontani.",
+      "entrando": [{ "statoAnimo": "umiliato" }],
+      "scelte": [{ "id": "torna", "testo": "Mi allontano, e ci riprovo più tardi", "vai": "passerella" }]
     },
     {
       "id": "scoperto_a_bordo", "luogo": "nave", "titolo": "Il nostromo",
       "testo": "Sei a metà del ponte quando il nostromo ti afferra per il colletto. «Guarda chi c'è. La famiglia del copista.» Ti spingono giù per il boccaporto. In fondo alla scala, seduto su una cassa, ti aspetta Teodoro il Pesce.",
-      "entrando": [{ "traccia": "nave", "piu": 1 }],
-      "scelte": [{ "id": "giu", "testo": "Rialzarti e guardarlo in faccia", "vai": "stiva_teodoro" }]
+      "entrando": [{ "traccia": "nave", "piu": 1 }, { "statoAnimo": "spaventato" }],
+      "scelte": [{ "id": "giu", "testo": "Mi rialzo e lo guardo in faccia", "vai": "stiva_teodoro" }]
     },
     {
       "id": "acqua_gelida", "luogo": "banchina", "titolo": "L'acqua",
       "testo": "L'acqua è così fredda che ti toglie il fiato. Al buio non trovi la cima dell'ancora, e torni a riva aggrappandoti agli scogli, tremando.",
       "entrando": [{ "logorio": "fatica", "piu": 1 }],
-      "scelte": [{ "id": "torna", "testo": "Strizzarti i vestiti e tornare alla passerella", "vai": "passerella" }]
+      "scelte": [{ "id": "torna", "testo": "Mi strizzo i vestiti e torno alla passerella", "vai": "passerella" }]
     },
     {
       "id": "annegato", "luogo": "banchina", "titolo": "Sotto la chiglia",
@@ -444,54 +625,74 @@
       "id": "stiva", "luogo": "nave", "titolo": "La stiva",
       "testo": [
         { "testo": "Scendi la scala del boccaporto. La stiva è buia e puzza di catrame e di acqua ferma. In fondo, fra le casse, qualcuno si muove: è Matteo, con i polsi legati a una catena e la faccia gonfia di lividi. Quando ti vede apre la bocca, e non dice niente." },
+        { "se": { "tratto": "soffre_mare" }, "testo": "Anche ferma all'ormeggio, la nave ondeggia. Ti si rivolta lo stomaco." },
         { "se": { "fatto": "teodoro_fuori" }, "testo": "Nessuno fa la guardia." },
+        { "se": { "fatto": "serra_complice" }, "testo": "Sopra di te, il capitano Serra ha mandato il nostromo a controllare le cime di prua." },
         { "se": { "nonFatto": "teodoro_fuori" }, "testo": "Seduto su una cassa, con un coltello da pesce sulle ginocchia, c'è Teodoro il Pesce." },
         { "se": { "fatto": "teodoro_comprato" }, "testo": "Ha preso i tuoi soldi e quelli di Grimani. Sorride." }
       ],
+      "entrando": [{ "verifica": "matteo_in_stiva" }, { "verifica": "matteo_a_bordo" }],
       "scelte": [
-        { "id": "libera", "testo": "Andare da Matteo", "requisito": { "fatto": "teodoro_fuori" }, "nascondiSeChiusa": true, "vai": "liberare" },
-        { "id": "affronta", "testo": "Affrontare Teodoro", "requisito": { "nonFatto": "teodoro_fuori" }, "nascondiSeChiusa": true, "vai": "stiva_teodoro" },
-        { "id": "aspetta", "testo": "Nasconderti fra le casse e aspettare che si addormenti (due passi)", "povera": true, "requisito": { "nonFatto": "teodoro_fuori" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 2 }], "vai": "liberare" }
+        { "id": "libera", "testo": "Vado da Matteo", "requisito": { "fatto": "teodoro_fuori" }, "nascondiSeChiusa": true, "vai": "liberare" },
+        { "id": "affronta", "testo": "Affronto Teodoro", "requisito": { "nonFatto": "teodoro_fuori" }, "nascondiSeChiusa": true, "vai": "stiva_teodoro" },
+        { "id": "aspetta", "testo": "Mi nascondo fra le casse e aspetto che si addormenti (tre ore)", "ripiego": true, "requisito": { "nonFatto": "teodoro_fuori" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 3 }], "vai": "liberare" }
       ]
     },
     {
       "id": "stiva_teodoro", "luogo": "nave", "titolo": "Teodoro nella stiva",
       "testo": "Teodoro si alza, senza fretta. «Lo sapevo che saresti venuto», dice. Il coltello gli pende dalla mano, basso. Fra voi due ci sono tre casse e il respiro corto di Matteo.",
+      "entrando": [{ "conosci": "teodoro", "livello": 1 }],
       "confronto": {
         "avversario": "teodoro",
-        "andarsene": { "testo": "Risalire la scala di corsa e lasciare la nave", "effetti": [{ "traccia": "nave", "piu": 1 }], "vai": "passerella" },
-        "parlare": { "testo": "Offrirgli più di quanto lo paga Grimani (quattro monete)", "capacita": "persuadere", "soglia": "marinaio_coltello", "requisito": { "tutte": [{ "oggetto": "monete", "almeno": 4 }, { "nonFatto": "teodoro_comprato" }] }, "richiede": "quattro monete, e che non ti abbia già fregato una volta", "riesci": { "vai": "liberare", "effetti": [{ "oggetto": "monete", "piu": -4 }, { "fatto": "teodoro_fuori" }] } },
+        "andarsene": { "testo": "Risalgo la scala di corsa e lascio la nave", "effetti": [{ "traccia": "nave", "piu": 1 }], "vai": "passerella" },
+        "parlare": { "testo": "Gli offro più di quanto lo paga Grimani (quattro monete)", "capacita": "persuadere", "soglia": "marinaio_coltello", "requisito": { "tutte": [{ "cosa": "monete", "almeno": 4 }, { "nonFatto": "teodoro_comprato" }] }, "richiede": "quattro monete, e che non ti abbia già fregato una volta", "riesci": { "vai": "liberare", "effetti": [{ "cosa": "monete", "piu": -4 }, { "fatto": "teodoro_fuori" }] } },
         "fini": [
-          { "id": "atterra", "testo": "Metterlo fuori combattimento", "effetti": [{ "fatto": "teodoro_fuori" }, { "logorio": "nervi", "piu": 1 }], "vai": "liberare" },
-          { "id": "via", "testo": "Lasciarlo lì e risalire", "vai": "passerella" }
+          { "id": "atterra", "testo": "Lo metto fuori combattimento", "effetti": [{ "fatto": "teodoro_fuori" }, { "logorio": "nervi", "piu": 1 }], "vai": "liberare" },
+          { "id": "via", "testo": "Lo lascio lì e risalgo", "vai": "passerella" }
         ]
       }
     },
     {
       "id": "liberare", "luogo": "nave", "titolo": "La catena",
-      "testo": "Matteo ti guarda come se non fosse sicuro che tu sia vero. La catena gli stringe i polsi, chiusa da un lucchetto vecchio e arrugginito.",
+      "testo": [
+        { "testo": "Matteo ti guarda come se non fosse sicuro che tu sia vero. La catena gli stringe i polsi, chiusa da un lucchetto vecchio e arrugginito, e inchiodata a una trave." },
+        { "se": { "notizia": "catena_trave" }, "testo": "La trave è marcia: con la forza giusta, verrebbe via." }
+      ],
       "scelte": [
         {
-          "id": "forza", "testo": "Forzare il lucchetto",
+          "id": "forza", "testo": "Forzo il lucchetto",
           "prova": {
-            "capacita": "forzare", "soglia": "lucchetto", "posta": "Se va male: il rumore sveglia l'equipaggio.",
-            "riesci": { "vai": "fuga" }, "nonRiesci": { "vai": "liberare_fallito" }, "rovescio": { "vai": "allarme" }
+            "capacita": "forzare", "soglia": "lucchetto", "posta": "Se va male: il rumore sveglia l'equipaggio.", "ottieni": "Matteo libero",
+            "riesci": { "vai": "fuga" },
+            "nonRiesci": { "vai": "liberare_fallito", "notizia": "lucchetto_catena" },
+            "rovescio": { "vai": "allarme" }
           }
         },
         {
-          "id": "chiave", "testo": "Cercare la chiave nella giacca di Teodoro", "requisito": { "fatto": "teodoro_fuori" }, "nascondiSeChiusa": true,
+          "id": "chiave", "testo": "Cerco la chiave nella giacca di Teodoro", "requisito": { "fatto": "teodoro_fuori" }, "nascondiSeChiusa": true,
           "prova": {
-            "capacita": "sottrarre", "soglia": "tasca_addormentato", "posta": "Se va male: Teodoro si riprende e grida.",
-            "riesci": { "vai": "fuga" }, "nonRiesci": { "vai": "liberare_fallito" }, "rovescio": { "vai": "allarme" }
+            "capacita": "sottrarre", "soglia": "tasca_addormentato", "posta": "Se va male: Teodoro si riprende e grida.", "ottieni": "la chiave della catena",
+            "riesci": { "vai": "fuga" },
+            "nonRiesci": { "vai": "liberare_fallito", "notizia": "chiave_teodoro" },
+            "rovescio": { "vai": "allarme" }
           }
         },
-        { "id": "ascia", "testo": "Spezzare la catena con l'ascia del carpentiere, con tutto il rumore che fa", "povera": true, "effetti": [{ "traccia": "nave", "piu": 2 }], "vai": "fuga" }
+        {
+          "id": "strappa", "testo": "Strappo la catena dalla trave",
+          "prova": {
+            "capacita": "resistere", "soglia": "strappare_catena", "posta": "Se va male: la trave cede con uno schianto che sveglia l'equipaggio.", "ottieni": "Matteo libero",
+            "riesci": { "vai": "fuga" },
+            "nonRiesci": { "vai": "liberare_fallito", "notizia": "catena_trave" },
+            "rovescio": { "vai": "allarme" }
+          }
+        },
+        { "id": "ascia", "testo": "Spezzo la catena con l'ascia del carpentiere, con tutto il rumore che fa", "ripiego": true, "effetti": [{ "traccia": "nave", "piu": 2 }], "vai": "fuga" }
       ]
     },
     {
       "id": "liberare_fallito", "luogo": "nave", "titolo": "Ruggine",
-      "testo": "Il lucchetto è arrugginito, ma tiene. Matteo ti sussurra di fare piano.",
-      "scelte": [{ "id": "torna", "testo": "Riprendere fiato", "vai": "liberare" }]
+      "testo": "La catena tiene. Matteo ti sussurra di fare piano.",
+      "scelte": [{ "id": "torna", "testo": "Riprendo fiato", "vai": "liberare" }]
     },
     {
       "id": "fuga", "luogo": "nave", "titolo": "Il ponte",
@@ -500,66 +701,78 @@
         { "se": { "traccia": "nave", "almeno": 2 }, "testo": "A poppa, qualcuno grida." }
       ],
       "scelte": [
-        { "id": "scendi", "testo": "Scendere dalla passerella senza fare rumore", "requisito": { "non": { "traccia": "nave", "almeno": 2 } }, "nascondiSeChiusa": true, "vai": "finale_libero" },
-        { "id": "corri", "testo": "Correre", "requisito": { "traccia": "nave", "almeno": 2 }, "nascondiSeChiusa": true, "vai": "allarme" }
+        { "id": "scendi", "testo": "Scendo dalla passerella senza fare rumore", "requisito": { "non": { "traccia": "nave", "almeno": 2 } }, "nascondiSeChiusa": true, "vai": "finale_libero" },
+        { "id": "corri", "testo": "Corro", "requisito": { "traccia": "nave", "almeno": 2 }, "nascondiSeChiusa": true, "vai": "allarme" }
       ]
     },
     {
       "id": "allarme", "luogo": "nave", "titolo": "All'erta",
-      "testo": "«All'erta! A poppa!» Le lanterne si accendono una dopo l'altra. Il nostromo blocca la passerella con due uomini. L'unica via è il parapetto, e sotto c'è l'acqua nera del porto.",
+      "testo": "«All'erta! A poppa!» Le lanterne si accendono una dopo l'altra. Il nostromo blocca la passerella con due uomini. Resta il parapetto, e sotto c'è l'acqua nera del porto. A poppa, appesa a due cime, oscilla la lancia della nave.",
       "scelte": [
         {
-          "id": "tuffo", "testo": "Buttarvi in acqua, tu e Matteo",
+          "id": "tuffo", "testo": "Ci buttiamo in acqua, io e Matteo",
           "prova": {
-            "capacita": "muoversi", "soglia": "nuotare_notte", "posta": "Se va male: la vita, tua e di Matteo.", "unColpoSolo": true,
-            "riesci": { "vai": "finale_acqua" }, "nonRiesci": { "vai": "lancia" }, "rovescio": { "vai": "annegato" }
+            "capacita": "muoversi", "soglia": "nuotare_porto", "posta": "Se va male: la vita, tua e di Matteo.", "unColpoSolo": true, "ottieni": "di raggiungere il molo a nuoto",
+            "riesci": { "vai": "finale_acqua" },
+            "nonRiesci": { "vai": "lancia", "notizia": "lancia_cime" },
+            "rovescio": { "vai": "annegato" }
           }
         },
-        { "id": "arrenditi", "testo": "Alzare le mani", "povera": true, "vai": "ripresi" }
+        {
+          "id": "salta", "testo": "Salto con Matteo nella lancia appesa a poppa",
+          "prova": {
+            "capacita": "muoversi", "soglia": "saltare_lancia", "posta": "Se va male: cadete sul ponte, e vi prendono.", "unColpoSolo": true, "ottieni": "di scappare con la lancia",
+            "riesci": { "vai": "finale_lancia" },
+            "nonRiesci": { "vai": "lancia", "notizia": "lancia_cime" },
+            "rovescio": { "vai": "ripresi" }
+          }
+        },
+        { "id": "arrenditi", "testo": "Alzo le mani", "ripiego": true, "vai": "ripresi" }
       ]
     },
     {
       "id": "lancia", "luogo": "nave", "titolo": "La lancia",
-      "testo": "Matteo scivola sul ponte bagnato e tu lo trattieni per il braccio: il parapetto è ancora lì, e il nostromo non vi ha ancora raggiunti. Ti accorgi solo adesso che a poppa, legata alla fiancata, c'è la lancia della nave, appesa a due cime.",
+      "testo": "Matteo scivola sul ponte bagnato e tu lo trattieni per il braccio: il parapetto è ancora lì, e il nostromo non vi ha ancora raggiunti. La lancia della nave è a due passi, appesa alle sue cime.",
       "scelte": [
-        { "id": "cime", "testo": "Tagliare le cime e lasciarvi cadere in acqua con la lancia", "povera": true, "effetti": [{ "logorio": "fatica", "piu": 1 }, { "logorio": "nervi", "piu": 1 }, { "traccia": "nave", "piu": 1 }], "vai": "finale_acqua" },
-        { "id": "arrenditi", "testo": "Alzare le mani", "vai": "ripresi" }
+        { "id": "cime", "testo": "Taglio le cime e ci lasciamo cadere in acqua con la lancia", "ripiego": true, "effetti": [{ "logorio": "fatica", "piu": 1 }, { "logorio": "nervi", "piu": 1 }, { "traccia": "nave", "piu": 1 }], "vai": "finale_lancia" },
+        { "id": "arrenditi", "testo": "Alzo le mani", "vai": "ripresi" }
       ]
     },
     {
       "id": "guardia", "luogo": "banchina", "titolo": "La guardia del porto",
       "testo": [
         { "testo": "La guardia del porto ha il suo corpo di guardia in una torre in fondo alla banchina. L'ufficiale di turno, un uomo stanco con gli stivali lucidi, ascolta mentre gli metti davanti la bolla." },
-        { "se": { "conoscenza": "grimani_armi" }, "testo": "Quando gli parli dei moschetti, smette di sembrare stanco." },
-        { "se": { "conoscenza": "grimani_taglia" }, "testo": "Quando aggiungi che Grimani paga uomini col coltello per tenere nascosta la cosa, si alza in piedi." },
-        { "se": { "conoscenza": "ufficiale_testimone" }, "testo": "Ti ha detto che gli serve un testimone della capitaneria." }
+        { "se": { "notizia": "grimani_armi" }, "testo": "Quando gli parli dei moschetti, smette di sembrare stanco." },
+        { "se": { "notizia": "grimani_taglia" }, "testo": "Quando aggiungi che Grimani paga uomini col coltello per tenere nascosta la cosa, si alza in piedi." },
+        { "se": { "notizia": "ufficiale_testimone" }, "testo": "Ti ha detto che gli serve un testimone della capitaneria." }
       ],
       "scelte": [
         {
-          "id": "convinci", "testo": "Convincerlo ad abbordare la Santa Rita stanotte",
+          "id": "convinci", "testo": "Lo convinco ad abbordare la Santa Rita stanotte",
           "prova": {
             "capacita": "persuadere", "soglia": "ufficiale", "righe": [{ "testo": "hai la bolla firmata da Grimani e dal capitano", "valore": -1 }],
-            "posta": "Se va male: ti fa arrestare per aver rubato una bolla di carico.",
-            "riesci": { "vai": "finale_legge" }, "nonRiesci": { "vai": "guardia_dubbia" }, "rovescio": { "vai": "cella", "effetti": [{ "oggetto": "bolla", "piu": -1 }] },
-            "conoscenza": "ufficiale_testimone"
+            "sposta": [{ "testo": "sai che nelle casse ci sono moschetti", "gradini": -1 }],
+            "posta": "Se va male: ti fa arrestare per aver rubato una bolla di carico.", "ottieni": "che la guardia abbordi la nave",
+            "riesci": { "vai": "finale_legge" },
+            "nonRiesci": { "vai": "guardia_dubbia", "notizia": "ufficiale_testimone" },
+            "rovescio": { "vai": "cella", "effetti": [{ "cosa": "bolla", "piu": -1 }] }
           }
         },
-        { "id": "testimone", "testo": "Tornare con Bressan come testimone (due passi)", "requisito": { "tutte": [{ "conoscenza": "ufficiale_testimone" }, { "misura": "fiducia_bressan", "almeno": 1 }] }, "richiede": "un testimone della capitaneria che si fidi di te", "effetti": [{ "tempo": 2 }], "vai": "finale_legge" },
-        { "id": "consegna", "testo": "Lasciargli la bolla e sperare che si muova in tempo (quattro passi)", "povera": true, "effetti": [{ "oggetto": "bolla", "piu": -1 }, { "tempo": 4 }], "vai": "finale_legge" },
-        { "id": "via", "testo": "Tornare sulla banchina", "vai": "banchina" }
+        { "id": "testimone", "testo": "Torno con Bressan come testimone (tre ore)", "requisito": { "tutte": [{ "notizia": "ufficiale_testimone" }, { "persona": "bressan", "dimensione": "fiducia", "almeno": 1 }] }, "richiede": "un testimone della capitaneria che si fidi di te", "effetti": [{ "tempo": 3 }], "vai": "finale_legge" },
+        { "id": "consegna", "testo": "Gli lascio la bolla e spero che si muova in tempo (sei ore)", "ripiego": true, "effetti": [{ "cosa": "bolla", "piu": -1 }, { "tempo": 6 }], "vai": "finale_legge" },
+        { "id": "via", "testo": "Torno sulla banchina", "vai": "banchina" }
       ]
     },
     {
       "id": "guardia_dubbia", "luogo": "banchina", "titolo": "Una carta",
       "testo": "L'ufficiale gira e rigira la bolla. «Una carta si trova, una carta si scrive», dice. «Portami qualcuno della capitaneria che giuri che è vera, e ne riparliamo.»",
-      "entrando": [{ "conoscenza": "ufficiale_testimone" }],
-      "scelte": [{ "id": "via", "testo": "Riprendere la bolla e uscire", "vai": "banchina" }]
+      "scelte": [{ "id": "via", "testo": "Riprendo la bolla ed esco", "vai": "banchina" }]
     },
     {
       "id": "finale_libero", "luogo": "banchina", "titolo": "Il molo",
       "testo": [
         { "testo": "Toccate la banchina e correte. Nessuno vi segue. Matteo si ferma solo quando le lanterne della *Santa Rita* sono lontane, e si piega in due a tossire, a ridere, a piangere, tutto insieme.\n\nPrima dell'alba la *Santa Rita* salpa per Tunisi, con i moschetti di Grimani e senza il suo mozzo." },
-        { "se": { "oggetto": "bolla" }, "testo": "Sotto la tua giacca c'è ancora la bolla di carico. Grimani non lo sa, ma questa storia non è finita." }
+        { "se": { "cosa": "bolla" }, "testo": "Sotto la tua giacca c'è ancora la bolla di carico. Grimani non lo sa, ma questa storia non è finita." }
       ],
       "entrando": [{ "fatto": "matteo_libero" }],
       "finale": { "tipo": "vittoria" }
@@ -571,9 +784,15 @@
       "finale": { "tipo": "vittoria" }
     },
     {
+      "id": "finale_lancia", "luogo": "banchina", "titolo": "La lancia",
+      "testo": "La lancia tocca l'acqua con uno schianto che vi sbatte l'uno contro l'altro. Trovi un remo a tentoni, Matteo l'altro, e remate verso il buio mentre sul ponte della *Santa Rita* le lanterne cercano nel posto sbagliato.\n\nQuando la chiglia gratta sui ciottoli di una spiaggia lontana dal molo, Matteo scoppia a ridere. È vivo, ed è libero.",
+      "entrando": [{ "fatto": "matteo_libero" }, { "togliTratto": "soffre_mare" }],
+      "finale": { "tipo": "vittoria" }
+    },
+    {
       "id": "finale_legge", "luogo": "banchina", "titolo": "La guardia",
       "testo": "Le guardie salgono sulla *Santa Rita* con le lanterne e i fucili, prima che la marea giri. Dal molo senti gridare, poi un lungo silenzio. Quando Matteo scende dalla passerella, fra due soldati, ha i polsi segnati dalla catena e cerca la tua faccia fra la gente.\n\nQuella notte, Ottavio Grimani non dorme a casa sua.",
-      "entrando": [{ "fatto": "matteo_libero" }],
+      "entrando": [{ "fatto": "matteo_libero" }, { "tratto": "conosciuto_porto", "origine": "da quando la guardia ha abbordato la Santa Rita" }],
       "finale": { "tipo": "vittoria" }
     },
     {
@@ -585,7 +804,7 @@
       "id": "salpata", "luogo": "banchina", "titolo": "La marea",
       "testo": [
         { "testo": "La marea gira. Dal molo guardi la *Santa Rita* sciogliere gli ormeggi e scivolare fuori dal porto, con le vele grigie nella prima luce. Matteo è lì sotto, da qualche parte." },
-        { "se": { "conoscenza": "matteo_a_bordo" }, "testo": "Adesso almeno sai dove lo portano: Tunisi. È poco, ma è qualcosa." }
+        { "se": { "notizia": "matteo_a_bordo" }, "testo": "Adesso almeno sai dove lo portano: Tunisi. È poco, ma è qualcosa." }
       ],
       "finale": { "tipo": "sconfitta" }
     },

@@ -16,14 +16,7 @@ New-Item -ItemType Directory -Force -Path $uscita | Out-Null
 
 $documenti = @(
     @{
-        nome  = 'design'
-        fonte = Join-Path $radice 'ESPOSIZIONE-DESIGN.md'
-        testa = 'head-design.typ'
-        pdf   = Join-Path $uscita 'ESPOSIZIONE-DESIGN.pdf'
-        # il documento riceve anche la passata tipografica italiana
-        extra = @('--tipografia', '--inizia-da', '^## Come leggere')
-    },
-    @{
+        # il documento di design 3.0; il 2.0 è in archivio/, con il suo PDF
         nome  = 'design-3'
         fonte = Join-Path $radice 'ESPOSIZIONE-DESIGN-3.md'
         testa = 'head-design-3.typ'

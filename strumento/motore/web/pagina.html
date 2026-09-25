@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Il registro della Santa Rita</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,7 +135,12 @@
   .ev.ferita, .ev.morte { font: italic 400 15px/1.5 var(--testo-f); color: #f19a86; }
   .ev.logorio { font: italic 400 15px/1.5 var(--testo-f); color: #f0bb8e; }
   .ev.imprevisto { font: italic 400 15.5px/1.55 var(--testo-f); color: var(--testo); padding: 4px 0 4px 14px; border-left: 2px solid var(--acc); margin: 4px 0; }
-  .ev.qualita { color: var(--acc); }
+  .ev.memoria, .ev.notizia, .ev.cosa { color: var(--acc); }
+  .ev.convinzione, .ev.tratto { font: italic 400 15px/1.5 var(--testo-f); color: var(--oro); }
+  .ev.persona { color: var(--testo); }
+  .ev.statoAnimo { font: italic 400 15px/1.5 var(--testo-f); color: #f0bb8e; }
+  .ev.esito[data-f="pieno"] { color: var(--oro); }
+  .ev.esito[data-f="quasi"] { color: var(--esposto); }
   .ev.traccia { color: var(--occhi); }
   .ev.crescita { color: var(--oro); }
   .ev.confronto { color: var(--testo); }
@@ -182,6 +189,11 @@
   .pill[data-g="1"] { color: var(--esposto); background: rgba(232, 178, 78, 0.12); }
   .pill[data-g="2"] { color: var(--scoperto); background: rgba(238, 106, 80, 0.14); }
   .risposta.chiusa { opacity: 0.5; cursor: default; border-style: dashed; }
+  .risposta.chiusa[data-da="convinzione"] { opacity: 0.62; }
+  .risposta.chiusa[data-da="convinzione"] small { font: italic 400 12.5px/1.4 var(--testo-f); color: var(--oro); }
+  .risposta.quasi { border-color: color-mix(in srgb, var(--esposto) 45%, transparent); }
+  .sospeso { margin: 0 auto 10px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--esposto); color: var(--esposto); font: italic 400 16px/1.45 var(--testo-f); }
+  .sospeso[data-t="ripensa"] { border-color: var(--oro); color: var(--oro); }
 
   .confronto { margin: 0 auto 10px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--linea); background: var(--pannello); display: grid; gap: 8px; }
   .confronto[data-finestra="true"] { border-color: var(--acc); box-shadow: 0 0 24px -6px var(--acc); animation: respira 2.4s ease-in-out infinite; }
@@ -246,6 +258,14 @@
   .taccuino { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
   .taccuino li { font-style: italic; font-size: 13.5px; line-height: 1.45; color: var(--testo-2); padding-left: 10px; border-left: 1px solid var(--acc); }
   .taccuino li.vuoto { border: 0; padding: 0; }
+  .taccuino li small, .lista-scheda small { display: block; font: normal 400 10.5px/1.4 var(--mono); letter-spacing: 0.04em; color: var(--tenue); }
+  .taccuino li[data-s="verificata"] { border-left-color: var(--coperto); color: var(--testo); }
+  .taccuino li[data-s="smentita"] { border-left-color: var(--scoperto); text-decoration: line-through; text-decoration-color: rgba(238,106,80,.6); opacity: 0.7; }
+  .convinzioni li { border-left-color: var(--oro); }
+  .convinzioni li.dubbio { border-left-style: dashed; }
+  .lista-scheda { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+  .lista-scheda .nome-t { display: block; font-weight: 600; font-size: 13.5px; color: var(--testo); }
+  .righe-scheda li.umore span { font-style: italic; color: #f0bb8e; }
   .parole { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0 0; }
   .parole span { font: 500 10px/1 var(--mono); letter-spacing: 0.12em; padding: 5px 8px; border-radius: 99px; border: 1px solid var(--acc); color: var(--acc); }
 
@@ -302,7 +322,7 @@
     -webkit-backdrop-filter: blur(3px);
     overflow-y: auto;
   }
-  .foglio-box { width: min(440px, 100%); display: grid; gap: 14px; justify-items: center; padding-block: 12px; }
+  .foglio-box { width: min(480px, 100%); display: grid; gap: 14px; justify-items: center; padding-block: 12px; }
   .foglio.aperto .carta { animation: foglio 0.45s cubic-bezier(.2,.8,.2,1) both; }
   @keyframes foglio { from { opacity: 0; transform: translateY(26px) rotate(-1.5deg); } to { opacity: 1; transform: rotate(-0.6deg); } }
   .vassoio { height: 112px; width: 100%; display: flex; gap: 38px; justify-content: center; align-items: center; perspective: 700px; }
@@ -362,6 +382,21 @@
   .grado[data-g="1"] { background: var(--esposto-c); }
   .grado[data-g="2"] { background: var(--scoperto-c); }
   .carta-nota { margin: 6px 0 0; font: italic 400 12.5px/1.35 var(--testo-f); color: var(--inch-2); }
+  .sez-carta { margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--inch-2); }
+  .sez-carta h4 { margin: 0 0 6px; font: 600 9.5px/1.3 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--inch-2); }
+  .carta-puoi { margin: 0; font: 400 13px/1.4 var(--testo-f); }
+  .parte { margin-left: 6px; padding: 0 5px; border: 1px solid var(--inch-2); border-radius: 3px; font: normal 500 8.5px/1.5 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--inch-2); vertical-align: 1px; }
+  .fasce { display: flex; height: 38px; margin-top: 10px; border-radius: 4px; overflow: hidden; border: 1px solid rgba(35,30,24,.35); }
+  .fasce span { min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; color: #fff; flex-basis: 0; }
+  .fasce span b { font: 600 13px/1 var(--mono); }
+  .fasce span i { font: normal 500 7.5px/1.3 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+  .fasce [data-f="pieno"] { background: #8a6a12; }
+  .fasce [data-f="riesci"] { background: var(--coperto-c); }
+  .fasce [data-f="quasi"] { background: var(--esposto-c); }
+  .fasce [data-f="non"] { background: var(--scoperto-c); }
+  .carta-dadi { margin: 5px 0 0; font: italic 400 12px/1.3 var(--testo-f); color: var(--inch-2); }
+  .carta-dopo { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font: 400 12.5px/1.4 var(--testo-f); }
+  .carta-dopo b { font: 600 9.5px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; margin-right: 4px; }
   .carta-prova { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; margin: 14px 0 0; padding-top: 10px; border-top: 1px dashed var(--inch-2); }
   .carta-prova div { margin: 0; }
   .carta-prova dt { font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--inch-2); }
@@ -369,8 +404,9 @@
   .carta-prova .grande dd { font: 400 34px/1 var(--display); }
   .carta-prova .grande small { font-size: 16px; }
   .carta-posta { margin: 12px 0 0; font: italic 400 14.5px/1.4 var(--testo-f); color: var(--scoperto-c); }
+  .timbri { position: absolute; right: 12px; top: 64px; display: grid; gap: 10px; justify-items: end; pointer-events: none; }
   .timbro {
-    position: absolute; right: 16px; top: 38%;
+    position: relative;
     padding: 8px 16px;
     border: 3px double currentColor;
     border-radius: 6px;
@@ -381,8 +417,15 @@
     animation: cade 0.5s cubic-bezier(.3,1.6,.5,1) both;
     background: rgba(255, 255, 255, 0.06);
   }
-  .timbro[data-r="true"] { color: #1f6b4f; }
-  .timbro[data-r="false"] { color: #a8321f; }
+  .timbro[data-f="pieno"] { color: #7a5b08; }
+  .timbro[data-f="riesci"] { color: #1f6b4f; }
+  .timbro[data-f="quasi"] { color: #8a5a04; }
+  .timbro[data-f="non"] { color: #a8321f; }
+  .timbro.grado-t { transform: rotate(6deg); animation-delay: 0.25s; }
+  .timbro.grado-t b { font-size: 15px; }
+  .timbro.grado-t[data-g="0"] { color: var(--coperto-c); }
+  .timbro.grado-t[data-g="1"] { color: var(--esposto-c); }
+  .timbro.grado-t[data-g="2"] { color: var(--scoperto-c); }
   .timbro b { display: block; font: 600 25px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
   .timbro span { display: block; margin-top: 4px; font: 500 10.5px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
   @keyframes cade { 0% { opacity: 0; transform: scale(2.6) rotate(-22deg); } 70% { opacity: 0.95; transform: scale(0.94) rotate(-8deg); } 100% { opacity: 0.9; transform: scale(1) rotate(-9deg); } }
@@ -423,10 +466,14 @@
   @keyframes sorge { from { opacity: 0; transform: translateY(12px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 
   /* il finale */
-  .velo.finale { z-index: 60; display: grid; place-items: center; padding: 16px; overflow-y: auto; animation: sorge 1s ease both; }
-  .velo.finale[data-tipo="vittoria"] { background: radial-gradient(90% 70% at 50% 30%, rgba(242, 164, 136, 0.32), rgba(10, 11, 15, 0.94) 70%); }
-  .velo.finale[data-tipo="sconfitta"] { background: radial-gradient(90% 70% at 50% 30%, rgba(110, 130, 160, 0.24), rgba(10, 11, 15, 0.95) 70%); }
-  .velo.finale[data-tipo="morte"] { background: radial-gradient(90% 70% at 50% 40%, rgba(120, 18, 10, 0.4), rgba(3, 3, 5, 0.97) 70%); }
+  /* il finale copre del tutto il diario: sotto il titolo non si deve leggere niente */
+  .velo.finale { z-index: 60; display: grid; place-items: center; padding: 16px; overflow-y: auto; animation: sorge 1s ease both; background-color: var(--fondo); }
+  .velo.finale[data-tipo="vittoria"] { background: radial-gradient(90% 70% at 50% 30%, rgba(242, 164, 136, 0.32), var(--fondo) 70%), var(--fondo); }
+  .velo.finale[data-tipo="sconfitta"] { background: radial-gradient(90% 70% at 50% 30%, rgba(110, 130, 160, 0.24), var(--fondo) 70%), var(--fondo); }
+  .velo.finale[data-tipo="morte"] { background: radial-gradient(90% 70% at 50% 40%, rgba(120, 18, 10, 0.4), #030305 70%), #030305; }
+  .fin-cambio { margin: 24px 0 8px; font: 500 10.5px/1.4 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--acc); }
+  .fin-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 15px; color: var(--testo-2); }
+  .fin-lista b { color: var(--testo); }
   .finale-box { width: min(620px, 100%); text-align: center; }
   .fin-sopra { margin: 0; font: 500 11px/1.4 var(--mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--acc); }
   .finale h2 { margin: 12px 0 0; font: italic 400 clamp(38px, 6vw, 62px)/1.05 var(--display); color: #fbf3e4; animation: titolo 2.2s ease both; }
@@ -532,13 +579,13 @@
     <button type="button" id="inizia" class="primario">Comincia la storia</button>
   </div>
   <ul class="t-regole">
-    <li><b>Il dado decide se riesci.</b>Due dadi, più quanto sei bravo, contro una soglia.</li>
-    <li><b>Tu decidi quanto rischi.</b>Dove, quando e come agisci cambia il prezzo. La ricevuta te lo mostra prima.</li>
-    <li><b>C'è sempre una via.</b>Costa tempo, denaro o fatica, ma non si tira.</li>
+    <li><b>Quattro domande.</b>Puoi farlo, ci riesci, quanto ti costa, che cosa cambia. Il quadro te le mostra prima di agire.</li>
+    <li><b>Quattro fasce.</b>In pieno, riesci, quasi, non riesci. Quando manca poco, scegli tu come va a finire.</li>
+    <li><b>C'è sempre un ripiego.</b>Costa tempo, denaro o fatica, ma non si tira.</li>
   </ul>
 </div>
 
-<div id="foglio" class="velo foglio" hidden role="dialog" aria-modal="true" aria-label="La ricevuta">
+<div id="foglio" class="velo foglio" hidden role="dialog" aria-modal="true" aria-label="Il quadro">
   <div class="foglio-box">
     <div id="vassoio" class="vassoio" hidden aria-hidden="true"></div>
     <div id="foglio-carta" class="carta"></div>
@@ -564,16 +611,18 @@
 <div id="come" class="velo pannello" hidden role="dialog" aria-modal="true" aria-label="Come si gioca">
   <div class="pannello-box">
     <header><h2>Come si gioca</h2><button type="button" class="secondario" data-chiudi>Chiudi</button></header>
-    <h3>Le due domande</h3>
-    <p>Quando tenti qualcosa di rischioso, il gioco risponde a due domande separate. <b>Ci riesci?</b> Lo decidono i dadi: due dadi a sei facce, più il tuo livello nella capacità, contro una soglia. <b>Quanto ti costa?</b> Questo i dadi non lo toccano: dipende da che cosa fai, dove e quando.</p>
+    <h3>Le quattro domande</h3>
+    <p>Prima di ogni prova compare il <b>quadro</b> della capitaneria. Risponde a quattro domande. <b>Puoi farlo?</b> Dipende da chi sei, da che cosa hai e da che cosa sai. <b>Ci riesci?</b> Due dadi, più il tuo livello, gli attrezzi e gli aiuti, contro una soglia che le tue notizie, i tuoi tratti e il luogo possono spostare. <b>Quanto ti costa?</b> Dipende da che cosa fai, dove e quando: i dadi non lo toccano. <b>Che cosa cambia?</b> Il quadro ti dice che cosa ottieni in ogni caso, e che cosa rischi.</p>
+    <h3>Le quattro fasce</h3>
+    <p><b>In pieno</b>: superi la soglia di 4 o più, e ottieni qualcosa in più. <b>Riesci</b>: ottieni ciò che volevi. <b>Quasi</b>: ti manca 1 o 2, e scegli tu se prendere tutto esponendoti di più, accontentarti della metà, o lasciar perdere. <b>Non riesci</b>: non ottieni, ma scopri qualcosa.</p>
     <h3>I tre gradi</h3>
     <div class="gradi-leg"><span class="grado" data-g="0">al coperto</span><span class="grado" data-g="1">esposto</span><span class="grado" data-g="2">allo scoperto</span></div>
-    <p><b>Al coperto</b> il peggio che ti può capitare è non riuscire. <b>Esposto</b>, anche se riesci qualcuno ti nota. <b>Allo scoperto</b>, qualunque cosa succeda succede davanti a tutti, e un fallimento cambia la storia.</p>
-    <h3>La ricevuta</h3>
-    <p>Prima di ogni prova compare la ricevuta della capitaneria: riga per riga, che cosa rende l'azione costosa. Le righe barrate non contano. In fondo leggi la probabilità di riuscire e la posta, cioè che cosa rischi. Puoi sempre scegliere un'altra via.</p>
+    <p><b>Al coperto</b> il peggio che ti può capitare è non riuscire. <b>Esposto</b>, qualcuno ti nota. <b>Allo scoperto</b>, se riesci paghi un prezzo, e se non riesci la situazione precipita.</p>
+    <h3>La tua scheda</h3>
+    <p>Sei fatto di capacità, tratti, cose, notizie e convinzioni, legami con le persone, e di come stai. Il taccuino distingue ciò che hai sentito dire da ciò che hai verificato: non tutto quello che si dice al porto è vero. In chiesa puoi ripensare a ciò che credi, e mettere insieme quello che sai.</p>
     <h3>Il tempo e la nave</h3>
-    <p>Spostarti, aspettare e ritentare costano tempo. Il giorno cambia la luce, e la luce cambia i costi: il buio copre chi si muove, ma di notte ogni rumore si sente. La <em>Santa Rita</em> salpa prima dell'alba.</p>
-    <h3>La via povera</h3>
+    <p>Spostarti, aspettare e ritentare costano ore. Il giorno cambia la luce, e la luce cambia le cose: il buio copre chi si muove, ma di notte ogni rumore si sente, e senza una luce le mani lavorano peggio. La <em>Santa Rita</em> salpa prima dell'alba.</p>
+    <h3>Il ripiego</h3>
     <p>Davanti a ogni ostacolo c'è almeno una via che non si tira. Costa tempo, denaro o fatica, ma c'è sempre.</p>
     <h3>La tastiera</h3>
     <div class="tasti"><kbd>1–9</kbd><span>scegli</span><kbd>Invio</kbd><span>tira i dadi, poi continua</span><kbd>Esc</kbd><span>chiudi</span></div>
@@ -583,7 +632,7 @@
 <div id="cofano" class="velo pannello" hidden role="dialog" aria-modal="true" aria-label="Sotto il cofano">
   <div class="pannello-box">
     <header><h2>Sotto il cofano</h2><button type="button" class="secondario" data-chiudi>Chiudi</button></header>
-    <p>Questa app non conosce le regole. Ogni volta che scegli, chiede al motore di ESPOSIZIONE due cose: <b>vista</b>, cioè che cosa mostrare, e <b>agisci</b>, cioè che cosa succede. Poi disegna quello che riceve: il panorama, la carta, i dadi, il timbro.</p>
+    <p>Questa app non conosce le regole. Ogni volta che scegli, chiede al motore di ESPOSIZIONE due cose: <b>vista</b>, cioè che cosa mostrare, e <b>agisci</b>, cioè che cosa succede. Poi disegna quello che riceve: il panorama, il quadro, i dadi, i timbri.</p>
     <p>Dagli stessi dati escono anche il librogame stampato e la partita nel terminale. Un gioco grafico, dal punta e clicca al gioco di ruolo con una mappa, userebbe il motore allo stesso modo, e disegnerebbe altro.</p>
     <h3>Che cosa ha risposto il motore</h3>
     <pre id="cofano-dati"></pre>

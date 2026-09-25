@@ -1,7 +1,9 @@
 /**
  * Due dadi a sei facce, con un generatore riproducibile: la stessa partita con lo
- * stesso seme dà gli stessi tiri (§22.3, requisito 5).
+ * stesso seme dà gli stessi tiri (§48.3, requisito 8). E le quattro fasce (§18).
  */
+
+import type { Fascia } from "./tipi.ts";
 
 /** Un passo del generatore mulberry32. Restituisce un valore in [0, 1) e il nuovo stato. */
 export function prossimo(stato: number): { valore: number; stato: number } {
@@ -35,12 +37,47 @@ export function almeno(bisogno: number): number {
   return casi / 36;
 }
 
-/** Probabilità di riuscire una prova: due dadi + bonus − penalità ≥ soglia. */
+/** Probabilità di riuscire una prova (In pieno o Riesci): due dadi + bonus − penalità ≥ soglia. */
 export function probabilita(soglia: number, bonus: number, penalita: number): number {
   return almeno(soglia - bonus + penalita);
 }
 
-/** Percentuale arrotondata, come la mostra la ricevuta. */
+/** Quante combinazioni su 36 fanno almeno `bisogno`. */
+export function almenoSu36(bisogno: number): number {
+  return Math.round(almeno(bisogno) * 36);
+}
+
+export interface Fasce {
+  pieno: number;
+  riesci: number;
+  quasi: number;
+  non: number;
+}
+
+/** Le quattro fasce in trentaseiesimi, quando i dadi devono fare `d` (appendice A). */
+export function fasce(d: number): Fasce {
+  const a = almenoSu36;
+  return { pieno: a(d + 4), riesci: a(d) - a(d + 4), quasi: a(d - 2) - a(d), non: 36 - a(d - 2) };
+}
+
+/** Le fasce in percentuale arrotondata, come le mostra il quadro. */
+export function fascePercento(d: number): Fasce {
+  const f = fasce(d);
+  const p = (n: number) => Math.round((n / 36) * 100);
+  return { pieno: p(f.pieno), riesci: p(f.riesci), quasi: p(f.quasi), non: p(f.non) };
+}
+
+/** La fascia di un margine (§18.2): +4 o più, da 0 a +3, −1 o −2, −3 o meno. */
+export function fasciaDi(margine: number): Fascia {
+  if (margine >= 4) return "pieno";
+  if (margine >= 0) return "riesci";
+  if (margine >= -2) return "quasi";
+  return "non";
+}
+
+export const NOMI_FASCIA: Record<Fascia, string> = { pieno: "In pieno", riesci: "Riesci", quasi: "Quasi", non: "Non riesci" };
+
+/** Percentuale arrotondata, come la mostra il quadro. */
 export function percentuale(p: number): number {
   return Math.round(p * 100);
 }

@@ -6,9 +6,9 @@
 
 import ambJson from "../dati/porto.ambientazione.json" with { type: "json" };
 import storiaJson from "../dati/santa-rita.storia.json" with { type: "json" };
-import type { Ambientazione, Storia } from "../src/tipi.ts";
+import type { Ambientazione, Fascia, Storia } from "../src/tipi.ts";
 import { prepara, nuovaPartita, type DatiEsito, type DatiTiro, type Evento, type Partita } from "../src/stato.ts";
-import { agisci, vista, type RicevutaPiena, type Vista, type VistaScelta } from "../src/motore.ts";
+import { agisci, vista, type Quadro, type Vista, type VistaScelta } from "../src/motore.ts";
 import { numerazione } from "../src/libro.ts";
 import { CIELI, disegna as disegnaPanorama } from "./panorama.ts";
 import * as suono from "./suono.ts";
@@ -17,13 +17,10 @@ const amb = ambJson as unknown as Ambientazione;
 const storia = storiaJson as unknown as Storia;
 const g = prepara(amb, storia);
 const paragrafo = numerazione(storia);
-const CHIAVE = "esposizione:santa-rita:app";
+const CHIAVE = "esposizione:santa-rita:app:3";
 const GRADI = ["al coperto", "esposto", "allo scoperto"];
-const CASELLE = [
-  ["Successo pieno", "Fallimento pulito"],
-  ["Successo sporco", "Rovescio minore"],
-  ["Successo a caro prezzo", "Rovescio"],
-];
+const FASCE: Record<Fascia, string> = { pieno: "In pieno", riesci: "Riesci", quasi: "Quasi", non: "Non riesci" };
+const PARTE: Record<string, string> = { tratto: "tratto", notizia: "notizia", proprieta: "luogo", legame: "legame", "stato d'animo": "umore", scena: "scena", cosa: "cosa", aiuto: "aiuto", ferita: "ferita", logorio: "logorio" };
 const moto = () => !matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 interface VoceDiario {
@@ -41,10 +38,10 @@ interface VoceDiario {
 let partita: Partita;
 let diario: VoceDiario[] = [];
 let ultimi: Evento[] = [];
-let ricevute = 0;
+let quadri = 0;
 let iniziata = false;
-let rollio: { id: string; esito: ReturnType<typeof agisci>; prima: Partita; testo: string; ricevuta: RicevutaPiena } | null = null;
-let fase: "ricevuta" | "tiro" | "timbro" = "ricevuta";
+let rollio: { id: string; esito: ReturnType<typeof agisci>; prima: Partita; testo: string } | null = null;
+let fase: "quadro" | "tiro" | "timbro" = "quadro";
 let aperta: VistaScelta | null = null;
 
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
@@ -55,13 +52,13 @@ const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySele
 
 function salva(): void {
   try {
-    localStorage.setItem(CHIAVE, JSON.stringify({ partita, diario: diario.slice(-40), ricevute, suono: suono.eAcceso() }));
+    localStorage.setItem(CHIAVE, JSON.stringify({ partita, diario: diario.slice(-40), quadri, suono: suono.eAcceso() }));
   } catch {
     /* il browser non conserva: si gioca lo stesso */
   }
 }
 
-function carica(): { partita: Partita; diario: VoceDiario[]; ricevute: number; suono?: boolean } | null {
+function carica(): { partita: Partita; diario: VoceDiario[]; quadri: number; suono?: boolean } | null {
   try {
     const s = localStorage.getItem(CHIAVE);
     if (!s) return null;
@@ -82,7 +79,7 @@ function nuova(): void {
   partita = nuovaPartita(g, Math.floor(Math.random() * 1_000_000));
   diario = [voceDi(partita)];
   ultimi = [];
-  ricevute = 0;
+  quadri = 0;
   salva();
 }
 
@@ -101,12 +98,13 @@ function prosa(s: string): string {
     .join("");
 }
 
+const oreGiorno = amb.momenti.reduce((s, m) => s + m.ore, 0);
+
 const momentoId = (p: Partita) => {
-  const giorno = amb.momenti.reduce((s, m) => s + m.passi, 0);
-  let resto = p.passo % giorno;
+  let resto = p.ora % oreGiorno;
   let i = amb.momenti.findIndex((m) => m.id === storia.momentoIniziale);
-  while (resto >= amb.momenti[i].passi) {
-    resto -= amb.momenti[i].passi;
+  while (resto >= amb.momenti[i].ore) {
+    resto -= amb.momenti[i].ore;
     i = (i + 1) % amb.momenti.length;
   }
   return amb.momenti[i].id;
@@ -120,7 +118,7 @@ const luogoId = (p: Partita) => g.scene.get(p.scena)!.luogo;
 
 const tela = () => $<HTMLCanvasElement>("#panorama");
 let panoramaStato = { luogo: "banchina", momento: "alba", tensione: 0 };
-let inizioTempo = performance.now();
+const inizioTempo = performance.now();
 
 function ridimensiona(): void {
   const c = tela();
@@ -129,10 +127,10 @@ function ridimensiona(): void {
   c.width = Math.max(1, Math.round(r.width * d));
   c.height = Math.max(1, Math.round(r.height * d));
   c.getContext("2d")!.setTransform(d, 0, 0, d, 0, 0);
-  quadro();
+  panorama();
 }
 
-function quadro(): void {
+function panorama(): void {
   const c = tela();
   const r = c.getBoundingClientRect();
   const t = moto() ? (performance.now() - inizioTempo) / 1000 : 12;
@@ -140,7 +138,7 @@ function quadro(): void {
 }
 
 function anima(): void {
-  if (moto() && !document.hidden) quadro();
+  if (moto() && !document.hidden) panorama();
   requestAnimationFrame(anima);
 }
 
@@ -158,7 +156,7 @@ function aggiornaPanorama(p: Partita): void {
     pan.classList.add("cambio");
   }
   suono.mareA({ nave: 1.4, banchina: 1, chiesa: 0.8, magazzini: 0.5, archivio: 0.3, gallo: 0.2 }[luogo] ?? 0.6);
-  quadro();
+  panorama();
 }
 
 // ---------------------------------------------------------------------------
@@ -169,30 +167,18 @@ const DADO = ["", "⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 
 function eventiHtml(ev: Evento[]): string {
   const out: string[] = [];
-  let passi = 0;
-  let momento = "";
-  const scarica = () => {
-    if (passi) out.push(`<li class="ev tempo">${passi === 1 ? "Passa un passo" : `Passano ${passi} passi`}${momento ? `: ${esc(momento)}` : ""}.</li>`);
-    passi = 0;
-  };
   for (const e of ev) {
-    if (e.tipo === "tempo") {
-      passi++;
-      momento = e.testo.match(/\((.*)\)/)?.[1] ?? "";
-      continue;
-    }
-    scarica();
     if (e.tipo === "tiro" && e.dati && "dadi" in e.dati) {
       const d = e.dati as DatiTiro;
-      out.push(`<li class="ev tiro"><span class="glifi">${DADO[d.dadi[0]]}${DADO[d.dadi[1]]}</span>${esc(e.testo.split(":")[0])}: ${d.dadi[0]} + ${d.dadi[1]} + ${d.bonus}${d.penalita ? ` − ${d.penalita}` : ""} = ${d.totale} contro ${d.soglia}</li>`);
-    } else if (e.tipo === "esito") {
-      const d = e.dati as DatiEsito | undefined;
-      out.push(`<li class="ev esito" data-g="${d?.grado ?? 1}" data-r="${d?.riesce ?? ""}">${esc(e.testo)}</li>`);
+      const b = d.bonus >= 0 ? `+ ${d.bonus}` : `− ${-d.bonus}`;
+      out.push(`<li class="ev tiro"><span class="glifi">${DADO[d.dadi[0]]}${DADO[d.dadi[1]]}</span>${esc(e.testo.split(":")[0])}: ${d.dadi[0]} + ${d.dadi[1]} ${b} = ${d.totale} contro ${d.soglia}</li>`);
+    } else if (e.tipo === "esito" && e.dati && "fascia" in e.dati) {
+      const d = e.dati as DatiEsito;
+      out.push(`<li class="ev esito" data-g="${d.grado}" data-f="${d.fascia}">${esc(e.testo)}</li>`);
     } else {
       out.push(`<li class="ev ${e.tipo}">${esc(e.testo)}</li>`);
     }
   }
-  scarica();
   return out.length ? `<ul class="eventi">${out.join("")}</ul>` : "";
 }
 
@@ -226,9 +212,11 @@ function disegnaDiario(): void {
 function etichetta(s: VistaScelta): string {
   if (s.tipo === "finestra") return "finestra";
   if (s.tipo === "difesa") return "difesa";
-  if (s.tipo === "parlare" || s.ricevuta?.unColpoSolo) return "una volta sola";
-  if (s.povera) return "via povera";
-  if (s.tipo === "riprova") return "costa un passo";
+  if (s.tipo === "parlare" || s.quadro?.unColpoSolo) return "una volta sola";
+  if (s.ripiego) return "ripiego";
+  if (s.tipo === "riprova") return "ti costa un'ora";
+  if (s.tipo === "ripensa") return "ci ripensi";
+  if (s.tipo === "deduci") return "ragioni";
   return "";
 }
 
@@ -241,22 +229,23 @@ function disegnaScelte(v: Vista): void {
         ${v.confronto.inDifesa ? '<p class="allarme">Ti attacca. Difenditi.</p>' : v.confronto.finestra ? '<p class="allarme finestra">La finestra è aperta: decidi tu come finisce.</p>' : ""}
       </div>`
     : "";
+  const sospeso = v.sospeso ? `<p class="sospeso" data-t="${v.sospeso.tipo}">${esc(v.sospeso.testo)}</p>` : "";
   const voci = v.scelte
     .map((s) => {
       if (!s.disponibile) {
-        return `<li><div class="risposta chiusa"><span class="num">·</span><span class="t">${esc(s.testo)}<small>Richiede: ${esc(s.richiede ?? "non disponibile")}</small></span></div></li>`;
+        return `<li><div class="risposta chiusa" data-da="${s.chiusaDa ?? ""}"><span class="num">·</span><span class="t">${esc(s.testo)}<small>${s.chiusaDa === "convinzione" ? "" : "Richiede: "}${esc(s.richiede ?? "non disponibile")}</small></span></div></li>`;
       }
       i++;
-      const r = s.ricevuta;
+      const q = s.quadro;
       const tag = etichetta(s);
-      return `<li><button type="button" class="risposta${r ? " prova" : ""}" data-scelta="${esc(s.id)}" aria-keyshortcuts="${i}">
+      return `<li><button type="button" class="risposta${q ? " prova" : ""}${s.tipo === "quasi" ? " quasi" : ""}" data-scelta="${esc(s.id)}" aria-keyshortcuts="${i}">
         <span class="num">${i}</span>
-        <span class="t">${esc(s.testo)}${tag ? `<em class="tag">${tag}</em>` : ""}</span>
-        ${r ? `<span class="pill" data-g="${r.grado}">${GRADI[r.grado]}<b>${r.probabilita}%</b></span>` : ""}
+        <span class="t">${esc(s.testo)}${tag ? `<em class="tag">${tag}</em>` : ""}${s.costa ? `<small>Costa: ${esc(s.costa)}</small>` : ""}</span>
+        ${q ? `<span class="pill" data-g="${q.grado}">${GRADI[q.grado]}<b>${q.riesci.nonSiTira ? "sicuro" : `${q.riesci.probabilita}%`}</b></span>` : ""}
       </button></li>`;
     })
     .join("");
-  $("#dock").innerHTML = v.finale ? "" : `${conf}<ol class="risposte">${voci}</ol>`;
+  $("#dock").innerHTML = v.finale ? "" : `${conf}${sospeso}<ol class="risposte">${voci}</ol>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -267,12 +256,13 @@ function pip(n: number, pieni: number, cls = ""): string {
   return `<span class="pips ${cls}">${Array.from({ length: n }, (_, i) => `<i class="${i < pieni ? "on" : ""}"></i>`).join("")}</span>`;
 }
 
+const STATO_NOTIZIA: Record<string, string> = { sentita: "sentita dire", verificata: "verificata", smentita: "smentita" };
+
 function disegnaScheda(v: Vista): void {
-  const giorno = amb.momenti.reduce((s, m) => s + m.passi, 0);
-  const nelGiorno = partita.passo % giorno;
+  const nelGiorno = partita.ora % oreGiorno;
   let k = 0;
   const tempo = amb.momenti
-    .map((m) => `<div class="giornata-m" data-m="${m.id}">${Array.from({ length: m.passi }, () => { const c = k < nelGiorno ? "fatto" : k === nelGiorno ? "ora" : ""; k++; return `<span class="${c}"></span>`; }).join("")}<em>${esc(m.nome.split(",")[0].replace(/^(l'|il |la )/, ""))}</em></div>`)
+    .map((m) => `<div class="giornata-m" data-m="${m.id}" style="grid-template-columns: repeat(${m.ore}, 1fr)">${Array.from({ length: m.ore }, () => { const c = k < nelGiorno ? "fatto" : k === nelGiorno ? "ora" : ""; k++; return `<span class="${c}"></span>`; }).join("")}<em>${esc(m.nome.split(",")[0].replace(/^(l'|il |la )/, ""))}</em></div>`)
     .join("");
   const sc = storia.scadenze[0];
   const pieno = partita.scadenze[sc.id];
@@ -283,10 +273,11 @@ function disegnaScheda(v: Vista): void {
       return `<div class="metro" data-s="${st}"><span class="nome">${esc(l.nome)}</span><span class="stato">${esc(l.stadi[st - 1])}</span>${pip(3, st, "stadio")}</div>`;
     })
     .join("");
+  const umori = v.stato.statiAnimo.map((s) => `<li class="umore"><span>${esc(s)}</span></li>`).join("");
   const ferite = partita.ferite.length
     ? partita.ferite.map((f) => `<li class="ferita" data-g="${f.gravita}"><span>${esc(f.nome)}</span><b>${f.gravita}</b></li>`).join("")
     : '<li class="vuoto">Nessuna ferita</li>';
-  const prot = Object.entries(partita.protezioni).map(([id, s]) => `<li><span>${esc(amb.protezioni.find((x) => x.id === id)?.nome ?? id)}</span><b>${["intatta", "intaccata", "inservibile"][s]}</b></li>`).join("");
+  const prot = Object.entries(partita.protezioni).map(([id, s]) => `<li><span>${esc(amb.protezioni.find((x) => x.id === id)?.nome ?? id)}</span><b>${["intatta", "rovinata", "rotta"][s]}</b></li>`).join("");
   const qui = luogoId(partita);
   const traccia = amb.luoghi
     .map((l) => `<li class="${l.id === qui ? "qui" : ""}"><span>${esc(l.nome.replace(/^(La |L'|I |Il )/, ""))}</span>${pip(3, partita.traccia[l.zona] ?? 0, "occhi")}</li>`)
@@ -297,19 +288,30 @@ function disegnaScheda(v: Vista): void {
       return `<li><span>${esc(c.nome)}</span><span class="liv">${["Inesperto", "Pratico", "Esperto", "Maestro"][liv]}</span>${pip(3, liv, "liv")}</li>`;
     })
     .join("");
-  const taccuino = v.stato.conoscenze.length ? v.stato.conoscenze.map((k) => `<li>${esc(k)}</li>`).join("") : '<li class="vuoto">Non sai ancora niente di preciso.</li>';
+  const tratti = v.stato.tratti.map((t) => `<li><b class="nome-t">${esc(t.nome)}</b><small>${esc(t.effetti)}${t.origine ? ` · ${esc(t.origine)}` : ""}</small></li>`).join("");
+  const convinzioni = v.stato.convinzioni.length
+    ? v.stato.convinzioni.map((c) => `<li class="${c.inDubbio ? "dubbio" : ""}">«${esc(c.testo)}»${c.inDubbio ? "<small>in dubbio</small>" : ""}</li>`).join("")
+    : '<li class="vuoto">Nessuna</li>';
+  const persone = v.stato.persone.length ? v.stato.persone.map((p) => `<li><b class="nome-t">${esc(p.nome)}</b><small>${esc(p.parole)}</small></li>`).join("") : '<li class="vuoto">Non conosci ancora nessuno.</li>';
+  const taccuino = v.stato.notizie.length
+    ? v.stato.notizie.map((n) => `<li data-s="${n.stato}">${esc(n.testo)}<small>${STATO_NOTIZIA[n.stato]}${n.contrasto.length ? " · non può essere vera insieme a un'altra" : ""}</small></li>`).join("")
+    : '<li class="vuoto">Non sai ancora niente di preciso.</li>';
+  const cose = v.stato.cose.map((o) => `<li><span>${esc(o.nome)}${o.quante > 1 ? ` ×${o.quante}` : ""}</span>${o.stato ? `<b>${esc(o.stato)}</b>` : ""}</li>`).join("") || '<li class="vuoto">Niente</li>';
   $("#scheda-corpo").innerHTML = `
-    <section><div class="sez"><span>La giornata</span><span>passo ${partita.passo}</span></div><div class="giornata">${tempo}</div></section>
+    <section><div class="sez"><span>La giornata</span><span>ora ${partita.ora}</span></div><div class="giornata">${tempo}</div></section>
     <section>${scadenza}</section>
-    <section><div class="sez"><span>Come stai</span></div>${logorio}<ul class="righe-scheda">${ferite}${prot}</ul></section>
+    <section><div class="sez"><span>Come stai</span></div>${logorio}<ul class="righe-scheda">${umori}${ferite}${prot}</ul></section>
+    <section><div class="sez"><span>Tratti</span></div><ul class="lista-scheda">${tratti}</ul></section>
     <section><div class="sez"><span>Traccia</span><span>chi ti ha notato</span></div><ul class="righe-scheda">${traccia}</ul></section>
-    <section><div class="sez"><span>Taccuino</span><span>${v.stato.conoscenze.length}</span></div><ul class="taccuino">${taccuino}</ul>${v.stato.parole.length ? `<p class="parole">${v.stato.parole.map((p) => `<span>${esc(p)}</span>`).join("")}</p>` : ""}</section>
+    <section><div class="sez"><span>Persone</span></div><ul class="lista-scheda">${persone}</ul></section>
+    <section><div class="sez"><span>Taccuino</span><span>${v.stato.notizie.length}</span></div><ul class="taccuino">${taccuino}</ul>${v.stato.parole.length ? `<p class="parole">${v.stato.parole.map((p) => `<span>${esc(p)}</span>`).join("")}</p>` : ""}</section>
+    <section><div class="sez"><span>Convinzioni</span></div><ul class="taccuino convinzioni">${convinzioni}</ul></section>
     <section><div class="sez"><span>Capacità</span></div><ul class="righe-scheda capacita">${capacita}</ul></section>
-    <section><div class="sez"><span>Oggetti</span></div><ul class="righe-scheda">${v.stato.oggetti.map((o) => `<li><span>${esc(o)}</span></li>`).join("") || '<li class="vuoto">Niente</li>'}</ul></section>`;
+    <section><div class="sez"><span>Cose</span></div><ul class="righe-scheda">${cose}</ul></section>`;
 }
 
 // ---------------------------------------------------------------------------
-// Il foglio della ricevuta, i dadi e il timbro
+// Il quadro, i dadi e i timbri
 // ---------------------------------------------------------------------------
 
 const PUNTI: Record<number, number[]> = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
@@ -322,46 +324,77 @@ function dado(id: string): string {
   return `<div class="dado-lancio"><div class="dado" id="${id}">${facce}</div></div>`;
 }
 
-function righeRicevuta(r: RicevutaPiena): string {
-  return r.righe
+const segno = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${-v}` : "0");
+
+function sezioneRiesci(q: Quadro): string {
+  const r = q.riesci;
+  const righe = r.righe
     .map((x) => {
-      const v = x.tipo === "partenza" ? String(x.valore) : x.valore > 0 ? `+${x.valore}` : `−${-x.valore}`;
+      const v = x.tipo === "soglia" ? String(x.valore) : x.tipo === "nota" ? "" : segno(x.valore);
+      const parte = x.parte && x.tipo !== "soglia" && x.tipo !== "livello" ? `<em class="parte">${PARTE[x.parte] ?? x.parte}</em>` : "";
+      return `<li class="${x.conta ? "" : "spenta"}"><span class="v">${v}</span><span class="c">${esc(x.testo)}${parte}${x.nota ? `<small>${esc(x.nota)}</small>` : ""}</span></li>`;
+    })
+    .join("");
+  const f = r.fasce;
+  const barra = r.nonSiTira
+    ? '<p class="carta-nota">Sotto Facile: non si tira, riesci.</p>'
+    : `<div class="fasce" role="img" aria-label="In pieno ${f.pieno}, riesci ${f.riesci}, quasi ${f.quasi}, non riesci ${f.non}, su 100">
+        ${(["pieno", "riesci", "quasi", "non"] as Fascia[]).map((k) => `<span data-f="${k}" style="flex-grow:${Math.max(f[k], 0.001)}"><b>${f[k]}</b><i>${FASCE[k]}</i></span>`).join("")}
+      </div>
+      <p class="carta-dadi">I dadi devono fare ${r.dadi}</p>`;
+  return `<section class="sez-carta"><h4>Ci riesci?</h4><ol class="carta-righe">${righe}</ol>${barra}</section>`;
+}
+
+function sezioneCosta(q: Quadro): string {
+  const c = q.costo;
+  const righe = c.righe
+    .map((x) => {
+      const v = x.tipo === "partenza" ? String(x.valore) : segno(x.valore);
       return `<li class="${x.conta ? "" : "spenta"}"><span class="v">${v}</span><span class="c">${esc(x.testo)}${x.nota ? `<small>${esc(x.nota)}</small>` : ""}</span></li>`;
     })
     .join("");
+  return `<section class="sez-carta"><h4>Quanto ti costa?</h4><ol class="carta-righe">${righe}</ol>
+    <div class="carta-totale"><span class="v">${segno(c.somma).replace("+", "")}</span><span class="grado" data-g="${q.grado}">${GRADI[q.grado]}</span></div>
+    ${c.nota ? `<p class="carta-nota">${esc(c.nota)}</p>` : ""}</section>`;
+}
+
+function sezioneDopo(q: Quadro): string {
+  const d = q.dopo;
+  return `<section class="sez-carta"><h4>Che cosa cambia?</h4><ul class="carta-dopo">
+      <li><b>Riesci</b> ${esc(d.riesci)}${q.riesci.fasce.pieno ? `; in pieno, ${esc(d.pieno)}` : ""}</li>
+      <li><b>Quasi</b> scegli tu: ${esc(d.quasi.join(" · "))}</li>
+      <li><b>Non riesci</b> ${esc(d.nonRiesci)}</li>
+      ${d.persone.map((x) => `<li><b>Persone</b> ${esc(x)}</li>`).join("")}
+    </ul>
+    ${d.posta ? `<p class="carta-posta">${esc(d.posta)}</p>` : ""}
+    ${q.unColpoSolo ? '<p class="carta-nota">Una volta sola: non si ritenta.</p>' : ""}
+    ${q.ritento ? '<p class="carta-nota">Ritentare ti costa un\'ora.</p>' : ""}</section>`;
 }
 
 function apriFoglio(s: VistaScelta): void {
-  const r = s.ricevuta!;
+  const q = s.quadro!;
   aperta = s;
-  fase = "ricevuta";
-  const nota = r.nota ?? (r.somma < r.grado ? `${r.capacita} non scende sotto ${GRADI[r.fondo]}` : r.somma > 2 ? "più di allo scoperto non si va" : "");
+  fase = "quadro";
   $("#foglio-carta").innerHTML = `
     <header class="carta-testa">
       <span>Capitaneria del porto</span>
-      <span>Ricevuta n. ${String(ricevute + 1).padStart(4, "0")}</span>
+      <span>Quadro n. ${String(quadri + 1).padStart(4, "0")}</span>
     </header>
-    <p class="carta-quando">${esc(vista(g, partita).scena.momento.split(",")[0])} · passo ${partita.passo}</p>
+    <p class="carta-quando">${esc(vista(g, partita).scena.momento.split(",")[0])} · ora ${partita.ora} · ${esc(q.capacita)}, ${esc(q.ambito)}</p>
     <h3 class="carta-azione">${esc(s.testo)}</h3>
-    <ol class="carta-righe">${righeRicevuta(r)}</ol>
-    <div class="carta-totale"><span class="v">${r.somma < 0 ? `−${-r.somma}` : r.somma}</span><span class="grado" data-g="${r.grado}">${GRADI[r.grado]}</span></div>
-    ${nota ? `<p class="carta-nota">${esc(nota)}</p>` : ""}
-    <dl class="carta-prova">
-      <div><dt>Prova</dt><dd>${r.sogliaNome} · ${r.soglia}</dd></div>
-      <div><dt>${esc(r.capacita)}</dt><dd>${r.livello} +${r.bonus}${r.penalita ? ` −${r.penalita}` : ""}</dd></div>
-      <div class="grande"><dt>Riesci</dt><dd>${r.probabilita}<small>%</small></dd></div>
-    </dl>
-    ${r.posta ? `<p class="carta-posta">${esc(r.posta)}</p>` : ""}
-    ${r.unColpoSolo ? '<p class="carta-nota">Una volta sola: non si ritenta.</p>' : ""}
-    ${r.ritento ? '<p class="carta-nota">Ritentare costa un passo.</p>' : ""}
-    <div class="timbro" id="timbro" hidden></div>`;
+    <section class="sez-carta"><h4>Puoi farlo?</h4><p class="carta-puoi">${q.puoi.aperta ? "Sì" : "No"}${q.puoi.righe.length ? ` · ${esc(q.puoi.righe.join(" · "))}` : ""}</p></section>
+    ${sezioneRiesci(q)}
+    ${sezioneCosta(q)}
+    ${sezioneDopo(q)}
+    <div class="timbri" id="timbri" hidden></div>`;
   $("#vassoio").innerHTML = dado("d1") + dado("d2");
   $("#vassoio").hidden = true;
   $("#conto").textContent = "";
   $("#tira").hidden = false;
-  $("#tira").textContent = "Tira i dadi";
+  $("#tira").textContent = q.riesci.nonSiTira ? "Procedi" : "Tira i dadi";
   $("#altra").hidden = false;
   $("#foglio").hidden = false;
+  $("#foglio").scrollTop = 0;
   requestAnimationFrame(() => $("#foglio").classList.add("aperto"));
   $<HTMLButtonElement>("#tira").focus();
 }
@@ -388,12 +421,12 @@ function lancia(el: HTMLElement, faccia: number): void {
 }
 
 function tira(): void {
-  if (!aperta || fase !== "ricevuta") return;
+  if (!aperta || fase !== "quadro") return;
   const s = aperta;
   const prima = partita;
   const esito = agisci(g, partita, s.id);
-  rollio = { id: s.id, esito, prima, testo: s.testo, ricevuta: s.ricevuta! };
-  ricevute++;
+  rollio = { id: s.id, esito, prima, testo: s.testo };
+  quadri++;
   // La partita si registra subito: ricaricare la pagina non cambia i dadi.
   partita = esito.partita;
   salvaConRollio();
@@ -402,13 +435,13 @@ function tira(): void {
   $("#tira").hidden = true;
   $("#altra").hidden = true;
   const vassoio = $("#vassoio");
-  vassoio.hidden = false;
   if (tiro) {
+    vassoio.hidden = false;
     suono.dadi();
     lancia($("#d1"), tiro.dadi[0]);
     lancia($("#d2"), tiro.dadi[1]);
   }
-  setTimeout(() => timbra(tiro, esito.eventi), moto() ? 1250 : 50);
+  setTimeout(() => timbra(tiro, esito.eventi), moto() && tiro ? 1250 : 50);
 }
 
 function salvaConRollio(): void {
@@ -422,21 +455,22 @@ function salvaConRollio(): void {
 
 function timbra(tiro: DatiTiro | undefined, ev: Evento[]): void {
   fase = "timbro";
-  const esitoEv = ev.find((e) => e.tipo === "esito")?.dati as DatiEsito | undefined;
-  const riesce = tiro?.riesce ?? esitoEv?.riesce ?? false;
+  const esitoEv = ev.find((e) => e.tipo === "esito" && e.dati && "fascia" in e.dati)?.dati as DatiEsito | undefined;
+  const fascia: Fascia = tiro?.fascia ?? esitoEv?.fascia ?? "riesci";
   const grado = tiro?.grado ?? esitoEv?.grado ?? 0;
-  const casella = esitoEv?.casella ?? CASELLE[grado][riesce ? 0 : 1];
-  const t = $("#timbro");
-  t.innerHTML = `<b>${riesce ? "Riesci" : "Non riesci"}</b><span>${esc(casella)}</span>`;
-  t.dataset.r = String(riesce);
+  const t = $("#timbri");
+  t.innerHTML = `<div class="timbro" data-f="${fascia}"><b>${FASCE[fascia]}</b><span>${fascia === "quasi" ? "scegli tu" : tiro ? `margine ${segno(tiro.margine)}` : "non si tira"}</span></div>
+    <div class="timbro grado-t" data-g="${grado}"><b>${GRADI[grado]}</b><span>il costo</span></div>`;
   t.hidden = false;
   if (tiro) {
-    $("#conto").innerHTML = `${tiro.dadi[0]} + ${tiro.dadi[1]} + ${tiro.bonus}${tiro.penalita ? ` − ${tiro.penalita}` : ""} = <b>${tiro.totale}</b> contro ${tiro.soglia}`;
+    const b = tiro.bonus >= 0 ? `+ ${tiro.bonus}` : `− ${-tiro.bonus}`;
+    $("#conto").innerHTML = `${tiro.dadi[0]} + ${tiro.dadi[1]} ${b} = <b>${tiro.totale}</b> contro ${tiro.soglia}`;
   }
-  suono.timbro(riesce);
-  effetto(riesce ? "luce" : grado === 2 ? "scossa-forte" : "scossa");
+  const bene = fascia === "pieno" || fascia === "riesci";
+  suono.timbro(bene);
+  effetto(bene ? "luce" : fascia === "quasi" ? "scossa" : grado === 2 ? "scossa-forte" : "scossa");
   $("#tira").hidden = false;
-  $("#tira").textContent = "Continua";
+  $("#tira").textContent = fascia === "quasi" ? "Scegli come finisce" : "Continua";
   $<HTMLButtonElement>("#tira").focus();
 }
 
@@ -479,7 +513,7 @@ function scegli(id: string): void {
   if (rollio) return;
   const s = vista(g, partita).scelte.find((x) => x.id === id && x.disponibile);
   if (!s) return;
-  if (s.ricevuta) apriFoglio(s);
+  if (s.quadro) apriFoglio(s);
   else esegui(s);
 }
 
@@ -516,11 +550,16 @@ function reazioni(ev: Evento[], prima: Partita, dopo: Partita): void {
     } else if (e.tipo === "protezione") avviso("", "La giacca ti salva", e.testo);
     else if (e.tipo === "imprevisto") avviso("imprevisto", "Imprevisto", e.testo);
     else if (e.tipo === "crescita" && /ora sei/.test(e.testo)) avviso("oro", "Stai migliorando", e.testo);
-    else if (e.tipo === "crescita") avviso("oro", "Tentativi risparmiati", e.testo);
-    else if (e.tipo === "qualita" && e.testo.startsWith("Sai che:")) {
+    else if (e.tipo === "crescita") avviso("oro", "Rispetto alla prima volta", e.testo);
+    else if (e.tipo === "notizia") {
       suono.penna();
-      avviso("inchiostro", "Nel taccuino", e.testo.slice(9));
-    } else if (e.tipo === "qualita" && e.testo.startsWith("Parola chiave")) avviso("inchiostro", "Parola chiave", e.testo.slice(15));
+      const [titolo, ...resto] = e.testo.split(": ");
+      avviso(/^Smentita/.test(e.testo) ? "rosso" : "inchiostro", resto.length ? `Nel taccuino · ${titolo}` : "Nel taccuino", resto.join(": ") || e.testo);
+    } else if (e.tipo === "convinzione") avviso("inchiostro", "Ciò che credi", e.testo);
+    else if (e.tipo === "tratto") avviso("oro", "Chi sei", e.testo);
+    else if (e.tipo === "persona") avviso("", "Persone", e.testo);
+    else if (e.tipo === "statoAnimo") avviso("ambra", "Come ti senti", e.testo);
+    else if (e.tipo === "memoria" && e.testo.startsWith("Parola chiave")) avviso("inchiostro", "Parola chiave", e.testo.slice(15));
     else if (e.tipo === "logorio") avviso("ambra", "Come stai", e.testo);
     else if (e.tipo === "morte") effetto("ferita");
   }
@@ -539,7 +578,7 @@ function reazioni(ev: Evento[], prima: Partita, dopo: Partita): void {
 }
 
 // ---------------------------------------------------------------------------
-// Il finale
+// Il finale: la scheda di adesso accanto a quella dell'inizio (§42)
 // ---------------------------------------------------------------------------
 
 function controllaFinale(): void {
@@ -548,17 +587,30 @@ function controllaFinale(): void {
   const v = vista(g, partita);
   const tiri = diario.flatMap((d) => d.eventi).filter((e) => e.tipo === "tiro").length;
   const traccia = Object.values(partita.traccia).reduce((a, b) => a + b, 0);
+  const iniziali = new Set(storia.personaggio.tratti);
+  const guadagnati = v.stato.tratti.filter((t) => !iniziali.has(t.id));
+  const persi = storia.personaggio.tratti.filter((t) => !(t in partita.tratti)).map((t) => amb.tratti.find((x) => x.id === t)?.nome ?? t);
+  const lasciate = storia.personaggio.convinzioni.filter((c) => !partita.convinzioni[c]).map((c) => storia.convinzioni.find((x) => x.id === c)?.testo ?? c);
+  const cresciute = amb.capacita.filter((c) => (partita.livelli[c.id] ?? 0) > (storia.personaggio.livelli[c.id] ?? 0)).map((c) => `${c.nome}: ${["Inesperto", "Pratico", "Esperto", "Maestro"][partita.livelli[c.id]]}`);
+  const cambio = [
+    ...cresciute.map((x) => `<li>${esc(x)}</li>`),
+    ...guadagnati.map((t) => `<li>Adesso: <b>${esc(t.nome)}</b>${t.origine ? `, ${esc(t.origine)}` : ""}</li>`),
+    ...persi.map((t) => `<li>Non più: <b>${esc(t)}</b></li>`),
+    ...lasciate.map((c) => `<li>Non credi più: «${esc(c)}»</li>`),
+    ...v.stato.persone.map((p) => `<li>${esc(p.nome)}: ${esc(p.parole)}</li>`),
+  ].join("");
   $("#finale").dataset.tipo = tipo;
   $("#finale-corpo").innerHTML = `
-    <p class="fin-sopra">${{ vittoria: "Vittoria", sconfitta: "Sconfitta", morte: "Morte" }[tipo]} · ${esc(v.scena.momento.split(",")[0])} · passo ${partita.passo}</p>
+    <p class="fin-sopra">${{ vittoria: "Vittoria", sconfitta: "Sconfitta", morte: "Morte" }[tipo]} · ${esc(v.scena.momento.split(",")[0])} · ora ${partita.ora}</p>
     <h2>${{ vittoria: "Ce l'hai fatta.", sconfitta: "La storia finisce qui.", morte: "La tua storia finisce qui." }[tipo]}</h2>
     <p class="fin-titolo">${esc(v.scena.titolo)}</p>
     <dl class="fin-conti">
-      <div><dt>Passi</dt><dd>${partita.passo}</dd></div>
+      <div><dt>Ore</dt><dd>${partita.ora}</dd></div>
       <div><dt>Dadi tirati</dt><dd>${tiri}</dd></div>
       <div><dt>Traccia lasciata</dt><dd>${traccia}</dd></div>
-      <div><dt>Nel taccuino</dt><dd>${v.stato.conoscenze.length} / ${storia.conoscenze.length}</dd></div>
-    </dl>`;
+      <div><dt>Nel taccuino</dt><dd>${v.stato.notizie.length} / ${storia.notizie.length}</dd></div>
+    </dl>
+    ${cambio ? `<h3 class="fin-cambio">Com'è cambiato il tuo personaggio</h3><ul class="fin-lista">${cambio}</ul>` : ""}`;
   setTimeout(() => {
     $("#finale").hidden = false;
     suono.campana();
@@ -567,7 +619,7 @@ function controllaFinale(): void {
 
 function testoRegistro(): string {
   return diario
-    .map((d) => `${d.continua ? "" : `${d.titolo.toUpperCase()} (${d.luogo}, ${d.momento})\n${d.testo.replace(/\*/g, "")}\n`}${d.scelta ? `» ${d.scelta}\n` : ""}${d.eventi.filter((e) => e.tipo !== "tempo").map((e) => `  · ${e.testo}`).join("\n")}`)
+    .map((d) => `${d.continua ? "" : `${d.titolo.toUpperCase()} (${d.luogo}, ${d.momento})\n${d.testo.replaceAll("*", "")}\n`}${d.scelta ? `» ${d.scelta}\n` : ""}${d.eventi.filter((e) => e.tipo !== "tempo").map((e) => `  · ${e.testo}`).join("\n")}`)
     .join("\n\n");
 }
 
@@ -581,7 +633,14 @@ function disegnaCofano(v: Vista): void {
     luogo: v.scena.luogo,
     momento: v.scena.momento,
     confronto: v.confronto ?? null,
-    scelte: v.scelte.map((s) => ({ id: s.id, tipo: s.tipo, disponibile: s.disponibile, ...(s.richiede ? { richiede: s.richiede } : {}), ...(s.ricevuta ? { somma: s.ricevuta.somma, grado: s.ricevuta.grado, soglia: s.ricevuta.soglia, probabilita: s.ricevuta.probabilita } : {}) })),
+    sospeso: v.sospeso ?? null,
+    scelte: v.scelte.map((s) => ({
+      id: s.id,
+      tipo: s.tipo,
+      disponibile: s.disponibile,
+      ...(s.richiede ? { richiede: s.richiede, chiusaDa: s.chiusaDa } : {}),
+      ...(s.quadro ? { soglia: s.quadro.riesci.soglia, dadi: s.quadro.riesci.dadi, fasce: s.quadro.riesci.fasce, grado: s.quadro.grado } : {}),
+    })),
     eventiUltimaAzione: ultimi.map((e) => (e.dati ? { tipo: e.tipo, testo: e.testo, dati: e.dati } : { tipo: e.tipo, testo: e.testo })),
   };
   $("#cofano-dati").textContent = JSON.stringify(dati, null, 2);
@@ -594,7 +653,7 @@ function disegnaCofano(v: Vista): void {
 function disegnaTutto(): void {
   const v = vista(g, partita);
   aggiornaPanorama(partita);
-  $("#sopra").textContent = `${v.scena.momento.split(",")[0]} · passo ${partita.passo}`;
+  $("#sopra").textContent = `${v.scena.momento.split(",")[0]} · ora ${partita.ora}`;
   $("#luogo").textContent = v.scena.luogo;
   disegnaDiario();
   disegnaScelte(v);
@@ -603,16 +662,15 @@ function disegnaTutto(): void {
 }
 
 function sovrapposto(id: string, apri: boolean): void {
-  const el = $(id);
-  el.hidden = !apri;
+  $(id).hidden = !apri;
 }
 
-function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; ricevute?: number }): void {
-  const salvata = dati.partita ? { partita: dati.partita, diario: dati.diario ?? [], ricevute: dati.ricevute ?? 0 } : carica();
+function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number }): void {
+  const salvata = dati.partita ? { partita: dati.partita, diario: dati.diario ?? [], quadri: dati.quadri ?? 0 } : carica();
   if (salvata) {
     partita = salvata.partita;
     diario = salvata.diario.length ? salvata.diario : [voceDi(partita)];
-    ricevute = salvata.ricevute;
+    quadri = salvata.quadri;
     $("#continua-partita").hidden = !!partita.finita;
     $("#inizia").textContent = partita.finita ? "Comincia la storia" : "Nuova partita";
     if (!partita.finita) $("#inizia").className = "secondario";
@@ -654,7 +712,7 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; ricevute?: numb
       case "btn-cofano":
         return sovrapposto("#cofano", true);
       case "btn-scheda":
-        return document.body.classList.toggle("scheda-aperta");
+        return void document.body.classList.toggle("scheda-aperta");
       case "btn-suono": {
         const acceso = suono.eAcceso() ? (suono.spegni(), false) : suono.accendi();
         b.textContent = acceso ? "Suono sì" : "Suono no";
@@ -703,7 +761,7 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; ricevute?: numb
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      if (!$("#foglio").hidden && fase === "ricevuta") chiudiFoglio();
+      if (!$("#foglio").hidden && fase === "quadro") chiudiFoglio();
       for (const id of ["#come", "#cofano"]) $(id).hidden = true;
       document.body.classList.remove("scheda-aperta");
       return;
@@ -712,7 +770,7 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; ricevute?: numb
       if (e.key === "Enter") {
         e.preventDefault();
         if (fase === "timbro") continua();
-        else if (fase === "ricevuta") tira();
+        else if (fase === "quadro") tira();
       }
       return;
     }
@@ -726,6 +784,6 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; ricevute?: numb
 }
 
 const hot = (window as unknown as { claude?: { hot?: { snapshot?: (f: () => unknown) => void; ready?: (f: (d: object) => void) => void; data?: object } } }).claude?.hot;
-hot?.snapshot?.(() => ({ partita, diario, ricevute }));
+hot?.snapshot?.(() => ({ partita, diario, quadri }));
 if (hot?.ready) hot.ready(avvia);
 else avvia(hot?.data ?? {});

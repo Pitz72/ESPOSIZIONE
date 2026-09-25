@@ -1,6 +1,6 @@
 # Roadmap: da prototipo a sistema compiuto
 
-*24 settembre 2026. Sostituisce la roadmap della versione 1.3, che sta in `archivio/`.*
+*24 settembre 2026, aggiornata il 25 settembre con il documento di design 3.0. Sostituisce la roadmap della versione 1.3, che sta in `archivio/`.*
 
 ## Dove vogliamo arrivare
 
@@ -16,10 +16,10 @@ ESPOSIZIONE deve diventare un sistema compiuto per scrivere e giocare **qualunqu
 
 ## Dove siamo
 
-Fatto fra il 23 e il 24 settembre 2026:
+Fatto fra il 23 e il 25 settembre 2026:
 
-- il **documento di design 2.0**, `ESPOSIZIONE-DESIGN.md`;
-- il **motore 2.0** in `strumento/motore/`: dati, regole, i 19 controlli, la simulazione, i test;
+- il **documento di design 2.0**, oggi in `archivio/`, e poi il **documento di design 3.0**, `ESPOSIZIONE-DESIGN-3.md`: il personaggio in sei parti, le proprietà dei luoghi, le persone, le notizie e le convinzioni, le quattro fasce del tiro;
+- il **motore 3.0** in `strumento/motore/`: dati, regole, i 30 controlli, la simulazione con nove strategie, i test;
 - **un'ambientazione** (il porto) e **una storia di prova**, *Il registro della Santa Rita*, di 52 scene;
 - **tre formati dalla stessa fonte**: il librogame in PDF, la partita nel terminale e l'app web.
 
@@ -38,13 +38,13 @@ Manca tutto ciò che si impara soltanto facendo giocare persone vere, e manca la
 
 La Santa Rita si fa giocare, su carta e nell'app.
 
-- Si scrivono prima i criteri: che cosa devono rispondere i giocatori alle due domande perché la prova sia superata.
+- I criteri sono già scritti, nel §54 del documento di design 3.0: la prova del quadro sulla carta, sette domande alle persone, il tempo di lettura del quadro.
 - Almeno **dieci persone**: cinque sul libro, cinque sull'app. Si registrano le partite (l'app può esportare il registro della partita) e si fanno le due domande.
-- Si raccolgono i punti in cui le persone si perdono: regole non capite, ricevute ignorate, scelte che nessuno fa.
+- Si raccolgono i punti in cui le persone si perdono: regole non capite, quadri ignorati, scelte che nessuno fa.
 
 **Uscita:** un verbale con le risposte, le correzioni fatte al motore e alla storia, e la decisione motivata su che cosa tenere delle regole che nessuno ha usato.
 
-## Fase 2 — Il motore stabile, 2.1 *(ottobre–novembre 2026)*
+## Fase 2 — Il motore stabile, 3.1 *(ottobre–novembre 2026)*
 
 Tutto ciò che serve perché il motore si possa dare ad altri.
 
@@ -55,7 +55,7 @@ Tutto ciò che serve perché il motore si possa dare ad altri.
 - **La documentazione dell'interfaccia del motore** (`vista`, `agisci`, gli eventi con i loro dati) per chi costruisce giochi grafici.
 - **La modalità racconto**: un'impostazione di chi gioca che toglie la morte e raddoppia il tempo delle scadenze, per chi vuole la storia senza la tensione. Si dichiara all'inizio, e le regole della storia non cambiano.
 
-**Uscita:** 2.1 con test verdi, schema pubblicato, e una storia scritta da una persona che non ha partecipato allo sviluppo, usando soltanto la documentazione.
+**Uscita:** 3.1 con test verdi, schema pubblicato, e una storia scritta da una persona che non ha partecipato allo sviluppo, usando soltanto la documentazione.
 
 ## Fase 3 — La prova dei generi *(novembre 2026 – gennaio 2027)*
 
@@ -68,7 +68,9 @@ La fase più importante: stabilisce se il motore vale davvero «per ogni tipo di
 | **Fantasy con magia** | una disciplina distribuita sulle capacità, il costo della magia | la magia entra davvero senza un sottosistema? che cosa succede ai **poteri** che non sono capacità? |
 | **Dramma sociale o storia d'amore** | nessuna violenza, Traccia come pettegolezzo, relazioni | servono **relazioni a più dimensioni** (fiducia, affetto, rancore) invece di una sola misura? |
 | **Fantascienza** | tecnologia, fazioni, luoghi lontani fra loro | come si viaggia su **scale diverse** (una stanza, una città, un pianeta)? servono **fazioni** con memoria propria? |
-| **Racconto per ragazzi** | nessuna morte, lettura facile | la **modalità racconto** basta? le ricevute si capiscono a dieci anni? |
+| **Racconto per ragazzi** | nessuna morte, lettura facile | la **modalità racconto** basta? il quadro si capisce a dieci anni? |
+
+Il documento 3.0 ha già dato una prima risposta a tre di queste domande: la paura è insieme un logorio (i nervi) e uno stato d'animo (spaventato); le relazioni hanno cinque dimensioni; gli indizi si mettono insieme con le deduzioni. Nella Parte X del documento ci sono tre ambientazioni abbozzate (un giallo, un horror, un racconto per ragazzi) da cui partire. La prova dei generi mette alla prova queste risposte, non le dà per buone.
 
 Per ogni storia si tiene una **tabella degli attriti**, compilata mentre si scrive e non dopo: che cosa si voleva fare, che cosa il motore non permetteva, come lo si è risolto.
 
@@ -76,7 +78,7 @@ Alla fine si decide, per ogni attrito, se diventa una **voce nuova della scheda*
 
 - **i compagni**: altri personaggi che viaggiano con il protagonista, con capacità e condizioni proprie;
 - **i dialoghi**: conversazioni a più battute, in cui ogni risposta è una via e l'interlocutore ha la sua copertura;
-- **il tempo lungo**: storie che durano settimane o anni, con passi di scala diversa;
+- **il tempo lungo**: storie che durano settimane o anni, con unità di tempo di scala diversa;
 - **le risorse**: denaro e scorte, che oggi sono solo oggetti contati;
 - **i protagonisti multipli** e le storie a più punti di vista.
 
@@ -84,11 +86,11 @@ Alla fine si decide, per ogni attrito, se diventa una **voce nuova della scheda*
 
 ## Fase 4 — Lo strumento per chi scrive *(gennaio – marzo 2027)*
 
-ESPOSIZIONE Studio ricostruito sul motore 2.x, pensato per chi scrive e non per chi programma.
+ESPOSIZIONE Studio ricostruito sul motore 3.x, pensato per chi scrive e non per chi programma.
 
 - **La mappa delle scene**, con i rami e i punti di incontro, e le qualità che li collegano.
 - **L'editor delle tabelle** di luoghi e momenti, con l'anteprima delle inversioni: scegli un'azione e vedi dove conviene farla.
-- **L'anteprima della ricevuta** per ogni prova, mentre la si scrive.
+- **L'anteprima del quadro** per ogni prova, mentre la si scrive.
 - **I controlli sempre accesi**, con il messaggio accanto al punto sbagliato.
 - **Il bottone «gioca da qui»** e il bottone «simula mille partite».
 - **I modelli di partenza**: le sei ambientazioni della Fase 3, pronte da copiare.
@@ -109,13 +111,13 @@ Dalla stessa storia, con un comando:
 
 ## Fase 6 — Il manuale e la pubblicazione *(maggio – giugno 2027)*
 
-- **Il manuale per chi gioca**, breve: come si legge una ricevuta, come si tira, che cosa rischi.
+- **Il manuale per chi gioca**, breve: come si legge un quadro, come si tira, che cosa rischi.
 - **Il manuale per chi scrive**: dalla frase dell'esposizione alla storia finita, con gli esempi dei sei generi.
-- **Il documento di design 3.0**, ripulito da tutto ciò che le prove hanno smentito.
+- **La revisione del documento di design**, con ciò che le prove hanno insegnato e ripulita da ciò che hanno smentito.
 - **Il sito**, con le storie giocabili nel browser.
 - **La porta per gli altri**: come si propone una modifica al motore, e dove finiscono le proposte rifiutate, con la ragione.
 
-**Uscita:** ESPOSIZIONE 3.0 pubblicato, con sei storie giocabili, lo strumento, i manuali e la licenza CC BY-SA.
+**Uscita:** ESPOSIZIONE pubblicato, con sei storie giocabili, lo strumento, i manuali e la licenza CC BY-SA.
 
 ---
 
@@ -133,4 +135,4 @@ Sono le idee che reggono tutto. Se una prova le smentisse, non si correggerebbe 
 
 - **Il motore diventa troppo grande.** Ogni genere chiede qualcosa, e dieci aggiunte fanno un sistema che nessuno impara. Per questo ogni aggiunta deve servire ad almeno due generi, o restare un'opzione.
 - **Le tabelle diventano troppo costose da scrivere.** È il prezzo vero del motore. Lo strumento della Fase 4 deve renderlo leggero; se non ci riesce, servono tabelle predefinite per i luoghi comuni (una taverna, una strada di notte).
-- **Le persone non leggono la ricevuta.** Se la Fase 1 mostra che la ricevuta viene ignorata, la promessa centrale cade, e va ripensato come mostrarla prima di aggiungere qualunque altra cosa.
+- **Le persone non leggono il quadro.** Se la Fase 1 mostra che il quadro viene ignorato, la promessa centrale cade, e va ripensato come mostrarlo prima di aggiungere qualunque altra cosa.
