@@ -836,7 +836,7 @@ Matteo trema e batte i denti, ma è vivo, ed è libero.
 
 ### 43
 
-*La Santa Rita.*
+*La Santa Rita.* *Qui sono in tanti a guardare.*
 
 «All'erta! A poppa!» Le lanterne si accendono una dopo l'altra. Il nostromo blocca la passerella con due uomini. Resta il parapetto, e sotto c'è l'acqua nera del porto. A poppa, appesa a due cime, oscilla la lancia della nave.
 

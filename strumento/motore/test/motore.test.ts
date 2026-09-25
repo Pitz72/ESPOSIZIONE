@@ -11,7 +11,7 @@ import { almeno, fasce, fascePercento, fasciaDi, percentuale } from "../src/dadi
 import { prepara, nuovaPartita, type Partita } from "../src/stato.ts";
 import { agisci, vista } from "../src/motore.ts";
 import { controlla } from "../src/controlli.ts";
-import { simula } from "../src/simulazione.ts";
+import { distanzeDallaVittoria, simula } from "../src/simulazione.ts";
 import { libro } from "../src/libro.ts";
 import type { Ambientazione, Grado, Storia } from "../src/tipi.ts";
 
@@ -490,6 +490,17 @@ test("simulazione: nessuna partita si blocca, nessun errore, nessun ciclo infini
     assert.deepEqual(r.bloccate, [], pol);
     assert.equal(r.esiti["troppo lunga"] ?? 0, 0, pol);
   }
+});
+
+test("il giocatore con un obiettivo: nessuna strada vince sempre, e chi gioca bene vince più di chi gioca a caso (§54.2)", () => {
+  assert.ok(Number.isFinite(distanzeDallaVittoria(g).get(storia.inizio)!));
+  const obiettivo = simula(g, "obiettivo", 200);
+  const caso = simula(g, "casuale", 200);
+  assert.deepEqual(obiettivo.errori, []);
+  assert.deepEqual(obiettivo.bloccate, []);
+  const v = (r: typeof caso) => (r.esiti.vittoria ?? 0) / r.partite;
+  assert.ok(v(obiettivo) > v(caso), "giocare per vincere deve pagare");
+  assert.ok(v(obiettivo) < 0.97, "se una strategia vince sempre, le scelte sono finte");
 });
 
 test("il librogame numera ogni scena e comincia dal paragrafo 1", () => {

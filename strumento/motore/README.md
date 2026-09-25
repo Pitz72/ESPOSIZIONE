@@ -18,7 +18,7 @@ node src/cli.ts gioca            # gioca nel terminale (scrivi "scheda" per vede
 node src/cli.ts gioca --seme 11  # la stessa partita, con gli stessi dadi
 node src/cli.ts controlla        # i controlli del §47 sui dati
 node src/cli.ts libro            # rigenera libro/santa-rita.md
-node src/cli.ts simula           # 500 partite per ciascuna delle nove strategie automatiche
+node src/cli.ts simula           # 500 partite per ciascuna delle dieci strategie automatiche
 node web/costruisci.mjs          # rigenera la versione elettronica, libro/santa-rita.html
 node --test                      # i test
 ```
@@ -35,7 +35,7 @@ Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento
 | `src/stato.ts` | lo stato della partita: la memoria della storia, le notizie e le loro smentite, le persone e le loro reazioni, le proprietà dei luoghi, il tempo in ore, le ferite, gli stati d'animo, la Traccia, gli imprevisti |
 | `src/motore.ts` | `vista` (che cosa mostrare) e `agisci` (che cosa succede): il quadro, le fasce, il *Quasi*, il dono, il rovescio, il confronto, le scelte esaurite, «Ci ripenso», «Metto insieme quello che so», gli aiuti, i compagni con le loro varianti |
 | `src/controlli.ts` | i controlli del §47, più quelli strutturali |
-| `src/simulazione.ts` | i giocatori automatici, comprese le strategie per il *Quasi* |
+| `src/simulazione.ts` | i giocatori automatici: le strategie semplici, quelle per il *Quasi*, e il giocatore con un obiettivo, che cerca la strada più breve verso una vittoria pesando probabilità, rumore e rischio di rovescio |
 | `src/libro.ts` | il generatore del librogame |
 | `src/cli.ts` | la riga di comando |
 | `web/` | l'app web: l'interfaccia (`gioco.ts`), il panorama del porto (`panorama.ts`), il suono generato nel browser (`suono.ts`), la pagina (`pagina.html`) e lo script che impacchetta tutto con il motore in un solo file. Il panorama e i colori sono il tema di questa ambientazione: un'altra storia ne avrebbe un altro. Per impacchettare usa esbuild, già presente fra gli strumenti di sviluppo dell'editor; la pagina che ne esce non ha dipendenze |
@@ -68,9 +68,11 @@ Mille partite per strategia. Nessuna partita bloccata, nessun errore. Le fasce o
 
 Dopo l'arrivo dei compagni (cinquecento partite per strategia): nessun blocco, nessun errore, e adesso tutte le scene vengono raggiunte, comprese quelle dell'acqua. La scrupolosa vince il 51% delle volte, la casuale il 22%. Il *Quasi* dà lo stesso risultato: secondo la situazione 22%, sempre tutto 22%.
 
+Poi è arrivato il **giocatore con un obiettivo**, che ha vinto il 100% delle partite: una catena di ripieghi (caricare casse, aspettare che Teodoro dorma, spezzare la catena con l'ascia) finiva in un salto sempre al coperto, perché il buio della nave copriva anche l'allarme. Corretto con lo stato del luogo: quando la Traccia sulla nave arriva a 2 si accendono le lanterne, e il buio sparisce. Dopo la correzione, su mille partite: il giocatore con un obiettivo vince l'81%, la scrupolosa il 45%, la casuale il 20%. Chi gioca bene finisce in circa sei ore e lascia diciannove ore di margine alla scadenza: la nave che salpa quasi non preme. Da decidere dopo le prove con le persone.
+
 ## Che cosa manca
 
 - Le storie con più protagonisti non sono ancora nel motore.
 - L'editor grafico di `strumento/editor/` usa ancora il vecchio motore di InteractiveWriter, in `strumento/core/`. Va ricostruito su questo.
-- Il giocatore automatico «con un obiettivo» del §54.2 non c'è ancora.
+- Le proposte del §7.3 e del §11.4 (le cose nei luoghi, i posti, lo stato del mondo) aspettano il via.
 - Nessuna persona ha ancora giocato il librogame, né l'app del 3.0.

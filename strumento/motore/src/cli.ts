@@ -179,6 +179,7 @@ switch (comando) {
       const q = (x: number) => `${Math.round((x / totF) * 100)}`;
       console.log(`${pol.padEnd(12)} vittorie ${perc("vittoria")} · sconfitte ${perc("sconfitta")} · morti ${perc("morte")} · ore medie ${r.oreMedie.toFixed(1)} · azioni ${r.azioniMedie.toFixed(1)} · rovesci per partita ${r.rovesciMedi.toFixed(2)}`);
       console.log(`             fasce: in pieno ${q(f.pieno)} · riesci ${q(f.riesci)} · quasi ${q(f.quasi)} · non riesci ${q(f.non)}   quasi scelti: tutto ${r.quasi.tutto} · metà ${r.quasi.meta} · lascio ${r.quasi.lascia}`);
+      if (r.margineMedio) console.log(`             nelle vittorie restavano in media ${r.margineMedio.toFixed(1)} ore prima della scadenza`);
       if (r.bloccate.length) console.log(`             BLOCCATE: ${r.bloccate.slice(0, 5).join("; ")}`);
       if (r.errori.length) console.log(`             ERRORI: ${r.errori.slice(0, 5).join("; ")}`);
     }
