@@ -31,6 +31,8 @@ Chi conosce il 2.0 trova nell'appendice D che cosa resta, che cosa cambia e che 
 
 Il 25 settembre 2026 il motore è stato adeguato al 3.0 (appendice E). Passa 38 test, che controllano anche che i numeri di questo documento siano quelli che il motore produce, e i trenta controlli del §47 sui dati della Santa Rita riscritta. Mille partite simulate per ciascuna di nove strategie finiscono tutte, senza blocchi né errori, e le fasce vi escono con le frequenze delle tabelle. Le strategie contano: chi si prepara vince il 45% delle volte, chi sceglie a caso il 20%, e un giocatore automatico che gioca per vincere l'81%, dopo che ha scoperto, e si è corretta, una strada che vinceva sempre (§54.2). Un primo risultato non va nella direzione sperata: nel *Quasi*, scegliere secondo la situazione vince quanto scegliere sempre «tutto», e il criterio 3 del §54.2 non è ancora superato.
 
+Il 27 settembre 2026 sono entrati nel motore le cose nei luoghi, i posti (§7.3) e lo stato del mondo (§11.4). I test sono 52, i controlli del §47 trentasei. Nelle simulazioni chi sceglie a caso vince un po' meno di prima, il 16% invece del 20%, perché la bolla di carico adesso bisogna prenderla, e chi sceglie a caso spesso non lo fa. Il giocatore con un obiettivo vince ancora l'81% (§54.2).
+
 **Non provato.** Nessuno ha ancora giocato il 3.0. I conti delle probabilità sono esatti e si rifanno a mano dalle tabelle dell'appendice A. Ma che le quattro fasce si sentano diverse, che il *Quasi* sia davvero una scelta, che i tratti e i legami arricchiscano la scheda senza appesantirla, che un quadro con quattro sezioni si legga in pochi secondi: tutto questo lo possono dire soltanto le persone che giocano. Il rischio più grande è proprio il quadro: il 2.0 chiedeva di leggere una ricevuta, il 3.0 chiede di leggerne una più lunga. La Parte XI dice come lo si verifica, e che cosa deve succedere perché la prova sia superata.
 
 Una persona sola, per di più l'autore del progetto, non fa una prova. Le osservazioni di quella partita sono servite a correggere la lingua e due regole; non dicono niente sul resto.
@@ -279,23 +281,35 @@ Questa divisione tiene separate due domande che devono restare separate: quanto 
 
 ### 7.3 Raccogliere, portare, lasciare
 
-*Proposta del 25 settembre 2026, da approvare: non è ancora nel motore.*
+*Proposta del 25 settembre 2026, approvata il 27 settembre e nel motore dallo stesso giorno.*
 
 *Nel magazzino sette, su un barile, c'è una leva di ferro. La vedi perché hai la lanterna accesa. La prendi, ma la borsa è piena: per portarla devi lasciare lì il fiasco d'olio. Quando ci torni, due ore dopo, il fiasco è ancora sul barile.*
 
 **Le cose stanno nei luoghi.** Ogni luogo, o ogni scena, elenca le cose che contiene. Il gioco offre da solo «Prendo la leva», «Lascio il fiasco», «Do la corda a Lucia», senza che l'autore scriva queste scelte. Ciò che lasci resta dove l'hai lasciato, e il luogo se lo ricorda.
 
-**Per prendere una cosa servono tre condizioni**, e il quadro le mostra come ogni altro «Puoi farlo?»:
+**Per prendere una cosa servono tre condizioni**, e il gioco le mostra come ogni altra scelta chiusa:
 
 1. **La vedi.** Una cosa in vista si prende e basta. Una cosa nascosta dichiara che cosa serve per vederla: una luce, al buio; una notizia, se è nascosta dove solo chi sa guarda; una prova di *Osservare*, quando la cerchi sotto una pressione. Senza pressione cercare non si tira: costa tempo, come fare le cose con calma.
 2. **La riconosci.** Una cosa può avere un nome finché non la riconosci: «un foglio pieno di timbri». Diventa «la bolla di carico di Grimani» con un tratto (*Sa leggere*), con una notizia, oppure con una prova di *Sapere* o di *Osservare* quando c'è una pressione. Una cosa che non riconosci la puoi portare, ma non la puoi usare per ciò che è: una bolla che non sai leggere non convince nessun ufficiale.
 3. **Hai la forza.** Le cose pesanti chiedono forza come le porte sprangate (§6.1): essere robusto, una leva, qualcuno che ti aiuti. La scelta chiusa dice le alternative.
 
-**Quanto porti si conta in posti.** L'ambientazione dice quanti posti ha il personaggio a mani vuote: nel porto, quattro. Una cosa normale occupa un posto, una ingombrante due, le cose piccole (monete, un biglietto, una chiave) nessuno. I contenitori aggiungono posti finché li porti: una borsa tre, uno zaino sei. Quando i posti sono pieni, per prendere devi lasciare qualcosa, e il quadro lo dice: «Puoi farlo? Sì, se lasci qualcosa». Un compagno ha i suoi posti, e gli puoi dare le tue cose. Una ferita grave al braccio toglie un posto.
+**Quanto porti si conta in posti.** L'ambientazione dice quanti posti ha il personaggio a mani vuote: nel porto, quattro. Una cosa normale occupa un posto, una ingombrante due, le cose piccole (monete, un biglietto, una chiave) nessuno. I contenitori aggiungono posti finché li porti: una borsa tre, uno zaino sei. Quando i posti sono pieni, per prendere devi lasciare qualcosa, e la scelta lo dice prima: «Prendo la leva di ferro. Non hai posto: dovrai lasciare qualcosa qui». Un compagno ha i suoi posti, e gli puoi dare le tue cose. Una ferita grave toglie un posto: l'ambientazione dice in quale ambito, e nel porto è il corpo.
 
 Sulla carta i posti sono una fila di caselle sulla scheda: una cosa ingombrante ne annerisce due, e lo zaino sblocca le caselle tratteggiate.
 
 Il limite serve a una cosa sola: rendere una decisione ciò che porti. Senza, il personaggio raccoglie tutto, e le cose smettono di contare. Con i posti, ogni cosa presa è una cosa lasciata, e chi torna in un luogo trova ciò che ha lasciato lì.
+
+**Le regole di dettaglio.** Scrivendo il motore è servito decidere alcune cose che la proposta non diceva:
+
+- **Lasciare quando vuoi.** Una cosa si può lasciare in qualunque scena, fuori da un confronto, e non costa tempo. Nell'app lo si fa dalla scheda, perché l'elenco delle scelte resti corto; sul libro, scrivendo il nome della cosa nel margine del paragrafo.
+- **Una cosa che ti arriva quando non hai posto**, come il registro appena rubato, resta a terra nella scena in cui sei. La puoi prendere lasciando qualcos'altro.
+- **Le scorte**, come l'olio o le monete, occupano i loro posti una volta sola, quante che siano le dosi. **I contenitori** si portano addosso e non occupano posti.
+- **Le cose che porta un compagno** le usi come se le portassi tu, finché è con te. Se se ne va, lascia dove siete ciò che portava.
+- **Una ferita può lasciarti con più cose di quante ne porti.** Prima di fare altro, scegli che cosa lasciare, o che cosa dare a chi è con te.
+- **Cercare e riconoscere sotto pressione** si scrivono come ogni altra prova: l'autore le dà l'effetto *trova* o *riconosci*.
+- **Una cosa che non riconosci** non fa da attrezzo e non apre le scelte che la chiedono. Le sue proprietà fisiche invece valgono: una bolla compromettente ti compromette anche se non la sai leggere.
+
+**Nella Santa Rita.** Il personaggio porta quattro cose a mani vuote, e la borsa da facchino ne aggiunge tre. Nel magazzino sette ci sono la bolla di carico, un moschetto e, su un barile, la leva di ferro, che si vede solo con la lanterna accesa. Il moschetto occupa due posti, espone come ogni cosa compromettente, e davanti all'ufficiale della guardia vale come attrezzo: +1 al tiro, perché una carta si discute e un moschetto sul tavolo no. Chi non sa leggere porta via «un foglio pieno di timbri», e alla guardia non ha niente da mostrare. Il registro rubato all'archivio occupa un posto.
 
 ## 8. Le notizie e le convinzioni
 
@@ -427,7 +441,7 @@ Un luogo può avere degli **stati**, che dipendono dalla memoria della storia (�
 
 ### 11.4 Lo stato del mondo
 
-*Proposta del 25 settembre 2026, da approvare: non è ancora nel motore.*
+*Proposta del 25 settembre 2026, approvata il 27 settembre e nel motore dallo stesso giorno.*
 
 *Hai forzato il portone dell'archivio. Il giorno dopo il portone è ancora scardinato, e c'è una guardia. Nella stiva hai acceso la lanterna appesa alla trave, e adesso la stiva non è più buia, per nessuno: né per te né per chi ti cerca. Poi dal mare sale la nebbia, e per sei ore sulla banchina non si vede a dieci passi.*
 
@@ -441,7 +455,15 @@ Un luogo può avere degli **stati**, che dipendono dalla memoria della storia (�
 
 **Salute e ambiente insieme.** Molto c'è già: una ferita chiude un ambito, il logorio pesa, gli stati d'animo spostano la soglia, al buio non si legge e in acqua serve saper nuotare. La proposta aggiunge due cose: le ferite contano anche per ciò che porti (una ferita grave al braccio toglie un posto) e per ciò che puoi prendere (una ferita grave al corpo toglie la forza).
 
-La scheda dell'ambientazione (§43) si allargherebbe di quattro voci: le cose di ogni luogo, i posti e i contenitori, gli stati dichiarati dei luoghi e delle cose, il meteo.
+La scheda dell'ambientazione (§43) si allarga: le cose di ogni luogo, i posti e i contenitori, gli stati dichiarati dei luoghi e delle cose, il meteo.
+
+**Come lo scrive l'autore.** Uno stato del mondo ha un nome, un posto in cui vale (alcuni luoghi, tutti i luoghi all'aperto, oppure dappertutto), un valore iniziale e gli altri valori. Ogni valore dice quali proprietà aggiunge o toglie, quali righe di costo porta, per quante ore dura e, se serve, che cosa si porta dietro quando arriva: così un cambiamento ne provoca altri. Le scene lo cambiano con un effetto, e lo leggono nelle condizioni e nel testo. Il meteo è uno stato come gli altri: lo annuncia una scadenza che, quando è piena, invece di chiudere la storia cambia il tempo che fa.
+
+Nel quadro le proprietà che vengono da uno stato portano davanti la frase che lo dice: «il porto è in allarme: chi gira dove non deve viene notato». Sulla scheda compare ogni stato diverso dal solito, con le ore che gli restano.
+
+Scrivendo lo stato del mondo è venuto fuori un difetto del §11.3. Sulla Santa Rita in allarme le lanterne accese toglievano il buio, ma di notte il buio tornava con il momento del giorno. Adesso ciò che uno stato toglie resta tolto, qualunque cosa porti il momento.
+
+**Nella Santa Rita.** Se ti prendono, all'archivio o ai magazzini, il porto va in allarme per sei ore: la sorveglianza vale in ogni luogo, e chi è appena uscito di cella la sente. Il portone dell'archivio, una volta forzato, resta forzato: di notte ci rientri senza tirare, di giorno davanti c'è una guardia. A metà della sera, all'ora 15, sale la nebbia, che la scheda annuncia come una scadenza: per sei ore, sulla banchina e nei magazzini, chi si muove non si vede e chi cerca non trova. Di notte, fuori, fa freddo: la fatica sale di uno stadio ogni quattro ore passate all'aperto.
 
 ## 12. Il tempo
 
@@ -1355,12 +1377,12 @@ Adattare il motore a un mondo significa compilare questa scheda. È l'elenco com
 | 3 | **Gli ambiti** | da 3 a 5, con nome |
 | 4 | **Le capacità** | da 8 a 14, con ambito, partenza, Fondo e la frase della partenza |
 | 5 | **I tratti** | quelli possibili, ciascuno con i suoi effetti (apre, chiude, sposta, aggrava) |
-| 6 | **Le proprietà** | da 6 a 12, ciascuna con il suo effetto su costo, riuscita e requisiti |
-| 7 | **I luoghi** | con zona, proprietà, righe proprie, stati |
+| 6 | **Le proprietà** | da 6 a 12, ciascuna con il suo effetto su costo, riuscita e requisiti, e il logorio che porta, se logora |
+| 7 | **I luoghi** | con zona, proprietà, righe proprie, stati, e se sono all'aperto |
 | 8 | **I momenti** | quante ore dura ciascuno, e le sue proprietà |
 | 9 | **Le aggravanti** | da 3 a 5 tipi, ciascuno con quando vale |
 | 10 | **Le preparazioni** | da 3 a 6 tipi, ciascuno con il suo costo e quanto dura |
-| 11 | **Le cose** | gli attrezzi con il genere di azione che aiutano, le chiavi, le combinazioni, le cose fragili, quanto si porta |
+| 11 | **Le cose** | gli attrezzi con il genere di azione che aiutano, le chiavi, le combinazioni, le cose fragili; i posti a mani vuote, i contenitori, quanti posti occupa ogni cosa, che cosa serve per riconoscerla o sollevarla, e quale ferita toglie un posto e la forza |
 | 12 | **Il catalogo delle difficoltà** | le cose del mondo, la loro soglia, ciò che la sposta, ciò che serve |
 | 13 | **Il tempo** | l'unità (di solito l'ora), quanto costa fare con calma |
 | 14 | **Il logorio** | da 2 a 4, con stadi, ritmo, ambiti, rimedio e crollo |
@@ -1372,6 +1394,8 @@ Adattare il motore a un mondo significa compilare questa scheda. È l'elenco com
 | 20 | **Il repertorio** | le complicazioni, gli imprevisti e i prezzi di ogni zona |
 | 21 | **La crescita** | chi insegna, chi dà punti, quali tratti si guadagnano, o se il personaggio è fisso |
 | 22 | **La memoria della storia** | i fili, le scadenze, i fatti e le misure principali, le notizie, le convinzioni, le deduzioni |
+| 23 | **Le cose nei luoghi** | per ogni scena, le cose che ci sono, e che cosa serve per vederle |
+| 24 | **Lo stato del mondo** | gli stati dei luoghi, delle cose e del mondo intero: i valori, dove valgono, quanto durano, che cosa cambiano; il tempo che fa, con la scadenza che lo annuncia |
 
 Se un mondo ha bisogno di qualcosa che questa scheda non prevede, conviene fermarsi a chiedersi se si tratta di un sottosistema che mangerebbe gli altri (una barra della magia, per esempio, che rifarebbe i punti ferita), e in quel caso rifiutarlo; oppure di una lacuna del motore, e in quel caso aggiungerlo qui, per tutti.
 
@@ -1474,6 +1498,12 @@ Una storia è pronta quando passa questi controlli. Nell'app li fa un programma;
 | 28 | Nessun *Non riesci* al coperto o esposto porta a un finale o a una ferita: solo il rovescio può chiudere la storia |
 | 29 | *Avviso.* Ogni scelta è scritta in prima persona |
 | 30 | *Avviso.* Ogni tratto iniziale apre e chiude, o rende più difficile, qualcosa |
+| 31 | Ogni cosa di una scena esiste, e ciò che serve per vederla, riconoscerla o sollevarla rimanda a cose, tratti e notizie che esistono; nessuna cosa occupa posti negativi |
+| 32 | Il personaggio parte con cose che può portare |
+| 33 | Ogni stato del mondo ha il valore iniziale fra i suoi valori, almeno due valori, proprietà e luoghi esistenti, righe da −1 a +1 e durate di almeno un'ora |
+| 34 | Ogni scadenza dice che cosa succede quando è piena: una scena, o un cambiamento del mondo |
+| 35 | Ogni proprietà che logora dice quale logorio, e ogni quante ore |
+| 36 | *Avviso.* Ogni stato del mondo è cambiato da almeno una scena, una scadenza o un altro stato |
 
 ## 48. Quattro formati
 
@@ -1752,6 +1782,10 @@ E un criterio sul lavoro di chi scrive: nella Santa Rita riscritta, la media dei
 
 Il giocatore con un obiettivo esiste dal 25 settembre 2026, e al primo giro ha fatto il suo lavoro: ha trovato nella Santa Rita una strada che vinceva sempre, una catena di ripieghi (caricare casse, aspettare che Teodoro si addormenti, spezzare la catena con l'ascia) che finiva in un salto sempre al coperto, perché il buio della nave copriva anche l'allarme. La correzione è venuta dallo stato del mondo: quando suona l'allarme si accendono le lanterne, e il buio non copre più nessuno. Dopo la correzione il giocatore con un obiettivo vince 81 partite su 100, contro le 20 di chi sceglie a caso. Il criterio 2 è superato. Resta un dato da portare alle prove con le persone: chi gioca bene finisce in sei ore circa, e alla nave che salpa restano in media diciannove ore. La scadenza, per un giocatore attento, quasi non preme.
 
+Il 27 settembre 2026, dopo le cose nei luoghi e lo stato del mondo, mille partite per strategia: nessun blocco, nessun errore, tutte le scene raggiunte, le fasce ancora con le frequenze delle tabelle. Le vittorie: il giocatore con un obiettivo 81%, la scrupolosa 43%, l'opportunista 38%, la temeraria 30%, la casuale 16%, la prudente 4%. Per capire che cosa aveva fatto scendere la casuale dal 20 al 16% e la prudente dall'11 al 4%, si sono tolte le novità una alla volta: quasi tutta la differenza viene dalla bolla, che nel magazzino sette adesso bisogna prendere; la nebbia, il freddo, l'allarme del porto e la correzione del buio notturno sulla nave spostano un punto o niente. Il *Quasi* resta com'era: secondo la situazione 16%, sempre tutto 16%, sempre la metà e sempre lascio perdere 13%. Il criterio 3 non è superato, e la scadenza lascia sempre diciannove ore a chi gioca bene. Tutte e due le decisioni aspettano le partite delle persone: il motore non cambia su un dato che solo loro possono dare.
+
+Una nota sul giocatore «secondo la situazione»: fuori dal *Quasi* sceglie a caso, come il casuale, e per questo vince quanto lui. Il criterio 3 confronta regole per il *Quasi*, e dice qualcosa soltanto se il resto della partita è giocato allo stesso modo.
+
 ### 54.3 Le persone
 
 Almeno **dieci persone** giocano la Santa Rita riscritta con il 3.0: cinque sul libro, cinque nell'app. L'app registra la partita, compresi i tempi di lettura dei quadri e le scelte nei *Quasi*. Alla fine si fanno sette domande, ciascuna con il suo criterio.
@@ -1766,6 +1800,8 @@ Almeno **dieci persone** giocano la Santa Rita riscritta con il 3.0: cinque sul 
 | 6 | «Che cosa poteva o non poteva fare il tuo personaggio, per com'era fatto?» | almeno 6 su 10 citano un tratto e che cosa ha aperto o chiuso |
 | 7 | «Hai mai cambiato idea su qualcosa, nella storia?» | almeno 5 su 10 raccontano un «Ci ripenso», o una notizia smentita |
 
+Dal 27 settembre 2026 l'app registra ciò che serve: in fondo al registro della partita, che si copia alla fine o dal pannello «Sotto il cofano», ci sono i secondi in cui è rimasto aperto ogni quadro, e ogni scelta nei *Quasi* con la situazione in cui è stata fatta (il grado, l'ora, la Traccia del luogo, quanto manca alla nave).
+
 C'è poi una misura che non chiede niente a nessuno: **il tempo di lettura del quadro**, registrato dall'app. Se dopo le prime cinque prove la mediana resta sopra i quindici secondi, il quadro è troppo lungo, e va ripensato come mostrarlo prima di aggiungere qualunque altra cosa. È il rischio più grande del 3.0, e la roadmap lo aveva già scritto per la ricevuta.
 
 Nella prova dei generi, ogni storia nuova si fa giocare ad almeno tre persone, con le stesse domande.
@@ -1777,7 +1813,7 @@ Un criterio mancato non si corregge spostando il criterio. Si corregge il motore
 ## 55. Prossimi passi
 
 1. **Approvare questo documento.** Fino ad allora il 2.0 resta il riferimento.
-2. **Adeguare il motore e i dati.** Fatto il 25 settembre 2026, secondo l'appendice E, compresi i compagni e il giocatore con un obiettivo. Restano l'editor e le proposte del §7.3 e del §11.4 (le cose nei luoghi, i posti, lo stato del mondo), da approvare.
+2. **Adeguare il motore e i dati.** Fatto il 25 settembre 2026, secondo l'appendice E, compresi i compagni e il giocatore con un obiettivo. Il 27 settembre sono entrate anche le cose nei luoghi, i posti e lo stato del mondo (§7.3, §11.4). Resta l'editor.
 3. **Riscrivere la Santa Rita** nel 3.0. Fatto anche questo: le scelte in prima persona, i ripieghi, le proprietà dei luoghi, le persone con i loro legami, i tratti del personaggio, le notizie con il loro stato, una convinzione che si può lasciare andare.
 4. **La prova del quadro sulla carta** (§54.1), che si può fare anche prima del punto 2.
 5. **La prova con le persone** (§54.3), che diventa la Fase 1 della roadmap.
@@ -2156,7 +2192,7 @@ Escono dal glossario: *casella* e i nomi delle sei caselle (successo pieno, succ
 
 # APPENDICE E — Che cosa cambiare nel motore e nei dati
 
-Questo era l'elenco del lavoro per adeguare `strumento/motore/`. È stato fatto il 25 settembre 2026, compresi i compagni (§33) e il giocatore automatico con un obiettivo (§54.2), aggiunti lo stesso giorno. Restano da fare l'editor di ESPOSIZIONE Studio e le proposte del §7.3 e del §11.4. Il `README.md` del motore dice com'è fatto adesso.
+Questo era l'elenco del lavoro per adeguare `strumento/motore/`. È stato fatto il 25 settembre 2026, compresi i compagni (§33) e il giocatore automatico con un obiettivo (§54.2), aggiunti lo stesso giorno. Il 27 settembre si sono aggiunte le proposte del §7.3 e del §11.4, con i controlli dal 31 al 36 del §47. Resta da fare l'editor di ESPOSIZIONE Studio. Il `README.md` del motore dice com'è fatto adesso.
 
 **Il formato dei dati** (`src/tipi.ts`)
 

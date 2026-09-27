@@ -46,6 +46,17 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   const convinzione = (id: string) => storia.convinzioni.find((c) => c.id === id)?.testo ?? id;
   const stato = (id: string) => amb.statiAnimo.find((s) => s.id === id)?.nome.toLowerCase() ?? id;
   const ore = (k: number) => (k === 1 ? "un'ora" : `${NUMERI[k] ?? k} ore`);
+  const mondo = (id: string) => (storia.stati ?? []).find((s) => s.id === id)!;
+  const valoreMondo = (id: string, v: string) => mondo(id).valori.find((x) => x.id === v)?.nome ?? v;
+  const proprietaNome = (id: string) => amb.proprieta.find((x) => x.id === id)?.nome.toLowerCase() ?? id;
+  const postiParola = (n: number) => (n === 0 ? "nessun posto" : n === 1 ? "un posto" : `${NUMERI[n] ?? n} posti`);
+  const postiDi = (id: string) => {
+    const c = storia.cose.find((o) => o.id === id);
+    if (!c) return 1;
+    if (c.posti !== undefined) return c.posti;
+    if (c.contiene || c.proprieta?.includes("piccola")) return 0;
+    return c.proprieta?.includes("ingombrante") ? 2 : 1;
+  };
 
   // ---- condizioni ed effetti a parole
   const frase = (c: Condizione): string => {
@@ -57,6 +68,11 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
       if ("traccia" in x) return `la Traccia a ${luogo(x.traccia).nome} è meno di ${x.almeno}`;
       if ("convinzione" in x) return `non credi più che «${convinzione(x.convinzione)}»`;
       if ("tratto" in x) return `non sei ${tratto(x.tratto)}`;
+      if ("proprieta" in x) {
+        const pr = amb.proprieta.find((k) => k.id === x.proprieta);
+        return `non c'è ${proprietaNome(x.proprieta)}${pr?.annullataDa ? `, oppure ${frase(pr.annullataDa.se)}` : ""}`;
+      }
+      if ("stato" in x) return `non hai segnato «${mondo(x.stato).nome}: ${[x.valore].flat().map((v) => valoreMondo(x.stato, v)).join(" o ")}»`;
       return `non vale: ${frase(x)}`;
     }
     if ("fatto" in c) return `hai la parola chiave ${parola(c.fatto)}`;
@@ -81,6 +97,8 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if ("ferita" in c) return `hai una ferita almeno ${c.ferita}`;
     if ("filo" in c) return `${c.filo} è almeno ${c.almeno}`;
     if ("scadenza" in c) return `${c.scadenza} è almeno ${c.almeno}`;
+    if ("stato" in c) return `hai segnato «${mondo(c.stato).nome}: ${[c.valore].flat().map((v) => valoreMondo(c.stato, v)).join(" o ")}»`;
+    if ("proprieta" in c) return `c'è ${proprietaNome(c.proprieta)}`;
     return "(condizione di prova)";
   };
   const effetto = (e: Effetto): string => {
@@ -110,6 +128,12 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if ("filo" in e) return `${storia.fili.find((f) => f.id === e.filo)?.nome ?? e.filo} ${segno(e.piu)}`;
     if ("preparazione" in e) return `preparazione: «${amb.preparazioni.find((p) => p.id === e.preparazione)?.testo}»`;
     if ("tacca" in e) return `una tacca a ${cap(e.tacca).nome}`;
+    if ("stato" in e) {
+      const v = mondo(e.stato).valori.find((x) => x.id === e.valore);
+      return `«${mondo(e.stato).nome}: ${v?.nome ?? e.valore}»${v?.dura ? `, per ${ore(v.dura)}` : ""}`;
+    }
+    if ("trova" in e) return `adesso vedi ${cosa(e.trova).toLowerCase()}`;
+    if ("riconosci" in e) return `adesso riconosci ${cosa(e.riconosci).toLowerCase()}`;
     return "";
   };
   const segna = (effetti: Effetto[] | undefined) => {
@@ -166,6 +190,47 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     const tutti = new Set(valori.map((x) => x.v));
     return tutti.size === 1 ? valori[0].v : valori.map((x) => `${momentoBreve(x.m)} ${x.v}`).join(" · ");
   };
+  /** Le proprietà che uno stato aggiunge o toglie: che cosa cambiano per questa prova, nel costo e nella soglia. */
+  const cambiDi = (capId: string, generi: string[], aggiungi: string[], togli: string[], righe: Array<{ ambito: string; valore: number }>) => {
+    const c = cap(capId);
+    let costo = righe.filter((r) => r.ambito === c.ambito).reduce((n, r) => n + r.valore, 0);
+    let soglia = 0;
+    for (const [ids, verso] of [[aggiungi, 1], [togli, -1]] as const) {
+      for (const id of ids) {
+        const pr = amb.proprieta.find((x) => x.id === id);
+        costo += verso * (pr?.valori[c.ambito] ?? 0);
+        for (const s of pr?.sposta ?? []) if (!s.se && (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId))) soglia += verso * s.gradini * 2;
+      }
+    }
+    return { costo, soglia };
+  };
+  /** Gli stati del luogo e del mondo che cambiano questa prova (§11.3, §11.4). */
+  const perStati = (capId: string, sogliaId: string, l: string): { soglia: string[]; costo: string[] } => {
+    const generi = amb.catalogo.find((x) => x.id === sogliaId)!.generi ?? [];
+    const lu = luogo(l);
+    const out = { soglia: [] as string[], costo: [] as string[] };
+    const scrivi = (cambi: { costo: number; soglia: number }, quando: string) => {
+      if (cambi.costo) out.costo.push(`${segno(cambi.costo)} se ${quando}`);
+      if (cambi.soglia) out.soglia.push(`${segno(cambi.soglia)} alla soglia se ${quando}`);
+    };
+    for (const st of lu.stati ?? []) scrivi(cambiDi(capId, generi, (st.aggiungi ?? []).filter((id) => !lu.proprieta.includes(id)), (st.togli ?? []).filter((id) => lu.proprieta.includes(id)), []), frase(st.se));
+    for (const st of storia.stati ?? []) {
+      const qui = !st.dove || st.dove.luoghi?.includes(l) || (st.dove.allAperto && lu.allAperto);
+      if (!qui) continue;
+      for (const v of st.valori) {
+        if (v.id === st.iniziale) continue;
+        scrivi(cambiDi(capId, generi, (v.aggiungi ?? []).filter((id) => !lu.proprieta.includes(id)), v.togli ?? [], v.righe ?? []), `hai segnato «${st.nome}: ${v.nome}»`);
+      }
+    }
+    return out;
+  };
+  /** Una cosa detta per il libro: il nome, i posti, e che cosa serve per riconoscerla o sollevarla. */
+  const cosaInLibro = (id: string) => {
+    const c = storia.cose.find((o) => o.id === id)!;
+    const extra = [amb.posti ? postiParola(postiDi(id)) : "", c.contiene ? `aggiunge ${postiParola(c.contiene)}` : "", c.pesante ? `${c.pesante.testo}` : "", c.riconosci ? `se non ${c.riconosci.una.map(frase).join(" e non ")}, per te è «${c.riconosci.nome.replace(/^./, (x) => x.toLowerCase())}» e non la puoi usare per ciò che è` : ""].filter(Boolean);
+    return `${c.nome.replace(/^./, (x) => x.toLowerCase())}${extra.length ? ` (${extra.join("; ")})` : ""}`;
+  };
+
   /** Le ragioni che spostano la soglia e dipendono da chi legge: notizie, tratti, persone, stati d'animo, attrezzi, aiuti. */
   const variazioni = (capId: string, sogliaId: string, l: string, pr?: Prova) => {
     const v = amb.catalogo.find((x) => x.id === sogliaId)!;
@@ -186,6 +251,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if (pr?.aiuto) out.push(`+1 al tiro con l'aiuto di ${persona(pr.aiuto)}, se ha fiducia almeno 2 o ti deve un favore; poi il debito scende di 1`);
     for (const s of pr?.sposta ?? []) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia: ${s.testo}`);
     if (v.serve) out.push(`${v.serve.testo} (${v.serve.una.map(frase).join(" oppure ")})`);
+    out.push(...perStati(capId, sogliaId, l).soglia);
     return out;
   };
 
@@ -238,6 +304,15 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     p(`**Le cose.** ${storia.combinazioni.map((c) => `${c.testo}: se hai ${c.da.map((x) => cosa(x).toLowerCase()).join(" e ")}, cancellale e segna ${cosa(c.cosa).toLowerCase()}.`).join(" ")} Una cosa fragile usata come attrezzo si rovina a ogni «non riesci»; rovinata funziona ancora, rotta no.`);
     p();
   }
+  if (amb.posti) {
+    const conte = Object.keys(storia.personaggio.cose).filter((id) => storia.cose.find((o) => o.id === id)?.contiene);
+    p(`**Prendere e lasciare.** Quando un paragrafo dice «Qui c'è», puoi prendere quella cosa: segnala fra le tue cose, e scrivi accanto, nel paragrafo, «presa»; se ci torni, non c'è più. Una cosa nascosta la prendi solo se vale la condizione scritta accanto. Prendere non costa tempo, ma costa posto: a mani vuote porti ${postiParola(amb.posti.aManiVuote)}${conte.length ? `, e ${conte.map((id) => `${cosa(id).toLowerCase()} ne aggiunge ${NUMERI[storia.cose.find((o) => o.id === id)!.contiene!] ?? storia.cose.find((o) => o.id === id)!.contiene}`).join(", ")}` : ""}. Una cosa occupa un posto, una ingombrante due, le cose piccole nessuno; lo dice accanto a ogni cosa. Se non hai posto, per prendere devi lasciare qualcosa: cancellala dalla scheda e scrivi il suo nome nel margine del paragrafo in cui sei, e la ritrovi lì. Allo stesso modo puoi lasciare una cosa quando vuoi. Se un paragrafo ti dà una cosa per cui non hai posto, la cosa resta lì allo stesso modo.${amb.posti.ferita ? ` ${amb.posti.ferita.testo.replace(/^./, (x) => x.toUpperCase())}.` : ""}${storia.persone.some((x) => x.compagno) ? " Un compagno ha i suoi posti: gli puoi dare le tue cose, e finché è con te le puoi usare come se le avessi tu. Se se ne va, lascia dove siete ciò che portava." : ""}`);
+    p();
+  }
+  if (storia.stati?.length) {
+    p(`**Lo stato del mondo.** Alcuni paragrafi ti dicono di segnare uno stato del mondo. Spunta la sua casella sulla scheda; se dura qualche ora, scrivi le ore accanto e cancellane una ogni ora che passa: a zero, lo stato torna com'era. Finché lo hai segnato, cambia i luoghi: ${(storia.stati ?? []).flatMap((st) => st.valori.filter((v) => v.id !== st.iniziale && (v.aggiungi?.length || v.togli?.length || v.righe?.length)).map((v) => `«${st.nome}: ${v.nome}» ${[v.aggiungi?.length ? `porta ${v.aggiungi.map(proprietaNome).join(" e ")}` : "", v.togli?.length ? `toglie ${v.togli.map(proprietaNome).join(" e ")}` : "", ...(v.righe ?? []).map((r) => `${r.testo} (${r.ambito} ${segno(r.valore)})`)].filter(Boolean).join(", ")} ${!st.dove ? "in tutti i luoghi" : st.dove.allAperto ? `nei luoghi all'aperto (${amb.luoghi.filter((l) => l.allAperto).map((l) => l.nome.replace(/^./, (x) => x.toLowerCase())).join(", ")})` : `in questi luoghi: ${st.dove.luoghi!.map((l) => luogo(l).nome.replace(/^./, (x) => x.toLowerCase())).join(", ")}`}`)).join("; ")}. Gli altri stati li leggono i paragrafi. Le prove dicono quanto cambiano il costo e la soglia.`);
+    p();
+  }
   const compagni = storia.persone.filter((x) => x.compagno);
   if (compagni.length) {
     p(`**I compagni.** Qualcuno può venire con te. Finché è con te, in ogni prova in cui conosce la capacità puoi chiedergli di **aiutarti** (+1 al tiro, se si fida di te almeno 2 o ti deve un favore; poi il debito scende di 1) oppure di **farla al posto tuo**: usa il suo livello e i suoi tratti al posto dei tuoi, e se finisce in un rovescio le ferite sono sue e il suo rancore sale di 1. Se il rancore di un compagno arriva a 3, se ne va. Le sue ferite guariscono e peggiorano come le tue. ${compagni.map((x) => `${persona(x.id)}: ${Object.entries(x.compagno!.capacita).map(([k, v]) => `${cap(k).nome} ${["Inesperta", "Pratica", "Esperta", "Maestra"][v]}`.replace(/a$/, x.femminile ? "a" : "o")).join(", ")}; ${x.compagno!.tratti.map(tratto).join(", ")}.`).join(" ")}`);
@@ -248,7 +323,8 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p(`**Crescere.** Ogni prova finita in «in pieno» o «riesci» dà una tacca alla capacità usata (una per paragrafo). Con ${amb.crescita.tacche[0]} tacche un Inesperto diventa Pratico, con altre ${amb.crescita.tacche[1]} un Pratico diventa Esperto. Maestro non si diventa senza un maestro.`);
   p();
   for (const s of storia.scadenze) {
-    p(`**La scadenza.** ${s.nome}: annerisci una casella ogni ${s.ogniOre} ore. Quando anneriresti l'ultima${s.salvoSe ? `, a meno che ${frase(s.salvoSe)},` : ""} vai subito al ${n(s.alScadere)}.`);
+    const cosaSuccede = [s.effetti?.length ? `segna ${s.effetti.map(effetto).join(", ")}` : "", s.alScadere ? `vai subito al ${n(s.alScadere)}` : ""].filter(Boolean).join(", e ");
+    p(`**La scadenza.** ${s.nome}: annerisci una casella ogni ${s.ogniOre} ore. Quando anneriresti l'ultima${s.salvoSe ? `, a meno che ${frase(s.salvoSe)},` : ","} ${cosaSuccede}.`);
     p();
   }
   p(`**La morte.** Se muori, vai al ${n(storia.morte)}. Nessuna prova può ucciderti senza che la sua posta lo dica prima.`);
@@ -257,8 +333,21 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   // ---- il tempo
   p(`### Quando passa il tempo`);
   p();
+  const logorano = amb.proprieta.filter((x) => x.logora);
+  // Dove vale una proprietà: i luoghi, raggruppati per i momenti in cui c'è. «la notte: la banchina, i magazzini».
+  const doveVale = (id: string) => {
+    const gruppi = new Map<string, string[]>();
+    for (const l of amb.luoghi) {
+      const m = amb.momenti.filter((x) => proprietaIn(l.id, x.id).includes(id)).map((x) => momentoBreve(x.id));
+      if (!m.length) continue;
+      const k = m.length === amb.momenti.length ? "sempre" : m.join(" e ");
+      gruppi.set(k, [...(gruppi.get(k) ?? []), l.nome.replace(/^./, (x) => x.toLowerCase())]);
+    }
+    return [...gruppi].map(([k, l]) => `${k}: ${l.join(", ")}`).join("; ");
+  };
+  if (storia.stati?.some((st) => st.valori.some((v) => v.dura))) p(`0. **Stati del mondo**: cancella un'ora dagli stati che durano; a zero, tornano com'erano.`);
   p(`1. **Scadenza**: se è il suo turno, annerisci una casella.`);
-  p(`2. **Logorio**: ${amb.logorii.filter((l) => l.ogniOre > 0).map((l) => `${l.nome} sale di uno stadio ogni ${l.ogniOre} ore senza rimedio`).join("; ")}. Se un logorio è allo stremo, fai una prova di ${cap(amb.resistenza).nome}: due dadi più il livello, meno 1, contro 8. Con «quasi» perdi un'ora; con «non riesci» succede quello che dice la tabella dei logorii.`);
+  p(`2. **Logorio**: ${amb.logorii.filter((l) => l.ogniOre > 0).map((l) => `${l.nome} sale di uno stadio ogni ${l.ogniOre} ore senza rimedio`).join("; ")}.${logorano.length ? ` ${logorano.map((x) => `Dove c'è ${x.nome.toLowerCase()} (${doveVale(x.id)}), la ${amb.logorii.find((l) => l.id === x.logora!.logorio)!.nome.toLowerCase()} sale di uno stadio anche ogni ${x.logora!.ogniOre} ore passate lì di fila.`).join(" ")}` : ""} Se un logorio è allo stremo, fai una prova di ${cap(amb.resistenza).nome}: due dadi più il livello, meno 1, contro 8. Con «quasi» perdi un'ora; con «non riesci» succede quello che dice la tabella dei logorii.`);
   p(`3. **Stati d'animo**: quelli che passano col tempo passano.`);
   p(`4. **Ferite**: una ferita lieve guarisce dopo ${amb.ferite.lieveGuarisceIn} ore; una grave non curata diventa mortale dopo ${amb.ferite.graveDiventaMortaleIn} ore; una ferita mortale non curata uccide dopo ${amb.ferite.mortaleUccideIn} ore.`);
   p(`5. **Traccia**: in ogni luogo dove non hai lasciato Traccia nuova da ${amb.traccia.calaOgniOre} ore, la Traccia cala di uno.`);
@@ -285,8 +374,17 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   p(`**Tratti:** ${storia.personaggio.tratti.map(tratto).join(" · ")}. Tratti guadagnati: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_`);
   p();
-  p(`**Cose:** ${Object.entries(storia.personaggio.cose).map(([id, q]) => `${cosa(id)}${q > 1 ? ` (${q})` : ""}`).join(", ")}.`);
+  p(`**Cose:** ${Object.entries(storia.personaggio.cose).map(([id, q]) => `${cosa(id)}${q > 1 ? ` (${q})` : ""}${amb.posti ? ` [${storia.cose.find((o) => o.id === id)?.contiene ? `aggiunge ${postiParola(storia.cose.find((o) => o.id === id)!.contiene!)}` : postiParola(postiDi(id))}]` : ""}`).join(", ")}.`);
   p();
+  if (amb.posti) {
+    const extra = Object.keys(storia.personaggio.cose).reduce((k, id) => k + (storia.cose.find((o) => o.id === id)?.contiene ?? 0), 0);
+    p(`**Posti:** ${"☐".repeat(amb.posti.aManiVuote)}${extra ? ` ┆ ${"☐".repeat(extra)} (con ${Object.keys(storia.personaggio.cose).filter((id) => storia.cose.find((o) => o.id === id)?.contiene).map((id) => cosa(id).toLowerCase()).join(" e ")})` : ""}`);
+    p();
+  }
+  if (storia.stati?.length) {
+    p(`**Il mondo:** ${storia.stati.map((st) => `${st.nome} ${st.valori.filter((v) => v.id !== st.iniziale).map((v) => `☐ ${v.nome}${v.dura ? ", ore: \_\_\_\_\_\_" : ""}`).join(" ")}`).join(" · ")}`);
+    p();
+  }
   p(`**Protezioni:** ${storia.personaggio.protezioni.map((id) => `${amb.protezioni.find((x) => x.id === id)?.nome}: ☐ intatta ☐ rovinata ☐ rotta`).join("; ")}. Una protezione declassa una ferita (${amb.protezioni.map((x) => x.contro.join(", ")).join("; ")}) di un grado e scende di uno stato.`);
   p();
   p(`**Convinzioni:** ${storia.personaggio.convinzioni.map((c) => `☐ «${convinzione(c)}»`).join(" · ")}`);
@@ -355,7 +453,8 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   for (const pr of amb.proprieta) {
     const val = Object.entries(pr.valori).filter(([, v]) => v).map(([a, v]) => `${a} ${segno(v!)}`).join(", ");
     const sp = (pr.sposta ?? []).map((s) => `${s.testo}: ${s.gradini < 0 ? "−2" : "+2"} alla soglia`).join("; ");
-    p(`- **${pr.nome}**${val ? ` (costo: ${val})` : ""}${sp ? `. ${sp}` : ""}${pr.serve?.length ? `. ${pr.serve.map((s) => s.testo).join("; ")}` : ""}${pr.annullataDa ? `. ${pr.annullataDa.testo}` : ""}.`);
+    const lg = pr.logora ? `la ${amb.logorii.find((l) => l.id === pr.logora!.logorio)!.nome.toLowerCase()} sale di uno stadio ogni ${pr.logora.ogniOre} ore passate qui` : "";
+    p(`- **${pr.nome}**${val ? ` (costo: ${val})` : ""}${sp ? `. ${sp}` : ""}${pr.serve?.length ? `. ${pr.serve.map((s) => s.testo).join("; ")}` : ""}${pr.annullataDa ? `. ${pr.annullataDa.testo}` : ""}${lg ? `. ${lg}` : ""}.`);
   }
   p();
   p(`| Luogo | Proprietà | ${amb.momenti.map((m) => momentoBreve(m.id)).join(" | ")} |`);
@@ -414,6 +513,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     const righe = (pr.righe ?? []).reduce((x, r) => x + r.valore, 0);
     const sog = perMomento(ammessi.map((m) => ({ m, v: String(sogliaDi(pr.capacita, pr.soglia, s.luogo, m)) })));
     const cost = perMomento(ammessi.map((m) => ({ m, v: segno(costoDi(pr.capacita, s.luogo, m, righe)).replace("+", "") })));
+    const costoStati = perStati(pr.capacita, pr.soglia, s.luogo).costo;
     const nomeSoglia = SOGLIA_NOME[amb.catalogo.find((x) => x.id === pr.soglia)!.soglia];
     const vari = variazioni(pr.capacita, pr.soglia, s.luogo, pr);
     const c_ = cap(pr.capacita);
@@ -421,7 +521,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     const dono = pr.dono ? `segna anche: ${pr.dono.testo}${segna(pr.dono.effetti)}` : `segna anche ${notizia(pr.nonRiesci.notizia)}`;
     const quasi = [`al ${n(pr.riesci.vai)} salendo di un grado`, meta ? `al ${n(meta)} (la metà)` : "", `resta qui (lasci perdere)`].filter(Boolean).join(", ");
     const extra = [pr.unColpoSolo ? "Una volta sola." : "", pr.prezzo ? `Il prezzo, allo scoperto: ${pr.prezzo.testo}${segna(pr.prezzo.effetti)}` : ""].filter(Boolean).join(" ");
-    return `- **Prova: ${c.testo}**${req}. ${c_.nome} (${c_.ambito}, Fondo ${c_.fondo}). Soglia ${nomeSoglia}: ${sog}${vari.length ? ` (${vari.join("; ")})` : ""}. Costo di partenza: ${cost}${(pr.righe ?? []).map((r) => ` (compresa la riga «${r.testo}», ${segno(r.valore)})`).join("")}. *${pr.posta}* **In pieno**: ${n(pr.riesci.vai)}, e ${dono} · **Riesci**: ${n(pr.riesci.vai)}${segna(pr.riesci.effetti)} · **Quasi**: scegli ${quasi} · **Non riesci**: segna ${notizia(pr.nonRiesci.notizia)}, vai al ${n(pr.nonRiesci.vai)}${segna(pr.nonRiesci.effetti)}${pr.rovescio ? `; allo scoperto, rovescio: ${n(pr.rovescio.vai)}${segna(pr.rovescio.effetti)}` : ""}.${extra ? ` ${extra}` : ""}`;
+    return `- **Prova: ${c.testo}**${req}. ${c_.nome} (${c_.ambito}, Fondo ${c_.fondo}). Soglia ${nomeSoglia}: ${sog}${vari.length ? ` (${vari.join("; ")})` : ""}. Costo di partenza: ${cost}${(pr.righe ?? []).map((r) => ` (compresa la riga «${r.testo}», ${segno(r.valore)})`).join("")}${costoStati.length ? ` (${costoStati.join("; ")})` : ""}. *${pr.posta}* **In pieno**: ${n(pr.riesci.vai)}, e ${dono} · **Riesci**: ${n(pr.riesci.vai)}${segna(pr.riesci.effetti)} · **Quasi**: scegli ${quasi} · **Non riesci**: segna ${notizia(pr.nonRiesci.notizia)}, vai al ${n(pr.nonRiesci.vai)}${segna(pr.nonRiesci.effetti)}${pr.rovescio ? `; allo scoperto, rovescio: ${n(pr.rovescio.vai)}${segna(pr.rovescio.effetti)}` : ""}.${extra ? ` ${extra}` : ""}`;
   };
   for (const s of ordinate) {
     const lu = luogo(s.luogo);
@@ -433,6 +533,10 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if (s.entrando?.length) {
       p();
       p(segna(s.entrando).trim());
+    }
+    if (s.cose?.length) {
+      p();
+      p(`*Qui c'è:* ${s.cose.map((c) => `${cosaInLibro(c.cosa)}${(c.quante ?? 1) > 1 ? ` ×${c.quante}` : ""}${c.nascosta ? `, *solo se ${frase(c.nascosta.se)}*` : ""}`).join(" · ")}.`);
     }
     p();
     if (s.finale) {

@@ -8,7 +8,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { componi, riuscita, tieni } from "../src/quadro.ts";
 import { almeno, fasce, fascePercento, fasciaDi, percentuale } from "../src/dadi.ts";
-import { prepara, nuovaPartita, type Partita } from "../src/stato.ts";
+import { applica, avanza, capienza, forzaPer, haProprieta, occupati, prepara, nuovaPartita, proprietaAttive, type Evento, type Partita } from "../src/stato.ts";
 import { agisci, vista } from "../src/motore.ts";
 import { controlla } from "../src/controlli.ts";
 import { distanzeDallaVittoria, simula } from "../src/simulazione.ts";
@@ -431,6 +431,193 @@ test("un compagno con rancore 3 se ne va", () => {
 });
 
 // ---------------------------------------------------------------------------
+// Le cose nei luoghi e i posti (§7.3)
+// ---------------------------------------------------------------------------
+
+const ids = (p: Partita) => vista(g, p).scelte.map((s) => s.id);
+
+test("le cose stanno nei luoghi: la leva si vede solo con una luce (§7.3)", () => {
+  const p = in_("dentro");
+  assert.ok(ids(p).includes("prendi:bolla"));
+  assert.ok(ids(p).includes("prendi:moschetto"));
+  assert.equal(ids(p).includes("prendi:leva"), false, "al buio la leva non la vedi");
+  const luce = a(p, "combina:accendi");
+  assert.ok(ids(luce).includes("prendi:leva"));
+  const presa = a(luce, "prendi:leva");
+  assert.equal(presa.cose.leva, 1);
+  assert.equal(ids(presa).includes("prendi:leva"), false, "presa, non è più lì");
+  assert.equal(vista(g, presa).scelte.find((s) => s.id === "prendi:moschetto")!.costa, "occupa due posti");
+});
+
+test("i posti: chi è pieno sceglie che cosa lasciare, e ciò che lascia resta dove l'ha lasciato (§7.3)", () => {
+  let p = in_("dentro");
+  p.cose = { monete: 4, borsa: 1, lanterna_accesa: 1, olio: 1, casacca: 1, registro: 1 };
+  assert.equal(capienza(g, p), 7, "quattro a mani vuote, tre con la borsa");
+  assert.equal(occupati(g, p), 4, "le monete e la borsa non occupano posti");
+  p = a(p, "prendi:moschetto");
+  assert.equal(occupati(g, p), 6);
+  const leva = vista(g, p).scelte.find((s) => s.id === "prendi:leva")!;
+  assert.match(leva.costa!, /non hai posto/);
+  p = a(p, "prendi:leva");
+  const v = vista(g, p);
+  assert.equal(v.sospeso?.tipo, "posto");
+  assert.deepEqual(v.scelte.map((s) => s.id), ["posto:lascia:lanterna_accesa", "posto:lascia:olio", "posto:lascia:casacca", "posto:lascia:registro", "posto:lascia:moschetto", "posto:no"]);
+  assert.throws(() => a(p, "esci"), /Prima decidi/);
+  p = a(p, "posto:lascia:casacca");
+  assert.equal(p.cose.leva, 1);
+  assert.equal(p.cose.casacca, undefined);
+  assert.equal(p.posate.dentro.casacca, 1);
+  // Esci, torni due ore dopo: la casacca è ancora lì.
+  p = a(p, "esci");
+  p.scena = "dentro";
+  assert.ok(ids(p).includes("prendi:casacca"));
+});
+
+test("una cosa che ti danno quando non hai posto resta a terra, lì dove sei (§7.3)", () => {
+  const p = in_("archivio");
+  p.cose = { borsa: 1, lanterna: 1, olio: 1, casacca: 1, leva: 1, moschetto: 1 };
+  p.rng = semeCon("archivio", "sottrarre", "riesci").rng;
+  const q = a(p, "sottrarre");
+  assert.equal(q.scena, "registro");
+  assert.equal(q.cose.registro, undefined);
+  assert.equal(q.posate.registro.registro, 1);
+  assert.ok(ids(q).includes("prendi:registro"));
+});
+
+test("riconoscere: chi non sa leggere porta un foglio pieno di timbri, e la guardia non lo ascolta (§7.3)", () => {
+  let p = in_("dentro");
+  delete p.tratti.sa_leggere;
+  assert.equal(vista(g, p).scelte.find((s) => s.id === "prendi:bolla")!.testo, "Prendo un foglio pieno di timbri");
+  p = a(p, "prendi:bolla");
+  assert.equal(vista(g, p).stato.cose.find((c) => c.id === "bolla")!.nome, "Un foglio pieno di timbri");
+  p.scena = "banchina";
+  assert.equal(ids(p).includes("guardia"), false, "una bolla che non sai leggere non la porti alla guardia");
+  p.tratti.sa_leggere = "";
+  assert.ok(ids(p).includes("guardia"));
+});
+
+test("il moschetto aiuta a convincere l'ufficiale (+1), e si paga in posti e in esposizione", () => {
+  const p = in_("guardia");
+  const senza = vista(g, p).scelte.find((s) => s.id === "convinci")!.quadro!;
+  p.cose.moschetto = 1;
+  const con = vista(g, p).scelte.find((s) => s.id === "convinci")!.quadro!;
+  assert.equal(con.riesci.bonus, senza.riesci.bonus + 1);
+  assert.ok(con.riesci.righe.some((r) => r.parte === "cosa" && /moschetto/.test(r.testo)));
+  assert.ok(con.costo.righe.some((r) => /qualcosa che non dovresti/.test(r.testo)));
+  assert.equal(senza.costo.righe.some((r) => /qualcosa che non dovresti/.test(r.testo)), false);
+});
+
+test("la forza: una ferita grave al corpo toglie un posto, e la forza di prendere le cose pesanti (§7.3, §11.4)", () => {
+  const s2: Storia = structuredClone(storia);
+  s2.cose.find((o) => o.id === "moschetto")!.pesante = { testo: "serve forza: essere robusto", una: [{ tratto: "robusto" }] };
+  const g2 = prepara(amb, s2);
+  const p = nuovaPartita(g2, 1);
+  p.scena = "dentro";
+  const chiusa = vista(g2, p).scelte.find((s) => s.id === "prendi:moschetto")!;
+  assert.equal(chiusa.disponibile, false);
+  assert.equal(chiusa.chiusaDa, "forza");
+  p.tratti.robusto = "";
+  assert.ok(forzaPer(g2, p, "moschetto").ok);
+  p.ferite.push({ nome: "una coltellata al fianco", gravita: "grave", ambito: "corpo", ore: 0 });
+  assert.match(forzaPer(g2, p, "moschetto").manca!, /coltellata/);
+  assert.equal(capienza(g2, p), 6);
+});
+
+test("chi porta più di quanto può, dopo una ferita, deve lasciare qualcosa; un compagno porta per te", () => {
+  let p = conLucia("banchina");
+  p.cose = { borsa: 1, lanterna: 1, olio: 1, casacca: 1, leva: 1, moschetto: 1 };
+  assert.equal(vista(g, p).sospeso, undefined, "sette posti su sette");
+  p.ferite.push({ nome: "una coltellata al fianco", gravita: "grave", ambito: "corpo", ore: 0 });
+  const v = vista(g, p);
+  assert.equal(v.sospeso?.tipo, "posto");
+  assert.ok(v.scelte.some((s) => s.id === "posto:dai:lucia:moschetto"));
+  p = a(p, "posto:dai:lucia:moschetto");
+  assert.equal(vista(g, p).sospeso, undefined);
+  assert.equal(p.compagni.lucia.cose!.moschetto, 1);
+  assert.deepEqual(vista(g, p).stato.compagni[0].cose, ["Un moschetto"]);
+  // Le cose di Lucia contano come tue: il moschetto sposta ancora la soglia dell'ufficiale.
+  p.scena = "guardia";
+  p.cose.bolla = 1;
+  assert.ok(vista(g, p).scelte.find((s) => s.id === "convinci")!.quadro!.riesci.righe.some((r) => /moschetto/.test(r.testo)));
+  // Se Lucia se ne va, lascia qui quello che portava.
+  p.persone.lucia.dim.rancore = 3;
+  const r = agisci(g, p, "via");
+  assert.equal(r.partita.compagni.lucia, undefined);
+  assert.equal(r.partita.posate.banchina.moschetto, 1);
+});
+
+// ---------------------------------------------------------------------------
+// Lo stato del mondo (§11.4)
+// ---------------------------------------------------------------------------
+
+test("il portone forzato resta forzato: di notte si rientra senza tirare, di giorno c'è una guardia (§11.4)", () => {
+  const p = semeCon("archivio", "portone", "riesci", 18);
+  const q = a(p, "portone");
+  assert.equal(q.mondo.portone.valore, "forzato");
+  q.scena = "archivio";
+  assert.ok(ids(q).includes("rientra"));
+  assert.equal(ids(q).includes("portone"), false);
+  q.ora = 24;
+  const chiedere = vista(g, q).scelte.find((s) => s.id === "chiedere")!.quadro!;
+  assert.ok(chiedere.costo.righe.some((r) => /guardia/.test(r.testo)));
+});
+
+test("il porto in allarme per sei ore: la sorveglianza vale dappertutto, e il quadro dice perché (§11.4)", () => {
+  const b = in_("passerella", 6);
+  const ev: Evento[] = [];
+  applica(g, b, storia.scene.find((x) => x.id === "sorpreso")!.entrando, ev);
+  assert.equal(b.mondo.porto.valore, "allarme");
+  const facchini = vista(g, b).scelte.find((x) => x.id === "facchini")!.quadro!;
+  assert.ok(facchini.costo.righe.some((r) => r.testo.startsWith("il porto è in allarme: ")));
+  assert.equal(vista(g, b).stato.mondo[0], "Il porto: in allarme, ancora sei ore");
+  avanza(g, b, 6, ev);
+  assert.equal(b.mondo.porto, undefined);
+  assert.ok(ev.some((e) => e.tipo === "mondo" && e.testo === "Il porto: tranquillo."));
+});
+
+test("la nebbia si annuncia come una scadenza, e arriva solo all'aperto (§11.4)", () => {
+  const p = in_("banchina", 14);
+  assert.match(vista(g, p).stato.scadenze[1], /^La nebbia sale dal mare/);
+  const ev: Evento[] = [];
+  avanza(g, p, 1, ev);
+  assert.equal(p.mondo.tempo.valore, "nebbia");
+  assert.ok(haProprieta(g, p, "nebbia"));
+  assert.match(vista(g, p).scena.testo, /La nebbia è salita dal mare/);
+  p.scena = "gallo";
+  assert.equal(haProprieta(g, p, "nebbia"), false, "al Gallo non c'è nebbia");
+  p.scena = "banchina";
+  avanza(g, p, 6, ev);
+  assert.equal(haProprieta(g, p, "nebbia"), false, "dopo sei ore se ne va");
+});
+
+test("il freddo della notte logora all'aperto, non al chiuso (§11.4)", () => {
+  const fuori = in_("banchina", 18);
+  avanza(g, fuori, 4, []);
+  assert.equal(fuori.logorio.fatica.stadio, 2);
+  const dentro = in_("gallo", 18);
+  avanza(g, dentro, 4, []);
+  assert.equal(dentro.logorio.fatica.stadio, 1);
+});
+
+test("di notte, con la nave in allarme, le lanterne restano accese: il buio del momento non torna", () => {
+  const p = in_("fuga", 20);
+  assert.ok(haProprieta(g, p, "buio"));
+  p.traccia.nave = 2;
+  assert.equal(proprietaAttive(g, p).some((x) => x.def.id === "buio"), false);
+});
+
+test("i controlli trovano gli stati del mondo e le cose scritte male", () => {
+  const s2: Storia = structuredClone(storia);
+  s2.stati!.push({ id: "vento", nome: "il vento", iniziale: "calmo", valori: [{ id: "forte", nome: "forte", aggiungi: ["tempesta"] }] });
+  s2.scene.find((x) => x.id === "dentro")!.cose!.push({ cosa: "ascia" });
+  const r = controlla(amb, s2).map((x) => x.testo);
+  assert.ok(r.some((t) => /valore iniziale/.test(t)));
+  assert.ok(r.some((t) => /Proprietà inesistente: tempesta/.test(t)));
+  assert.ok(r.some((t) => /Cosa inesistente: ascia/.test(t)));
+  assert.ok(r.some((t) => /solo valore/.test(t)));
+});
+
+// ---------------------------------------------------------------------------
 // Confronto, violenza, ripetibilità
 // ---------------------------------------------------------------------------
 
@@ -510,4 +697,16 @@ test("il librogame numera ogni scena e comincia dal paragrafo 1", () => {
   assert.ok(md.includes("Tuo fratello Matteo non torna a casa"));
   assert.ok(md.includes("In pieno"));
   assert.ok(md.includes("Quasi"));
+});
+
+test("lasciare una cosa quando vuoi: resta nella scena, e si riprende", () => {
+  let p = in_("banchina");
+  p = a(p, "lascia:lanterna");
+  assert.equal(p.cose.lanterna, undefined);
+  assert.ok(ids(p).includes("prendi:lanterna"));
+  p = a(p, "prendi:lanterna");
+  assert.equal(p.cose.lanterna, 1);
+  const c = in_("agguato");
+  c.confronto = { scena: "agguato", avversario: "teodoro", esposizione: 0, partenza: 0, ultimoGrado: 0, parlato: false, inDifesa: false };
+  assert.throws(() => a(c, "lascia:lanterna"), /confronto/);
 });

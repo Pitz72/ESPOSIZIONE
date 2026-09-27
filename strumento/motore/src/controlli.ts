@@ -1,5 +1,5 @@
 /**
- * I controlli del §47 del documento di design 3.0, e quelli strutturali che servono
+ * I controlli del §47 del documento di design 3.0 (trentasei), e quelli strutturali che servono
  * perché i dati si possano giocare: rimandi esistenti, scene raggiungibili, nessun
  * vicolo cieco. Ogni rilievo dice quale controllo viola e dove.
  */
@@ -85,6 +85,8 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
   const cose = new Map(storia.cose.map((c) => [c.id, c]));
   const persone = new Set(storia.persone.map((x) => x.id));
   const scene = new Map(storia.scene.map((s) => [s.id, s]));
+  const stati = new Map((storia.stati ?? []).map((s) => [s.id, s]));
+  const statiCambiati = new Set<string>();
 
   // Un rimando a un tratto, una notizia, una cosa, una persona che non esistono.
   const rimandi = (c: Condizione | undefined, dove: string) => {
@@ -97,6 +99,12 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       if ("convinzione" in x && !storia.convinzioni.some((k) => k.id === x.convinzione)) err("rimandi", dove, `Convinzione inesistente: ${x.convinzione}.`);
       if ("compagno" in x && !storia.persone.find((k) => k.id === x.compagno)?.compagno) err("rimandi", dove, `Non è un compagno: ${x.compagno}.`);
       if ("trattoCompagno" in x && !tratti.has(x.trattoCompagno)) err("rimandi", dove, `Tratto inesistente: ${x.trattoCompagno}.`);
+      if ("proprieta" in x && !proprieta.has(x.proprieta)) err("rimandi", dove, `Proprietà inesistente: ${x.proprieta}.`);
+      if ("stato" in x) {
+        const st = stati.get(x.stato);
+        if (!st) err("rimandi", dove, `Stato del mondo inesistente: ${x.stato}.`);
+        else for (const v of [x.valore].flat()) if (!st.valori.some((k) => k.id === v)) err("rimandi", dove, `Lo stato ${x.stato} non ha il valore ${v}.`);
+      }
     }
   };
   const rimandiEffetti = (effetti: Effetto[], dove: string) => {
@@ -113,6 +121,14 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       if ("statoAnimo" in e && !amb.statiAnimo.some((x) => x.id === e.statoAnimo)) err("rimandi", dove, `Stato d'animo inesistente: ${e.statoAnimo}.`);
       if ("compagno" in e && !storia.persone.find((k) => k.id === e.compagno)?.compagno) err("33", dove, `${e.compagno} non ha una scheda da compagno.`);
       if ("preparazione" in e && !amb.preparazioni.some((p) => p.id === e.preparazione)) err("rimandi", dove, `Preparazione inesistente: ${e.preparazione}.`);
+      if ("trova" in e && !cose.has(e.trova)) err("rimandi", dove, `Cosa inesistente: ${e.trova}.`);
+      if ("riconosci" in e && !cose.has(e.riconosci)) err("rimandi", dove, `Cosa inesistente: ${e.riconosci}.`);
+      if ("stato" in e) {
+        statiCambiati.add(e.stato);
+        const st = stati.get(e.stato);
+        if (!st) err("rimandi", dove, `Stato del mondo inesistente: ${e.stato}.`);
+        else if (!st.valori.some((k) => k.id === e.valore)) err("rimandi", dove, `Lo stato ${e.stato} non ha il valore ${e.valore}.`);
+      }
     }
   };
 
@@ -152,6 +168,11 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
     for (const s of p.sposta ?? []) leggiTratti(s.se);
     for (const s of p.serve ?? []) leggiTratti(s.se);
     leggiTratti(p.annullataDa?.se);
+    // L'ambiente che logora (§11.4) dice quale logorio, e ogni quante ore.
+    if (p.logora) {
+      if (!amb.logorii.some((l) => l.id === p.logora!.logorio)) err("35", `proprietà ${p.id}`, `Logorio inesistente: ${p.logora.logorio}.`);
+      if (!(p.logora.ogniOre >= 1)) err("35", `proprietà ${p.id}`, "Un ambiente che logora sale ogni tante ore: almeno una.");
+    }
   }
   for (const l of [...amb.luoghi, ...amb.momenti]) {
     const dove = "zona" in l ? `luogo ${l.id}` : `momento ${l.id}`;
@@ -219,6 +240,11 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       rimandi(p.requisito, `avversario ${a.id}`);
     }
   }
+  // I posti (§7.3)
+  if (amb.posti) {
+    if (!(amb.posti.aManiVuote >= 1)) err("scheda 11", "posti", "A mani vuote si porta almeno una cosa.");
+    if (amb.posti.ferita && !ambiti.has(amb.posti.ferita.ambito)) err("rimandi", "posti", `Ambito inesistente: ${amb.posti.ferita.ambito}.`);
+  }
   for (const z of new Set(amb.luoghi.map((l) => l.zona))) {
     if (!amb.repertorio.some((v) => v.zona === z && !v.vai && !v.quando && v.tipo !== "prezzo")) avviso("repertorio", `zona ${z}`, "Nessuna complicazione sempre disponibile per il Non riesci da esposto.");
   }
@@ -229,7 +255,37 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
   if (!scene.has(storia.inizio)) err("rimandi", "storia", `Scena iniziale inesistente: ${storia.inizio}.`);
   if (!scene.has(storia.morte)) err("rimandi", "storia", `Scena della morte inesistente: ${storia.morte}.`);
   if (!amb.momenti.some((m) => m.id === storia.momentoIniziale)) err("rimandi", "storia", "Momento iniziale inesistente.");
-  for (const s of storia.scadenze) if (!scene.has(s.alScadere)) err("rimandi", `scadenza ${s.id}`, `Scena inesistente: ${s.alScadere}.`);
+  for (const s of storia.scadenze) {
+    if (!s.alScadere && !s.effetti?.length) err("34", `scadenza ${s.id}`, "Una scadenza dice che cosa succede quando è piena: una scena, o degli effetti.");
+    if (s.alScadere && !scene.has(s.alScadere)) err("rimandi", `scadenza ${s.id}`, `Scena inesistente: ${s.alScadere}.`);
+    rimandiEffetti(s.effetti ?? [], `scadenza ${s.id}`);
+  }
+  // Gli stati del mondo (§11.4): valori, proprietà e luoghi esistenti, righe da −1 a +1, durate positive.
+  for (const st of storia.stati ?? []) {
+    const dove = `stato ${st.id}`;
+    const valori = new Set(st.valori.map((v) => v.id));
+    if (!valori.has(st.iniziale)) err("33", dove, `Il valore iniziale non c'è: ${st.iniziale}.`);
+    if (st.valori.length < 2) err("33", dove, "Uno stato che ha un solo valore non cambia mai.");
+    for (const l of st.dove?.luoghi ?? []) if (!luoghi.has(l)) err("rimandi", dove, `Luogo inesistente: ${l}.`);
+    if (st.dove?.allAperto && !amb.luoghi.some((l) => l.allAperto)) avviso("33", dove, "Vale all'aperto, ma nessun luogo è all'aperto.");
+    for (const v of st.valori) {
+      for (const id of [...(v.aggiungi ?? []), ...(v.togli ?? [])]) if (!proprieta.has(id)) err("rimandi", dove, `Proprietà inesistente: ${id}.`);
+      for (const riga of v.righe ?? []) {
+        if (!valoriOk(riga.valore)) err("33", dove, `Il valore della riga «${riga.testo}» deve essere −1, 0 o +1.`);
+        if (!ambiti.has(riga.ambito)) err("rimandi", dove, `Ambito inesistente: ${riga.ambito}.`);
+      }
+      if (v.dura !== undefined && !(v.dura >= 1)) err("33", dove, `Il valore ${v.id} dura almeno un'ora.`);
+      if (v.poi && !valori.has(v.poi)) err("rimandi", dove, `Valore inesistente: ${v.poi}.`);
+      rimandiEffetti(v.entrando ?? [], dove);
+    }
+  }
+  // Le cose (§7.3): condizioni per la forza e per riconoscerle, posti non negativi.
+  for (const c of storia.cose) {
+    const dove = `cosa ${c.id}`;
+    for (const x of [...(c.pesante?.una ?? []), ...(c.riconosci?.una ?? [])]) rimandi(x, dove);
+    if ((c.posti ?? 0) < 0 || (c.contiene ?? 0) < 0) err("31", dove, "I posti non sono mai negativi.");
+    if (!amb.posti && (c.posti !== undefined || c.contiene)) avviso("31", dove, "L'ambientazione non conta i posti: questo numero non serve.");
+  }
   for (const v of amb.repertorio) if (v.vai && !scene.has(v.vai)) err("rimandi", `repertorio ${v.id}`, `Scena inesistente: ${v.vai}.`);
   for (const t of storia.personaggio.tratti) if (!tratti.has(t)) err("rimandi", "personaggio", `Tratto inesistente: ${t}.`);
   for (const c of storia.personaggio.convinzioni) if (!storia.convinzioni.some((k) => k.id === c)) err("rimandi", "personaggio", `Convinzione inesistente: ${c}.`);
@@ -295,6 +351,7 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
   for (const v of amb.catalogo) for (const s of v.sposta ?? []) leggiTutto(s.se);
   for (const s of storia.scadenze) leggiTutto(s.salvoSe);
   for (const pers of storia.persone) for (const re of pers.reazioni ?? []) leggiTutto(re.se);
+  for (const c of storia.cose) for (const x of [...(c.pesante?.una ?? []), ...(c.riconosci?.una ?? [])]) leggiTutto(x);
   for (const d of storia.deduzioni) for (const x of d.da) lette.notizie.add(x);
   for (const c of storia.convinzioni) for (const x of c.dubbioDa) lette.notizie.add(x);
   for (const n of storia.notizie) for (const x of [...(n.smentitaDa ?? []), ...(n.contrasto ?? [])]) lette.notizie.add(x);
@@ -318,6 +375,13 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       if ("togliTratto" in e) trattiLetti.add(e.togliTratto);
     }
     if (!s.finale && (s.scelte ?? []).length === 0 && !s.confronto) err("vicolo cieco", dove, "Una scena senza scelte e senza finale.");
+    for (const c of s.cose ?? []) {
+      if (!cose.has(c.cosa)) err("rimandi", dove, `Cosa inesistente: ${c.cosa}.`);
+      if (c.quante !== undefined && !(c.quante >= 1)) err("31", dove, `Una cosa del luogo c'è almeno una volta: ${c.cosa}.`);
+      rimandi(c.nascosta?.se, dove);
+      leggiTutto(c.nascosta?.se);
+      if (s.finale) avviso("finale", dove, "Una cosa in una scena finale: non la prenderà nessuno.");
+    }
 
     const scelte = s.scelte ?? [];
     const prove = scelte.filter((c) => c.prova);
@@ -397,9 +461,20 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
   for (const k of storia.notizie) if (!scritte.notizie.has(k.id) && !storia.deduzioni.some((d) => d.notizia === k.id)) avviso("23", `notizia ${k.id}`, "È dichiarata ma nessuna scena la dà.");
   // Controllo 27
   if (storia.scadenze.length === 0 && !amb.logorii.some((l) => l.ogniOre > 0)) err("27", "storia", "Nessuna pressione: restare al coperto sarebbe gratis.");
+  // Uno stato del mondo che niente cambia è una riga morta.
+  for (const st of storia.stati ?? []) if (!statiCambiati.has(st.id)) avviso("36", `stato ${st.id}`, "Nessuna scena, scadenza o imprevisto lo cambia.");
+  // Il personaggio parte con cose che può portare.
+  if (amb.posti) {
+    const porta = Object.entries(storia.personaggio.cose).reduce((n, [id, q]) => {
+      const c = cose.get(id);
+      return n + (q > 0 ? c?.posti ?? (c?.contiene || c?.proprieta?.includes("piccola") ? 0 : c?.proprieta?.includes("ingombrante") ? 2 : 1) : 0);
+    }, 0);
+    const posti = amb.posti.aManiVuote + Object.keys(storia.personaggio.cose).reduce((n, id) => n + (cose.get(id)?.contiene ?? 0), 0);
+    if (porta > posti) err("32", "personaggio", `Parte con ${porta} posti occupati, e ne ha ${posti}.`);
+  }
 
   // Raggiungibilità
-  const viste = new Set<string>([storia.inizio, storia.morte, ...storia.scadenze.map((s) => s.alScadere), ...amb.repertorio.flatMap((v) => (v.vai ? [v.vai] : []))]);
+  const viste = new Set<string>([storia.inizio, storia.morte, ...storia.scadenze.flatMap((s) => (s.alScadere ? [s.alScadere] : [])), ...amb.repertorio.flatMap((v) => (v.vai ? [v.vai] : []))]);
   const coda = [...viste];
   while (coda.length) {
     const s = scene.get(coda.pop()!);

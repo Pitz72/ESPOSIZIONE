@@ -12,25 +12,37 @@ import {
   aggiungiTraccia,
   avanza,
   cambiaPersona,
+  capienza,
+  ciSta,
   clona,
   complicazione,
   convinzioneCheChiude,
+  coseQui,
   dim,
   ferisci,
   ferisciCompagno,
+  forzaPer,
   haCosa,
   luogoDi,
   momentoDi,
   nomeCosa,
   nomeFatto,
   nomeGrado,
+  nomeInFrase,
   nomeOre,
   nomePersona,
+  nomeVisto,
   NOMI_LIVELLO,
+  normalizza,
+  occupati,
   passaStatoAnimo,
+  posa,
+  postiDi,
   prezzoPredefinito,
   proprietaAttive,
+  quante,
   reagisci,
+  righeStati,
   rompi,
   scenaDi,
   STATI_COSA,
@@ -38,7 +50,9 @@ import {
   testoDi,
   testoNotizia,
   tradirebbe,
+  usa,
   vale,
+  valoreDi,
   type Evento,
   type Gioco,
   type Partita,
@@ -70,14 +84,14 @@ export interface Quadro {
 export interface VistaScelta {
   id: string;
   testo: string;
-  tipo: "vai" | "prova" | "riprova" | "difesa" | "finestra" | "parlare" | "andarsene" | "quasi" | "ripensa" | "deduci" | "combina";
+  tipo: "vai" | "prova" | "riprova" | "difesa" | "finestra" | "parlare" | "andarsene" | "quasi" | "ripensa" | "deduci" | "combina" | "prendi" | "posto";
   disponibile: boolean;
   richiede?: string;
   /** Perché è chiusa: un requisito, una convinzione, la forza, una ferita, la difficoltà. */
   chiusaDa?: "requisito" | "convinzione" | "forza" | "ferita" | "difficile" | "usata";
   ripiego?: boolean;
   quadro?: Quadro;
-  /** Per le possibilità del Quasi: che cosa costa sceglierla. */
+  /** Per le possibilità del Quasi, e per le cose da prendere: che cosa costa sceglierla. */
   costa?: string;
   /** Le stesse prove con un compagno: con il suo aiuto, oppure fatte da lui (§33). */
   varianti?: VistaScelta[];
@@ -93,19 +107,25 @@ export interface Vista {
     ferite: string[];
     statiAnimo: string[];
     tracciaQui: number;
-    cose: Array<{ id: string; nome: string; quante: number; stato?: string }>;
+    /** Le proprietà che valgono qui, adesso: «Buio», «Freddo». */
+    qui: string[];
+    /** Gli stati del mondo diversi dal solito: «Il porto: in allarme, ancora quattro ore». */
+    mondo: string[];
+    cose: Array<{ id: string; nome: string; quante: number; posti: number; stato?: string }>;
+    /** I posti occupati e quelli che hai (§7.3), se l'ambientazione li conta. */
+    posti?: { occupati: number; capienza: number };
     parole: string[];
     notizie: Array<{ id: string; testo: string; stato: StatoNotizia; contrasto: string[] }>;
     convinzioni: Array<{ id: string; testo: string; inDubbio: boolean }>;
     tratti: Array<{ id: string; nome: string; effetti: string; origine: string }>;
     persone: Array<{ id: string; nome: string; parole: string }>;
-    compagni: Array<{ id: string; nome: string; capacita: string[]; tratti: string[]; ferite: string[] }>;
+    compagni: Array<{ id: string; nome: string; capacita: string[]; tratti: string[]; ferite: string[]; cose: string[] }>;
     capacita: string[];
     protezioni: string[];
   };
   confronto?: { avversario: string; natura: string; copertura: string; finestra: boolean; inDifesa: boolean };
-  /** Una prova finita nel Quasi, o una convinzione su cui si sta ripensando: le scelte sono quelle. */
-  sospeso?: { tipo: "quasi" | "ripensa"; testo: string };
+  /** Una prova finita nel Quasi, una convinzione su cui si sta ripensando, una cosa per cui non hai posto: le scelte sono quelle. */
+  sospeso?: { tipo: "quasi" | "ripensa" | "posto"; testo: string };
   scelte: VistaScelta[];
   finale?: "vittoria" | "sconfitta" | "morte";
 }
@@ -145,14 +165,14 @@ function preparazioniAttive(g: Gioco, p: Partita): string[] {
   const luogo = luogoDi(g, p).id;
   const attive = new Set<string>();
   for (const x of p.preparazioni) if (!x.luogo || x.luogo === luogo) attive.add(x.id);
-  for (const def of g.amb.preparazioni) if (def.durata === "cosa" && def.cosa && haCosa(p, def.cosa)) attive.add(def.id);
+  for (const def of g.amb.preparazioni) if (def.durata === "cosa" && def.cosa && usa(g, p, def.cosa)) attive.add(def.id);
   return [...attive];
 }
 
-/** Gli attrezzi che aiutano questa prova, in ordine (§7). */
+/** Gli attrezzi che aiutano questa prova, in ordine (§7). Una cosa che non hai riconosciuto non aiuta. */
 function attrezzi(g: Gioco, p: Partita, capacita: string, generi: string[]): string[] {
   return g.storia.cose
-    .filter((o) => o.attrezzo && haCosa(p, o.id))
+    .filter((o) => o.attrezzo && usa(g, p, o.id))
     .filter((o) => o.attrezzo!.capacita?.includes(capacita) || o.attrezzo!.generi?.some((x) => generi.includes(x)))
     .map((o) => o.id);
 }
@@ -304,8 +324,13 @@ export function quadroProva(g: Gioco, p0: Partita, spec: SpecProva): Quadro {
   else {
     const ctx = { ambito: cap.ambito, tag: scena.tag ?? [] };
     const ambiente: Array<{ tipo: "ambiente"; testo: string; valore: number }> = [];
-    for (const pa of props.filter((x) => x.da === "luogo")) if (!pa.annullata) ambiente.push({ tipo: "ambiente", testo: pa.def.cause[cap.ambito] ?? pa.def.nome, valore: pa.def.valori[cap.ambito] ?? 0 });
+    const causa = (pa: (typeof props)[number]) => {
+      const c = pa.def.cause[cap.ambito] ?? pa.def.nome;
+      return pa.frase ? `${pa.frase}: ${c}` : c;
+    };
+    for (const pa of props.filter((x) => x.da !== "momento")) if (!pa.annullata) ambiente.push({ tipo: "ambiente", testo: causa(pa), valore: pa.def.valori[cap.ambito] ?? 0 });
     for (const r of luogo.righe ?? []) if (r.ambito === cap.ambito) ambiente.push({ tipo: "ambiente", testo: r.testo, valore: r.valore });
+    for (const r of righeStati(g, p)) if (r.ambito === cap.ambito) ambiente.push({ tipo: "ambiente", testo: r.testo, valore: r.valore });
     for (const pa of props.filter((x) => x.da === "momento")) if (!pa.annullata) ambiente.push({ tipo: "ambiente", testo: pa.def.cause[cap.ambito] ?? pa.def.nome, valore: pa.def.valori[cap.ambito] ?? 0 });
     for (const r of mom.righe ?? []) if (r.ambito === cap.ambito) ambiente.push({ tipo: "ambiente", testo: r.testo, valore: r.valore });
     costo = componi({ testo: cap.causa, valore: cap.partenza }, [
@@ -388,7 +413,7 @@ function giaTuo(g: Gioco, p: Partita, e: Effetto): boolean {
   if ("preparazione" in e) return preparazioniAttive(g, p).includes(e.preparazione);
   if ("convinzione" in e) return !!p.convinzioni[e.convinzione];
   if ("tratto" in e) return e.tratto in p.tratti;
-  if ("cosa" in e) return (p.cose[e.cosa] ?? 0) > 0;
+  if ("cosa" in e) return quante(p, e.cosa) > 0;
   return false;
 }
 
@@ -519,7 +544,15 @@ function statoVista(g: Gioco, p: Partita): Vista["stato"] {
     ferite: p.ferite.map((f) => `${f.nome} (${f.gravita})`),
     statiAnimo: p.statiAnimo.map((s) => g.amb.statiAnimo.find((x) => x.id === s.id)?.nome ?? s.id),
     tracciaQui: p.traccia[luogo.zona] ?? 0,
-    cose: Object.entries(p.cose).filter(([, n]) => n > 0).map(([id, n]) => ({ id, nome: nomeCosa(g, id), quante: n, stato: p.statoCose[id] ? STATI_COSA[p.statoCose[id]] : undefined })),
+    qui: proprietaAttive(g, p).filter((x) => !x.annullata).map((x) => x.def.nome),
+    mondo: (g.storia.stati ?? [])
+      .filter((s) => valoreDi(g, p, s.id).id !== s.iniziale)
+      .map((s) => {
+        const ore = p.mondo[s.id]?.ore;
+        return `${s.nome.charAt(0).toUpperCase()}${s.nome.slice(1)}: ${valoreDi(g, p, s.id).nome}${ore ? `, ancora ${nomeOre(g, ore)}` : ""}`;
+      }),
+    cose: Object.entries(p.cose).filter(([, n]) => n > 0).map(([id, n]) => ({ id, nome: nomeVisto(g, p, id), quante: n, posti: postiDi(g, id), stato: p.statoCose[id] ? STATI_COSA[p.statoCose[id]] : undefined })),
+    ...(g.amb.posti ? { posti: { occupati: occupati(g, p), capienza: capienza(g, p) } } : {}),
     parole: Object.keys(p.fatti).map((f) => nomeFatto(g, f)),
     notizie: Object.entries(p.notizie).map(([id, stato]) => {
       const def = g.storia.notizie.find((x) => x.id === id);
@@ -540,6 +573,7 @@ function statoVista(g: Gioco, p: Partita): Vista["stato"] {
         capacita: Object.entries(def.capacita).map(([k, v]) => `${capDi(g, k).nome}: ${nomeLivello(g, v, id)}`),
         tratti: def.tratti.map((t) => g.amb.tratti.find((x) => x.id === t)?.nome ?? t),
         ferite: c.ferite.map((f) => `${f.nome} (${f.gravita})`),
+        cose: Object.entries(c.cose ?? {}).filter(([, n]) => n > 0).map(([x]) => nomeVisto(g, p, x)),
       };
     }),
     capacita: g.amb.capacita.map((c) => `${c.nome}: ${NOMI_LIVELLO[p.livelli[c.id] ?? 0]}`),
@@ -576,6 +610,39 @@ function tranquillo(g: Gioco, p: Partita): boolean {
   return !!luogoDi(g, p).tranquillo && !p.confronto;
 }
 
+const POSTI = ["nessun posto", "un posto", "due posti", "tre posti", "quattro posti", "cinque posti", "sei posti"];
+
+/** Porti più di quanto puoi: una ferita ti ha tolto un posto (§11.4). Nei confronti si pensa ad altro. */
+function sovraccarico(g: Gioco, p: Partita): boolean {
+  return occupati(g, p) > capienza(g, p) && !(scenaDi(g, p.scena).confronto && p.confronto);
+}
+
+/** Che cosa fare quando non hai posto: lasciare qualcosa qui, darlo a un compagno, o rinunciare (§7.3). */
+function sceltePosto(g: Gioco, p: Partita): VistaScelta[] {
+  const out: VistaScelta[] = [];
+  const nuova = p.prende?.cosa;
+  const liberi = capienza(g, p) - occupati(g, p);
+  for (const [id, n] of Object.entries(p.cose)) {
+    const posti = postiDi(g, id);
+    if (n <= 0 || posti === 0) continue;
+    // Lasciarla deve bastare a fare posto a quella nuova.
+    if (nuova && liberi + posti < postiDi(g, nuova)) continue;
+    out.push({ id: `posto:lascia:${id}`, testo: `Lascio qui ${nomeInFrase(g, p, id)}`, tipo: "posto", disponibile: true, costa: "resta qui: la ritrovi se torni" });
+  }
+  for (const c of Object.keys(p.compagni)) {
+    const nome = nomePersona(g, c);
+    if (nuova) {
+      if (ciSta(g, p, nuova, c)) out.push({ id: `posto:dai:${c}`, testo: `Do ${nomeInFrase(g, p, nuova)} a ${nome}`, tipo: "posto", disponibile: true });
+      continue;
+    }
+    for (const [id, n] of Object.entries(p.cose)) {
+      if (n > 0 && postiDi(g, id) > 0 && ciSta(g, p, id, c)) out.push({ id: `posto:dai:${c}:${id}`, testo: `Do ${nomeInFrase(g, p, id)} a ${nome}`, tipo: "posto", disponibile: true });
+    }
+  }
+  if (nuova) out.push({ id: "posto:no", testo: `Non prendo ${nomeInFrase(g, p, nuova)}`, tipo: "posto", disponibile: true });
+  return out;
+}
+
 /** Le scelte che il motore aggiunge da solo: riprovare, mettere insieme, ripensare, combinare. */
 function scelteAutomatiche(g: Gioco, p: Partita, scena: Scena): VistaScelta[] {
   const out: VistaScelta[] = [];
@@ -597,12 +664,73 @@ function scelteAutomatiche(g: Gioco, p: Partita, scena: Scena): VistaScelta[] {
     if (haCosa(p, c.cosa)) continue;
     // Accendere una luce ha senso solo dove qualcosa la luce annulla: il buio.
     if (g.storia.cose.find((o) => o.id === c.cosa)?.proprieta?.includes("luce") && !buio) continue;
-    if (c.da.every((x) => haCosa(p, x))) out.push({ id: `combina:${c.id}`, testo: c.ore > 0 ? `${c.testo} (${nomeOre(g, c.ore)})` : c.testo, tipo: "combina", disponibile: true });
+    if (c.da.every((x) => usa(g, p, x))) out.push({ id: `combina:${c.id}`, testo: c.ore > 0 ? `${c.testo} (${nomeOre(g, c.ore)})` : c.testo, tipo: "combina", disponibile: true });
+  }
+  // Le cose che vedi qui (§7.3): prenderle non costa tempo, costa posto.
+  for (const { cosa } of coseQui(g, p)) {
+    const forza = forzaPer(g, p, cosa);
+    const posti = postiDi(g, cosa);
+    const costa = !ciSta(g, p, cosa) ? "non hai posto: dovrai lasciare qualcosa qui" : posti > 0 ? `occupa ${POSTI[posti] ?? `${posti} posti`}` : undefined;
+    out.push({
+      id: `prendi:${cosa}`,
+      testo: `Prendo ${nomeInFrase(g, p, cosa)}`,
+      tipo: "prendi",
+      disponibile: forza.ok,
+      ...(forza.ok ? {} : { richiede: forza.manca, chiusaDa: "forza" as const }),
+      ...(costa ? { costa } : {}),
+    });
   }
   return out;
 }
 
+/** Prende da terra, nella scena in cui sei, una cosa per cui c'è posto. */
+function prendiDaTerra(g: Gioco, p: Partita, id: string, eventi: Evento[]): void {
+  const n = p.posate[p.scena]?.[id] ?? 0;
+  if (n <= 0) throw new Error(`Qui non c'è: ${id}`);
+  delete p.posate[p.scena][id];
+  p.cose[id] = (p.cose[id] ?? 0) + n;
+  delete p.prende;
+  eventi.push({ tipo: "cosa", testo: `Prendi: ${nomeInFrase(g, p, id)}.` });
+}
+
+/** La scelta di chi gioca quando non ha posto (§7.3). */
+function risolviPosto(g: Gioco, p: Partita, id: string, eventi: Evento[]): Uscita {
+  const resta = { verso: p.scena, tempo: 0 };
+  const v = sceltePosto(g, p).find((x) => x.id === id);
+  if (!v) throw new Error(`Scelta inesistente: ${id}`);
+  const nuova = p.prende?.cosa;
+  const [, azione, a, b] = id.split(":");
+  if (azione === "no") {
+    delete p.prende;
+    return resta;
+  }
+  if (azione === "lascia") {
+    const n = p.cose[a];
+    delete p.cose[a];
+    posa(g, p, a, n, eventi);
+    if (nuova && ciSta(g, p, nuova)) prendiDaTerra(g, p, nuova, eventi);
+    return resta;
+  }
+  // Dai: la cosa nuova, da terra, oppure una delle tue.
+  const cosa = b ?? nuova!;
+  const c = p.compagni[a];
+  c.cose ??= {};
+  let n: number;
+  if (b) {
+    n = p.cose[b];
+    delete p.cose[b];
+  } else {
+    n = p.posate[p.scena][cosa];
+    delete p.posate[p.scena][cosa];
+    delete p.prende;
+  }
+  c.cose[cosa] = (c.cose[cosa] ?? 0) + n;
+  eventi.push({ tipo: "cosa", testo: `${nomePersona(g, a)} porta per te: ${nomeInFrase(g, p, cosa)}.` });
+  return resta;
+}
+
 export function vista(g: Gioco, p: Partita): Vista {
+  normalizza(p);
   const scena = scenaDi(g, p.scena);
   const luogo = luogoDi(g, p);
   const mom = momentoDi(g, p);
@@ -626,6 +754,11 @@ export function vista(g: Gioco, p: Partita): Vista {
     sospeso = { tipo: "ripensa", testo: `Ci ripensi: «${c.testo}»` };
     scelte.push({ id: "ripensa:lascia", testo: c.lasciare.testo, tipo: "ripensa", disponibile: true });
     scelte.push({ id: "ripensa:tieni", testo: c.tenere.testo, tipo: "ripensa", disponibile: true });
+  } else if (p.prende || sovraccarico(g, p)) {
+    sospeso = p.prende
+      ? { tipo: "posto", testo: `Non hai più posto per ${nomeInFrase(g, p, p.prende.cosa)}. Che cosa fai?` }
+      : { tipo: "posto", testo: `Non riesci a portare tutto: occupi ${occupati(g, p)} posti, e adesso ne hai ${capienza(g, p)}. Che cosa lasci qui?` };
+    scelte.push(...sceltePosto(g, p));
   } else if (scena.confronto && p.confronto) {
     const c = p.confronto;
     const avv = g.amb.avversari.find((a) => a.id === c.avversario)!;
@@ -1116,6 +1249,13 @@ function agisciAutomatica(g: Gioco, p: Partita, scena: Scena, id: string, eventi
     applica(g, p, [{ cosa: c.cosa, piu: 1 }], eventi);
     return { verso: scena.id, tempo: c.ore };
   }
+  if (id.startsWith("prendi:")) {
+    if (!v.disponibile) throw new Error(`Non puoi prenderla: ${v.richiede}`);
+    const cosa = id.slice(7);
+    if (ciSta(g, p, cosa)) prendiDaTerra(g, p, cosa, eventi);
+    else p.prende = { cosa, scena: scena.id };
+    return { verso: scena.id, tempo: 0 };
+  }
   return null;
 }
 
@@ -1137,8 +1277,7 @@ function risolviRipensa(g: Gioco, p: Partita, id: string, eventi: Evento[]): Usc
 
 /** Risolve una scelta. Non modifica la partita ricevuta: ne restituisce una nuova. */
 export function agisci(g: Gioco, p0: Partita, sceltaId: string): { partita: Partita; eventi: Evento[] } {
-  const p = clona(p0);
-  p.compagni ??= {};
+  const p = normalizza(clona(p0));
   const eventi: Evento[] = [];
   if (p.finita) throw new Error("La partita è finita.");
   const scena = scenaDi(g, p.scena);
@@ -1149,6 +1288,18 @@ export function agisci(g: Gioco, p0: Partita, sceltaId: string): { partita: Part
     uscita = risolviQuasi(g, p, sceltaId, eventi);
   } else if (p.ripensa) {
     uscita = risolviRipensa(g, p, sceltaId, eventi);
+  } else if (p.prende || sovraccarico(g, p)) {
+    if (!sceltaId.startsWith("posto:")) throw new Error("Prima decidi che cosa portare.");
+    uscita = risolviPosto(g, p, sceltaId, eventi);
+  } else if (sceltaId.startsWith("lascia:")) {
+    // Lasciare una cosa quando vuoi (§7.3): non costa tempo, e non sta fra le scelte della scena, per non allungarle.
+    if (scena.confronto && p.confronto) throw new Error("Nel mezzo di un confronto non si posa niente.");
+    const id = sceltaId.slice(7);
+    const n = p.cose[id] ?? 0;
+    if (n <= 0) throw new Error(`Non porti: ${id}`);
+    delete p.cose[id];
+    posa(g, p, id, n, eventi);
+    uscita = { verso: scena.id, tempo: 0 };
   } else if (scena.confronto && p.confronto) {
     uscita = agisciConfronto(g, p, scena, sceltaId, eventi);
   }

@@ -77,11 +77,21 @@
       "id": "altezza", "nome": "Altezza",
       "valori": {}, "cause": {},
       "sposta": [{ "generi": ["altezza"], "se": { "tratto": "vertigini" }, "gradini": 1, "testo": "soffri le vertigini" }]
+    },
+    {
+      "id": "freddo", "nome": "Freddo",
+      "valori": {}, "cause": {},
+      "logora": { "logorio": "fatica", "ogniOre": 4, "testo": "Il freddo della notte ti entra nelle ossa." }
+    },
+    {
+      "id": "nebbia", "nome": "Nebbia",
+      "valori": { "corpo": -1 }, "cause": { "corpo": "nella nebbia chi si muove non si vede" },
+      "sposta": [{ "generi": ["notare", "cercare", "seguire"], "gradini": 1, "testo": "nella nebbia non si vede a dieci passi" }]
     }
   ],
   "luoghi": [
     {
-      "id": "banchina", "nome": "La banchina", "zona": "banchina", "proprieta": ["acqua"],
+      "id": "banchina", "nome": "La banchina", "zona": "banchina", "proprieta": ["acqua"], "allAperto": true,
       "righe": [
         { "ambito": "mano", "valore": -1, "testo": "tra i carichi le mani spariscono" },
         { "ambito": "voce", "valore": 1, "testo": "sulla banchina le voci arrivano lontano" }
@@ -90,19 +100,24 @@
     {
       "id": "gallo", "nome": "La taverna del Gallo", "zona": "gallo", "proprieta": ["folla"],
       "righe": [{ "ambito": "corpo", "valore": 1, "testo": "al Gallo chi alza le mani si fa notare" }],
-      "sospende": [{ "proprieta": "silenzio", "momento": "notte", "testo": "di notte, al Gallo, il silenzio non c'è" }]
+      "sospende": [{ "proprieta": "silenzio", "momento": "notte", "testo": "di notte, al Gallo, il silenzio non c'è" }, { "proprieta": "freddo", "testo": "al Gallo il fuoco è sempre acceso" }]
     },
     {
       "id": "archivio", "nome": "L'archivio della capitaneria", "zona": "archivio", "proprieta": ["sorveglianza"],
       "righe": [{ "ambito": "mente", "valore": -1, "testo": "nell'archivio leggere è ciò che fanno tutti" }],
-      "stati": [{ "se": { "fatto": "registro_preso" }, "aggiungi": ["guardia"] }]
+      "stati": [
+        { "se": { "fatto": "registro_preso" }, "aggiungi": ["guardia"] },
+        { "se": { "tutte": [{ "stato": "portone", "valore": "forzato" }, { "non": { "momento": "notte" } }] }, "aggiungi": ["guardia"] }
+      ],
+      "sospende": [{ "proprieta": "freddo", "testo": "dentro l'archivio non fa freddo" }]
     },
     {
-      "id": "magazzini", "nome": "I magazzini", "zona": "magazzini", "proprieta": ["buio", "posto_lavoro"],
+      "id": "magazzini", "nome": "I magazzini", "zona": "magazzini", "proprieta": ["buio", "posto_lavoro"], "allAperto": true,
       "sospende": [{ "proprieta": "folla", "momento": "alba", "testo": "all'alba i magazzini restano vuoti" }]
     },
     {
       "id": "chiesa", "nome": "La chiesa dei marinai", "zona": "chiesa", "proprieta": [], "tranquillo": true,
+      "sospende": [{ "proprieta": "freddo", "testo": "in chiesa non fa freddo" }],
       "righe": [
         { "ambito": "mano", "valore": 1, "testo": "in chiesa le mani vicino alle offerte si vedono" },
         { "ambito": "mente", "valore": -1, "testo": "in chiesa chi sta in silenzio non disturba" },
@@ -125,7 +140,7 @@
         { "ambito": "voce", "valore": -1, "testo": "di sera tutti parlano e nessuno ascolta" }
       ]
     },
-    { "id": "notte", "nome": "la notte", "ore": 6, "proprieta": ["buio", "silenzio"] }
+    { "id": "notte", "nome": "la notte", "ore": 6, "proprieta": ["buio", "silenzio", "freddo"] }
   ],
   "aggravanti": [
     { "id": "visto", "testo": "qui ti hanno già visto", "quando": { "tracciaQui": 2 } },
@@ -176,7 +191,7 @@
       "serve": { "testo": "serve forza: essere robusto, oppure una leva di ferro", "una": [{ "tratto": "robusto" }, { "cosa": "leva" }] },
       "sposta": [{ "se": { "notizia": "catena_trave" }, "gradini": -1, "testo": "sai che la trave è marcia" }] },
     { "id": "cassaforte", "cosa": "la cassaforte della capitaneria", "soglia": 10, "generi": ["serratura", "precisione"] },
-    { "id": "ufficiale", "cosa": "convincere un ufficiale della guardia", "soglia": 10, "generi": ["convincere"] },
+    { "id": "ufficiale", "cosa": "convincere un ufficiale della guardia", "soglia": 10, "generi": ["convincere", "denunciare"] },
     { "id": "soldato", "cosa": "difendersi da un soldato", "soglia": 10, "generi": ["difesa"] },
     { "id": "dogana", "cosa": "la serratura della dogana reale", "soglia": 12, "generi": ["serratura", "precisione"] },
     { "id": "confessione", "cosa": "far confessare chi rischia la forca", "soglia": 12, "generi": ["convincere"] }
@@ -277,6 +292,7 @@
   ],
   "crescita": { "tipo": "arco", "tacche": [3, 5, 5] },
   "sociali": { "fiducia": ["persuadere", "mentire"], "paura": ["minacciare"] },
+  "posti": { "aManiVuote": 4, "ferita": { "ambito": "corpo", "testo": "una ferita grave al corpo ti toglie un posto, e la forza di sollevare le cose pesanti" } },
   "difesa": ["muoversi", "battersi"],
   "resistenza": "resistere"
 }

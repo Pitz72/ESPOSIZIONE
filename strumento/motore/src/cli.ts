@@ -68,6 +68,7 @@ function mostra(v: Vista, eventi: Evento[]): string {
   const stati = v.stato.statiAnimo.length ? ` · ${v.stato.statiAnimo.join(", ")}` : "";
   const ferite = v.stato.ferite.length ? ` · Ferite: ${v.stato.ferite.join(", ")}` : "";
   out.push(`  ${v.stato.scadenze.join(" · ")} · Traccia qui: ${v.stato.tracciaQui} · ${v.stato.logorio.join(" · ")}${stati}${ferite}`);
+  if (v.stato.qui.length || v.stato.mondo.length) out.push(`  Qui: ${v.stato.qui.join(", ").toLowerCase() || "niente di particolare"}${v.stato.mondo.length ? ` · ${v.stato.mondo.join(" · ")}` : ""}`);
   if (v.confronto) out.push(`  Confronto: ${v.confronto.avversario} (${v.confronto.natura}), ora ${v.confronto.copertura}.${v.confronto.finestra ? " LA FINESTRA È APERTA." : ""}${v.confronto.inDifesa ? " TI ATTACCA: DIFENDITI." : ""}`);
   if (v.sospeso) out.push(`  ${v.sospeso.testo}`);
   if (v.finale) {
@@ -97,14 +98,14 @@ function scheda(v: Vista): string {
     "",
     `  ${s.capacita.join(" · ")}`,
     `  Tratti: ${s.tratti.map((x) => `${x.nome}${x.origine ? ` (${x.origine})` : ""}`).join(", ")}`,
-    `  Cose: ${s.cose.map((x) => `${x.nome}${x.quante > 1 ? ` ×${x.quante}` : ""}${x.stato ? ` (${x.stato})` : ""}`).join(", ")}`,
+    `  Cose${s.posti ? ` (${s.posti.occupati} posti su ${s.posti.capienza})` : ""}: ${s.cose.map((x) => `${x.nome}${x.quante > 1 ? ` ×${x.quante}` : ""}${x.stato ? ` (${x.stato})` : ""}`).join(", ")}`,
     `  Protezioni: ${s.protezioni.join(", ")}`,
     `  Parole chiave: ${s.parole.join(", ") || "nessuna"}`,
     "  Convinzioni:",
     ...s.convinzioni.map((k) => `    - ${k.testo}${k.inDubbio ? " (in dubbio)" : ""}`),
     "  Persone:",
     ...s.persone.map((k) => `    - ${k.nome}: ${k.parole}`),
-    ...(s.compagni.length ? ["  Con te:", ...s.compagni.map((c) => `    - ${c.nome}: ${c.capacita.join(", ")}; ${c.tratti.join(", ")}${c.ferite.length ? `; ferite: ${c.ferite.join(", ")}` : ""}`)] : []),
+    ...(s.compagni.length ? ["  Con te:", ...s.compagni.map((c) => `    - ${c.nome}: ${c.capacita.join(", ")}; ${c.tratti.join(", ")}${c.ferite.length ? `; ferite: ${c.ferite.join(", ")}` : ""}${c.cose.length ? `; porta: ${c.cose.join(", ")}` : ""}`)] : []),
     "  Taccuino:",
     ...s.notizie.map((k) => `    - ${k.testo} [${k.stato}]${k.contrasto.length ? ` (in contrasto con: ${k.contrasto.join("; ")})` : ""}`),
   ].join(A_CAPO);

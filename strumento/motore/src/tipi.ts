@@ -43,6 +43,10 @@ export type Condizione =
   | { ferita: Gravita }
   | { filo: string; almeno: number }
   | { scadenza: string; almeno: number }
+  /** Uno stato del mondo ha questo valore, o uno di questi (§11.4). */
+  | { stato: string; valore: string | string[] }
+  /** Nel luogo in cui sei vale adesso questa proprietà, e niente la annulla: «buio», «nebbia». */
+  | { proprieta: string }
   | { tutte: Condizione[] }
   | { una: Condizione[] }
   | { non: Condizione }
@@ -80,7 +84,13 @@ export type Effetto =
   | { tempo: number }
   | { filo: string; piu: number }
   | { preparazione: string }
-  | { tacca: string };
+  | { tacca: string }
+  /** Uno stato del mondo prende un valore (§11.4). */
+  | { stato: string; valore: string }
+  /** Una cosa nascosta di questa scena adesso la vedi (§7.3). */
+  | { trova: string }
+  /** Adesso sai che cos'è una cosa (§7.3). */
+  | { riconosci: string };
 
 /**
  * Uno spostamento della soglia di un gradino (§18.1). Vale per le prove di uno dei
@@ -132,6 +142,8 @@ export interface Proprieta {
   serve?: Array<{ generi: string[]; se: Condizione; testo: string }>;
   /** Una condizione che annulla la proprietà: una luce accesa annulla il buio. */
   annullataDa?: { se: Condizione; testo: string };
+  /** L'ambiente che logora (§11.4): un logorio sale di uno stadio ogni tante ore passate qui. */
+  logora?: { logorio: string; ogniOre: number; testo: string };
 }
 
 export interface RigaPropria {
@@ -152,6 +164,8 @@ export interface Luogo {
   stati?: Array<{ se: Condizione; aggiungi?: string[]; togli?: string[] }>;
   /** Un posto tranquillo: qui si ripensa e si mettono insieme le notizie (§8.3–8.5). */
   tranquillo?: boolean;
+  /** All'aperto: il tempo che fa (§11.4) arriva qui. */
+  allAperto?: boolean;
 }
 
 export interface Momento {
@@ -293,6 +307,12 @@ export interface Ambientazione {
   crescita: { tipo: "arco" | "fissa"; tacche: [number, number, number] };
   /** Le capacità che la fiducia e il rancore rendono più facili o più difficili, e quelle che la paura facilita (§29). */
   sociali: { fiducia: string[]; paura: string[] };
+  /**
+   * Quanto porta il personaggio (§7.3): i posti a mani vuote, e l'ambito in cui una
+   * ferita grave toglie un posto e la forza di prendere le cose pesanti (§11.4).
+   * Se manca, il personaggio porta tutto.
+   */
+  posti?: { aManiVuote: number; ferita?: { ambito: string; testo: string } };
   difesa: string[];
   resistenza: string;
 }
@@ -363,6 +383,14 @@ export interface Confronto {
   seTiPrende?: string;
 }
 
+/** Una cosa che sta in una scena, da prendere (§7.3). */
+export interface CosaDelLuogo {
+  cosa: string;
+  quante?: number;
+  /** Che cosa serve per vederla: una luce, al buio; una notizia. Senza, la scelta di prenderla non compare. */
+  nascosta?: { se: Condizione; testo: string };
+}
+
 export interface Scena {
   id: string;
   luogo: string;
@@ -370,6 +398,8 @@ export interface Scena {
   testo: Testo;
   tag?: string[];
   entrando?: Effetto[];
+  /** Le cose che ci sono qui. Ciò che lasci resta nella scena in cui l'hai lasciato. */
+  cose?: CosaDelLuogo[];
   scelte?: Scelta[];
   confronto?: Confronto;
   finale?: { tipo: "vittoria" | "sconfitta" | "morte" };
@@ -412,6 +442,14 @@ export interface Cosa {
   scorta?: boolean;
   /** +1 al tiro per questi generi o capacità (§7). */
   attrezzo?: { generi?: string[]; capacita?: string[]; testo: string };
+  /** Quanti posti occupa (§7.3). Se manca: nessuno se è «piccola», due se è «ingombrante», altrimenti uno. */
+  posti?: number;
+  /** I posti che aggiunge finché la porti: una borsa, uno zaino. */
+  contiene?: number;
+  /** Ci vuole forza per prenderla: una delle condizioni (§7.3, §6.1). */
+  pesante?: { testo: string; una: Condizione[] };
+  /** Finché non la riconosci si chiama così, e non la puoi usare per ciò che è (§7.3). */
+  riconosci?: { nome: string; una: Condizione[] };
 }
 
 export interface Combinazione {
@@ -435,8 +473,48 @@ export interface Persona {
   puoTradire?: boolean;
   /** Per accordare le parole con cui il gioco la descrive: «affezionata», «terrorizzata». */
   femminile?: boolean;
-  /** Se può viaggiare con il personaggio: le sue capacità (da due a quattro) e i suoi tratti (uno o due). */
-  compagno?: { capacita: Record<string, 0 | 1 | 2 | 3>; tratti: string[] };
+  /** Se può viaggiare con il personaggio: le sue capacità (da due a quattro), i suoi tratti (uno o due) e, se diversi da quelli del personaggio, i suoi posti. */
+  compagno?: { capacita: Record<string, 0 | 1 | 2 | 3>; tratti: string[]; posti?: number };
+}
+
+/** Un valore che uno stato del mondo può prendere (§11.4). */
+export interface ValoreStato {
+  id: string;
+  /** Come si dice sulla scheda: «in allarme», «nebbia». */
+  nome: string;
+  /** Come si dice nel quadro, davanti alle sue righe: «il porto è in allarme». */
+  frase?: string;
+  aggiungi?: string[];
+  togli?: string[];
+  righe?: RigaPropria[];
+  /** Dopo tante ore lo stato torna a `poi`, o al valore iniziale. */
+  dura?: number;
+  poi?: string;
+  /** Che cosa succede quando lo stato prende questo valore: così un cambiamento se ne porta dietro altri. */
+  entrando?: Effetto[];
+}
+
+/** Lo stato di un luogo, di una cosa di un luogo, o del mondo intero (§11.4). */
+export interface StatoMondo {
+  id: string;
+  /** «Il porto», «il portone dell'archivio», «il tempo». */
+  nome: string;
+  /** Dove vale: in certi luoghi, oppure in tutti i luoghi all'aperto. Se manca, dappertutto. */
+  dove?: { luoghi?: string[]; allAperto?: boolean };
+  iniziale: string;
+  valori: ValoreStato[];
+}
+
+export interface Scadenza {
+  id: string;
+  nome: string;
+  caselle: number;
+  ogniOre: number;
+  /** La scena in cui la storia devia quando la scadenza è piena. */
+  alScadere?: string;
+  /** Che cosa cambia nel mondo quando è piena: il tempo che fa, per esempio. */
+  effetti?: Effetto[];
+  salvoSe?: Condizione;
 }
 
 export interface Storia {
@@ -462,6 +540,8 @@ export interface Storia {
   combinazioni: Combinazione[];
   persone: Persona[];
   fili: Array<{ id: string; nome: string; tappe: number }>;
-  scadenze: Array<{ id: string; nome: string; caselle: number; ogniOre: number; alScadere: string; salvoSe?: Condizione }>;
+  scadenze: Scadenza[];
+  /** Gli stati del mondo (§11.4). */
+  stati?: StatoMondo[];
   scene: Scena[];
 }

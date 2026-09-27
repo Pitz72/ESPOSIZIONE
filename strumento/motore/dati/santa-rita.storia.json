@@ -72,15 +72,18 @@
     { "id": "armi", "da": ["carico_grimani", "casse_pesanti"], "notizia": "grimani_armi", "testo": "Il carico è di Grimani, e le casse pesano troppo per essere tessuti. Quello che c'è dentro deve essere pesante, e deve valere la vita di un copista: armi." }
   ],
   "cose": [
-    { "id": "monete", "nome": "Monete", "scorta": true },
-    { "id": "lettera", "nome": "Il biglietto di Matteo" },
-    { "id": "borsa", "nome": "Una borsa da facchino", "attrezzo": { "generi": ["mani_leste"], "testo": "dentro ci sparisce qualunque cosa" } },
+    { "id": "monete", "nome": "Monete", "scorta": true, "proprieta": ["piccola"] },
+    { "id": "lettera", "nome": "Il biglietto di Matteo", "proprieta": ["piccola"] },
+    { "id": "borsa", "nome": "Una borsa da facchino", "contiene": 3, "attrezzo": { "generi": ["mani_leste"], "testo": "dentro ci sparisce qualunque cosa" } },
     { "id": "lanterna", "nome": "Una lanterna spenta", "fragile": true },
     { "id": "olio", "nome": "Olio per la lanterna", "scorta": true },
     { "id": "lanterna_accesa", "nome": "La lanterna accesa", "proprieta": ["luce"], "fragile": true },
     { "id": "casacca", "nome": "Una casacca da facchino" },
     { "id": "leva", "nome": "Una leva di ferro", "proprieta": ["ingombrante"], "attrezzo": { "capacita": ["forzare"], "testo": "fa leva" } },
-    { "id": "bolla", "nome": "La bolla di carico di Grimani", "proprieta": ["compromettente"] }
+    { "id": "bolla", "nome": "La bolla di carico di Grimani", "proprieta": ["compromettente", "piccola"],
+      "riconosci": { "nome": "Un foglio pieno di timbri", "una": [{ "tratto": "sa_leggere" }] } },
+    { "id": "moschetto", "nome": "Un moschetto", "proprieta": ["ingombrante", "compromettente"], "attrezzo": { "generi": ["denunciare"], "testo": "una carta si discute, un moschetto sul tavolo no" } },
+    { "id": "registro", "nome": "Il registro della Santa Rita" }
   ],
   "combinazioni": [
     { "id": "accendi", "da": ["lanterna", "olio"], "cosa": "lanterna_accesa", "consuma": ["lanterna", "olio"], "testo": "Accendo la lanterna", "ore": 0 },
@@ -106,7 +109,31 @@
   ],
   "fili": [{ "id": "fratello", "nome": "Dov'è Matteo", "tappe": 4 }],
   "scadenze": [
-    { "id": "salpa", "nome": "La Santa Rita salpa", "caselle": 8, "ogniOre": 3, "alScadere": "salpata", "salvoSe": { "fatto": "matteo_libero" } }
+    { "id": "salpa", "nome": "La Santa Rita salpa", "caselle": 8, "ogniOre": 3, "alScadere": "salpata", "salvoSe": { "fatto": "matteo_libero" } },
+    { "id": "nebbia", "nome": "La nebbia sale dal mare", "caselle": 5, "ogniOre": 3, "effetti": [{ "stato": "tempo", "valore": "nebbia" }] }
+  ],
+  "stati": [
+    {
+      "id": "porto", "nome": "il porto", "iniziale": "tranquillo",
+      "valori": [
+        { "id": "tranquillo", "nome": "tranquillo" },
+        { "id": "allarme", "nome": "in allarme", "frase": "il porto è in allarme", "aggiungi": ["sorveglianza"], "dura": 6 }
+      ]
+    },
+    {
+      "id": "portone", "nome": "il portone dell'archivio", "dove": { "luoghi": ["archivio"] }, "iniziale": "chiuso",
+      "valori": [
+        { "id": "chiuso", "nome": "chiuso" },
+        { "id": "forzato", "nome": "forzato" }
+      ]
+    },
+    {
+      "id": "tempo", "nome": "il tempo", "dove": { "allAperto": true }, "iniziale": "sereno",
+      "valori": [
+        { "id": "sereno", "nome": "sereno" },
+        { "id": "nebbia", "nome": "nebbia", "frase": "c'è la nebbia", "aggiungi": ["nebbia"], "dura": 6 }
+      ]
+    }
   ],
   "scene": [
     {
@@ -119,6 +146,8 @@
       "testo": [
         { "testo": "La banchina corre lungo tutto il porto, fra le gru, le reti stese ad asciugare e le barche dei pescatori. Da qui si va dappertutto." },
         { "se": { "momento": "notte" }, "testo": "Di notte è deserta. Le lanterne delle navi ondeggiano sull'acqua nera." },
+        { "se": { "stato": "tempo", "valore": "nebbia" }, "testo": "La nebbia è salita dal mare: le gru spariscono a dieci passi, e le voci arrivano senza nessuno attorno." },
+        { "se": { "stato": "porto", "valore": "allarme" }, "testo": "Le guardie della capitaneria girano a due a due e fermano chiunque abbia fretta." },
         { "se": { "notizia": "salpa_alba" }, "testo": "In fondo al molo, la *Santa Rita* carica le ultime casse. Salpa con la marea, prima dell'alba." },
         { "se": { "traccia": "banchina", "almeno": 2 }, "testo": "Qualche scaricatore smette di lavorare quando passi. Ti hanno notato." }
       ],
@@ -147,7 +176,9 @@
         { "se": { "momento": "sera" }, "testo": "Di sera restano pochi capitani ritardatari. Bressan ha fretta di chiudere." },
         { "se": { "momento": "notte" }, "testo": "Di notte l'archivio è chiuso. Le finestre del cortile sono buie, e il portone ha una serratura pesante." },
         { "se": { "tutte": [{ "momento": "notte" }, { "notizia": "cortile_finestra" }] }, "testo": "Sai che una delle finestre del cortile ha il chiavistello rotto." },
-        { "se": { "tutte": [{ "momento": "notte" }, { "notizia": "portone_catenaccio" }] }, "testo": "Sai che dietro il portone c'è un catenaccio: forzarlo non basterebbe." },
+        { "se": { "tutte": [{ "momento": "notte" }, { "notizia": "portone_catenaccio" }, { "stato": "portone", "valore": "chiuso" }] }, "testo": "Sai che dietro il portone c'è un catenaccio: forzarlo non basterebbe." },
+        { "se": { "tutte": [{ "momento": "notte" }, { "stato": "portone", "valore": "forzato" }] }, "testo": "Il portone è rimasto come l'hai lasciato: scardinato." },
+        { "se": { "tutte": [{ "non": { "momento": "notte" } }, { "stato": "portone", "valore": "forzato" }] }, "testo": "Il portone porta ancora i segni della notte, e davanti c'è una guardia." },
         { "se": { "fatto": "registro_preso" }, "testo": "Da quando è sparito il registro, alla porta c'è una guardia." },
         { "se": { "notizia": "bressan_armadio" }, "testo": "Sai che di notte Bressan chiude il registro nell'armadio." }
       ],
@@ -195,14 +226,15 @@
           }
         },
         {
-          "id": "portone", "testo": "Forzo il portone", "requisito": { "momento": "notte" }, "nascondiSeChiusa": true,
+          "id": "portone", "testo": "Forzo il portone", "requisito": { "tutte": [{ "momento": "notte" }, { "stato": "portone", "valore": "chiuso" }] }, "nascondiSeChiusa": true,
           "prova": {
             "capacita": "forzare", "soglia": "serratura_magazzino", "posta": "Se va male: la ronda ti trova con le mani sulla serratura.", "ottieni": "di entrare nell'archivio",
-            "riesci": { "vai": "archivio_notte" },
+            "riesci": { "vai": "archivio_notte", "effetti": [{ "stato": "portone", "valore": "forzato" }] },
             "nonRiesci": { "vai": "entrata_fallita", "notizia": "portone_catenaccio" },
             "rovescio": { "vai": "sorpreso" }
           }
         },
+        { "id": "rientra", "testo": "Entro dal portone che ho forzato", "requisito": { "tutte": [{ "momento": "notte" }, { "stato": "portone", "valore": "forzato" }] }, "nascondiSeChiusa": true, "vai": "archivio_notte" },
         { "id": "aspetta", "testo": "Aspetto che riapra, seduto sui gradini (tre ore)", "ripiego": true, "sempre": true, "requisito": { "momento": "notte" }, "nascondiSeChiusa": true, "effetti": [{ "tempo": 3 }], "vai": "archivio" },
         { "id": "esci", "testo": "Torno sulla banchina", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
       ]
@@ -210,8 +242,8 @@
     {
       "id": "registro", "luogo": "archivio", "titolo": "Il registro",
       "testo": "Sfogli il registro fino alla data di tre giorni fa. *Santa Rita*, capitano Nicolò Serra, carico di tessuti per conto di Ottavio Grimani, dal magazzino sette. In fondo all'elenco dell'equipaggio c'è una riga aggiunta dopo, con un inchiostro più chiaro: *Matteo Ferro, mozzo.* Al posto della firma, una croce.\n\nMatteo sa scrivere meglio di chiunque in questo porto. Quella croce non l'ha fatta lui.",
-      "entrando": [{ "verifica": "matteo_a_bordo" }, { "verifica": "nome_capitano" }, { "verifica": "carico_grimani" }, { "verifica": "registro_riga" }, { "filo": "fratello", "piu": 1 }],
-      "scelte": [{ "id": "esci", "testo": "Esco, con il registro nella borsa (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
+      "entrando": [{ "cosa": "registro", "piu": 1 }, { "verifica": "matteo_a_bordo" }, { "verifica": "nome_capitano" }, { "verifica": "carico_grimani" }, { "verifica": "registro_riga" }, { "filo": "fratello", "piu": 1 }],
+      "scelte": [{ "id": "esci", "testo": "Esco dall'archivio (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }]
     },
     {
       "id": "registro_letto", "luogo": "archivio", "titolo": "Al contrario",
@@ -236,7 +268,7 @@
         { "se": { "non": { "momento": "notte" } }, "testo": "«Guardie!» La voce di Bressan copre tutte le altre. Due uomini della capitaneria ti prendono per le braccia prima che tu arrivi alla porta." },
         { "se": { "momento": "notte" }, "testo": "Una lanterna ti acceca. «Fermo lì!» La ronda della capitaneria ti butta a terra e ti lega le mani dietro la schiena." }
       ],
-      "entrando": [{ "statoAnimo": "umiliato" }],
+      "entrando": [{ "statoAnimo": "umiliato" }, { "stato": "porto", "valore": "allarme" }],
       "scelte": [{ "id": "cella", "testo": "Mi lascio portare via", "vai": "cella" }]
     },
     {
@@ -449,6 +481,7 @@
         { "testo": "I magazzini sono una fila di capannoni di pietra dietro il porto, con i numeri dipinti sulle porte e vicoli stretti e bui fra l'uno e l'altro." },
         { "se": { "momento": "notte" }, "testo": "Di notte è buio pesto. Solo la lanterna del guardiano si muove, lontana." },
         { "se": { "non": { "momento": "notte" } }, "testo": "I carri vanno e vengono. Il guardiano siede su una sedia davanti al magazzino sette e fuma la pipa." },
+        { "se": { "stato": "tempo", "valore": "nebbia" }, "testo": "Nella nebbia i numeri sulle porte si leggono solo da vicino." },
         { "se": { "nonNotizia": "carico_grimani" }, "testo": "I magazzini sono venti, e non sai quale sia quello di Grimani." },
         { "se": { "notizia": "serratura_nuova" }, "testo": "La serratura del sette è nuova, di Genova. Adesso sai come si apre." },
         { "se": { "notizia": "lucernario_inchiodato" }, "testo": "Il lucernario del sette, lo sai, è inchiodato dall'interno." }
@@ -480,11 +513,19 @@
     },
     {
       "id": "dentro", "luogo": "magazzini", "titolo": "Il magazzino sette",
-      "testo": "Dentro, il magazzino sette odora di catrame. Sulle casse c'è scritto *tessuti*. Ne apri una con una leva di ferro lasciata su un barile: sotto uno strato di lana grezza ci sono moschetti, lucidi di grasso.\n\nSul tavolo, fra le carte, trovi la bolla di carico della *Santa Rita*, firmata da Grimani e dal capitano Serra. Accanto, un biglietto: *il mozzo resta in stiva fino a Tunisi.*",
-      "entrando": [{ "cosa": "bolla", "piu": 1 }, { "verifica": "grimani_armi" }, { "notizia": "casse_pesanti" }, { "notizia": "matteo_in_stiva" }, { "notizia": "matteo_a_bordo" }, { "notizia": "nome_capitano" }, { "filo": "fratello", "piu": 1 }],
+      "testo": [
+        { "testo": "Dentro, il magazzino sette odora di catrame. Sulle casse c'è scritto *tessuti*, ma una è già schiodata: sotto uno strato di lana grezza ci sono moschetti, lucidi di grasso.\n\nSul tavolo, fra le carte, c'è la bolla di carico della *Santa Rita*, firmata da Grimani e dal capitano Serra. Accanto, un biglietto: *il mozzo resta in stiva fino a Tunisi.*" },
+        { "se": { "proprieta": "buio" }, "testo": "Oltre il tavolo il magazzino è buio pesto. Chissà che cosa c'è, fra i barili." },
+        { "se": { "non": { "proprieta": "buio" } }, "testo": "Alla luce della lanterna vedi anche il resto: barili, cime arrotolate, attrezzi appesi al muro." }
+      ],
+      "entrando": [{ "verifica": "grimani_armi" }, { "notizia": "casse_pesanti" }, { "notizia": "matteo_in_stiva" }, { "notizia": "matteo_a_bordo" }, { "notizia": "nome_capitano" }, { "filo": "fratello", "piu": 1 }],
+      "cose": [
+        { "cosa": "bolla" },
+        { "cosa": "moschetto" },
+        { "cosa": "leva", "nascosta": { "se": { "non": { "proprieta": "buio" } }, "testo": "è su un barile, al buio: la vedi solo con una luce" } }
+      ],
       "scelte": [
-        { "id": "leva", "testo": "Prendo anche la leva di ferro", "effetti": [{ "cosa": "leva", "piu": 1 }], "vai": "dentro" },
-        { "id": "esci", "testo": "Nascondo la bolla sotto la giacca ed esco (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
+        { "id": "esci", "testo": "Esco dal magazzino (un'ora)", "effetti": [{ "tempo": 1 }], "vai": "banchina" }
       ]
     },
     {
@@ -500,6 +541,7 @@
     {
       "id": "guardiano", "luogo": "magazzini", "titolo": "Il guardiano",
       "testo": "Una lanterna ti acceca. «Al ladro!» Il guardiano ha una voce che sveglia mezzo porto, e in pochi istanti sei circondato da scaricatori che non aspettavano altro.",
+      "entrando": [{ "stato": "porto", "valore": "allarme" }],
       "scelte": [{ "id": "cella", "testo": "Mi lascio portare alla capitaneria", "vai": "cella" }]
     },
     {
@@ -541,6 +583,7 @@
       "testo": [
         { "testo": "La *Santa Rita* è ormeggiata in fondo al molo. Una passerella di tavole sale fino al ponte, dove un nostromo con la barba grigia conta le casse che salgono a bordo. Sotto la prua, un portello delle ancore è aperto per far prendere aria al legno." },
         { "se": { "momento": "notte" }, "testo": "Di notte a bordo c'è solo la guardia. La cima dell'ancora scende nell'acqua nera a poche braccia da te." },
+        { "se": { "stato": "tempo", "valore": "nebbia" }, "testo": "Nella nebbia la *Santa Rita* è un'ombra, e il nostromo non vede più in là della passerella." },
         { "se": { "notizia": "grimani_armi" }, "testo": "Sai che cosa c'è davvero in quelle casse." },
         { "se": { "notizia": "nostromo_conta" }, "testo": "Il nostromo guarda le casse, non le facce." },
         { "se": { "notizia": "nome_capitano" }, "testo": "A poppa, sotto una tenda, un uomo con la barba bianca guarda il porto: il capitano Nicolò Serra." },

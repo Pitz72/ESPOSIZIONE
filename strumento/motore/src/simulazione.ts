@@ -8,7 +8,7 @@
 import { intero } from "./dadi.ts";
 import { agisci, vista, type Vista, type VistaScelta } from "./motore.ts";
 import { nuovaPartita, scenaDi, type Gioco, type Partita, type DatiEsito } from "./stato.ts";
-import type { Fascia, Scena } from "./tipi.ts";
+import type { Condizione, Fascia, Scena } from "./tipi.ts";
 
 export const POLITICHE = ["casuale", "prudente", "temeraria", "scrupolosa", "opportunista", "sempre-tutto", "sempre-meta", "sempre-lascio", "situazione", "obiettivo"] as const;
 export type Politica = (typeof POLITICHE)[number];
@@ -52,6 +52,29 @@ function versoVoluto(s: Scena): string[] {
 }
 
 const cacheDistanze = new WeakMap<Gioco, Map<string, number>>();
+const cacheUtili = new WeakMap<Gioco, Set<string>>();
+
+/** Le cose che servono a qualcosa: aprono una scelta, spostano una soglia, danno forza, fanno da attrezzo o da preparazione. */
+function coseUtili(g: Gioco): Set<string> {
+  const pronte = cacheUtili.get(g);
+  if (pronte) return pronte;
+  const utili = new Set<string>();
+  const leggi = (c: Condizione | undefined): void => {
+    if (!c) return;
+    if ("cosa" in c) utili.add(c.cosa);
+    if ("tutte" in c) c.tutte.forEach(leggi);
+    if ("una" in c) c.una.forEach(leggi);
+  };
+  for (const s of g.storia.scene) for (const c of s.scelte ?? []) leggi(c.requisito);
+  for (const v of g.amb.catalogo) {
+    for (const s of v.sposta ?? []) leggi(s.se);
+    v.serve?.una.forEach(leggi);
+  }
+  for (const o of g.storia.cose) if (o.attrezzo) utili.add(o.id);
+  for (const p of g.amb.preparazioni) if (p.cosa) utili.add(p.cosa);
+  cacheUtili.set(g, utili);
+  return utili;
+}
 
 /** Quante scelte separano ogni scena dalla vittoria più vicina, guardando soltanto la forma della storia. */
 export function distanzeDallaVittoria(g: Gioco): Map<string, number> {
@@ -109,6 +132,8 @@ function sceltaObiettivo(g: Gioco, p: Partita, scelte: VistaScelta[], visite: Ma
     x += ore * 0.25 + rumore * 1.5;
     if (v.tipo === "deduci" || v.tipo === "ripensa") x = qui - 0.5 + (visite.get(`${v.id}`) ?? 0) * 5;
     if (v.tipo === "combina") x = qui + 3 + (visite.get(v.id) ?? 0) * 5;
+    // Prende subito ciò che serve, e lascia stare il resto.
+    if (v.tipo === "prendi") x = (coseUtili(g).has(v.id.slice(7)) ? qui - 0.5 : qui + 3) + (visite.get(v.id) ?? 0) * 5;
     if (x < punti) {
       punti = x;
       migliore = v.id;
@@ -143,6 +168,12 @@ function scegli(g: Gioco, p: Partita, v: Vista, politica: Politica, scelte: Vist
     const c = (suff: string) => scelte.find((s) => s.id === `quasi:${suff}`)?.id;
     const id = p.quasi.grado < 2 ? c("tutto") ?? c("ferita") : c("meta") ?? c("lascia") ?? c("perdi");
     if (id) return { id, rng };
+  }
+  if (politica === "obiettivo" && v.sospeso?.tipo === "posto") {
+    // Senza posto, lascia una cosa che non serve; se tutte servono, rinuncia a quella nuova.
+    const inutile = scelte.find((s) => s.id.startsWith("posto:lascia:") && !coseUtili(g).has(s.id.slice(13)));
+    const id = inutile?.id ?? scelte.find((s) => s.id === "posto:no")?.id ?? scelte[0].id;
+    return { id, rng };
   }
   if (politica === "obiettivo" && !v.sospeso) return { id: sceltaObiettivo(g, p, scelte, visite), rng };
   if (v.sospeso?.tipo === "quasi") {

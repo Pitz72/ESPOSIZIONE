@@ -4,13 +4,13 @@
  * (Parti II, III, VI e VII del documento di design 3.0).
  */
 
-import type { Ambientazione, Condizione, Dimensione, Effetto, Fascia, Gravita, Grado, Proprieta, Scena, Storia, Testo } from "./tipi.ts";
+import type { Ambientazione, Condizione, Dimensione, Effetto, Fascia, Gravita, Grado, Proprieta, RigaPropria, Scena, StatoMondo, Storia, Testo, ValoreStato } from "./tipi.ts";
 import { fasciaDi, intero, NOMI_FASCIA, tiraDueDadi } from "./dadi.ts";
 
 export interface Evento {
   tipo:
     | "testo" | "tiro" | "esito" | "traccia" | "imprevisto" | "ferita" | "tempo" | "logorio" | "crescita" | "protezione"
-    | "scadenza" | "morte" | "confronto" | "memoria" | "notizia" | "convinzione" | "tratto" | "persona" | "statoAnimo" | "cosa";
+    | "scadenza" | "morte" | "confronto" | "memoria" | "notizia" | "convinzione" | "tratto" | "persona" | "statoAnimo" | "cosa" | "mondo";
   testo: string;
   /** Dati per le interfacce grafiche: i dadi di un tiro, la fascia e il grado di un esito. */
   dati?: DatiTiro | DatiEsito;
@@ -81,6 +81,18 @@ export interface Partita {
   fatti: Record<string, true>;
   misure: Record<string, number>;
   cose: Record<string, number>;
+  /** Le cose che stanno nelle scene: quelle scritte dall'autore e quelle che hai lasciato (§7.3). */
+  posate: Record<string, Record<string, number>>;
+  /** Le cose nascoste che hai trovato, o che hai lasciato tu: «scena:cosa». */
+  trovate: Record<string, true>;
+  /** Le cose che hai riconosciuto (§7.3). */
+  riconosciute: Record<string, true>;
+  /** Una cosa che vuoi prendere e per cui non hai posto: si sceglie che cosa lasciare. */
+  prende?: { cosa: string; scena: string };
+  /** Gli stati del mondo diversi dal loro valore iniziale, con le ore che restano (§11.4). */
+  mondo: Record<string, { valore: string; ore?: number }>;
+  /** Da quante ore sei in un luogo con una proprietà che logora (§11.4). */
+  logoraOre: Record<string, number>;
   /** Lo stato delle cose che si rompono: 0 intatta, 1 rovinata, 2 rotta. */
   statoCose: Record<string, 0 | 1 | 2>;
   notizie: Record<string, StatoNotizia>;
@@ -88,8 +100,8 @@ export interface Partita {
   /** I tratti, con la loro origine (vuota per quelli iniziali). */
   tratti: Record<string, string>;
   persone: Record<string, StatoPersona>;
-  /** I compagni che viaggiano con il personaggio, con le loro ferite (§33). */
-  compagni: Record<string, { ferite: Ferita[] }>;
+  /** I compagni che viaggiano con il personaggio, con le loro ferite e le cose che portano per te (§33, §7.3). */
+  compagni: Record<string, { ferite: Ferita[]; cose?: Record<string, number> }>;
   reazioniFatte: Record<string, true>;
   statiAnimo: Array<{ id: string; ore: number }>;
   traccia: Record<string, number>;
@@ -164,24 +176,87 @@ export function momentoDi(g: Gioco, p: Partita) {
 
 export interface ProprietaAttiva {
   def: Proprieta;
-  da: "luogo" | "momento";
+  da: "luogo" | "stato" | "momento";
+  /** Per le proprietà portate da uno stato del mondo: la frase che lo dice, «il porto è in allarme». */
+  frase?: string;
   /** Annullata da una condizione (una luce accesa): la riga si mostra, e non conta. */
   annullata?: string;
 }
 
-/** Le proprietà che valgono adesso, nel luogo e nel momento (§11.1). Una proprietà vale una volta sola. */
+// ---------------------------------------------------------------------------
+// Lo stato del mondo (§11.4)
+// ---------------------------------------------------------------------------
+
+export function statoMondo(g: Gioco, id: string): StatoMondo {
+  const s = (g.storia.stati ?? []).find((x) => x.id === id);
+  if (!s) throw new Error(`Stato del mondo inesistente: ${id}`);
+  return s;
+}
+
+/** Il valore di uno stato del mondo, adesso. */
+export function valoreDi(g: Gioco, p: Partita, id: string): ValoreStato {
+  const s = statoMondo(g, id);
+  const v = p.mondo?.[id]?.valore ?? s.iniziale;
+  return s.valori.find((x) => x.id === v) ?? s.valori[0];
+}
+
+/** Gli stati del mondo che valgono nel luogo in cui sei, con il loro valore. */
+export function statiQui(g: Gioco, p: Partita): Array<{ stato: StatoMondo; valore: ValoreStato }> {
+  const luogo = luogoDi(g, p);
+  return (g.storia.stati ?? [])
+    .filter((s) => !s.dove || (s.dove.luoghi?.includes(luogo.id) ?? false) || (!!s.dove.allAperto && !!luogo.allAperto))
+    .map((s) => ({ stato: s, valore: valoreDi(g, p, s.id) }));
+}
+
+/** Le righe di costo che gli stati del mondo aggiungono qui: «il portone è forzato». */
+export function righeStati(g: Gioco, p: Partita): RigaPropria[] {
+  return statiQui(g, p).flatMap((x) => x.valore.righe ?? []);
+}
+
+/** Uno stato del mondo prende un valore: dura quanto dichiara, e si porta dietro i suoi effetti. Restituisce le ore spese. */
+export function cambiaStato(g: Gioco, p: Partita, id: string, valore: string, eventi: Evento[]): number {
+  const s = statoMondo(g, id);
+  const v = s.valori.find((x) => x.id === valore);
+  if (!v) throw new Error(`Valore inesistente per ${id}: ${valore}`);
+  const prima = valoreDi(g, p, id).id;
+  if (valore === s.iniziale && !v.dura) delete p.mondo[id];
+  else p.mondo[id] = { valore, ...(v.dura ? { ore: v.dura } : {}) };
+  if (prima === valore) return 0;
+  const nome = s.nome.charAt(0).toUpperCase() + s.nome.slice(1);
+  eventi.push({ tipo: "mondo", testo: `${nome}: ${v.nome}${v.dura ? `, per ${nomeOre(g, v.dura)}` : ""}.` });
+  return applica(g, p, v.entrando, eventi);
+}
+
+/** Le proprietà che valgono adesso, nel luogo e nel momento (§11.1), con quelle degli stati del luogo e del mondo (§11.3, §11.4). Una proprietà vale una volta sola. */
 export function proprietaAttive(g: Gioco, p: Partita): ProprietaAttiva[] {
   const luogo = luogoDi(g, p);
   const mom = momentoDi(g, p);
-  const ids = new Map<string, "luogo" | "momento">();
+  const ids = new Map<string, "luogo" | "stato" | "momento">();
+  const frasi = new Map<string, string>();
+  // Ciò che uno stato toglie resta tolto anche se il momento lo porterebbe: le lanterne accese non tornano buie a mezzanotte.
+  const tolte = new Set<string>();
   for (const id of luogo.proprieta) ids.set(id, "luogo");
   for (const st of luogo.stati ?? []) {
     if (!vale(g, p, st.se)) continue;
     for (const id of st.aggiungi ?? []) ids.set(id, "luogo");
-    for (const id of st.togli ?? []) ids.delete(id);
+    for (const id of st.togli ?? []) {
+      ids.delete(id);
+      tolte.add(id);
+    }
+  }
+  for (const { valore } of statiQui(g, p)) {
+    for (const id of valore.aggiungi ?? []) {
+      if (ids.has(id)) continue;
+      ids.set(id, "stato");
+      if (valore.frase) frasi.set(id, valore.frase);
+    }
+    for (const id of valore.togli ?? []) {
+      ids.delete(id);
+      tolte.add(id);
+    }
   }
   for (const id of mom.proprieta) {
-    if (ids.has(id)) continue;
+    if (ids.has(id) || tolte.has(id)) continue;
     if ((luogo.sospende ?? []).some((s) => s.proprieta === id && (!s.momento || s.momento === mom.id))) continue;
     ids.set(id, "momento");
   }
@@ -190,7 +265,7 @@ export function proprietaAttive(g: Gioco, p: Partita): ProprietaAttiva[] {
     const def = g.amb.proprieta.find((x) => x.id === id);
     if (!def) throw new Error(`Proprietà inesistente: ${id}`);
     const annullata = def.annullataDa && vale(g, p, def.annullataDa.se) ? def.annullataDa.testo : undefined;
-    out.push({ def, da, annullata });
+    out.push({ def, da, ...(frasi.has(id) ? { frase: frasi.get(id) } : {}), annullata });
   }
   return out;
 }
@@ -219,8 +294,134 @@ export function tradirebbe(g: Gioco, p: Partita, persona: string): boolean {
   return r >= 3 || (r >= 2 && dim(p, persona, "paura") >= 2);
 }
 
+/** Quante ne portate, tu e i compagni. */
+export function quante(p: Partita, id: string): number {
+  let n = p.cose[id] ?? 0;
+  for (const c of Object.values(p.compagni ?? {})) n += c.cose?.[id] ?? 0;
+  return n;
+}
+
+/** La porti, tu o un compagno, e non è rotta. */
 export function haCosa(p: Partita, id: string, almeno = 1): boolean {
-  return (p.cose[id] ?? 0) >= almeno && (p.statoCose[id] ?? 0) < 2;
+  return quante(p, id) >= almeno && (p.statoCose[id] ?? 0) < 2;
+}
+
+// ---------------------------------------------------------------------------
+// Le cose: riconoscere, posti, forza, cose nei luoghi (§7.3)
+// ---------------------------------------------------------------------------
+
+/** Sai che cos'è: non ha bisogno di essere riconosciuta, l'hai riconosciuta, o hai ciò che serve per farlo. */
+export function riconosciuta(g: Gioco, p: Partita, id: string): boolean {
+  const def = g.storia.cose.find((o) => o.id === id);
+  if (!def?.riconosci || p.riconosciute?.[id]) return true;
+  return def.riconosci.una.some((c) => vale(g, p, c));
+}
+
+/** La porti e la puoi usare per ciò che è. */
+export function usa(g: Gioco, p: Partita, id: string, almeno = 1): boolean {
+  return haCosa(p, id, almeno) && riconosciuta(g, p, id);
+}
+
+/** Il nome con cui la conosci: una cosa che non hai riconosciuto ha un nome generico. */
+export function nomeVisto(g: Gioco, p: Partita, id: string): string {
+  const def = g.storia.cose.find((o) => o.id === id);
+  if (!def) return id;
+  return def.riconosci && !riconosciuta(g, p, id) ? def.riconosci.nome : def.nome;
+}
+
+/** Il nome dentro una frase: «Prendo la leva di ferro». */
+export function nomeInFrase(g: Gioco, p: Partita, id: string): string {
+  return nomeVisto(g, p, id).replace(/^./, (x) => x.toLowerCase());
+}
+
+/** Quanti posti occupa una cosa: nessuno se è piccola, due se è ingombrante, altrimenti uno. I contenitori si portano addosso. */
+export function postiDi(g: Gioco, id: string): number {
+  const def = g.storia.cose.find((o) => o.id === id);
+  if (!def) return 1;
+  if (def.posti !== undefined) return def.posti;
+  if (def.contiene || def.proprieta?.includes("piccola")) return 0;
+  return def.proprieta?.includes("ingombrante") ? 2 : 1;
+}
+
+/** Una ferita grave, o peggio, nell'ambito che l'ambientazione dichiara (§11.4). */
+function feritaCheToglie(g: Gioco, ferite: Ferita[]): Ferita | undefined {
+  const amb = g.amb.posti?.ferita?.ambito;
+  return amb ? ferite.find((f) => f.ambito === amb && (f.gravita === "grave" || f.gravita === "mortale")) : undefined;
+}
+
+/** I posti di chi porta: il personaggio, oppure un compagno. Infiniti se l'ambientazione non li conta. */
+export function capienza(g: Gioco, p: Partita, chi?: string): number {
+  const posti = g.amb.posti;
+  if (!posti) return Infinity;
+  const def = chi ? g.storia.persone.find((x) => x.id === chi)?.compagno : undefined;
+  const cose = chi ? p.compagni[chi]?.cose ?? {} : p.cose;
+  const ferite = chi ? p.compagni[chi]?.ferite ?? [] : p.ferite;
+  let n = def?.posti ?? posti.aManiVuote;
+  for (const [id, q] of Object.entries(cose)) {
+    const c = g.storia.cose.find((o) => o.id === id);
+    if (q > 0 && c?.contiene && (p.statoCose[id] ?? 0) < 2) n += c.contiene;
+  }
+  return feritaCheToglie(g, ferite) ? n - 1 : n;
+}
+
+/** I posti occupati. Una scorta occupa i suoi posti una volta sola, quante che siano le dosi. */
+export function occupati(g: Gioco, p: Partita, chi?: string): number {
+  const cose = chi ? p.compagni[chi]?.cose ?? {} : p.cose;
+  return Object.entries(cose).reduce((n, [id, q]) => n + (q > 0 ? postiDi(g, id) : 0), 0);
+}
+
+/** C'è posto per questa cosa? Se la porti già, sì. */
+export function ciSta(g: Gioco, p: Partita, id: string, chi?: string): boolean {
+  const cose = chi ? p.compagni[chi]?.cose ?? {} : p.cose;
+  if ((cose[id] ?? 0) > 0) return true;
+  return occupati(g, p, chi) + postiDi(g, id) <= capienza(g, p, chi);
+}
+
+/** Hai la forza di prenderla? Se no, che cosa manca. */
+export function forzaPer(g: Gioco, p: Partita, id: string): { ok: boolean; manca?: string } {
+  const def = g.storia.cose.find((o) => o.id === id);
+  if (!def?.pesante) return { ok: true };
+  const f = feritaCheToglie(g, p.ferite);
+  if (f) return { ok: false, manca: `${f.nome} ti toglie la forza` };
+  return def.pesante.una.some((c) => vale(g, p, c)) ? { ok: true } : { ok: false, manca: def.pesante.testo };
+}
+
+/** Le cose che vedi nella scena in cui sei. */
+export function coseQui(g: Gioco, p: Partita): Array<{ cosa: string; quante: number }> {
+  const qui = p.posate?.[p.scena] ?? {};
+  const def = scenaDi(g, p.scena).cose ?? [];
+  return Object.entries(qui)
+    .filter(([id, n]) => {
+      if (n <= 0) return false;
+      const d = def.find((x) => x.cosa === id);
+      return !d?.nascosta || !!p.trovate[`${p.scena}:${id}`] || vale(g, p, d.nascosta.se);
+    })
+    .map(([cosa, n]) => ({ cosa, quante: n }));
+}
+
+/** Mette giù una cosa nella scena in cui sei: resta lì, e la ritrovi. */
+export function posa(g: Gioco, p: Partita, id: string, n: number, eventi: Evento[], testo = "Lasci qui"): void {
+  if (n <= 0) return;
+  p.posate[p.scena] ??= {};
+  p.posate[p.scena][id] = (p.posate[p.scena][id] ?? 0) + n;
+  p.trovate[`${p.scena}:${id}`] = true;
+  eventi.push({ tipo: "cosa", testo: `${testo}: ${nomeInFrase(g, p, id)}.` });
+}
+
+/** Un compagno che se ne va lascia dove siete le cose che portava per te. */
+function lasciaCoseDi(g: Gioco, p: Partita, id: string, eventi: Evento[]): void {
+  for (const [c, n] of Object.entries(p.compagni[id]?.cose ?? {})) posa(g, p, c, n, eventi, `${nomePersona(g, id)} lascia qui`);
+}
+
+/** Riempie i campi che le partite salvate prima del §7.3 e del §11.4 non avevano. */
+export function normalizza(p: Partita): Partita {
+  p.compagni ??= {};
+  p.posate ??= {};
+  p.trovate ??= {};
+  p.riconosciute ??= {};
+  p.mondo ??= {};
+  p.logoraOre ??= {};
+  return p;
 }
 
 export function vale(g: Gioco, p: Partita, c: Condizione, ctx?: ContestoProva): boolean {
@@ -233,7 +434,7 @@ export function vale(g: Gioco, p: Partita, c: Condizione, ctx?: ContestoProva): 
     const v = p.misure[c.misura] ?? 0;
     return v >= (c.almeno ?? -Infinity) && v <= (c.alPiu ?? Infinity);
   }
-  if ("cosa" in c) return haCosa(p, c.cosa, c.almeno ?? 1);
+  if ("cosa" in c) return usa(g, p, c.cosa, c.almeno ?? 1);
   if ("cosaProprieta" in c) return g.storia.cose.some((o) => o.proprieta?.includes(c.cosaProprieta) && haCosa(p, o.id));
   if ("notizia" in c) return !!p.notizie[c.notizia] && p.notizie[c.notizia] !== "smentita";
   if ("nonNotizia" in c) return !p.notizie[c.nonNotizia];
@@ -264,6 +465,11 @@ export function vale(g: Gioco, p: Partita, c: Condizione, ctx?: ContestoProva): 
   }
   if ("filo" in c) return (p.fili[c.filo] ?? 0) >= c.almeno;
   if ("scadenza" in c) return (p.scadenze[c.scadenza] ?? 0) >= c.almeno;
+  if ("stato" in c) {
+    const v = valoreDi(g, p, c.stato).id;
+    return Array.isArray(c.valore) ? c.valore.includes(v) : c.valore === v;
+  }
+  if ("proprieta" in c) return haProprieta(g, p, c.proprieta);
   if ("tracciaQui" in c) return (p.traccia[luogoDi(g, p).zona] ?? 0) >= c.tracciaQui;
   if ("logorioSuAmbito" in c) {
     if (!ctx) return false;
@@ -305,6 +511,11 @@ export function nuovaPartita(g: Gioco, seme: number): Partita {
     fatti: {},
     misure: {},
     cose: { ...pers.cose },
+    posate: Object.fromEntries(g.storia.scene.filter((s) => s.cose?.length).map((s) => [s.id, Object.fromEntries(s.cose!.map((c) => [c.cosa, c.quante ?? 1]))])),
+    trovate: {},
+    riconosciute: {},
+    mondo: {},
+    logoraOre: {},
     statoCose: {},
     notizie: {},
     convinzioni: Object.fromEntries(pers.convinzioni.map((id) => [id, "salda" as const])),
@@ -403,9 +614,24 @@ export function applica(g: Gioco, p: Partita, effetti: Effetto[] | undefined, ev
       p.misure[e.misura] = Math.max(0, Math.min(m?.max ?? 99, (p.misure[e.misura] ?? 0) + e.piu));
       eventi.push({ tipo: "memoria", testo: `${m?.nome ?? e.misura}: ${p.misure[e.misura]}` });
     } else if ("cosa" in e) {
-      p.cose[e.cosa] = Math.max(0, (p.cose[e.cosa] ?? 0) + e.piu);
-      if (e.piu > 0 && p.cose[e.cosa] === e.piu) delete p.statoCose[e.cosa];
-      eventi.push({ tipo: "cosa", testo: `${nomeCosa(g, e.cosa)}: ${e.piu > 0 ? "+" : ""}${e.piu} (ora ${p.cose[e.cosa]})` });
+      if (e.piu > 0) {
+        if (quante(p, e.cosa) === 0) delete p.statoCose[e.cosa];
+        // Senza posto la cosa resta qui, a terra: la puoi prendere lasciando qualcos'altro (§7.3).
+        if (!ciSta(g, p, e.cosa)) {
+          posa(g, p, e.cosa, e.piu, eventi, "Non hai posto, e resta qui");
+          continue;
+        }
+        p.cose[e.cosa] = (p.cose[e.cosa] ?? 0) + e.piu;
+      } else {
+        // Si toglie prima da ciò che porti tu, poi da ciò che portano i compagni.
+        let resto = -e.piu;
+        for (const cose of [p.cose, ...Object.values(p.compagni).map((c) => c.cose ?? {})]) {
+          const tolte = Math.min(cose[e.cosa] ?? 0, resto);
+          if (tolte > 0) cose[e.cosa] -= tolte;
+          resto -= tolte;
+        }
+      }
+      eventi.push({ tipo: "cosa", testo: `${nomeVisto(g, p, e.cosa)}: ${e.piu > 0 ? "+" : ""}${e.piu} (ora ${quante(p, e.cosa)})` });
     } else if ("rompi" in e) rompi(g, p, e.rompi, eventi);
     else if ("notizia" in e) aggiungiNotizia(g, p, e.notizia, false, eventi);
     else if ("verifica" in e) aggiungiNotizia(g, p, e.verifica, true, eventi);
@@ -438,6 +664,7 @@ export function applica(g: Gioco, p: Partita, effetti: Effetto[] | undefined, ev
       }
     } else if ("congeda" in e) {
       if (p.compagni[e.congeda]) {
+        lasciaCoseDi(g, p, e.congeda, eventi);
         delete p.compagni[e.congeda];
         eventi.push({ tipo: "persona", testo: `${nomePersona(g, e.congeda)} non è più con te.` });
       }
@@ -463,6 +690,17 @@ export function applica(g: Gioco, p: Partita, effetti: Effetto[] | undefined, ev
         eventi.push({ tipo: "memoria", testo: `Preparazione: ${def.testo}` });
       }
     } else if ("tacca" in e) tacca(g, p, e.tacca, eventi, true);
+    else if ("stato" in e) tempo += cambiaStato(g, p, e.stato, e.valore, eventi);
+    else if ("trova" in e) {
+      if (!p.trovate[`${p.scena}:${e.trova}`]) eventi.push({ tipo: "cosa", testo: `Trovi: ${nomeInFrase(g, p, e.trova)}.` });
+      p.trovate[`${p.scena}:${e.trova}`] = true;
+    } else if ("riconosci" in e) {
+      if (!riconosciuta(g, p, e.riconosci)) {
+        p.riconosciute[e.riconosci] = true;
+        eventi.push({ tipo: "cosa", testo: `Adesso sai che cos'è: ${nomeInFrase(g, p, e.riconosci)}.` });
+      }
+      p.riconosciute[e.riconosci] = true;
+    }
   }
   return tempo;
 }
@@ -593,6 +831,7 @@ export function reagisci(g: Gioco, p: Partita, eventi: Evento[]): void {
   // Un compagno a cui porti rancore 3 se ne va (§33).
   for (const id of Object.keys(p.compagni)) {
     if (dim(p, id, "rancore") >= 3) {
+      lasciaCoseDi(g, p, id, eventi);
       delete p.compagni[id];
       eventi.push({ tipo: "persona", testo: `${nomePersona(g, id)} ne ha abbastanza di te, e se ne va.` });
     }
@@ -605,6 +844,7 @@ export function ferisciCompagno(g: Gioco, p: Partita, id: string, nome: string, 
   if (!c) return;
   const chi = nomePersona(g, id);
   if (gravita === "morte") {
+    lasciaCoseDi(g, p, id, eventi);
     delete p.compagni[id];
     eventi.push({ tipo: "morte", testo: `${chi} muore: ${nome}.` });
     return;
@@ -635,21 +875,41 @@ export function avanza(g: Gioco, p: Partita, ore: number, eventi: Evento[]): voi
     passate++;
     p.ora++;
 
+    // 0. gli stati del mondo che durano un certo numero di ore (§11.4)
+    for (const [id, st] of Object.entries(p.mondo)) {
+      if (st.ore === undefined) continue;
+      st.ore--;
+      if (st.ore > 0) continue;
+      const def = statoMondo(g, id);
+      cambiaStato(g, p, id, def.valori.find((v) => v.id === st.valore)?.poi ?? def.iniziale, eventi);
+    }
+
     // 1. scadenze
     for (const s of g.storia.scadenze) {
       const prima = p.scadenze[s.id];
       p.scadenze[s.id] = Math.min(s.caselle, Math.floor(p.ora / s.ogniOre));
       if (p.scadenze[s.id] !== prima) eventi.push({ tipo: "scadenza", testo: `${s.nome}: ${p.scadenze[s.id]} su ${s.caselle}` });
       if (p.scadenze[s.id] >= s.caselle && prima < s.caselle && !(s.salvoSe && vale(g, p, s.salvoSe))) {
-        if (!p.deviazione) p.deviazione = s.alScadere;
+        applica(g, p, s.effetti, eventi);
+        if (s.alScadere && !p.deviazione) p.deviazione = s.alScadere;
       }
     }
 
-    // 2. logorio
+    // 2. logorio, e l'ambiente che logora (§11.4)
     for (const l of g.amb.logorii) {
       const s = p.logorio[l.id];
       s.ore++;
       if (l.ogniOre > 0 && s.ore % l.ogniOre === 0) sposta(g, p, l.id, 1, eventi);
+    }
+    const logorano = proprietaAttive(g, p).filter((x) => x.def.logora && !x.annullata);
+    for (const k of Object.keys(p.logoraOre)) if (!logorano.some((x) => x.def.id === k)) delete p.logoraOre[k];
+    for (const { def } of logorano) {
+      const lg = def.logora!;
+      p.logoraOre[def.id] = (p.logoraOre[def.id] ?? 0) + 1;
+      if (p.logoraOre[def.id] < lg.ogniOre) continue;
+      p.logoraOre[def.id] = 0;
+      eventi.push({ tipo: "logorio", testo: lg.testo });
+      sposta(g, p, lg.logorio, 1, eventi);
     }
 
     // 3. stati d'animo che passano col tempo
@@ -684,6 +944,7 @@ export function avanza(g: Gioco, p: Partita, ore: number, eventi: Evento[]): voi
           f.ore = 0;
           eventi.push({ tipo: "ferita", testo: `${nomePersona(g, id)}: ${f.nome}, senza cure, è diventata mortale.` });
         } else if (f.gravita === "mortale" && f.ore >= g.amb.ferite.mortaleUccideIn) {
+          lasciaCoseDi(g, p, id, eventi);
           delete p.compagni[id];
           eventi.push({ tipo: "morte", testo: `${nomePersona(g, id)} muore: nessuno l'ha curato in tempo.` });
           break;

@@ -37,6 +37,10 @@ Il paragrafo ti dice dove andare in ogni caso. Poi segni il costo del tuo grado,
 
 **Le cose.** Accendo la lanterna: se hai una lanterna spenta e olio per la lanterna, cancellale e segna la lanterna accesa. Spengo la lanterna: se hai la lanterna accesa, cancellale e segna una lanterna spenta. Una cosa fragile usata come attrezzo si rovina a ogni «non riesci»; rovinata funziona ancora, rotta no.
 
+**Prendere e lasciare.** Quando un paragrafo dice «Qui c'è», puoi prendere quella cosa: segnala fra le tue cose, e scrivi accanto, nel paragrafo, «presa»; se ci torni, non c'è più. Una cosa nascosta la prendi solo se vale la condizione scritta accanto. Prendere non costa tempo, ma costa posto: a mani vuote porti quattro posti, e una borsa da facchino ne aggiunge tre. Una cosa occupa un posto, una ingombrante due, le cose piccole nessuno; lo dice accanto a ogni cosa. Se non hai posto, per prendere devi lasciare qualcosa: cancellala dalla scheda e scrivi il suo nome nel margine del paragrafo in cui sei, e la ritrovi lì. Allo stesso modo puoi lasciare una cosa quando vuoi. Se un paragrafo ti dà una cosa per cui non hai posto, la cosa resta lì allo stesso modo. Una ferita grave al corpo ti toglie un posto, e la forza di sollevare le cose pesanti. Un compagno ha i suoi posti: gli puoi dare le tue cose, e finché è con te le puoi usare come se le avessi tu. Se se ne va, lascia dove siete ciò che portava.
+
+**Lo stato del mondo.** Alcuni paragrafi ti dicono di segnare uno stato del mondo. Spunta la sua casella sulla scheda; se dura qualche ora, scrivi le ore accanto e cancellane una ogni ora che passa: a zero, lo stato torna com'era. Finché lo hai segnato, cambia i luoghi: «il porto: in allarme» porta sorveglianza in tutti i luoghi; «il tempo: nebbia» porta nebbia nei luoghi all'aperto (la banchina, i magazzini). Gli altri stati li leggono i paragrafi. Le prove dicono quanto cambiano il costo e la soglia.
+
 **I compagni.** Qualcuno può venire con te. Finché è con te, in ogni prova in cui conosce la capacità puoi chiedergli di **aiutarti** (+1 al tiro, se si fida di te almeno 2 o ti deve un favore; poi il debito scende di 1) oppure di **farla al posto tuo**: usa il suo livello e i suoi tratti al posto dei tuoi, e se finisce in un rovescio le ferite sono sue e il suo rancore sale di 1. Se il rancore di un compagno arriva a 3, se ne va. Le sue ferite guariscono e peggiorano come le tue. Lucia: Muoversi Pratica, Mentire Esperta, Sapere Pratica; SA NUOTARE.
 
 **Le persone.** Sulla scheda ogni persona ha le sue caselle: fiducia, debito, paura, affetto, rancore. Chi si fida di te almeno 2 ti aiuta, se glielo chiedi; chi ce l'ha con te almeno 2 non ti aiuta. Quando un paragrafo ti dice di cambiare una casella, fallo.
@@ -45,12 +49,15 @@ Il paragrafo ti dice dove andare in ogni caso. Poi segni il costo del tuo grado,
 
 **La scadenza.** La Santa Rita salpa: annerisci una casella ogni 3 ore. Quando anneriresti l'ultima, a meno che hai la parola chiave LIBERO, vai subito al **21**.
 
+**La scadenza.** La nebbia sale dal mare: annerisci una casella ogni 3 ore. Quando anneriresti l'ultima, segna «il tempo: nebbia», per sei ore.
+
 **La morte.** Se muori, vai al **22**. Nessuna prova può ucciderti senza che la sua posta lo dica prima.
 
 ### Quando passa il tempo
 
+0. **Stati del mondo**: cancella un'ora dagli stati che durano; a zero, tornano com'erano.
 1. **Scadenza**: se è il suo turno, annerisci una casella.
-2. **Logorio**: Fatica sale di uno stadio ogni 12 ore senza rimedio. Se un logorio è allo stremo, fai una prova di Resistere: due dadi più il livello, meno 1, contro 8. Con «quasi» perdi un'ora; con «non riesci» succede quello che dice la tabella dei logorii.
+2. **Logorio**: Fatica sale di uno stadio ogni 12 ore senza rimedio. Dove c'è freddo (la notte: la banchina, i magazzini, la Santa Rita), la fatica sale di uno stadio anche ogni 4 ore passate lì di fila. Se un logorio è allo stremo, fai una prova di Resistere: due dadi più il livello, meno 1, contro 8. Con «quasi» perdi un'ora; con «non riesci» succede quello che dice la tabella dei logorii.
 3. **Stati d'animo**: quelli che passano col tempo passano.
 4. **Ferite**: una ferita lieve guarisce dopo 24 ore; una grave non curata diventa mortale dopo 24 ore; una ferita mortale non curata uccide dopo 4 ore.
 5. **Traccia**: in ogni luogo dove non hai lasciato Traccia nuova da 3 ore, la Traccia cala di uno.
@@ -83,7 +90,11 @@ Alcuni paragrafi mettono davanti a te un avversario. Segna sulla scheda la sua *
 
 **Tratti:** VISTA ACUTA · SA LEGGERE · MINUTO · SOFFRE IL MARE. Tratti guadagnati: __________________
 
-**Cose:** Monete (4), Il biglietto di Matteo, Una borsa da facchino, Una lanterna spenta, Olio per la lanterna (2).
+**Cose:** Monete (4) [nessun posto], Il biglietto di Matteo [nessun posto], Una borsa da facchino [aggiunge tre posti], Una lanterna spenta [un posto], Olio per la lanterna (2) [un posto].
+
+**Posti:** ☐☐☐☐ ┆ ☐☐☐ (con una borsa da facchino)
+
+**Il mondo:** il porto ☐ in allarme, ore: ______ · il portone dell'archivio ☐ forzato · il tempo ☐ nebbia, ore: ______
 
 **Protezioni:** La giacca imbottita: ☐ intatta ☐ rovinata ☐ rotta. Una protezione declassa una ferita (taglio, botta) di un grado e scende di uno stato.
 
@@ -100,6 +111,7 @@ Alcuni paragrafi mettono davanti a te un avversario. Segna sulla scheda la sua *
 **Tempo:** l'alba ☐☐☐☐☐☐ · il giorno ☐☐☐☐☐☐ · la sera ☐☐☐☐☐☐ · la notte ☐☐☐☐☐☐ (poi si ricomincia)
 
 **La Santa Rita salpa:** ☐☐☐☐☐☐☐☐
+**La nebbia sale dal mare:** ☐☐☐☐☐
 
 **Parole chiave:** ______________________________
 
@@ -192,15 +204,17 @@ Ti servono per capire perché la soglia e il costo cambiano. I paragrafi li hann
 - **Posto di lavoro** (costo: mente +1).
 - **Acqua**. di notte l'acqua è nera e gelata: +2 alla soglia. serve saper nuotare, o qualcuno che nuoti con te.
 - **Altezza**. soffri le vertigini: +2 alla soglia.
+- **Freddo**. la fatica sale di uno stadio ogni 4 ore passate qui.
+- **Nebbia** (costo: corpo −1). nella nebbia non si vede a dieci passi: +2 alla soglia.
 
 | Luogo | Proprietà | l'alba | il giorno | la sera | la notte |
 |---|---|---|---|---|---|
-| La banchina | acqua | acqua, folla | acqua | acqua | acqua, buio, silenzio |
+| La banchina | acqua | acqua, folla | acqua | acqua | acqua, buio, silenzio, freddo |
 | La taverna del Gallo | folla | folla | folla | folla | folla, buio |
 | L'archivio della capitaneria | sorveglianza | sorveglianza, folla | sorveglianza | sorveglianza | sorveglianza, buio, silenzio |
-| I magazzini | buio, posto di lavoro | buio, posto di lavoro | buio, posto di lavoro | buio, posto di lavoro | buio, posto di lavoro, silenzio |
+| I magazzini | buio, posto di lavoro | buio, posto di lavoro | buio, posto di lavoro | buio, posto di lavoro | buio, posto di lavoro, silenzio, freddo |
 | La chiesa dei marinai | — | folla | — | — | buio, silenzio |
-| La Santa Rita | buio, posto di lavoro, acqua, altezza | buio, posto di lavoro, acqua, altezza, folla | buio, posto di lavoro, acqua, altezza | buio, posto di lavoro, acqua, altezza | buio, posto di lavoro, acqua, altezza, silenzio |
+| La Santa Rita | buio, posto di lavoro, acqua, altezza | buio, posto di lavoro, acqua, altezza, folla | buio, posto di lavoro, acqua, altezza | buio, posto di lavoro, acqua, altezza | buio, posto di lavoro, acqua, altezza, silenzio, freddo |
 
 ### I tratti
 
@@ -226,7 +240,7 @@ Ti servono per capire perché la soglia e il costo cambiano. I paragrafi li hann
 - *qui ti hanno già visto*: se la Traccia del luogo in cui sei è almeno 2.
 - *la stanchezza o i nervi ti pesano*: se un logorio che tocca l'ambito della capacità è almeno al secondo stadio.
 - *sono in tanti a guardare*: se il paragrafo dice «sono in tanti a guardare».
-- *porti addosso qualcosa che non dovresti*: se porti la bolla di carico di grimani.
+- *porti addosso qualcosa che non dovresti*: se porti la bolla di carico di grimani o un moschetto.
 - *qui ti riconoscono*: se sei CONOSCIUTO AL PORTO.
 
 ### Preparazioni (−1 ciascuna, una per tipo)
@@ -316,7 +330,7 @@ La guardia del porto ha il suo corpo di guardia in una torre in fondo alla banch
 
 *Se hai segnato la voce 12 del taccuino, e non è smentita:* Ti ha detto che gli serve un testimone della capitaneria.
 
-- **Prova: Lo convinco ad abbordare la Santa Rita stanotte**. Persuadere (voce, Fondo 1). Soglia Ardua: 10 (+2 se sei furioso; −2 se sei sicuro di sé; −2 alla soglia: sai che nelle casse ci sono moschetti). Costo di partenza: l'alba 0 · il giorno 1 · la sera 0 · la notte 2 (compresa la riga «hai la bolla firmata da Grimani e dal capitano», −1). *Se va male: ti fa arrestare per aver rubato una bolla di carico.* **In pieno**: **57**, e segna anche la voce 12 del taccuino · **Riesci**: **57** · **Quasi**: scegli al **57** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 12 del taccuino, vai al **49**; allo scoperto, rovescio: **45** *Segna: −1 La bolla di carico di Grimani.*.
+- **Prova: Lo convinco ad abbordare la Santa Rita stanotte**. Persuadere (voce, Fondo 1). Soglia Ardua: 10 (+2 se sei furioso; −2 se sei sicuro di sé; +1 al tiro se hai un moschetto; −2 alla soglia: sai che nelle casse ci sono moschetti). Costo di partenza: l'alba 0 · il giorno 1 · la sera 0 · la notte 2 (compresa la riga «hai la bolla firmata da Grimani e dal capitano», −1). *Se va male: ti fa arrestare per aver rubato una bolla di carico.* **In pieno**: **57**, e segna anche la voce 12 del taccuino · **Riesci**: **57** · **Quasi**: scegli al **57** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 12 del taccuino, vai al **49**; allo scoperto, rovescio: **45** *Segna: −1 La bolla di carico di Grimani.*.
 - Torno con Bressan come testimone (tre ore) *(solo se hai segnato la voce 12 del taccuino, e non è smentita e Bressan ha fiducia almeno 1)*. *Segna: tre ore.* Vai al **57**.
 - *Ripiego, non si tira:* Gli lascio la bolla e spero che si muova in tempo (sei ore). *Segna: −1 La bolla di carico di Grimani; sei ore.* Vai al **57**.
 - Torno sulla banchina. Vai al **59**.
@@ -390,6 +404,8 @@ La *Santa Rita* è ormeggiata in fondo al molo. Una passerella di tavole sale fi
 
 *Se è la notte:* Di notte a bordo c'è solo la guardia. La cima dell'ancora scende nell'acqua nera a poche braccia da te.
 
+*Se hai segnato «il tempo: nebbia»:* Nella nebbia la *Santa Rita* è un'ombra, e il nostromo non vede più in là della passerella.
+
 *Se hai segnato la voce 8 del taccuino, e non è smentita:* Sai che cosa c'è davvero in quelle casse.
 
 *Se hai segnato la voce 24 del taccuino, e non è smentita:* Il nostromo guarda le casse, non le facce.
@@ -398,12 +414,12 @@ La *Santa Rita* è ormeggiata in fondo al molo. Una passerella di tavole sale fi
 
 *Se Lucia è con te:* Lucia ti tocca il braccio. «Il nostromo lo conosco io. Se c'è da raccontargli una storia, lascia parlare me.»
 
-- **Prova: Mi metto in fila coi facchini e salgo con una cassa in spalla** *(solo se non è la notte)*. Muoversi (corpo, Fondo 0). Soglia Impegnativa: l'alba 6 · il giorno 8 · la sera 8 (−2 alla soglia se hai segnato la voce 24 del taccuino, e non è smentita; +2 se sei spaventato). Costo di partenza: 0. *Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.* **In pieno**: **29**, e segna anche la voce 24 del taccuino · **Riesci**: **29** · **Quasi**: scegli al **29** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 24 del taccuino, vai al **56**; allo scoperto, rovescio: **16**.
+- **Prova: Mi metto in fila coi facchini e salgo con una cassa in spalla** *(solo se non è la notte)*. Muoversi (corpo, Fondo 0). Soglia Impegnativa: l'alba 6 · il giorno 8 · la sera 8 (−2 alla soglia se hai segnato la voce 24 del taccuino, e non è smentita; +2 se sei spaventato). Costo di partenza: 0 (+1 se hai segnato «il porto: in allarme»; −1 se hai segnato «il tempo: nebbia»). *Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.* **In pieno**: **29**, e segna anche la voce 24 del taccuino · **Riesci**: **29** · **Quasi**: scegli al **29** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 24 del taccuino, vai al **56**; allo scoperto, rovescio: **16**.
 - **Prova: Dico al nostromo che mi manda Grimani a controllare il carico** *(solo se non è la notte)*. Mentire (voce, Fondo 0). Soglia Impegnativa: 8 (−2 alla soglia se hai segnato la voce 25 del taccuino, e non è smentita; +2 se sei furioso). Costo di partenza: l'alba 0 · il giorno 1 · la sera 0. *Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.* **In pieno**: **29**, e segna anche la voce 25 del taccuino · **Riesci**: **29** · **Quasi**: scegli al **29** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 25 del taccuino, vai al **56**; allo scoperto, rovescio: **16**. Una volta sola.
-- **Prova: Mi infilo dal portello delle ancore** *(solo se sei MINUTO)*. Muoversi (corpo, Fondo 0). Soglia Facile: 6. Costo di partenza: l'alba 0 · il giorno 0 · la sera 0 · la notte −1. *Se va male: resti incastrato, e la guardia ti tira fuori per i piedi.* **In pieno**: **29**, e segna anche la voce 27 del taccuino · **Riesci**: **29** · **Quasi**: scegli al **29** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 27 del taccuino, vai al **56**; allo scoperto, rovescio: **16**.
+- **Prova: Mi infilo dal portello delle ancore** *(solo se sei MINUTO)*. Muoversi (corpo, Fondo 0). Soglia Facile: 6. Costo di partenza: l'alba 0 · il giorno 0 · la sera 0 · la notte −1 (+1 se hai segnato «il porto: in allarme»; −1 se hai segnato «il tempo: nebbia»). *Se va male: resti incastrato, e la guardia ti tira fuori per i piedi.* **In pieno**: **29**, e segna anche la voce 27 del taccuino · **Riesci**: **29** · **Quasi**: scegli al **29** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 27 del taccuino, vai al **56**; allo scoperto, rovescio: **16**.
 - Chiedo di parlare con il capitano Serra *(solo se non è la notte e hai segnato la voce 11 del taccuino, e non è smentita e non credi più che «Non ci si può fidare di chi lavora per Grimani.»)*. Vai al **34**.
 - *Ripiego, non si tira:* Mi offro come facchino e carico casse finché non mi lasciano scendere nella stiva (quattro ore) *(solo se non è la notte)*. *Segna: quattro ore; Fatica sale di uno stadio.* Vai al **29**.
-- **Prova: Scendo in acqua e risalgo lungo la cima dell'ancora** *(solo se è la notte)*. Muoversi (corpo, Fondo 0). Soglia Facile: 6. Costo di partenza: −1. *Se va male: la vita. L'acqua del porto, di notte, non perdona.* **In pieno**: **29**, e segna anche la voce 26 del taccuino · **Riesci**: **29** · **Quasi**: scegli al **29** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 26 del taccuino, vai al **24**; allo scoperto, rovescio: **13**. Una volta sola.
+- **Prova: Scendo in acqua e risalgo lungo la cima dell'ancora** *(solo se è la notte)*. Muoversi (corpo, Fondo 0). Soglia Facile: 6. Costo di partenza: −1 (+1 se hai segnato «il porto: in allarme»; −1 se hai segnato «il tempo: nebbia»). *Se va male: la vita. L'acqua del porto, di notte, non perdona.* **In pieno**: **29**, e segna anche la voce 26 del taccuino · **Riesci**: **29** · **Quasi**: scegli al **29** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 26 del taccuino, vai al **24**; allo scoperto, rovescio: **13**. Una volta sola.
 - *Ripiego, non si tira:* Aspetto che la guardia si addormenti e salgo dalla passerella (tre ore) *(solo se è la notte)*. *Segna: tre ore.* Vai al **29**.
 - Vado invece dalla guardia del porto, con la bolla (un'ora) *(solo se hai: La bolla di carico di Grimani)*. *Segna: un'ora.* Vai al **2**.
 - Torno indietro. Vai al **59**.
@@ -412,14 +428,19 @@ La *Santa Rita* è ormeggiata in fondo al molo. Una passerella di tavole sale fi
 
 *I magazzini.*
 
-Dentro, il magazzino sette odora di catrame. Sulle casse c'è scritto *tessuti*. Ne apri una con una leva di ferro lasciata su un barile: sotto uno strato di lana grezza ci sono moschetti, lucidi di grasso.
+Dentro, il magazzino sette odora di catrame. Sulle casse c'è scritto *tessuti*, ma una è già schiodata: sotto uno strato di lana grezza ci sono moschetti, lucidi di grasso.
 
-Sul tavolo, fra le carte, trovi la bolla di carico della *Santa Rita*, firmata da Grimani e dal capitano Serra. Accanto, un biglietto: *il mozzo resta in stiva fino a Tunisi.*
+Sul tavolo, fra le carte, c'è la bolla di carico della *Santa Rita*, firmata da Grimani e dal capitano Serra. Accanto, un biglietto: *il mozzo resta in stiva fino a Tunisi.*
 
-*Segna: +1 La bolla di carico di Grimani; la voce 8 del taccuino, come verificata; la voce 7 del taccuino; la voce 4 del taccuino; la voce 3 del taccuino; la voce 5 del taccuino; Dov'è Matteo +1.*
+*Se c'è buio:* Oltre il tavolo il magazzino è buio pesto. Chissà che cosa c'è, fra i barili.
 
-- Prendo anche la leva di ferro. *Segna: +1 Una leva di ferro.* Vai al **9**.
-- Nascondo la bolla sotto la giacca ed esco (un'ora). *Segna: un'ora.* Vai al **59**.
+*Se non c'è buio, oppure hai una luce accesa:* Alla luce della lanterna vedi anche il resto: barili, cime arrotolate, attrezzi appesi al muro.
+
+*Segna: la voce 8 del taccuino, come verificata; la voce 7 del taccuino; la voce 4 del taccuino; la voce 3 del taccuino; la voce 5 del taccuino; Dov'è Matteo +1.*
+
+*Qui c'è:* la bolla di carico di Grimani (nessun posto; se non sei SA LEGGERE, per te è «un foglio pieno di timbri» e non la puoi usare per ciò che è) · un moschetto (due posti) · una leva di ferro (due posti), *solo se non c'è buio, oppure hai una luce accesa*.
+
+- Esco dal magazzino (un'ora). *Segna: un'ora.* Vai al **59**.
 
 ### 10
 
@@ -699,7 +720,11 @@ L'archivio della capitaneria è un salone di legno scuro, con i registri in fila
 
 *Se è la notte e hai segnato la voce 16 del taccuino, e non è smentita:* Sai che una delle finestre del cortile ha il chiavistello rotto.
 
-*Se è la notte e hai segnato la voce 17 del taccuino, e non è smentita:* Sai che dietro il portone c'è un catenaccio: forzarlo non basterebbe.
+*Se è la notte e hai segnato la voce 17 del taccuino, e non è smentita e hai segnato «il portone dell'archivio: chiuso»:* Sai che dietro il portone c'è un catenaccio: forzarlo non basterebbe.
+
+*Se è la notte e hai segnato «il portone dell'archivio: forzato»:* Il portone è rimasto come l'hai lasciato: scardinato.
+
+*Se non è la notte e hai segnato «il portone dell'archivio: forzato»:* Il portone porta ancora i segni della notte, e davanti c'è una guardia.
 
 *Se hai la parola chiave REGISTRO:* Da quando è sparito il registro, alla porta c'è una guardia.
 
@@ -708,10 +733,11 @@ L'archivio della capitaneria è un salone di legno scuro, con i registri in fila
 - Osservo il salone prima di agire (un'ora) *(solo se non è la notte)*. *Segna: preparazione: «hai osservato il posto»; un'ora.* Vai al **31**.
 - **Prova: Prendo il registro di nascosto** *(solo se non è la notte)*. Sottrarre (mano, Fondo 0). Soglia Impegnativa: 8 (+2 se sei spaventato; +1 al tiro se hai una borsa da facchino). Costo di partenza: l'alba 0 · il giorno 1 · la sera 1. *Se va male: Bressan chiama la guardia.* **In pieno**: **58**, e segna anche la voce 13 del taccuino · **Riesci**: **58** *Segna: la parola chiave REGISTRO.* · **Quasi**: scegli al **58** salendo di un grado, al **36** (la metà), resta qui (lasci perdere) · **Non riesci**: segna la voce 13 del taccuino, vai al **37**; allo scoperto, rovescio: **48**. Il prezzo, allo scoperto: un capitano ti vede infilare il registro nella borsa. Non dice niente, ma Bressan lo saprà. *Segna: Bressan: rancore +1.*
 - **Prova: Leggo il registro al contrario, dall'altra parte del banco** *(solo se non è la notte e sei VISTA ACUTA e sei SA LEGGERE)*. Osservare (mente, Fondo 0). Soglia Ardua: 10 (−2 se sei VISTA ACUTA; con una luce accesa ignora il buio). Costo di partenza: l'alba −1 · il giorno −1 · la sera 0. *Se va male: Bressan si accorge di dove guardi.* **In pieno**: **4**, e segna anche la voce 15 del taccuino · **Riesci**: **4** · **Quasi**: scegli al **4** salendo di un grado, al **36** (la metà), resta qui (lasci perdere) · **Non riesci**: segna la voce 15 del taccuino, vai al **37**; allo scoperto, rovescio: **48**.
-- **Prova: Chiedo a Bressan di Matteo** *(solo se non è la notte)*. Persuadere (voce, Fondo 1). Soglia Impegnativa: 8 (+2 se sei furioso; −2 se sei sicuro di sé; −2 alla soglia se Bressan ha fiducia almeno 2, +2 se ha rancore almeno 2). Costo di partenza: l'alba 0 · il giorno 1 · la sera 0. *Se va male: Bressan chiama la guardia.* **In pieno**: **41**, e segna anche la voce 14 del taccuino · **Riesci**: **41** *Segna: Bressan: fiducia +1.* · **Quasi**: scegli al **41** salendo di un grado, al **52** (la metà), resta qui (lasci perdere) · **Non riesci**: segna la voce 14 del taccuino, vai al **14**; allo scoperto, rovescio: **48**.
+- **Prova: Chiedo a Bressan di Matteo** *(solo se non è la notte)*. Persuadere (voce, Fondo 1). Soglia Impegnativa: 8 (+2 se sei furioso; −2 se sei sicuro di sé; −2 alla soglia se Bressan ha fiducia almeno 2, +2 se ha rancore almeno 2). Costo di partenza: l'alba 0 · il giorno 1 · la sera 0 (+1 se hai la parola chiave REGISTRO; +1 se hai segnato «il portone dell'archivio: forzato» e non è la notte). *Se va male: Bressan chiama la guardia.* **In pieno**: **41**, e segna anche la voce 14 del taccuino · **Riesci**: **41** *Segna: Bressan: fiducia +1.* · **Quasi**: scegli al **41** salendo di un grado, al **52** (la metà), resta qui (lasci perdere) · **Non riesci**: segna la voce 14 del taccuino, vai al **14**; allo scoperto, rovescio: **48**.
 - *Ripiego, non si tira:* Pago un facchino perché legga il registro al posto mio (due monete, un'ora) *(solo se non è la notte e hai almeno 2 monete)*. *Segna: −2 Monete; un'ora.* Vai al **44**.
-- **Prova: Mi arrampico sulla grondaia del cortile ed entro da una finestra** *(solo se è la notte)*. Muoversi (corpo, Fondo 0). Soglia Impegnativa: 8 (−2 alla soglia se hai segnato la voce 16 del taccuino, e non è smentita). Costo di partenza: 0. *Se va male: cadi nel cortile, e arriva la ronda.* **In pieno**: **28**, e segna anche la voce 16 del taccuino · **Riesci**: **28** · **Quasi**: scegli al **28** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 16 del taccuino, vai al **33**; allo scoperto, rovescio: **48** *Segna: ferita lieve: una caviglia storta (corpo).*.
-- **Prova: Forzo il portone** *(solo se è la notte)*. Forzare (mano, Fondo 1). Soglia Impegnativa: 10 (+2 se sei UNA CICATRICE ALLA MANO; con una luce accesa ignora il buio; +1 al tiro se hai una leva di ferro). Costo di partenza: 3. *Se va male: la ronda ti trova con le mani sulla serratura.* **In pieno**: **28**, e segna anche la voce 17 del taccuino · **Riesci**: **28** · **Quasi**: scegli al **28** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 17 del taccuino, vai al **33**; allo scoperto, rovescio: **48**.
+- **Prova: Mi arrampico sulla grondaia del cortile ed entro da una finestra** *(solo se è la notte)*. Muoversi (corpo, Fondo 0). Soglia Impegnativa: 8 (−2 alla soglia se hai segnato la voce 16 del taccuino, e non è smentita). Costo di partenza: 0 (+1 se hai la parola chiave REGISTRO; +1 se hai segnato «il portone dell'archivio: forzato» e non è la notte). *Se va male: cadi nel cortile, e arriva la ronda.* **In pieno**: **28**, e segna anche la voce 16 del taccuino · **Riesci**: **28** · **Quasi**: scegli al **28** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 16 del taccuino, vai al **33**; allo scoperto, rovescio: **48** *Segna: ferita lieve: una caviglia storta (corpo).*.
+- **Prova: Forzo il portone** *(solo se è la notte e hai segnato «il portone dell'archivio: chiuso»)*. Forzare (mano, Fondo 1). Soglia Impegnativa: 10 (+2 se sei UNA CICATRICE ALLA MANO; con una luce accesa ignora il buio; +1 al tiro se hai una leva di ferro). Costo di partenza: 3. *Se va male: la ronda ti trova con le mani sulla serratura.* **In pieno**: **28**, e segna anche la voce 17 del taccuino · **Riesci**: **28** *Segna: «il portone dell'archivio: forzato».* · **Quasi**: scegli al **28** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 17 del taccuino, vai al **33**; allo scoperto, rovescio: **48**.
+- Entro dal portone che ho forzato *(solo se è la notte e hai segnato «il portone dell'archivio: forzato»)*. Vai al **28**.
 - *Ripiego, non si tira:* Aspetto che riapra, seduto sui gradini (tre ore) *(solo se è la notte)*. *Segna: tre ore.* Vai al **31**.
 - Torno sulla banchina. *Segna: un'ora.* Vai al **59**.
 
@@ -723,9 +749,9 @@ Matteo ti guarda come se non fosse sicuro che tu sia vero. La catena gli stringe
 
 *Se hai segnato la voce 31 del taccuino, e non è smentita:* La trave è marcia: con la forza giusta, verrebbe via.
 
-- **Prova: Forzo il lucchetto**. Forzare (mano, Fondo 1). Soglia Facile: 8 (−2 alla soglia se hai segnato la voce 18 del taccuino, e non è smentita; −2 alla soglia se hai segnato la voce 29 del taccuino, e non è smentita; +2 se sei UNA CICATRICE ALLA MANO; con una luce accesa ignora il buio; +1 al tiro se hai una leva di ferro). Costo di partenza: l'alba 0 · il giorno 1 · la sera 1 · la notte 2. *Se va male: il rumore sveglia l'equipaggio.* **In pieno**: **19**, e segna anche la voce 29 del taccuino · **Riesci**: **19** · **Quasi**: scegli al **19** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 29 del taccuino, vai al **20**; allo scoperto, rovescio: **43**.
-- **Prova: Cerco la chiave nella giacca di Teodoro** *(solo se hai la parola chiave PESCE)*. Sottrarre (mano, Fondo 0). Soglia Facile: 8 (−2 alla soglia se hai segnato la voce 30 del taccuino, e non è smentita; +2 se sei UNA CICATRICE ALLA MANO; +2 se sei spaventato; con una luce accesa ignora il buio; +1 al tiro se hai una borsa da facchino). Costo di partenza: l'alba −1 · il giorno 0 · la sera 0 · la notte 1. *Se va male: Teodoro si riprende e grida.* **In pieno**: **19**, e segna anche la voce 30 del taccuino · **Riesci**: **19** · **Quasi**: scegli al **19** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 30 del taccuino, vai al **20**; allo scoperto, rovescio: **43**.
-- **Prova: Strappo la catena dalla trave**. Resistere (corpo, Fondo 0). Soglia Ardua: 10 (−2 alla soglia se hai segnato la voce 31 del taccuino, e non è smentita; serve forza: essere robusto, oppure una leva di ferro (sei ROBUSTO oppure hai: Una leva di ferro)). Costo di partenza: −1. *Se va male: la trave cede con uno schianto che sveglia l'equipaggio.* **In pieno**: **19**, e segna anche la voce 31 del taccuino · **Riesci**: **19** · **Quasi**: scegli al **19** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 31 del taccuino, vai al **20**; allo scoperto, rovescio: **43**.
+- **Prova: Forzo il lucchetto**. Forzare (mano, Fondo 1). Soglia Facile: 8 (−2 alla soglia se hai segnato la voce 18 del taccuino, e non è smentita; −2 alla soglia se hai segnato la voce 29 del taccuino, e non è smentita; +2 se sei UNA CICATRICE ALLA MANO; con una luce accesa ignora il buio; +1 al tiro se hai una leva di ferro; −2 alla soglia se la Traccia a La Santa Rita è almeno 2). Costo di partenza: l'alba 0 · il giorno 1 · la sera 1 · la notte 2 (+1 se hai segnato «il porto: in allarme»). *Se va male: il rumore sveglia l'equipaggio.* **In pieno**: **19**, e segna anche la voce 29 del taccuino · **Riesci**: **19** · **Quasi**: scegli al **19** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 29 del taccuino, vai al **20**; allo scoperto, rovescio: **43**.
+- **Prova: Cerco la chiave nella giacca di Teodoro** *(solo se hai la parola chiave PESCE)*. Sottrarre (mano, Fondo 0). Soglia Facile: 8 (−2 alla soglia se hai segnato la voce 30 del taccuino, e non è smentita; +2 se sei UNA CICATRICE ALLA MANO; +2 se sei spaventato; con una luce accesa ignora il buio; +1 al tiro se hai una borsa da facchino; −2 alla soglia se la Traccia a La Santa Rita è almeno 2). Costo di partenza: l'alba −1 · il giorno 0 · la sera 0 · la notte 1 (+1 se hai segnato «il porto: in allarme»). *Se va male: Teodoro si riprende e grida.* **In pieno**: **19**, e segna anche la voce 30 del taccuino · **Riesci**: **19** · **Quasi**: scegli al **19** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 30 del taccuino, vai al **20**; allo scoperto, rovescio: **43**.
+- **Prova: Strappo la catena dalla trave**. Resistere (corpo, Fondo 0). Soglia Ardua: 10 (−2 alla soglia se hai segnato la voce 31 del taccuino, e non è smentita; serve forza: essere robusto, oppure una leva di ferro (sei ROBUSTO oppure hai: Una leva di ferro)). Costo di partenza: −1 (+1 se la Traccia a La Santa Rita è almeno 2; +1 se hai segnato «il porto: in allarme»). *Se va male: la trave cede con uno schianto che sveglia l'equipaggio.* **In pieno**: **19**, e segna anche la voce 31 del taccuino · **Riesci**: **19** · **Quasi**: scegli al **19** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 31 del taccuino, vai al **20**; allo scoperto, rovescio: **43**.
 - *Ripiego, non si tira:* Spezzo la catena con l'ascia del carpentiere, con tutto il rumore che fa. *Segna: +2 Traccia a La Santa Rita.* Vai al **19**.
 
 ### 33
@@ -790,6 +816,8 @@ Bressan posa il gomito sul registro proprio in quell'istante, senza nemmeno guar
 
 Una lanterna ti acceca. «Al ladro!» Il guardiano ha una voce che sveglia mezzo porto, e in pochi istanti sei circondato da scaricatori che non aspettavano altro.
 
+*Segna: «il porto: in allarme», per sei ore.*
+
 - Mi lascio portare alla capitaneria. Vai al **45**.
 
 ### 39
@@ -842,8 +870,8 @@ Matteo trema e batte i denti, ma è vivo, ed è libero.
 
 *Se Lucia è con te:* Lucia è già sul parapetto. «Buttatevi! Vi tengo io!»
 
-- **Prova: Ci buttiamo in acqua, io e Matteo**. Muoversi (corpo, Fondo 0). Soglia Facile: 6 (+2 se sei SOFFRE IL MARE). Costo di partenza: −1. *Se va male: la vita, tua e di Matteo.* **In pieno**: **42**, e segna anche la voce 32 del taccuino · **Riesci**: **42** · **Quasi**: scegli al **42** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 32 del taccuino, vai al **47**; allo scoperto, rovescio: **13**. Una volta sola.
-- **Prova: Salto con Matteo nella lancia appesa a poppa**. Muoversi (corpo, Fondo 0). Soglia Impegnativa: 8 (+2 se sei SOFFRE IL MARE). Costo di partenza: −1. *Se va male: cadete sul ponte, e vi prendono.* **In pieno**: **7**, e segna anche la voce 32 del taccuino · **Riesci**: **7** · **Quasi**: scegli al **7** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 32 del taccuino, vai al **47**; allo scoperto, rovescio: **40**. Una volta sola.
+- **Prova: Ci buttiamo in acqua, io e Matteo**. Muoversi (corpo, Fondo 0). Soglia Facile: 6 (+2 se sei SOFFRE IL MARE). Costo di partenza: −1 (+1 se la Traccia a La Santa Rita è almeno 2; +1 se hai segnato «il porto: in allarme»). *Se va male: la vita, tua e di Matteo.* **In pieno**: **42**, e segna anche la voce 32 del taccuino · **Riesci**: **42** · **Quasi**: scegli al **42** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 32 del taccuino, vai al **47**; allo scoperto, rovescio: **13**. Una volta sola.
+- **Prova: Salto con Matteo nella lancia appesa a poppa**. Muoversi (corpo, Fondo 0). Soglia Impegnativa: 8 (+2 se sei SOFFRE IL MARE). Costo di partenza: −1 (+1 se la Traccia a La Santa Rita è almeno 2; +1 se hai segnato «il porto: in allarme»). *Se va male: cadete sul ponte, e vi prendono.* **In pieno**: **7**, e segna anche la voce 32 del taccuino · **Riesci**: **7** · **Quasi**: scegli al **7** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 32 del taccuino, vai al **47**; allo scoperto, rovescio: **40**. Una volta sola.
 - *Ripiego, non si tira:* Alzo le mani. Vai al **40**.
 
 ### 44
@@ -867,7 +895,7 @@ Ti chiudono in una cella della capitaneria che sa di muffa e di pesce. Il carcer
 *Segna: un'ora.*
 
 - *Ripiego, non si tira:* Offro tre monete al carceriere (un'ora) *(solo se hai almeno 3 monete)*. *Segna: −3 Monete; un'ora.* Vai al **59**.
-- **Prova: Convinco il carceriere che c'è stato un errore**. Persuadere (voce, Fondo 1). Soglia Impegnativa: 8 (−2 alla soglia se hai segnato la voce 19 del taccuino, e non è smentita; +2 se sei furioso; −2 se sei sicuro di sé). Costo di partenza: l'alba 0 · il giorno 1 · la sera 0 · la notte 2. *Se va male: il carceriere si offende, e ti lascia lì a lungo.* **In pieno**: **59**, e segna anche la voce 19 del taccuino · **Riesci**: **59** *Segna: un'ora.* · **Quasi**: scegli al **59** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 19 del taccuino, vai al **39**; allo scoperto, rovescio: **12**.
+- **Prova: Convinco il carceriere che c'è stato un errore**. Persuadere (voce, Fondo 1). Soglia Impegnativa: 8 (−2 alla soglia se hai segnato la voce 19 del taccuino, e non è smentita; +2 se sei furioso; −2 se sei sicuro di sé). Costo di partenza: l'alba 0 · il giorno 1 · la sera 0 · la notte 2 (+1 se hai la parola chiave REGISTRO; +1 se hai segnato «il portone dell'archivio: forzato» e non è la notte). *Se va male: il carceriere si offende, e ti lascia lì a lungo.* **In pieno**: **59**, e segna anche la voce 19 del taccuino · **Riesci**: **59** *Segna: un'ora.* · **Quasi**: scegli al **59** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 19 del taccuino, vai al **39**; allo scoperto, rovescio: **12**.
 - *Ripiego, non si tira:* Aspetto che mi rilascino (nove ore). *Segna: nove ore.* Vai al **59**.
 
 ### 46
@@ -895,7 +923,7 @@ Matteo scivola sul ponte bagnato e tu lo trattieni per il braccio: il parapetto 
 
 *Se è la notte:* Una lanterna ti acceca. «Fermo lì!» La ronda della capitaneria ti butta a terra e ti lega le mani dietro la schiena.
 
-*Segna: sei umiliato.*
+*Segna: sei umiliato; «il porto: in allarme», per sei ore.*
 
 - Mi lascio portare via. Vai al **45**.
 
@@ -975,6 +1003,8 @@ I magazzini sono una fila di capannoni di pietra dietro il porto, con i numeri d
 
 *Se non è la notte:* I carri vanno e vengono. Il guardiano siede su una sedia davanti al magazzino sette e fuma la pipa.
 
+*Se hai segnato «il tempo: nebbia»:* Nella nebbia i numeri sulle porte si leggono solo da vicino.
+
 *Se non hai segnato la voce 2 del taccuino:* I magazzini sono venti, e non sai quale sia quello di Grimani.
 
 *Se hai segnato la voce 22 del taccuino, e non è smentita:* La serratura del sette è nuova, di Genova. Adesso sai come si apre.
@@ -983,8 +1013,8 @@ I magazzini sono una fila di capannoni di pietra dietro il porto, con i numeri d
 
 - *Ripiego, non si tira:* Giro fra i magazzini cercando il marchio di Grimani (tre ore) *(solo se non hai segnato la voce 2 del taccuino)*. *Segna: tre ore; la voce 2 del taccuino.* Vai al **55**.
 - Osservo i giri del guardiano (un'ora) *(solo se hai segnato la voce 2 del taccuino, e non è smentita)*. *Segna: preparazione: «hai osservato il posto»; un'ora.* Vai al **55**.
-- **Prova: Forzo la porta del magazzino sette** *(solo se hai segnato la voce 2 del taccuino, e non è smentita)*. Forzare (mano, Fondo 1). Soglia Ardua: 12 (−2 alla soglia se hai segnato la voce 22 del taccuino, e non è smentita; +2 se sei UNA CICATRICE ALLA MANO; con una luce accesa ignora il buio; +1 al tiro se hai una leva di ferro). Costo di partenza: l'alba 1 · il giorno 1 · la sera 1 · la notte 2. *Se va male: il guardiano ti prende sul fatto.* **In pieno**: **9**, e segna anche la voce 22 del taccuino · **Riesci**: **9** · **Quasi**: scegli al **9** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 22 del taccuino, vai al **6**; allo scoperto, rovescio: **38**.
-- **Prova: Salgo sul tetto ed entro dal lucernario** *(solo se hai segnato la voce 2 del taccuino, e non è smentita)*. Muoversi (corpo, Fondo 0). Soglia Impegnativa: 8 (−2 alla soglia se hai segnato la voce 16 del taccuino, e non è smentita). Costo di partenza: −1. *Se va male: cadi dal tetto, e il guardiano ti trova.* **In pieno**: **9**, e segna anche la voce 23 del taccuino · **Riesci**: **9** · **Quasi**: scegli al **9** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 23 del taccuino, vai al **27**; allo scoperto, rovescio: **38** *Segna: ferita lieve: una spalla ammaccata (corpo).*.
+- **Prova: Forzo la porta del magazzino sette** *(solo se hai segnato la voce 2 del taccuino, e non è smentita)*. Forzare (mano, Fondo 1). Soglia Ardua: 12 (−2 alla soglia se hai segnato la voce 22 del taccuino, e non è smentita; +2 se sei UNA CICATRICE ALLA MANO; con una luce accesa ignora il buio; +1 al tiro se hai una leva di ferro). Costo di partenza: l'alba 1 · il giorno 1 · la sera 1 · la notte 2 (+1 se hai segnato «il porto: in allarme»). *Se va male: il guardiano ti prende sul fatto.* **In pieno**: **9**, e segna anche la voce 22 del taccuino · **Riesci**: **9** · **Quasi**: scegli al **9** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 22 del taccuino, vai al **6**; allo scoperto, rovescio: **38**.
+- **Prova: Salgo sul tetto ed entro dal lucernario** *(solo se hai segnato la voce 2 del taccuino, e non è smentita)*. Muoversi (corpo, Fondo 0). Soglia Impegnativa: 8 (−2 alla soglia se hai segnato la voce 16 del taccuino, e non è smentita). Costo di partenza: −1 (+1 se hai segnato «il porto: in allarme»; −1 se hai segnato «il tempo: nebbia»). *Se va male: cadi dal tetto, e il guardiano ti trova.* **In pieno**: **9**, e segna anche la voce 23 del taccuino · **Riesci**: **9** · **Quasi**: scegli al **9** salendo di un grado, resta qui (lasci perdere) · **Non riesci**: segna la voce 23 del taccuino, vai al **27**; allo scoperto, rovescio: **38** *Segna: ferita lieve: una spalla ammaccata (corpo).*.
 - *Ripiego, non si tira:* Aspetto che il guardiano si addormenti ed entro dalla porta di servizio (quattro ore) *(solo se hai segnato la voce 2 del taccuino, e non è smentita)*. *Segna: quattro ore.* Vai al **9**.
 - Torno sulla banchina (un'ora). *Segna: un'ora.* Vai al **59**.
 
@@ -1018,9 +1048,9 @@ Sfogli il registro fino alla data di tre giorni fa. *Santa Rita*, capitano Nicol
 
 Matteo sa scrivere meglio di chiunque in questo porto. Quella croce non l'ha fatta lui.
 
-*Segna: la voce 3 del taccuino, come verificata; la voce 5 del taccuino, come verificata; la voce 2 del taccuino, come verificata; la voce 15 del taccuino, come verificata; Dov'è Matteo +1.*
+*Segna: +1 Il registro della Santa Rita; la voce 3 del taccuino, come verificata; la voce 5 del taccuino, come verificata; la voce 2 del taccuino, come verificata; la voce 15 del taccuino, come verificata; Dov'è Matteo +1.*
 
-- Esco, con il registro nella borsa (un'ora). *Segna: un'ora.* Vai al **59**.
+- Esco dall'archivio (un'ora). *Segna: un'ora.* Vai al **59**.
 
 ### 59
 
@@ -1029,6 +1059,10 @@ Matteo sa scrivere meglio di chiunque in questo porto. Quella croce non l'ha fat
 La banchina corre lungo tutto il porto, fra le gru, le reti stese ad asciugare e le barche dei pescatori. Da qui si va dappertutto.
 
 *Se è la notte:* Di notte è deserta. Le lanterne delle navi ondeggiano sull'acqua nera.
+
+*Se hai segnato «il tempo: nebbia»:* La nebbia è salita dal mare: le gru spariscono a dieci passi, e le voci arrivano senza nessuno attorno.
+
+*Se hai segnato «il porto: in allarme»:* Le guardie della capitaneria girano a due a due e fermano chiunque abbia fretta.
 
 *Se hai segnato la voce 1 del taccuino, e non è smentita:* In fondo al molo, la *Santa Rita* carica le ultime casse. Salpa con la marea, prima dell'alba.
 

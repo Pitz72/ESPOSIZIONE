@@ -32,9 +32,9 @@ Manca tutto ciò che si impara soltanto facendo giocare persone vere, e manca la
 Il cuore della prova regge: quattro domande, quattro fasce, il costo separato dalla riuscita, il personaggio in sei parti, le persone, le notizie, i controlli. Mancano cinque cose, in quest'ordine di peso.
 
 1. **Le persone.** Nessuno ha giocato il 3.0. È la Fase 1, e decide tutto il resto.
-2. **Il mondo con uno stato.** Oggi il mondo è fatto di scene che leggono dei fatti. Servono le cose nei luoghi, da vedere, riconoscere e prendere se si ha la forza; i posti per portarle, che borse e zaini allargano; lo stato dei luoghi e delle cose, che le azioni cambiano e che dura; l'ambiente che logora e il meteo. Le regole sono proposte nel §7.3 e nel §11.4 del documento di design, e aspettano il via.
+2. **Il mondo con uno stato.** ~~Servono le cose nei luoghi, i posti per portarle, lo stato dei luoghi e delle cose, l'ambiente che logora e il meteo.~~ Approvati il 27 settembre 2026 e nel motore dallo stesso giorno (§7.3 e §11.4 del documento di design).
 3. **Scrivere costa troppo.** La Santa Rita sono circa ottocento righe di dati scritte a mano. Senza lo strumento della Fase 4 nessun autore lo farà. Tre aiuti vengono prima dello strumento: la **mappa dei luoghi** (gli spostamenti li calcola il motore, invece di scriverli in ogni scena), le **routine delle persone** (dove sta ciascuno in ogni momento) e i **dialoghi per argomenti** (il gioco offre da solo «Chiedo a Bressan di Grimani», e la risposta dipende dal legame).
-4. **Il *Quasi* non è ancora una scelta vera.** Nelle simulazioni scegliere secondo la situazione vince quanto prendere sempre tutto. Una correzione candidata: lasciar perdere non fa pagare l'ora del nuovo tentativo. Si decide con i dati delle prove.
+4. **Il *Quasi* non è ancora una scelta vera.** Nelle simulazioni scegliere secondo la situazione vince quanto prendere sempre tutto. Una correzione candidata: lasciar perdere non fa pagare l'ora del nuovo tentativo. Si decide con i dati delle prove: dal 27 settembre l'app registra ogni scelta nei *Quasi*, con la situazione in cui è stata fatta.
 5. **La taratura delle storie.** Il giocatore con un obiettivo ha già trovato, e fatto correggere, una strada che vinceva sempre. Oggi vince 81 volte su 100 e finisce con diciannove ore di margine sulla scadenza: la nave che salpa quasi non preme su chi gioca bene.
 
 Le **ramificazioni** si lavorano sui test narrativi veri: i punti 2 e 3 danno gli strumenti, le storie diranno come usarli.
@@ -64,7 +64,7 @@ Tutto ciò che serve perché il motore si possa dare ad altri.
 
 - **Lo schema dei dati** in JSON Schema, con messaggi d'errore scritti per l'autore e non per il programmatore.
 - ~~Un giocatore automatico con un obiettivo~~: fatto il 25 settembre 2026 (§54.2).
-- **Il mondo con uno stato** (§7.3 e §11.4 del documento di design, dopo il via): le cose nei luoghi, i posti e i contenitori, vedere, riconoscere e forza per prendere, lo stato di luoghi e cose, l'ambiente che logora, il meteo.
+- ~~**Il mondo con uno stato**~~ (§7.3 e §11.4 del documento di design): fatto il 27 settembre 2026. Le cose nei luoghi, i posti e i contenitori, vedere, riconoscere e forza per prendere, lo stato di luoghi e cose, l'ambiente che logora, il meteo.
 - **La mappa dei luoghi**, le **routine delle persone** e i **dialoghi per argomenti**, per togliere lavoro a chi scrive.
 - **I salvataggi con una versione**, perché una partita salvata sopravviva a una storia corretta.
 - **I testi separati dalle regole**, per poter tradurre una storia senza toccarne la logica.

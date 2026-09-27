@@ -7,7 +7,7 @@
 import ambJson from "../dati/porto.ambientazione.json" with { type: "json" };
 import storiaJson from "../dati/santa-rita.storia.json" with { type: "json" };
 import type { Ambientazione, Fascia, Storia } from "../src/tipi.ts";
-import { prepara, nuovaPartita, type DatiEsito, type DatiTiro, type Evento, type Partita } from "../src/stato.ts";
+import { prepara, normalizza, nuovaPartita, type DatiEsito, type DatiTiro, type Evento, type Partita } from "../src/stato.ts";
 import { agisci, vista, type Quadro, type Vista, type VistaScelta } from "../src/motore.ts";
 import { numerazione } from "../src/libro.ts";
 import { CIELI, disegna as disegnaPanorama } from "./panorama.ts";
@@ -17,7 +17,7 @@ const amb = ambJson as unknown as Ambientazione;
 const storia = storiaJson as unknown as Storia;
 const g = prepara(amb, storia);
 const paragrafo = numerazione(storia);
-const CHIAVE = "esposizione:santa-rita:app:3";
+const CHIAVE = "esposizione:santa-rita:app:4";
 const GRADI = ["al coperto", "esposto", "allo scoperto"];
 const FASCE: Record<Fascia, string> = { pieno: "In pieno", riesci: "Riesci", quasi: "Quasi", non: "Non riesci" };
 const PARTE: Record<string, string> = { tratto: "tratto", notizia: "notizia", proprieta: "luogo", legame: "legame", "stato d'animo": "umore", scena: "scena", cosa: "cosa", aiuto: "aiuto", ferita: "ferita", logorio: "logorio" };
@@ -35,8 +35,20 @@ interface VoceDiario {
   eventi: Evento[];
 }
 
+/**
+ * Ciò che serve alla prova con le persone (§54.3): quanto tempo resta aperto ogni quadro
+ * prima di tirare, e che cosa si sceglie nei Quasi, con la situazione in cui lo si sceglie.
+ */
+interface Misure {
+  quadri: Array<{ n: number; scena: string; azione: string; grado: number; probabilita: number; secondi: number; tirato: boolean }>;
+  quasi: Array<{ scena: string; azione: string; grado: number; ora: number; nave: string; tracciaQui: number; scelto: string }>;
+}
+
 let partita: Partita;
 let diario: VoceDiario[] = [];
+let misure: Misure = { quadri: [], quasi: [] };
+/** Quando si è aperto il quadro in lettura. */
+let apertoAlle: number | null = null;
 let ultimi: Evento[] = [];
 let quadri = 0;
 let iniziata = false;
@@ -54,18 +66,18 @@ const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySele
 
 function salva(): void {
   try {
-    localStorage.setItem(CHIAVE, JSON.stringify({ partita, diario: diario.slice(-40), quadri, suono: suono.eAcceso() }));
+    localStorage.setItem(CHIAVE, JSON.stringify({ partita, diario: diario.slice(-40), quadri, misure, suono: suono.eAcceso() }));
   } catch {
     /* il browser non conserva: si gioca lo stesso */
   }
 }
 
-function carica(): { partita: Partita; diario: VoceDiario[]; quadri: number; suono?: boolean } | null {
+function carica(): { partita: Partita; diario: VoceDiario[]; quadri: number; misure?: Misure; suono?: boolean } | null {
   try {
     const s = localStorage.getItem(CHIAVE);
     if (!s) return null;
     const d = JSON.parse(s);
-    d.partita.compagni ??= {};
+    normalizza(d.partita);
     vista(g, d.partita);
     return d;
   } catch {
@@ -83,6 +95,7 @@ function nuova(): void {
   diario = [voceDi(partita)];
   ultimi = [];
   quadri = 0;
+  misure = { quadri: [], quasi: [] };
   salva();
 }
 
@@ -269,9 +282,18 @@ function disegnaScheda(v: Vista): void {
   const tempo = amb.momenti
     .map((m) => `<div class="giornata-m" data-m="${m.id}" style="grid-template-columns: repeat(${m.ore}, 1fr)">${Array.from({ length: m.ore }, () => { const c = k < nelGiorno ? "fatto" : k === nelGiorno ? "ora" : ""; k++; return `<span class="${c}"></span>`; }).join("")}<em>${esc(m.nome.split(",")[0].replace(/^(l'|il |la )/, ""))}</em></div>`)
     .join("");
-  const sc = storia.scadenze[0];
-  const pieno = partita.scadenze[sc.id];
-  const scadenza = `<div class="scadenza${pieno >= sc.caselle - 2 ? " urgente" : ""}"><div class="sez"><span>${esc(sc.nome)}</span><span>${pieno} / ${sc.caselle}</span></div>${pip(sc.caselle, pieno, "nave")}</div>`;
+  // La prima scadenza è quella che chiude la storia; le altre annunciano che cosa sta per cambiare (§11.4).
+  const scadenza = storia.scadenze
+    .map((sc, i) => {
+      const pieno = partita.scadenze[sc.id];
+      if (i > 0 && pieno >= sc.caselle) return "";
+      return `<div class="scadenza${i === 0 && pieno >= sc.caselle - 2 ? " urgente" : ""}${i > 0 ? " annuncio" : ""}"><div class="sez"><span>${esc(sc.nome)}</span><span>${pieno} / ${sc.caselle}</span></div><span class="pips nave" style="grid-template-columns: repeat(${sc.caselle}, 1fr)">${Array.from({ length: sc.caselle }, (_, k) => `<i class="${k < pieno ? "on" : ""}"></i>`).join("")}</span></div>`;
+    })
+    .join("");
+  const mondo = [
+    v.stato.qui.length ? `<li class="qui-ora"><span>Qui</span><b>${esc(v.stato.qui.join(", ").toLowerCase())}</b></li>` : "",
+    ...v.stato.mondo.map((m) => `<li class="mondo"><span>${esc(m)}</span></li>`),
+  ].join("");
   const logorio = amb.logorii
     .map((l) => {
       const st = partita.logorio[l.id].stadio;
@@ -301,19 +323,25 @@ function disegnaScheda(v: Vista): void {
   const taccuino = v.stato.notizie.length
     ? v.stato.notizie.map((n) => `<li data-s="${n.stato}">${esc(n.testo)}<small>${STATO_NOTIZIA[n.stato]}${n.contrasto.length ? " · non può essere vera insieme a un'altra" : ""}</small></li>`).join("")
     : '<li class="vuoto">Non sai ancora niente di preciso.</li>';
-  const cose = v.stato.cose.map((o) => `<li><span>${esc(o.nome)}${o.quante > 1 ? ` ×${o.quante}` : ""}</span>${o.stato ? `<b>${esc(o.stato)}</b>` : ""}</li>`).join("") || '<li class="vuoto">Niente</li>';
+  // Lasciare una cosa si può quando non c'è altro da decidere (§7.3): fuori dai confronti e dalle scelte sospese.
+  const puoiLasciare = !v.sospeso && !v.confronto && !v.finale;
+  const POSTI = ["", "un posto", "due posti", "tre posti"];
+  const cose = v.stato.cose
+    .map((o) => `<li><span>${esc(o.nome)}${o.quante > 1 ? ` ×${o.quante}` : ""}</span><span class="cosa-dx">${o.stato ? `<b>${esc(o.stato)}</b>` : ""}${o.posti ? `<b>${POSTI[o.posti] ?? `${o.posti} posti`}</b>` : ""}${puoiLasciare && o.posti ? `<button type="button" class="lascia" data-lascia="${esc(o.id)}" aria-label="Lascia qui: ${esc(o.nome)}">lascia</button>` : ""}</span></li>`)
+    .join("") || '<li class="vuoto">Niente</li>';
+  const posti = v.stato.posti ? `<span>${v.stato.posti.occupati} / ${v.stato.posti.capienza} posti</span>` : "";
   $("#scheda-corpo").innerHTML = `
     <section><div class="sez"><span>La giornata</span><span>ora ${partita.ora}</span></div><div class="giornata">${tempo}</div></section>
-    <section>${scadenza}</section>
+    <section>${scadenza}${mondo ? `<ul class="righe-scheda mondo-lista">${mondo}</ul>` : ""}</section>
     <section><div class="sez"><span>Come stai</span></div>${logorio}<ul class="righe-scheda">${umori}${ferite}${prot}</ul></section>
     <section><div class="sez"><span>Tratti</span></div><ul class="lista-scheda">${tratti}</ul></section>
     <section><div class="sez"><span>Traccia</span><span>chi ti ha notato</span></div><ul class="righe-scheda">${traccia}</ul></section>
-    ${v.stato.compagni.length ? `<section><div class="sez"><span>Con te</span></div><ul class="lista-scheda">${v.stato.compagni.map((c) => `<li><b class="nome-t">${esc(c.nome)}</b><small>${esc(c.capacita.join(" · "))} · ${esc(c.tratti.join(", "))}${c.ferite.length ? ` · ferite: ${esc(c.ferite.join(", "))}` : ""}</small></li>`).join("")}</ul></section>` : ""}
+    ${v.stato.compagni.length ? `<section><div class="sez"><span>Con te</span></div><ul class="lista-scheda">${v.stato.compagni.map((c) => `<li><b class="nome-t">${esc(c.nome)}</b><small>${esc(c.capacita.join(" · "))} · ${esc(c.tratti.join(", "))}${c.ferite.length ? ` · ferite: ${esc(c.ferite.join(", "))}` : ""}${c.cose.length ? ` · porta per te: ${esc(c.cose.join(", ").toLowerCase())}` : ""}</small></li>`).join("")}</ul></section>` : ""}
     <section><div class="sez"><span>Persone</span></div><ul class="lista-scheda">${persone}</ul></section>
     <section><div class="sez"><span>Taccuino</span><span>${v.stato.notizie.length}</span></div><ul class="taccuino">${taccuino}</ul>${v.stato.parole.length ? `<p class="parole">${v.stato.parole.map((p) => `<span>${esc(p)}</span>`).join("")}</p>` : ""}</section>
     <section><div class="sez"><span>Convinzioni</span></div><ul class="taccuino convinzioni">${convinzioni}</ul></section>
     <section><div class="sez"><span>Capacità</span></div><ul class="righe-scheda capacita">${capacita}</ul></section>
-    <section><div class="sez"><span>Cose</span></div><ul class="righe-scheda">${cose}</ul></section>`;
+    <section><div class="sez"><span>Cose</span>${posti}</div><ul class="righe-scheda cose-lista">${cose}</ul></section>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -421,6 +449,32 @@ function chiudiFoglio(): void {
   aperta = null;
 }
 
+/** Registra quanto è rimasto aperto il quadro (§54.3): che si tiri o che si scelga un'altra via. */
+function misuraLettura(s: VistaScelta, tirato: boolean): void {
+  if (apertoAlle === null || !s.quadro) return;
+  const secondi = Math.round((performance.now() - apertoAlle) / 100) / 10;
+  apertoAlle = null;
+  misure.quadri.push({ n: misure.quadri.length + 1, scena: partita.scena, azione: s.testo, grado: s.quadro.grado, probabilita: s.quadro.riesci.nonSiTira ? 100 : s.quadro.riesci.probabilita, secondi, tirato });
+}
+
+/** Registra una scelta nel Quasi, con la situazione in cui la si fa (§54.3, domanda 3). */
+function misuraQuasi(s: VistaScelta): void {
+  const q = partita.quasi;
+  if (!q || s.tipo !== "quasi") return;
+  const sc = storia.scadenze[0];
+  const scelta = g.scene.get(q.scena)?.scelte?.find((x) => x.id === q.scelta);
+  const zona = amb.luoghi.find((l) => l.id === luogoId(partita))!.zona;
+  misure.quasi.push({
+    scena: q.scena,
+    azione: scelta?.testo ?? q.scelta,
+    grado: q.grado,
+    ora: partita.ora,
+    nave: `${partita.scadenze[sc.id]} su ${sc.caselle}`,
+    tracciaQui: partita.traccia[zona] ?? 0,
+    scelto: { "quasi:tutto": "tutto", "quasi:meta": "la metà", "quasi:lascia": "lascio perdere", "quasi:ferita": "di striscio", "quasi:perdi": "perdo terreno" }[s.id] ?? s.id,
+  });
+}
+
 function lancia(el: HTMLElement, faccia: number): void {
   const [fx, fy] = FACCE[faccia];
   if (!moto()) {
@@ -439,6 +493,7 @@ function lancia(el: HTMLElement, faccia: number): void {
 function tira(): void {
   if (!aperta || fase !== "quadro") return;
   const s = aperta;
+  misuraLettura(s, true);
   const prima = partita;
   const esito = agisci(g, partita, s.id);
   rollio = { id: s.id, esito, prima, testo: s.testo };
@@ -517,6 +572,7 @@ function registra(scelta: string, ev: Evento[], prima: Partita, soloDati = false
 
 function esegui(s: VistaScelta): void {
   const prima = partita;
+  misuraQuasi(s);
   const r = agisci(g, partita, s.id);
   partita = r.partita;
   registra(s.testo, r.eventi, prima);
@@ -532,8 +588,14 @@ function scegli(id: string): void {
   if (!s) return;
   if (s.quadro) {
     base = s;
+    apertoAlle = performance.now();
     apriFoglio(s.disponibile ? s : s.varianti!.find((x) => x.disponibile)!);
   } else esegui(s);
+}
+
+function altraVia(): void {
+  if (aperta) misuraLettura(aperta, false);
+  chiudiFoglio();
 }
 
 // ---------------------------------------------------------------------------
@@ -580,6 +642,8 @@ function reazioni(ev: Evento[], prima: Partita, dopo: Partita): void {
     else if (e.tipo === "statoAnimo") avviso("ambra", "Come ti senti", e.testo);
     else if (e.tipo === "memoria" && e.testo.startsWith("Parola chiave")) avviso("inchiostro", "Parola chiave", e.testo.slice(15));
     else if (e.tipo === "logorio") avviso("ambra", "Come stai", e.testo);
+    else if (e.tipo === "mondo") avviso("ambra", "Il mondo cambia", e.testo);
+    else if (e.tipo === "cosa" && /^(Non hai posto|Trovi|Adesso sai|.+ lascia qui)/.test(e.testo)) avviso("inchiostro", "Le cose", e.testo);
     else if (e.tipo === "morte") effetto("ferita");
   }
   for (const [zona, v] of Object.entries(dopo.traccia)) {
@@ -637,9 +701,40 @@ function controllaFinale(): void {
 }
 
 function testoRegistro(): string {
-  return diario
+  const partitaTesto = diario
     .map((d) => `${d.continua ? "" : `${d.titolo.toUpperCase()} (${d.luogo}, ${d.momento})\n${d.testo.replaceAll("*", "")}\n`}${d.scelta ? `» ${d.scelta}\n` : ""}${d.eventi.filter((e) => e.tipo !== "tempo").map((e) => `  · ${e.testo}`).join("\n")}`)
     .join("\n\n");
+  return `${partitaTesto}\n\n${testoMisure()}`;
+}
+
+/** I dati per la prova con le persone (§54.3), in fondo al registro: si leggono e si ricalcolano a mano. */
+function testoMisure(): string {
+  const virgola = (x: number) => String(x).replace(".", ",");
+  const tempi = misure.quadri.map((q) => q.secondi).sort((a, b) => a - b);
+  const mediana = (xs: number[]) => (xs.length ? (xs.length % 2 ? xs[(xs.length - 1) / 2] : (xs[xs.length / 2 - 1] + xs[xs.length / 2]) / 2) : 0);
+  const primi = misure.quadri.slice(0, 5).map((q) => q.secondi).sort((a, b) => a - b);
+  const sc = storia.scadenze[0];
+  const righe = [
+    "————————————————————————————————————————",
+    "PER CHI STUDIA LA PARTITA (§54.3 del documento di design)",
+    `Seme ${partita.seme} · ora ${partita.ora} · ${sc.nome}: ${partita.scadenze[sc.id]} su ${sc.caselle}${partita.finita ? ` · finale: ${partita.finita.tipo}` : " · partita non finita"}`,
+    "",
+    `Quadri aperti: ${misure.quadri.length} · tempo di lettura, mediana: ${virgola(Math.round(mediana(tempi) * 10) / 10)} s · nei primi cinque: ${virgola(Math.round(mediana(primi) * 10) / 10)} s`,
+    ...misure.quadri.map((q) => `  ${q.n}. ${virgola(q.secondi)} s · ${q.azione} · ${GRADI[q.grado]}, ${q.probabilita}% · ${q.tirato ? "tirato" : "un'altra via"}`),
+    "",
+    `Scelte nei Quasi: ${misure.quasi.length}`,
+    ...misure.quasi.map((q) => `  - ora ${q.ora} · ${q.azione} · ${GRADI[q.grado]} · Traccia qui ${q.tracciaQui} · la nave ${q.nave} · scelto: ${q.scelto}`),
+  ];
+  return righe.join("\n");
+}
+
+async function copiaRegistro(b: HTMLButtonElement, fatto: string): Promise<void> {
+  try {
+    await navigator.clipboard.writeText(testoRegistro());
+    b.textContent = fatto;
+  } catch {
+    b.textContent = "Copia non riuscita";
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -684,12 +779,13 @@ function sovrapposto(id: string, apri: boolean): void {
   $(id).hidden = !apri;
 }
 
-function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number }): void {
-  const salvata = dati.partita ? { partita: dati.partita, diario: dati.diario ?? [], quadri: dati.quadri ?? 0 } : carica();
+function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number; misure?: Misure }): void {
+  const salvata = dati.partita ? { partita: normalizza(dati.partita), diario: dati.diario ?? [], quadri: dati.quadri ?? 0, misure: dati.misure } : carica();
   if (salvata) {
     partita = salvata.partita;
     diario = salvata.diario.length ? salvata.diario : [voceDi(partita)];
     quadri = salvata.quadri;
+    misure = salvata.misure ?? { quadri: [], quasi: [] };
     $("#continua-partita").hidden = !!partita.finita;
     $("#inizia").textContent = partita.finita ? "Comincia la storia" : "Nuova partita";
     if (!partita.finita) $("#inizia").className = "secondario";
@@ -725,7 +821,9 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
       case "tira":
         return fase === "timbro" ? continua() : tira();
       case "altra":
-        return chiudiFoglio();
+        return altraVia();
+      case "cofano-copia":
+        return void copiaRegistro(b, "Registro copiato: incollalo in un messaggio");
       case "btn-come":
         return sovrapposto("#come", true);
       case "btn-cofano":
@@ -762,14 +860,13 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
         return;
       case "fin-rileggi":
         return sovrapposto("#finale", false);
-      case "fin-copia": {
-        const testo = testoRegistro();
-        navigator.clipboard?.writeText(testo).then(
-          () => (b.textContent = "Registro copiato"),
-          () => (b.textContent = "Copia non riuscita"),
-        );
-        return;
-      }
+      case "fin-copia":
+        return void copiaRegistro(b, "Registro copiato");
+    }
+    if (b.dataset.lascia && !rollio) {
+      const cosa = vista(g, partita).stato.cose.find((x) => x.id === b.dataset.lascia);
+      if (cosa) esegui({ id: `lascia:${cosa.id}`, testo: `Lascio qui ${cosa.nome.replace(/^./, (x) => x.toLowerCase())}`, tipo: "posto", disponibile: true });
+      return;
     }
     if (b.dataset.chi && fase === "quadro" && base) {
       const m = [base, ...(base.varianti ?? [])].find((x) => x.id === b.dataset.chi && x.disponibile);
@@ -785,7 +882,7 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      if (!$("#foglio").hidden && fase === "quadro") chiudiFoglio();
+      if (!$("#foglio").hidden && fase === "quadro") altraVia();
       for (const id of ["#come", "#cofano"]) $(id).hidden = true;
       document.body.classList.remove("scheda-aperta");
       return;
@@ -808,6 +905,6 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
 }
 
 const hot = (window as unknown as { claude?: { hot?: { snapshot?: (f: () => unknown) => void; ready?: (f: (d: object) => void) => void; data?: object } } }).claude?.hot;
-hot?.snapshot?.(() => ({ partita, diario, quadri }));
+hot?.snapshot?.(() => ({ partita, diario, quadri, misure }));
 if (hot?.ready) hot.ready(avvia);
 else avvia(hot?.data ?? {});
