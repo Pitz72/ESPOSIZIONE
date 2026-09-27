@@ -392,9 +392,9 @@ function testoMeta(g: Gioco, scena: Scena, pr: Prova): string | undefined {
 // Le scelte che si esauriscono (§15.6)
 // ---------------------------------------------------------------------------
 
-/** Una scena di solo resoconto: racconta che cosa hai ottenuto e ti rimanda indietro. */
+/** Una scena di solo resoconto: racconta che cosa hai ottenuto e ti rimanda indietro. Una scena con delle cose da prendere è un luogo, e ci si torna. */
 function resoconto(sc: Scena): boolean {
-  return !sc.finale && !sc.confronto && (sc.scelte ?? []).length <= 1 && !(sc.scelte ?? []).some((x) => x.prova);
+  return !sc.finale && !sc.confronto && !sc.cose?.length && (sc.scelte ?? []).length <= 1 && !(sc.scelte ?? []).some((x) => x.prova);
 }
 
 function guadagni(g: Gioco, scena: Scena, s: Scelta): Effetto[] {

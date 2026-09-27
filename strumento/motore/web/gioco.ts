@@ -246,13 +246,17 @@ function disegnaScelte(v: Vista): void {
       </div>`
     : "";
   const sospeso = v.sospeso ? `<p class="sospeso" data-t="${v.sospeso.tipo}">${esc(v.sospeso.testo)}</p>` : "";
-  const voci = v.scelte
+  // Prima le scelte che puoi fare, poi, raccolte in fondo, quelle chiuse con ciò che manca.
+  const aperte = v.scelte.filter(sceglibile);
+  const chiuse = v.scelte.filter((s) => !sceglibile(s));
+  numerate = aperte.map((s) => s.id);
+  const chiuseHtml = chiuse
+    .map((s) => `<li><div class="risposta chiusa" data-da="${s.chiusaDa ?? ""}"><span class="num">·</span><span class="t">${esc(s.testo)}<small>${s.chiusaDa === "convinzione" ? "" : "Richiede: "}${esc(s.richiede ?? "non disponibile")}</small></span></div></li>`)
+    .join("");
+  const voci = aperte
     .map((s) => {
       // Una prova che da solo non puoi tentare, ma con un compagno sì, resta cliccabile (§33).
       const conAltri = !s.disponibile && s.varianti?.some((x) => x.disponibile);
-      if (!s.disponibile && !conAltri) {
-        return `<li><div class="risposta chiusa" data-da="${s.chiusaDa ?? ""}"><span class="num">·</span><span class="t">${esc(s.testo)}<small>${s.chiusaDa === "convinzione" ? "" : "Richiede: "}${esc(s.richiede ?? "non disponibile")}</small></span></div></li>`;
-      }
       i++;
       const q = s.quadro;
       const tag = etichetta(s);
@@ -263,12 +267,56 @@ function disegnaScelte(v: Vista): void {
       </button></li>`;
     })
     .join("");
-  $("#dock").innerHTML = v.finale ? "" : `${conf}${sospeso}<ol class="risposte">${voci}</ol>`;
+  const titolo = v.sospeso || v.confronto ? "" : '<p class="dock-titolo">Che cosa fai?</p>';
+  $("#dock").innerHTML = v.finale
+    ? ""
+    : `${conf}${sospeso}${titolo}<ol class="risposte">${voci}</ol>${chiuseHtml ? `<details class="chiuse"${chiuse.length <= 3 ? " open" : ""}><summary>Per ora non puoi (${chiuse.length})</summary><ul class="risposte">${chiuseHtml}</ul></details>` : ""}`;
+}
+
+/** Le scelte che i tasti numerati raggiungono, nell'ordine in cui sono mostrate. */
+let numerate: string[] = [];
+
+function sceglibile(s: VistaScelta): boolean {
+  return s.disponibile || !!s.varianti?.some((x) => x.disponibile);
 }
 
 // ---------------------------------------------------------------------------
 // La scheda
 // ---------------------------------------------------------------------------
+
+type Linguetta = "adesso" | "tu" | "cose" | "taccuino" | "persone";
+const LINGUETTE: Array<{ id: Linguetta; nome: string }> = [
+  { id: "adesso", nome: "Adesso" },
+  { id: "tu", nome: "Tu" },
+  { id: "cose", nome: "Cose" },
+  { id: "taccuino", nome: "Taccuino" },
+  { id: "persone", nome: "Persone" },
+];
+const CHIAVE_LINGUETTA = "esposizione:santa-rita:linguetta";
+/** La linguetta aperta della scheda: una comodità di chi gioca, ricordata dal browser se può. */
+let linguetta: Linguetta = (() => {
+  try {
+    const x = localStorage.getItem(CHIAVE_LINGUETTA);
+    return LINGUETTE.some((l) => l.id === x) ? (x as Linguetta) : "tu";
+  } catch {
+    return "tu";
+  }
+})();
+/** Le linguette in cui è cambiato qualcosa che chi gioca non ha ancora guardato. */
+const nuove = new Set<Linguetta>();
+/** Sullo schermo largo «Adesso» ha una colonna sua, a sinistra. */
+const schermoLargo = () => matchMedia("(min-width: 1200px)").matches;
+
+function scegliLinguetta(id: Linguetta): void {
+  linguetta = id;
+  nuove.delete(id);
+  try {
+    localStorage.setItem(CHIAVE_LINGUETTA, id);
+  } catch {
+    /* si ricorda solo finché la pagina è aperta */
+  }
+  disegnaScheda(vista(g, partita));
+}
 
 function pip(n: number, pieni: number, cls = ""): string {
   return `<span class="pips ${cls}">${Array.from({ length: n }, (_, i) => `<i class="${i < pieni ? "on" : ""}"></i>`).join("")}</span>`;
@@ -330,18 +378,43 @@ function disegnaScheda(v: Vista): void {
     .map((o) => `<li><span>${esc(o.nome)}${o.quante > 1 ? ` ×${o.quante}` : ""}</span><span class="cosa-dx">${o.stato ? `<b>${esc(o.stato)}</b>` : ""}${o.posti ? `<b>${POSTI[o.posti] ?? `${o.posti} posti`}</b>` : ""}${puoiLasciare && o.posti ? `<button type="button" class="lascia" data-lascia="${esc(o.id)}" aria-label="Lascia qui: ${esc(o.nome)}">lascia</button>` : ""}</span></li>`)
     .join("") || '<li class="vuoto">Niente</li>';
   const posti = v.stato.posti ? `<span>${v.stato.posti.occupati} / ${v.stato.posti.capienza} posti</span>` : "";
-  $("#scheda-corpo").innerHTML = `
-    <section><div class="sez"><span>La giornata</span><span>ora ${partita.ora}</span></div><div class="giornata">${tempo}</div></section>
-    <section>${scadenza}${mondo ? `<ul class="righe-scheda mondo-lista">${mondo}</ul>` : ""}</section>
-    <section><div class="sez"><span>Come stai</span></div>${logorio}<ul class="righe-scheda">${umori}${ferite}${prot}</ul></section>
-    <section><div class="sez"><span>Tratti</span></div><ul class="lista-scheda">${tratti}</ul></section>
-    <section><div class="sez"><span>Traccia</span><span>chi ti ha notato</span></div><ul class="righe-scheda">${traccia}</ul></section>
-    ${v.stato.compagni.length ? `<section><div class="sez"><span>Con te</span></div><ul class="lista-scheda">${v.stato.compagni.map((c) => `<li><b class="nome-t">${esc(c.nome)}</b><small>${esc(c.capacita.join(" · "))} · ${esc(c.tratti.join(", "))}${c.ferite.length ? ` · ferite: ${esc(c.ferite.join(", "))}` : ""}${c.cose.length ? ` · porta per te: ${esc(c.cose.join(", ").toLowerCase())}` : ""}</small></li>`).join("")}</ul></section>` : ""}
-    <section><div class="sez"><span>Persone</span></div><ul class="lista-scheda">${persone}</ul></section>
-    <section><div class="sez"><span>Taccuino</span><span>${v.stato.notizie.length}</span></div><ul class="taccuino">${taccuino}</ul>${v.stato.parole.length ? `<p class="parole">${v.stato.parole.map((p) => `<span>${esc(p)}</span>`).join("")}</p>` : ""}</section>
-    <section><div class="sez"><span>Convinzioni</span></div><ul class="taccuino convinzioni">${convinzioni}</ul></section>
-    <section><div class="sez"><span>Capacità</span></div><ul class="righe-scheda capacita">${capacita}</ul></section>
-    <section><div class="sez"><span>Cose</span>${posti}</div><ul class="righe-scheda cose-lista">${cose}</ul></section>`;
+  const compagni = v.stato.compagni.length
+    ? `<section><div class="sez"><span>Con te</span></div><ul class="lista-scheda">${v.stato.compagni.map((c) => `<li><b class="nome-t">${esc(c.nome)}</b><small>${esc(c.capacita.join(" · "))} · ${esc(c.tratti.join(", "))}${c.ferite.length ? ` · ferite: ${esc(c.ferite.join(", "))}` : ""}${c.cose.length ? ` · porta per te: ${esc(c.cose.join(", ").toLowerCase())}` : ""}</small></li>`).join("")}</ul></section>`
+    : "";
+
+  // Ciò che cambia a ogni scelta sta sempre sotto gli occhi; ciò che si consulta sta nelle linguette.
+  const adesso = `
+    <section class="carta-ora"><div class="sez"><span>La giornata</span><span>ora ${partita.ora}</span></div><div class="giornata">${tempo}</div></section>
+    <section class="carta-ora">${scadenza}${mondo ? `<ul class="righe-scheda mondo-lista">${mondo}</ul>` : ""}</section>
+    <section class="carta-ora"><div class="sez"><span>Come stai</span></div>${logorio}<ul class="righe-scheda">${umori}${ferite}${prot}</ul></section>
+    <section class="carta-ora"><div class="sez"><span>Traccia</span><span>chi ti ha notato</span></div><ul class="righe-scheda">${traccia}</ul></section>`;
+  const pannelli: Record<Linguetta, string> = {
+    adesso,
+    tu: `<section><div class="sez"><span>Tratti</span></div><ul class="lista-scheda">${tratti}</ul></section>
+      <section><div class="sez"><span>Capacità</span></div><ul class="righe-scheda capacita">${capacita}</ul></section>`,
+    cose: `<section><div class="sez"><span>Cose</span>${posti}</div><ul class="righe-scheda cose-lista">${cose}</ul>${puoiLasciare && v.stato.cose.some((o) => o.posti) ? '<p class="nota-scheda">Ciò che lasci resta qui, e lo ritrovi se torni.</p>' : ""}</section>${compagni}`,
+    taccuino: `<section><div class="sez"><span>Taccuino</span><span>${v.stato.notizie.length} notizie</span></div><ul class="taccuino">${taccuino}</ul>${v.stato.parole.length ? `<p class="parole">${v.stato.parole.map((p) => `<span>${esc(p)}</span>`).join("")}</p>` : ""}</section>
+      <section><div class="sez"><span>Convinzioni</span></div><ul class="taccuino convinzioni">${convinzioni}</ul></section>`,
+    persone: `${compagni}<section><div class="sez"><span>Persone</span></div><ul class="lista-scheda">${persone}</ul></section>`,
+  };
+  $("#ora-corpo").innerHTML = adesso;
+
+  const largo = schermoLargo();
+  if (largo && linguetta === "adesso") linguetta = "tu";
+  const conta: Partial<Record<Linguetta, string>> = {
+    cose: v.stato.posti ? `${v.stato.posti.occupati}/${v.stato.posti.capienza}` : String(v.stato.cose.length),
+    taccuino: String(v.stato.notizie.length),
+    persone: String(v.stato.persone.length),
+  };
+  $("#linguette").innerHTML = LINGUETTE.filter((l) => !(largo && l.id === "adesso"))
+    .map((l) => `<button type="button" role="tab" class="linguetta${l.id === linguetta ? " attiva" : ""}${nuove.has(l.id) ? " nuova" : ""}" data-linguetta="${l.id}" aria-selected="${l.id === linguetta}">${l.nome}${conta[l.id] ? `<b>${conta[l.id]}</b>` : ""}</button>`)
+    .join("");
+  $("#scheda-corpo").innerHTML = pannelli[linguetta];
+
+  // La striscia sotto il panorama, per chi non ha la colonna di sinistra: la nave e come stai, in una riga.
+  const nave = storia.scadenze[0];
+  const fatica = amb.logorii.map((l) => ({ l, s: partita.logorio[l.id].stadio })).filter((x) => x.s > 1);
+  $("#striscia").innerHTML = `<span class="st-nave${partita.scadenze[nave.id] >= nave.caselle - 2 ? " urgente" : ""}">${esc(nave.nome)} <b>${partita.scadenze[nave.id]}/${nave.caselle}</b></span>${v.stato.mondo.map((m) => `<span class="st-mondo">${esc(m.split(",")[0])}</span>`).join("")}${fatica.map((x) => `<span class="st-male">${esc(x.l.nome)}: ${esc(x.l.stadi[x.s - 1])}</span>`).join("")}${partita.ferite.length ? `<span class="st-male">${partita.ferite.length === 1 ? "ferito" : `${partita.ferite.length} ferite`}</span>` : ""}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -617,12 +690,19 @@ function avviso(tipo: string, titolo: string, testo: string): void {
   el.className = `avviso ${tipo}`;
   el.innerHTML = `<b>${esc(titolo)}</b><span>${esc(testo)}</span>`;
   box.appendChild(el);
-  while (box.children.length > 4) box.firstElementChild!.remove();
+  while (box.children.length > 3) box.firstElementChild!.remove();
   setTimeout(() => el.classList.add("via"), 5200);
   setTimeout(() => el.remove(), 5800);
 }
 
 function reazioni(ev: Evento[], prima: Partita, dopo: Partita): void {
+  // Un segno sulle linguette in cui è cambiato qualcosa.
+  const dove: Partial<Record<Evento["tipo"], Linguetta>> = { notizia: "taccuino", convinzione: "taccuino", memoria: "taccuino", cosa: "cose", persona: "persone", tratto: "tu", crescita: "tu" };
+  if (!schermoLargo()) Object.assign(dove, { logorio: "adesso", ferita: "adesso", statoAnimo: "adesso", mondo: "adesso", scadenza: "adesso", traccia: "adesso" });
+  for (const e of ev) {
+    const l = dove[e.tipo];
+    if (l && l !== linguetta) nuove.add(l);
+  }
   for (const e of ev) {
     if (e.tipo === "ferita" && /^Ferita/.test(e.testo)) {
       effetto("ferita");
@@ -793,6 +873,7 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
 
   document.body.classList.add("in-titolo");
   new ResizeObserver(ridimensiona).observe(tela());
+  matchMedia("(min-width: 1200px)").addEventListener("change", () => disegnaScheda(vista(g, partita)));
   ridimensiona();
   requestAnimationFrame(anima);
   disegnaTutto();
@@ -863,6 +944,7 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
       case "fin-copia":
         return void copiaRegistro(b, "Registro copiato");
     }
+    if (b.dataset.linguetta) return scegliLinguetta(b.dataset.linguetta as Linguetta);
     if (b.dataset.lascia && !rollio) {
       const cosa = vista(g, partita).stato.cose.find((x) => x.id === b.dataset.lascia);
       if (cosa) esegui({ id: `lascia:${cosa.id}`, testo: `Lascio qui ${cosa.nome.replace(/^./, (x) => x.toLowerCase())}`, tipo: "posto", disponibile: true });
@@ -898,8 +980,7 @@ function avvia(dati: { partita?: Partita; diario?: VoceDiario[]; quadri?: number
     if (!$("#titolo").hidden || !$("#finale").hidden) return;
     const n = Number(e.key);
     if (n >= 1 && n <= 9) {
-      const disponibili = vista(g, partita).scelte.filter((s) => s.disponibile);
-      if (disponibili[n - 1]) scegli(disponibili[n - 1].id);
+      if (numerate[n - 1]) scegli(numerate[n - 1]);
     }
   });
 }

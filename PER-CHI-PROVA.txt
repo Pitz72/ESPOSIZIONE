@@ -1,0 +1,114 @@
+IL REGISTRO DELLA SANTA RITA
+Istruzioni per chi prova il gioco
+
+
+CHE COS'È
+
+Il registro della Santa Rita è una storia breve da giocare. Tuo fratello
+Matteo è sparito da tre giorni, e la nave su cui lo tengono prigioniero
+salpa prima dell'alba.
+
+La stai provando perché stiamo costruendo il motore che la fa funzionare,
+e vogliamo sapere se le sue regole si capiscono giocando. Non è un gioco
+finito: la grafica è provvisoria, e qualcosa potrebbe rompersi. Una partita
+dura da mezz'ora a un'ora.
+
+
+PRIMA DI COMINCIARE (due minuti)
+
+Senza aprire il gioco e senza cercare niente, scrivi in una riga che cosa
+ti fanno pensare queste cinque parole. Se una non ti dice niente, scrivi
+«niente»: è una risposta utile anche quella.
+
+    ripiego  ·  quadro  ·  esposto  ·  Traccia  ·  Quasi
+
+
+COME SI APRE
+
+Apri il file santa-rita.html con Chrome, Firefox, Edge o Safari, su un
+computer o su un telefono. Funziona anche senza internet, con caratteri più
+semplici. Se chiudi la pagina, la partita riprende da dove eri, sullo stesso
+browser.
+
+Sul computer lo schermo ha tre colonne: a sinistra dove sei, che ora è e
+come stai; al centro la storia e le scelte; a destra la tua scheda, divisa
+in linguette. Sul telefono la scheda si apre con il pulsante «Scheda».
+
+
+COME GIOCARE
+
+Gioca come giocheresti tu, non come pensi che vorremmo noi. Leggi «Come si
+gioca» solo se ti serve, e se ti serve annotalo. Se puoi, non chiedere aiuto
+a chi ti ha dato il gioco finché non hai finito: ci interessa proprio dove
+ti blocchi.
+
+Se hai qualcuno accanto, pensa ad alta voce: «scelgo questo perché...».
+Se finisci presto, puoi ricominciare e provare un'altra strada.
+
+
+CHE COSA GUARDARE
+
+- Il quadro. Prima di ogni azione rischiosa si apre un foglio con quattro
+  domande: puoi farlo, ci riesci, quanto ti costa, che cosa cambia.
+  Vorremmo sapere se lo leggi, quanto ci metti, e se ti fa cambiare idea.
+
+- Le fasce. Dopo il tiro, un timbro dice In pieno, Riesci, Quasi o Non
+  riesci. Nel Quasi ti è mancato poco, e scegli tu come va a finire:
+  fai caso al perché della tua scelta.
+
+- Il costo. Al coperto, esposto, allo scoperto: il colore dice quanto
+  rischi, e non dipende dai dadi.
+
+- Il ripiego. Davanti a ogni ostacolo c'è almeno una via senza dadi,
+  che costa qualcos'altro: tempo, denaro, fatica.
+
+- La scheda. Il taccuino (non tutto quello che senti dire è vero), le
+  persone, le cose che porti e quanto posto ti resta.
+
+- Il mondo. Il porto cambia con le ore e con quello che fai.
+
+
+CHE COSA ANNOTARE MENTRE GIOCHI
+
+Tieni un foglio accanto e scrivi, anche solo due parole:
+
+- dove ti sei perso, o non sapevi che cosa fare;
+- una regola che non hai capito, o che ti è sembrata ingiusta;
+- una cosa sullo schermo che non hai mai guardato;
+- un errore: una scelta che non funziona, un testo sbagliato, qualcosa
+  che si blocca.
+
+
+ALLA FINE
+
+1. Copia il registro. Nella schermata finale c'è il pulsante «Copia il
+   registro»; se smetti prima, lo trovi in «Sotto il cofano». Incollalo
+   in un messaggio. Contiene la partita, quanti secondi è rimasto aperto
+   ogni quadro e che cosa hai scelto nei Quasi. Non contiene niente di
+   personale.
+
+2. Rispondi a queste domande con parole tue. Non ci sono risposte giuste.
+
+    1. Pensa a un momento teso. Prima di tirare, che cosa ti aspettavi
+       che succedesse, e perché?
+    2. Qual è stata la decisione più importante della tua partita?
+    3. Ricordi un Quasi? Che cosa hai scelto, e perché?
+    4. Con parole tue: che differenza c'è fra In pieno, Riesci, Quasi e
+       Non riesci?
+    5. Chi ricordi fra le persone della storia? Che cosa pensa di te, e
+       perché?
+    6. Che cosa poteva o non poteva fare il tuo personaggio, per com'era
+       fatto?
+    7. Hai mai cambiato idea su qualcosa, nella storia?
+    8. Ti sei sentito di corsa, o avevi tutto il tempo che volevi?
+    9. Che cosa hai portato con te, e che cosa hai lasciato? Ti è mai
+       mancato il posto?
+   10. Se potessi togliere una cosa dal gioco, quale toglieresti?
+
+3. Manda a chi ti ha dato il gioco: il registro, le cinque parole di
+   prima, le risposte e i tuoi appunti. Aggiungi su che cosa hai giocato
+   (computer o telefono) e se avevi già giocato a giochi di ruolo o a
+   librogame.
+
+
+Grazie. Ogni punto in cui ti sei perso ci serve più di dieci complimenti.

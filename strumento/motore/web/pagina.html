@@ -96,12 +96,47 @@
   .comandi button:hover { border-color: var(--acc); }
   #btn-ricomincia[data-conferma="si"] { border-color: var(--scoperto); color: var(--scoperto); }
   #btn-scheda { display: none; }
-  .luogo { position: absolute; left: 28px; right: 28px; bottom: 14px; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85); }
+  .panorama::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46px; background: linear-gradient(to bottom, transparent, var(--fondo)); pointer-events: none; }
+  .luogo { position: absolute; z-index: 1; left: 28px; right: 28px; bottom: 14px; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85); }
+  .striscia { position: absolute; z-index: 1; right: 20px; bottom: 18px; max-width: 55%; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+  .striscia span {
+    padding: 5px 10px; border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(8, 9, 13, 0.6);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    font: 500 10px/1.2 var(--mono); letter-spacing: 0.08em; color: var(--testo-2);
+  }
+  .striscia b { color: var(--testo); font-weight: 600; }
+  .striscia .st-nave.urgente { border-color: var(--scoperto); animation: urgente 1.6s ease-in-out infinite; }
+  .striscia .st-nave.urgente b { color: var(--scoperto); }
+  .striscia .st-mondo { color: var(--esposto); border-color: color-mix(in srgb, var(--esposto) 40%, transparent); }
+  .striscia .st-male { color: #f0bb8e; }
   .luogo p { margin: 0; font: 500 10.5px/1.4 var(--mono); letter-spacing: 0.26em; text-transform: uppercase; color: var(--acc); transition: color 0.8s; }
   .luogo h1 { margin: 2px 0 0; font: 400 36px/1.05 var(--display); color: #f8f0e0; text-wrap: balance; }
 
   /* ---------------- corpo: diario, scelte, scheda ---------------- */
-  .corpo { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
+  .corpo { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 330px; }
+  .rail-ora {
+    display: none; min-height: 0; overflow-y: auto;
+    padding: 14px 14px 24px;
+    border-right: 1px solid var(--linea);
+    background: rgba(0, 0, 0, 0.18);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,.1) transparent;
+  }
+  .rail-titolo { margin: 2px 4px 10px; font: 500 10px/1.4 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--tenue); }
+  #ora-corpo, #scheda-corpo { display: grid; gap: 10px; align-content: start; }
+  .carta-ora { padding: 12px 14px 13px; border-radius: 12px; border: 1px solid var(--linea); background: var(--pannello); }
+  .carta-ora .sez { letter-spacing: 0.14em; }
+  .carta-ora .sez span:first-child { min-width: 0; }
+  .carta-ora .sez span + span { white-space: nowrap; }
+  .mondo-lista li.qui-ora { display: block; }
+  .mondo-lista li.qui-ora span { font: 500 10px/1.4 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--tenue) !important; }
+  .mondo-lista li.qui-ora b { display: block; margin-top: 2px; }
+  @media (min-width: 1200px) {
+    .corpo { grid-template-columns: 264px minmax(0, 1fr) 330px; }
+    .rail-ora { display: block; }
+    .striscia { display: none !important; }
+  }
   .colonna { min-height: 0; min-width: 0; display: flex; flex-direction: column; }
   .diario {
     flex: 1; min-height: 0; overflow-y: auto;
@@ -111,7 +146,7 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,.1) transparent;
   }
-  .voce { max-width: 720px; margin: 18px auto 0; padding-inline: 36px; transition: opacity 0.6s; }
+  .voce { max-width: 720px; margin: 22px auto 0; padding-inline: 36px; transition: opacity 0.6s; }
   .voce.passata { opacity: 0.42; }
   .voce.passata:hover { opacity: 0.82; }
   .voce.presente { animation: entra 0.55s ease both; }
@@ -155,13 +190,18 @@
     background: linear-gradient(to top, rgba(8, 9, 12, 0.98), rgba(8, 9, 12, 0.78));
   }
   .dock > * { max-width: 720px; margin-inline: auto; }
+  .dock-titolo { margin-bottom: 8px; font: 500 10px/1.4 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--tenue); }
+  .chiuse { margin-top: 10px; }
+  .chiuse summary { cursor: pointer; width: fit-content; font: 500 10px/1.4 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--tenue); }
+  .chiuse summary:hover { color: var(--testo-2); }
+  .chiuse .risposte { margin-top: 6px; }
   .risposte { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 6px; }
   .risposta {
     width: 100%;
     display: grid;
-    grid-template-columns: 22px minmax(0, 1fr) auto;
+    grid-template-columns: 24px minmax(0, 1fr) auto;
     gap: 12px;
-    align-items: baseline;
+    align-items: center;
     text-align: left;
     padding: 10px 14px;
     border-radius: 10px;
@@ -172,7 +212,9 @@
     transition: border-color 0.2s, background 0.2s, transform 0.2s;
   }
   button.risposta:hover, button.risposta:focus-visible { border-color: var(--acc); background: rgba(255, 255, 255, 0.06); transform: translateX(2px); outline: none; }
-  .risposta .num { font: 500 12px/1 var(--mono); color: var(--acc); }
+  .risposta .num { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--acc) 45%, transparent); font: 500 11px/1 var(--mono); color: var(--acc); }
+  .risposta.chiusa .num { border-color: transparent; color: var(--tenue); }
+  .risposta.prova { border-left: 2px solid color-mix(in srgb, var(--acc) 55%, transparent); }
   .risposta .t small { display: block; margin-top: 2px; font: 400 11px/1.4 var(--mono); color: var(--tenue); }
   .tag {
     display: inline-block; margin-left: 8px; padding: 1px 7px; vertical-align: 2px;
@@ -188,7 +230,7 @@
   .pill[data-g="0"] { color: var(--coperto); background: rgba(99, 196, 155, 0.12); }
   .pill[data-g="1"] { color: var(--esposto); background: rgba(232, 178, 78, 0.12); }
   .pill[data-g="2"] { color: var(--scoperto); background: rgba(238, 106, 80, 0.14); }
-  .risposta.chiusa { opacity: 0.5; cursor: default; border-style: dashed; }
+  .risposta.chiusa { opacity: 0.55; cursor: default; border-style: dashed; padding-block: 7px; font-size: 14.5px; }
   .risposta.chiusa[data-da="convinzione"] { opacity: 0.62; }
   .risposta.chiusa[data-da="convinzione"] small { font: italic 400 12.5px/1.4 var(--testo-f); color: var(--oro); }
   .risposta.quasi { border-color: color-mix(in srgb, var(--esposto) 45%, transparent); }
@@ -213,14 +255,33 @@
 
   aside#scheda {
     min-height: 0; overflow-y: auto;
-    padding: 16px 22px 28px;
+    padding: 14px 18px 28px;
     border-left: 1px solid var(--linea);
     background: rgba(0, 0, 0, 0.22);
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,.1) transparent;
   }
   .scheda-testa { display: none; }
-  #scheda-corpo { display: grid; gap: 18px; }
+  #scheda-corpo { gap: 20px; padding: 0 4px; }
+  .linguette {
+    position: sticky; top: -14px; z-index: 2;
+    display: flex; gap: 3px; margin: -2px 0 16px; padding: 4px;
+    border-radius: 999px; border: 1px solid var(--linea);
+    background: rgba(13, 15, 20, 0.94);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .linguetta {
+    position: relative; flex: 1 1 auto; min-width: 0;
+    padding: 8px 6px; border: 0; border-radius: 999px; background: transparent;
+    font: 500 9.5px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--tenue);
+    white-space: nowrap; transition: background 0.2s, color 0.2s;
+  }
+  .linguetta b { margin-left: 5px; font-weight: 500; letter-spacing: 0; color: var(--tenue); }
+  .linguetta:hover { color: var(--testo); }
+  .linguetta.attiva { background: color-mix(in srgb, var(--acc) 22%, transparent); color: var(--testo); }
+  .linguetta.attiva b { color: var(--testo-2); }
+  .linguetta.nuova::after { content: ""; position: absolute; top: 4px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 6px var(--acc); }
+  .nota-scheda { margin: 10px 0 0; font: italic 400 12.5px/1.4 var(--testo-f); color: var(--tenue); }
   .sez { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; font: 500 10px/1.4 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--acc); }
   .sez span + span { color: var(--tenue); letter-spacing: 0.08em; }
   .giornata { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
@@ -254,7 +315,8 @@
   .ferita[data-g="lieve"] b { color: var(--esposto); }
   .ferita[data-g="grave"] b, .ferita[data-g="mortale"] b { color: var(--scoperto); }
   .ferita[data-g="mortale"] { animation: urgente 1s infinite; }
-  .capacita .liv { margin-left: auto; font-size: 12px; color: var(--tenue); font-style: italic; }
+  .righe-scheda.capacita li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; }
+  .capacita .liv { font-size: 12px; color: var(--tenue); font-style: italic; text-align: right; }
   .vuoto { color: var(--tenue); font-style: italic; }
   .taccuino { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
   .taccuino li { font-style: italic; font-size: 13.5px; line-height: 1.45; color: var(--testo-2); padding-left: 10px; border-left: 1px solid var(--acc); }
@@ -281,7 +343,7 @@
   /* ---------------- avvisi ---------------- */
   #avvisi {
     position: fixed; z-index: 45;
-    top: calc(var(--pan-h) + 14px); right: 340px;
+    top: 54px; right: 20px;
     width: min(320px, calc(100% - 32px));
     display: grid; gap: 8px;
     pointer-events: none;
@@ -535,12 +597,17 @@
     .prosa p { font-size: 16.5px; }
     .dock { padding: 10px 16px 14px; max-height: 52%; }
     .luogo { left: 18px; bottom: 10px; }
+    .striscia { left: 18px; right: 18px; bottom: auto; top: 50px; max-width: none; justify-content: flex-start; }
+    .linguetta { font-size: 9px; letter-spacing: 0.06em; padding-inline: 4px; }
     .luogo h1 { font-size: 26px; }
     .barra { left: 12px; right: 12px; }
   }
   @media (max-width: 600px) {
     .marchio { display: none; }
-    .comandi { justify-content: flex-end; width: 100%; }
+    .comandi { justify-content: flex-start; width: 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .comandi::-webkit-scrollbar { display: none; }
+    .comandi button { flex-shrink: 0; }
+    #btn-scheda { order: -1; border-color: var(--acc); }
     .comandi button { padding: 7px 9px; font-size: 9px; letter-spacing: 0.1em; }
     .risposta { grid-template-columns: 18px minmax(0, 1fr); }
     .risposta .pill { grid-column: 2; justify-self: start; }
@@ -567,16 +634,22 @@
       </nav>
     </div>
     <div class="luogo"><p id="sopra"></p><h1 id="luogo"></h1></div>
+    <div id="striscia" class="striscia" aria-label="In breve"></div>
   </header>
 
   <div class="corpo">
+    <aside id="ora" class="rail-ora" aria-label="Qui e adesso">
+      <p class="rail-titolo">Qui e adesso</p>
+      <div id="ora-corpo"></div>
+    </aside>
     <div class="colonna">
       <div id="diario" class="diario"></div>
       <div id="dock" class="dock"></div>
     </div>
     <aside id="scheda" aria-label="La tua scheda">
       <div class="scheda-testa"><h2>La tua scheda</h2><button type="button" class="secondario" id="btn-scheda-chiudi">Chiudi</button></div>
-      <div id="scheda-corpo"></div>
+      <nav id="linguette" class="linguette" role="tablist" aria-label="Parti della scheda"></nav>
+      <div id="scheda-corpo" role="tabpanel"></div>
     </aside>
   </div>
 

@@ -50,6 +50,8 @@ archivio/                il documento di design 2.0, la specifica 1.3 e tutto il
 
 **Che cosa è provato e che cosa no.** Il motore 3.0 esiste, passa i suoi 52 test (che controllano anche che i numeri del documento siano quelli che il motore produce) e i trentasei controlli sui dati. Dal 27 settembre 2026 ha anche le cose nei luoghi, i posti e lo stato del mondo. Mille partite simulate per ciascuna delle nove strategie automatiche finiscono tutte, senza blocchi né errori. Il librogame di prova, *Il registro della Santa Rita*, esce dagli stessi dati della partita digitale. Una persona ha giocato per intero la versione 2.0 dell'app; nessuno ha ancora giocato il 3.0. Manca la cosa più importante: far giocare persone vere, con i criteri scritti nel §54 del documento.
 
+Chi prova il gioco riceve l'app, [`strumento/motore/libro/santa-rita.html`](strumento/motore/libro/santa-rita.html), e il foglio [`PER-CHI-PROVA.txt`](PER-CHI-PROVA.txt): che cosa guardare, che cosa annotare, e che cosa mandarci alla fine.
+
 Il repository contiene un'ambientazione soltanto, il porto dell'appendice B, e serve da esempio. Le ambientazioni dei progetti veri vivono nei loro repository.
 
 ## Rigenerare i PDF

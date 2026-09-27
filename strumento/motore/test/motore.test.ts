@@ -710,3 +710,11 @@ test("lasciare una cosa quando vuoi: resta nella scena, e si riprende", () => {
   c.confronto = { scena: "agguato", avversario: "teodoro", esposizione: 0, partenza: 0, ultimoGrado: 0, parlato: false, inDifesa: false };
   assert.throws(() => a(c, "lascia:lanterna"), /confronto/);
 });
+
+test("una scena con delle cose è un luogo: le vie per tornarci non si esauriscono", () => {
+  let p = in_("dentro");
+  p = a(p, "esci");
+  p.scena = "magazzini";
+  p.notizie.carico_grimani = "sentita";
+  for (const id of ["forza", "tetto", "aspetta"]) assert.ok(ids(p).includes(id), id);
+});
