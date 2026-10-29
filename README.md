@@ -27,6 +27,7 @@ Tutto sta in un documento: [`ESPOSIZIONE-DESIGN-3.md`](ESPOSIZIONE-DESIGN-3.md),
 | sapere come si gioca | le Parti IV e V: le quattro domande, le quattro fasce e il quadro |
 | scrivere una storia | la Parte IX, gli esempi di tre generi nella Parte X, e l'appendice B, un'ambientazione compilata per intero |
 | sapere dove va il progetto | [`ROADMAP.md`](ROADMAP.md): le fasi, dal motore stabile a un sistema per ogni genere |
+| sapere che cosa resta da fare, voce per voce | [`DA-FARE.md`](DA-FARE.md): la prossima sessione, le decisioni aperte, le piccole cose |
 | sapere che cosa è provato | «Che cosa è provato e che cosa no», in apertura, e la Parte XI |
 | giocare subito | il librogame di prova [`pdf/SANTA-RITA-librogame.pdf`](pdf/SANTA-RITA-librogame.pdf), l'app web [`strumento/motore/libro/santa-rita.html`](strumento/motore/libro/santa-rita.html) da aprire nel browser, oppure `node src/cli.ts gioca` in `strumento/motore/` |
 
@@ -36,6 +37,7 @@ Tutto sta in un documento: [`ESPOSIZIONE-DESIGN-3.md`](ESPOSIZIONE-DESIGN-3.md),
 ESPOSIZIONE-DESIGN-3.md  il documento di design 3.0: il personaggio, il mondo, le quattro domande,
                          le gradazioni, le persone, la scrittura, tre generi, la verifica
 ROADMAP.md               le sei fasi per arrivare a un sistema compiuto, per ogni genere
+DA-FARE.md               che cosa resta da fare, da dove riparte la prossima sessione
 pdf/                     il documento e il librogame di prova, impaginati
 typst/                   la catena che produce i PDF, font compresi
 strumento/motore/        ESPOSIZIONE Studio 3.0: il motore, i dati del porto, la storia di prova,
