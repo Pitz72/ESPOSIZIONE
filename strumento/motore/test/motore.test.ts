@@ -88,17 +88,17 @@ test("le fasce del margine: +4, da 0 a +3, −1 e −2, −3 o meno", () => {
 // Il quadro: §18.1 e §21.3
 // ---------------------------------------------------------------------------
 
-test("la soglia si sposta al massimo di un gradino per parte (§18.1)", () => {
+test("la soglia si sposta al massimo di uno scatto per parte (§18.1)", () => {
   const r = riuscita({ testo: "Ardua", soglia: 10 }, [{ testo: "a", parte: "notizia" }, { testo: "b", parte: "tratto" }], [], { testo: "liv", valore: 0 }, [], []);
   assert.equal(r.soglia, 8);
-  assert.deepEqual(r.righe.filter((x) => x.tipo === "gradino").map((x) => x.conta), [true, false]);
+  assert.deepEqual(r.righe.filter((x) => x.tipo === "scatto").map((x) => x.conta), [true, false]);
   const annulla = riuscita({ testo: "Ardua", soglia: 10 }, [{ testo: "a", parte: "notizia" }], [{ testo: "b", parte: "proprieta" }], { testo: "liv", valore: 0 }, [], []);
   assert.equal(annulla.soglia, 10);
   const sotto = riuscita({ testo: "Facile", soglia: 6 }, [{ testo: "a", parte: "notizia" }], [], { testo: "liv", valore: 0 }, [], []);
   assert.ok(sotto.nonSiTira);
 });
 
-test("nel quadro un «+» della riuscita vuol dire sempre «ti aiuta»: i gradini scrivono la soglia che ne esce (§21.1)", () => {
+test("nel quadro un «+» della riuscita vuol dire sempre «ti aiuta»: gli scatti scrivono la soglia che ne esce (§21.1)", () => {
   // Il faro del §50: Impegnativa, spaventato, Pratico.
   const r = riuscita({ testo: "Impegnativa", soglia: 8 }, [], [{ testo: "sei spaventato", parte: "stato d'animo" }], { testo: "sei Pratico", valore: 1 }, [], [{ testo: "una mano tagliata", parte: "ferita" }]);
   assert.deepEqual(r.righe.map((x) => x.mostra), ["8", "→ 10", "+1", "−1"]);
@@ -141,7 +141,7 @@ test("il Fondo e il tetto non spengono righe: lo dice una nota sotto il totale (
   assert.equal(sotto.grado, 1);
   assert.deepEqual(sotto.righe.map((r) => r.conta), [true, true, false]);
   assert.match(sotto.righe[2].nota!, /non serve/);
-  assert.match(sotto.nota!, /più basso di questa azione è esposto/);
+  assert.match(sotto.nota!, /più basso di questa azione è in vista/);
 });
 
 test("l'ambiente conta al massimo 2 (§11.1)", () => {
@@ -200,7 +200,7 @@ test("la scena del §2: archivio all'alba, i quadri", () => {
   const leggi = v.scelte.find((s) => s.id === "leggi")!;
   assert.ok(leggi.disponibile);
   assert.equal(leggi.quadro!.riesci.soglia, 8);
-  // Chiedere è esposto: Persuadere non scende sotto il suo Fondo.
+  // Chiedere è in vista: Persuadere non scende sotto il suo Fondo.
   const chiedere = v.scelte.find((s) => s.id === "chiedere")!.quadro!;
   assert.equal(chiedere.grado, 1);
   assert.deepEqual(chiedere.riesci.fasce, { pieno: 3, riesci: 39, quasi: 31, non: 28 });
@@ -279,7 +279,7 @@ test("il Non riesci dà la sua notizia a ogni grado (§28.4)", () => {
   const e = semeCon("archivio", "chiedere", "non");
   const r = a(e, "chiedere");
   assert.equal(r.notizie.bressan_paura, "sentita");
-  assert.equal(r.traccia.archivio, 1, "esposto: una tacca di Traccia");
+  assert.equal(r.traccia.archivio, 1, "in vista: una tacca di Traccia");
 });
 
 test("In pieno: il dono predefinito è la notizia del Non riesci (§28.1)", () => {
@@ -394,10 +394,10 @@ test("una persona che si fida di te abbassa la soglia (§29)", () => {
   assert.ok(q.riesci.nonSiTira, "sotto Facile non si tira");
 });
 
-test("una luce accesa annulla il buio: niente gradino in più, e niente copertura (§11)", () => {
+test("una luce accesa annulla il buio: niente scatto in più, e niente copertura (§11)", () => {
   const p = in_("archivio_notte", 18);
   const buio = vista(g, p).scelte.find((s) => s.id === "armadio")!.quadro!;
-  assert.equal(buio.riesci.soglia, 8, "al buio il lucchetto è un gradino più difficile");
+  assert.equal(buio.riesci.soglia, 8, "al buio il lucchetto è uno scatto più difficile");
   const acceso = a(p, "combina:accendi");
   assert.ok(acceso.cose.lanterna_accesa);
   const luce = vista(g, acceso).scelte.find((s) => s.id === "armadio")!.quadro!;
@@ -694,7 +694,7 @@ test("il Quasi della difesa: il colpo di striscio declassa la ferita (§38)", ()
     const r = agisci(g, p, "difesa:muoversi");
     if (!r.partita.quasi) continue;
     const dopo = a(r.partita, "quasi:ferita");
-    assert.equal(dopo.ferite[0].gravita, "lieve", "il coltello da esposto fa grave: di striscio, lieve");
+    assert.equal(dopo.ferite[0].gravita, "lieve", "in vista il coltello fa grave: di striscio, lieve");
     return;
   }
   assert.fail("nessun Quasi in difesa");

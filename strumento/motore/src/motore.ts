@@ -269,17 +269,17 @@ export function quadroProva(g: Gioco, p0: Partita, spec: SpecProva): Quadro {
   const giu: Ragione[] = [];
   const su: Ragione[] = [];
   const note: string[] = [];
-  const metti = (gradini: -1 | 1, r: Ragione) => (gradini < 0 ? giu : su).push(r);
-  for (const s of voce.sposta ?? []) if (vale(g, p, s.se)) metti(s.gradini, { testo: s.testo, parte: parteDi(s.se) });
+  const metti = (scatti: -1 | 1, r: Ragione) => (scatti < 0 ? giu : su).push(r);
+  for (const s of voce.sposta ?? []) if (vale(g, p, s.se)) metti(s.scatti, { testo: s.testo, parte: parteDi(s.se) });
   for (const id of Object.keys(p.tratti)) {
     const t = g.amb.tratti.find((x) => x.id === id);
-    for (const s of t?.sposta ?? []) if (applicabile(g, p, s, cap.id, generi)) metti(s.gradini, { testo: s.testo, parte: "tratto" });
+    for (const s of t?.sposta ?? []) if (applicabile(g, p, s, cap.id, generi)) metti(s.scatti, { testo: s.testo, parte: "tratto" });
   }
   for (const pa of props) {
     for (const s of pa.def.sposta ?? []) {
       if (!applicabile(g, p, s, cap.id, generi)) continue;
       if (pa.annullata) note.push(pa.annullata);
-      else metti(s.gradini, { testo: s.testo, parte: "proprieta" });
+      else metti(s.scatti, { testo: s.testo, parte: "proprieta" });
     }
   }
   if (spec.persona) {
@@ -292,9 +292,9 @@ export function quadroProva(g: Gioco, p0: Partita, spec: SpecProva): Quadro {
   }
   for (const st of p.statiAnimo) {
     const def = g.amb.statiAnimo.find((x) => x.id === st.id);
-    for (const s of def?.sposta ?? []) if (applicabile(g, p, s, cap.id, generi)) metti(s.gradini, { testo: s.testo, parte: "stato d'animo" });
+    for (const s of def?.sposta ?? []) if (applicabile(g, p, s, cap.id, generi)) metti(s.scatti, { testo: s.testo, parte: "stato d'animo" });
   }
-  for (const s of spec.sposta ?? []) metti(s.gradini, { testo: s.testo, parte: "scena" });
+  for (const s of spec.sposta ?? []) metti(s.scatti, { testo: s.testo, parte: "scena" });
 
   const spinte: Ragione[] = attrezzi(g, p, cap.id, generi).map((id) => ({ testo: `${nomeCosa(g, id).toLowerCase()}: ${g.storia.cose.find((o) => o.id === id)!.attrezzo!.testo}`, parte: "cosa" as const }));
   if (spec.aiuto && puoAiutare(p, spec.aiuto)) spinte.push({ testo: `${nomePersona(g, spec.aiuto)} ti aiuta`, parte: "aiuto" });
@@ -495,7 +495,7 @@ function postaAvversario(g: Gioco, avvId: string, grado: Grado): string {
   if (avv.pericolo.arma) {
     const arma = g.amb.armi.find((a) => a.id === avv.pericolo.arma)!;
     if (grado === 0) return `Al coperto: ${arma.nome} non ti raggiunge.`;
-    const gr = grado === 1 ? arma.daEsposto : arma.daScoperto;
+    const gr = grado === 1 ? arma.inVista : arma.alloScoperto;
     return `Se ti colpisce: ${gr === "morte" ? "la vita" : `ferita ${gr}`} (${arma.nome}).`;
   }
   return grado === 2 ? `Se va male: ${avv.pericolo.sociale}.` : "Se va male: si chiude di più.";
@@ -1050,7 +1050,7 @@ function risolviQuasiDifesa(g: Gioco, p: Partita, id: string, eventi: Evento[]):
   const arma = g.amb.armi.find((a) => a.id === avv.pericolo.arma)!;
   const resta = { verso: c.scena, tempo: 0 };
   if (id === "quasi:ferita") {
-    const gr = c.ultimoGrado === 1 ? arma.daEsposto : arma.daScoperto;
+    const gr = c.ultimoGrado === 1 ? arma.inVista : arma.alloScoperto;
     const lieve = { morte: "mortale", mortale: "grave", grave: "lieve", lieve: null }[gr] as "mortale" | "grave" | "lieve" | null;
     esito(eventi, "quasi", c.ultimoGrado, "il colpo ti prende di striscio");
     if (lieve) ferisci(g, p, `un colpo di striscio (${arma.nome})`, lieve, arma.colpisce, arma.tipo, eventi, arma.segno);
@@ -1138,7 +1138,7 @@ function agisciConfronto(g: Gioco, p: Partita, scena: Scena, id: string, eventi:
       esito(eventi, f, c.ultimoGrado, "scegli tu");
       return resta;
     }
-    const gr = c.ultimoGrado === 1 ? arma.daEsposto : arma.daScoperto;
+    const gr = c.ultimoGrado === 1 ? arma.inVista : arma.alloScoperto;
     esito(eventi, f, c.ultimoGrado, "il colpo ti prende");
     ferisci(g, p, `un colpo (${arma.nome})`, gr, arma.colpisce, arma.tipo, eventi, arma.segno);
     aggiungiTraccia(g, p, luogoDi(g, p).zona, 1, eventi);

@@ -212,10 +212,10 @@ Un **tratto** è una parola, o una frase breve, che dice com'è fatto il persona
 |---|---|---|
 | **apre** | rende possibile una via che gli altri non hanno | *Minuto*: passare dalla finestrella della stiva |
 | **chiude** | rende impossibile una via che gli altri hanno | *Soffre il mare*: arrampicarsi sulle sartie col mare mosso |
-| **sposta** | alza o abbassa di un gradino la soglia di un genere di prova | *Vista acuta*: notare qualcosa da lontano, un gradino in meno. *Minuto*: trattenere qualcuno o liberarsi da una presa, un gradino in più |
+| **sposta** | alza o abbassa di uno scatto la soglia di un genere di prova | *Vista acuta*: notare qualcosa da lontano, uno scatto in meno. *Minuto*: trattenere qualcuno o liberarsi da una presa, uno scatto in più |
 | **aggrava** | fa valere un'aggravante del mondo (§19) | *Conosciuto al porto*: nelle zone del porto vale «qui ti riconoscono» |
 
-Il **gradino** è la distanza fra due soglie vicine del catalogo: da Facile a Impegnativa, da Impegnativa ad Ardua. Vale due punti sul tiro, cioè quanto due livelli di capacità. Per questo un tratto conta soltanto nei casi dichiarati: se valesse sempre, peserebbe più di una capacità.
+Lo **scatto** è la distanza fra due soglie vicine del catalogo: da Facile a Impegnativa, da Impegnativa ad Ardua. Vale due punti sul tiro, cioè quanto due livelli di capacità. Per questo un tratto conta soltanto nei casi dichiarati: se valesse sempre, peserebbe più di una capacità.
 
 L'ambientazione elenca i tratti possibili, ciascuno con i suoi effetti. Sulla scheda di chi gioca c'è solo la parola; gli effetti li conosce il motore, o sono stampati in fondo al librogame.
 
@@ -286,7 +286,7 @@ Questa divisione tiene separate due domande che devono restare separate: quanto 
 
 **Per prendere una cosa servono tre condizioni**, e il gioco le mostra come ogni altra scelta chiusa:
 
-1. **La vedi.** Una cosa in vista si prende e basta. Una cosa nascosta dichiara che cosa serve per vederla: una luce, al buio; una notizia, se è nascosta dove solo chi sa guarda; una prova di *Osservare*, quando la cerchi sotto una pressione. Senza pressione cercare non si tira: costa tempo, come fare le cose con calma.
+1. **La vedi.** Una cosa che si vede si prende e basta. Una cosa nascosta dichiara che cosa serve per vederla: una luce, al buio; una notizia, se è nascosta dove solo chi sa guarda; una prova di *Osservare*, quando la cerchi sotto una pressione. Senza pressione cercare non si tira: costa tempo, come fare le cose con calma.
 2. **La riconosci.** Una cosa può avere un nome finché non la riconosci: «un foglio pieno di timbri». Diventa «la bolla di carico di Grimani» con un tratto (*Sa leggere*), con una notizia, oppure con una prova di *Sapere* o di *Osservare* quando c'è una pressione. Una cosa che non riconosci la puoi portare, ma non la puoi usare per ciò che è: una bolla che non sai leggere non convince nessun ufficiale.
 3. **Hai la forza.** Le cose pesanti chiedono forza come le porte sprangate (§6.1): essere robusto, una leva, qualcuno che ti aiuti. La scelta chiusa dice le alternative.
 
@@ -322,7 +322,7 @@ Le notizie agiscono in quattro modi:
 |---|---|---|
 | **apre** | una via richiede di sapere qualcosa | «Vado alla Santa Rita» richiede di sapere che Matteo è a bordo |
 | **rivela** | una via resta invisibile finché non sai che esiste | la porta sul retro del magazzino sette compare solo a chi ne ha sentito parlare |
-| **abbassa** | la soglia scende di un gradino per chi sa | sapere che la serratura è di Genova, e come sono fatte, la porta da Ardua a Impegnativa |
+| **abbassa** | la soglia scende di uno scatto per chi sa | sapere che la serratura è di Genova, e come sono fatte, la porta da Ardua a Impegnativa |
 | **rende esatto** | il quadro di un luogo che conosci è esatto; di uno che non conosci è una stima (§13) | chi è già stato nei magazzini sa che di notte sono bui |
 
 > **Una notizia falsa non entra mai nel quadro.** Il gioco può farti credere una cosa sbagliata sul mondo, mai una cosa sbagliata su quanto ti è probabile riuscire o su quanto ti costerà agire.
@@ -404,12 +404,12 @@ La storia si svolge in **luoghi**: l'archivio, la banchina, la taverna. Un luogo
 
 | Proprietà | Quanto ti costa (per ambito) | Ci riesci? | Puoi farlo? |
 |---|---|---|---|
-| **buio** | corpo −1 («il buio copre il corpo»), se non porti una luce accesa | cercare, riconoscere, lavorare di precisione: un gradino in più, se non hai una luce | leggere: no, senza una luce |
-| **silenzio** | mano +1, voce +1 («nel silenzio ogni rumore si sente») | cogliere un discorso: un gradino in meno | — |
-| **folla** | mano −1, voce −1 («la folla copre mani e parole») | seguire qualcuno: un gradino in più | — |
+| **buio** | corpo −1 («il buio copre il corpo»), se non porti una luce accesa | cercare, riconoscere, lavorare di precisione: uno scatto in più, se non hai una luce | leggere: no, senza una luce |
+| **silenzio** | mano +1, voce +1 («nel silenzio ogni rumore si sente») | cogliere un discorso: uno scatto in meno | — |
+| **folla** | mano −1, voce −1 («la folla copre mani e parole») | seguire qualcuno: uno scatto in più | — |
 | **sorveglianza** | corpo +1, mano +1 («chi gira dove non deve, o tocca ciò che non deve, viene guardato») | — | — |
-| **acqua** | — | nuotare di notte: un gradino in più | nuotare: soltanto se sai nuotare (*Sa nuotare*), altrimenti serve una barca |
-| **altezza** | — | *Soffre le vertigini*: un gradino in più | — |
+| **acqua** | — | nuotare di notte: uno scatto in più | nuotare: soltanto se sai nuotare (*Sa nuotare*), altrimenti serve una barca |
+| **altezza** | — | *Soffre le vertigini*: uno scatto in più | — |
 
 Un luogo ha:
 
@@ -631,19 +631,19 @@ La difficoltà di una prova è la **soglia**: il numero che il tiro deve raggiun
 | Ardua | 10 | la cassaforte della capitaneria, un ufficiale della guardia |
 | Estrema | 12 | la serratura della dogana reale, far confessare chi rischia la forca |
 
-La soglia non si inventa scena per scena. Si prende dal **catalogo delle difficoltà** dell'ambientazione (§44), che elenca le cose del mondo con la loro soglia e, accanto, ciò che la sposta. Poi il motore guarda la situazione, e la sposta di un **gradino** (due punti) per le ragioni dichiarate:
+La soglia non si inventa scena per scena. Si prende dal **catalogo delle difficoltà** dell'ambientazione (§44), che elenca le cose del mondo con la loro soglia e, accanto, ciò che la sposta. Poi il motore guarda la situazione, e la sposta di un **scatto** (due punti) per le ragioni dichiarate:
 
-- un **tratto**: *Vista acuta*, per notare qualcosa da lontano, un gradino in meno;
-- una **notizia**: sapere com'è fatta la serratura di Genova, un gradino in meno;
-- una **proprietà del luogo**: il buio, per chi cerca o lavora di precisione senza luce, un gradino in più;
-- un **legame**: persuadere chi si fida di te, un gradino in meno; chi ti porta rancore, uno in più;
-- uno **stato d'animo**: chi è spaventato fa più fatica a stare fermo e zitto, un gradino in più.
+- un **tratto**: *Vista acuta*, per notare qualcosa da lontano, uno scatto in meno;
+- una **notizia**: sapere com'è fatta la serratura di Genova, uno scatto in meno;
+- una **proprietà del luogo**: il buio, per chi cerca o lavora di precisione senza luce, uno scatto in più;
+- un **legame**: persuadere chi si fida di te, uno scatto in meno; chi ti porta rancore, uno in più;
+- uno **stato d'animo**: chi è spaventato fa più fatica a stare fermo e zitto, uno scatto in più.
 
-> **La soglia si sposta al massimo di un gradino in giù e di uno in su.** Basta una ragione per scendere, e una per salire. Altre ragioni nella stessa direzione non cambiano niente, e il quadro le segna come righe che non contano. Una ragione in giù e una in su si annullano.
+> **La soglia si sposta al massimo di uno scatto in giù e di uno in su.** Basta una ragione per scendere, e una per salire. Altre ragioni nella stessa direzione non cambiano niente, e il quadro le segna come righe che non contano. Una ragione in giù e una in su si annullano.
 
 Se la soglia scende sotto Facile, non si tira: riesci, come con un *Riesci*, e paghi il costo del tuo grado. Se sale sopra Estrema, la via è chiusa (§17).
 
-Questa è la struttura della difficoltà, ed è tutta nei dati: l'autore sceglie la cosa dal catalogo; le ragioni che la spostano stanno nelle schede dei tratti, delle notizie, delle proprietà, dei legami. L'autore può aggiungere a una prova una ragione sua, scritta come riga («il registro è legato al banco con una catenella: un gradino in più»), ma il limite di un gradino per parte vale anche per lui.
+Questa è la struttura della difficoltà, ed è tutta nei dati: l'autore sceglie la cosa dal catalogo; le ragioni che la spostano stanno nelle schede dei tratti, delle notizie, delle proprietà, dei legami. L'autore può aggiungere a una prova una ragione sua, scritta come riga («il registro è legato al banco con una catenella: uno scatto in più»), ma il limite di uno scatto per parte vale anche per lui.
 
 ### 18.2 Il tiro
 
@@ -698,7 +698,7 @@ Per le sole capacità, senza attrezzi né penalità, la tabella diventa questa:
 | **Esperto (+2)** | 42 · 50 · 8 · 0 | 17 · 56 · 19 · 8 | 3 · 39 · 31 · 28 | 0 · 17 · 25 · 58 |
 | **Maestro (+3)** | 58 · 39 · 3 · 0 | 28 · 56 · 14 · 3 | 8 · 50 · 25 · 17 | 0 · 28 · 31 · 42 |
 
-Due cose si leggono subito. Un gradino vale due righe della tabella: sapere com'è fatta la serratura, per un Inesperto davanti a un'Ardua, porta la probabilità di riuscire da 17 a 42. E un attrezzo vale quanto un livello di capacità: per questo attrezzi e aiuti insieme non superano +2, altrimenti comprare vorrebbe dire più che imparare.
+Due cose si leggono subito. Uno scatto vale due righe della tabella: sapere com'è fatta la serratura, per un Inesperto davanti a un'Ardua, porta la probabilità di riuscire da 17 a 42. E un attrezzo vale quanto un livello di capacità: per questo attrezzi e aiuti insieme non superano +2, altrimenti comprare vorrebbe dire più che imparare.
 
 ## 19. Quanto ti costa?
 
@@ -711,10 +711,10 @@ Il dado risponde alla domanda «ci riesci?». L'**esposizione** risponde a un'al
 | Grado | Valore | Che cosa significa |
 |---|---|---|
 | **al coperto** | 0 | la situazione non ha presa su di te: il peggio che può capitarti è non riuscire |
-| **esposto** / **esposta** | 1 | la situazione può prenderti: anche se riesci, qualcosa resta |
+| **in vista** | 1 | la situazione può prenderti: anche se riesci, qualcosa resta |
 | **allo scoperto** | 2 | qualunque cosa accada, accade dove conta |
 
-Ogni ambientazione dice che cosa significa essere esposti nel suo mondo, con una frase. Nel porto: *essere esposti significa che qualcuno potrà dire di averti visto*. In una villa, durante un'indagine: *che qualcuno della casa potrà dire dov'eri*. In un faro abitato da qualcosa: *che la cosa nel faro sa dove sei*.
+Ogni ambientazione dice che cosa significa essere in vista nel suo mondo, con una frase. Nel porto: *essere in vista significa che qualcuno potrà dire di averti visto*. In una villa, durante un'indagine: *che qualcuno della casa potrà dire dov'eri*. In un faro abitato da qualcosa: *che la cosa nel faro sa dove sei*.
 
 > **L'esposizione non cambia mai la probabilità di riuscire.** Cambia che cosa succede dopo, e quante volte il mondo ti viene addosso.
 
@@ -750,7 +750,7 @@ Incrociando le proprietà, le situazioni si rovesciano da sole. L'archivio ha la
 
 | Azione (partenza, Fondo) | Archivio, all'alba | Archivio, di notte |
 |---|---|---|
-| *Muoversi* (0, 0) | 0 + 1 = 1 → esposto | 0 + 1 − 1 = 0 → al coperto |
+| *Muoversi* (0, 0) | 0 + 1 = 1 → in vista | 0 + 1 − 1 = 0 → al coperto |
 | *Sottrarre* (0, 0) | 0 + 1 − 1 = 0 → al coperto | 0 + 1 + 1 = 2 → allo scoperto |
 
 Di notte entrare è facile e prendere è pericoloso; all'alba il contrario. La scelta di *quando* agire diventa una decisione vera, e nessuno ha dovuto scriverla.
@@ -762,7 +762,7 @@ Di notte entrare è facile e prendere è pericoloso; all'alba il contrario. La s
 Dopo il tiro l'esito si legge due volte: una volta dal dado, una volta dall'esposizione.
 
 - **Il dado dice quanto ottieni**, con le quattro fasce: *In pieno*, *Riesci*, *Quasi*, *Non riesci*.
-- **L'esposizione dice quanto paghi**: al coperto niente; esposto un segno, cioè una tacca di Traccia; allo scoperto un prezzo. Se non ottieni ciò che volevi, esposto diventa una complicazione e allo scoperto un **rovescio**: la situazione precipita, e sei in un'altra scena.
+- **L'esposizione dice quanto paghi**: al coperto niente; in vista un segno, cioè una tacca di Traccia; allo scoperto un prezzo. Se non ottieni ciò che volevi, in vista diventa una complicazione e allo scoperto un **rovescio**: la situazione precipita, e sei in un'altra scena.
 
 Le due letture sono spiegate per intero nella Parte V, che racconta anche perché sono separate. Oltre a queste, un esito può cambiare tutto ciò che la memoria della storia ricorda: un legame («Bressan non si fiderà più di te»), un tratto («una cicatrice alla mano»), una convinzione, una cosa che si rompe.
 
@@ -815,12 +815,12 @@ Nella sezione «Ci riesci?» il primo numero è la soglia. Se un tratto, una not
 
 Un quadro dice anche quali righe, in questa situazione, non cambiano niente. Sono di quattro tipi:
 
-- nella riuscita, le ragioni oltre il primo gradino in una direzione (§18.1), gli attrezzi e gli aiuti oltre +2, le penalità oltre −3;
+- nella riuscita, le ragioni oltre il primo scatto in una direzione (§18.1), gli attrezzi e gli aiuti oltre +2, le penalità oltre −3;
 - nel costo, le righe dell'ambiente oltre 2 in su o in giù (§11.1);
 - nel costo, le **preparazioni che non bastano**: se anche con loro resti allo scoperto, il quadro lo scrive accanto, con quante ne servirebbero: «non basta: ne servirebbe un'altra»;
 - nel costo, le **preparazioni che non servono**: se senza di loro saresti già al grado più basso che l'azione permette, il quadro scrive «non serve».
 
-Il Fondo e il tetto non spengono nessuna riga. Si sommano le righe, e una nota sotto il totale dice quando la somma esce dalla scala: «il grado più basso di questa azione è esposto», oppure «più su di allo scoperto non si va». Con Fondo 2 la nota dice «questa azione costa sempre il massimo».
+Il Fondo e il tetto non spengono nessuna riga. Si sommano le righe, e una nota sotto il totale dice quando la somma esce dalla scala: «il grado più basso di questa azione è in vista», oppure «più su di allo scoperto non si va». Con Fondo 2 la nota dice «questa azione costa sempre il massimo».
 
 Nel quadro del §21.1 la somma è 1 + 1 + 1 − 1 = 2. La preparazione non basta: senza di lei la somma sarebbe 3, e resteresti comunque allo scoperto; con una seconda scenderebbe a 1. Da qui «ne servirebbe un'altra». È la riga che più importa segnalare: chi ha speso tempo per prepararsi deve sapere, prima di tirare, che non è bastato.
 
@@ -841,7 +841,7 @@ Il *Quasi* offre anche di lasciar perdere (§28.3): chi lo sceglie scopre qualco
 
 Qui sta il senso della competenza. Chi è Esperto forza una serratura Impegnativa al primo tentativo 72 volte su 100; chi è Inesperto ci mette in media due tentativi e mezzo. Ogni tentativo in più è un'ora in più, con la sua fatica e il suo rischio di imprevisti. E chi è bravo, oltre a metterci meno, riesce in pieno più spesso: 17 volte su 100 l'Esperto, 3 l'Inesperto.
 
-> **Chi è bravo non è meno esposto. Ci mette meno tempo, e ottiene di più.**
+> **Chi è bravo non si espone di meno. Ci mette meno tempo, e ottiene di più.**
 
 ---
 ---
@@ -867,7 +867,7 @@ Dopo il tiro l'esito si legge due volte, su due assi separati.
 | Grado | Se ottieni | Se non ottieni |
 |---|---|---|
 | **Al coperto** | niente | niente |
-| **Esposto** | +1 Traccia | +1 Traccia e una complicazione |
+| **In vista** | +1 Traccia | +1 Traccia e una complicazione |
 | **Allo scoperto** | +1 Traccia e il prezzo | +1 Traccia e il rovescio |
 
 Il dado non tocca mai il costo, e l'esposizione non tocca mai la probabilità di riuscire. Le due letture si incontrano in un punto solo, il *Quasi*, e si incontrano per una scelta di chi gioca, non per il dado.
@@ -930,12 +930,12 @@ Chi manca la soglia di 1 o 2 sceglie fra tre possibilità, che il gioco gli most
 
 - **Tutto.** Ottieni ciò che volevi, e paghi come chi riesce allo scoperto: una tacca di Traccia e il prezzo. Se eri già allo scoperto, ottieni ciò che volevi e arriva il rovescio lo stesso: esci dall'archivio con il registro sotto la giacca e la ronda alle calcagna.
 - **La metà.** Ottieni una parte di ciò che volevi, al tuo grado, come se fossi riuscito. La metà la scrive l'autore; se non la scrive e nella scena c'è un ripiego con lo stesso obiettivo, la metà è ciò che dà il ripiego. Se non c'è né l'una né l'altro, questa possibilità non c'è.
-- **Lasci perdere.** Non ottieni niente, e **scopri ciò che avresti scoperto non riuscendo**: la notizia del *Non riesci*. Paghi solo il segno del tuo grado: una tacca di Traccia se eri esposto o allo scoperto, niente al coperto. Niente complicazione, niente prezzo, niente rovescio. Se la prova è ritentabile, puoi riprovare più tardi.
+- **Lasci perdere.** Non ottieni niente, e **scopri ciò che avresti scoperto non riuscendo**: la notizia del *Non riesci*. Paghi solo il segno del tuo grado: una tacca di Traccia se eri in vista o allo scoperto, niente al coperto. Niente complicazione, niente prezzo, niente rovescio. Se la prova è ritentabile, puoi riprovare più tardi.
 
 | Grado | Tutto | La metà | Lasci perdere |
 |---|---|---|---|
 | **Al coperto** | ottieni · +1 Traccia e il prezzo | la metà · niente | la notizia · niente |
-| **Esposto** | ottieni · +1 Traccia e il prezzo | la metà · +1 Traccia | la notizia · +1 Traccia |
+| **In vista** | ottieni · +1 Traccia e il prezzo | la metà · +1 Traccia | la notizia · +1 Traccia |
 | **Allo scoperto** | ottieni · +1 Traccia e il rovescio | la metà · +1 Traccia e il prezzo | la notizia · +1 Traccia |
 
 Due ragioni stanno dietro a queste regole. Lasciar perdere dà la notizia perché chi si ritira in tempo non deve sapere meno di chi manca la soglia di tre punti: altrimenti mancare di poco sarebbe peggio che mancare di molto. Prendere tutto costa il prezzo anche al coperto perché una tacca di Traccia, da sola, cala in tre ore e quasi non si sente: con quella soltanto, prendere tutto sarebbe la scelta giusta quasi sempre.
@@ -950,7 +950,7 @@ Chi manca la soglia di 3 o più non ottiene ciò che voleva, e **scopre qualcosa
 
 Non diventi più bravo a fare quella cosa: impari qualcosa sulla cosa. Per questo fallire non serve ad allenarsi.
 
-Al coperto la scoperta è tutto ciò che succede. Esposto, in più, la scena si complica: arriva una complicazione dal repertorio della zona (§46). Allo scoperto arriva il rovescio.
+Al coperto la scoperta è tutto ciò che succede. In vista, in più, la scena si complica: arriva una complicazione dal repertorio della zona (§46). Allo scoperto arriva il rovescio.
 
 ### 28.5 Il rovescio
 
@@ -960,7 +960,7 @@ Il **rovescio** è l'esito peggiore: la situazione precipita, e sei in un'altra 
 
 Ecco che cosa succede in ogni combinazione se la scena non dice altro:
 
-| | Al coperto | Esposto | Allo scoperto |
+| | Al coperto | In vista | Allo scoperto |
 |---|---|---|---|
 | **In pieno** | ottieni + il dono | ottieni + il dono · +1 Traccia | ottieni + il dono · +1 Traccia, il prezzo |
 | **Riesci** | ottieni | ottieni · +1 Traccia | ottieni · +1 Traccia, il prezzo |
@@ -1014,11 +1014,11 @@ Una persona, per il motore, non è un ostacolo con una difficoltà. Ha un **lega
 
 | Dimensione | Che cosa dice | Che cosa fa |
 |---|---|---|
-| **fiducia** | quanto crede a ciò che dici | 1: se glielo chiedi, ti dice ciò che sa · 2: persuaderla costa un gradino in meno, e ti aiuta se glielo chiedi · 3: si espone per te, e ti copre come una preparazione, una volta per scena |
+| **fiducia** | quanto crede a ciò che dici | 1: se glielo chiedi, ti dice ciò che sa · 2: persuaderla costa uno scatto in meno, e ti aiuta se glielo chiedi · 3: si espone per te, e ti copre come una preparazione, una volta per scena |
 | **debito** | chi deve un favore a chi: «ti deve 2», «gli devi 1» | se ti deve: puoi chiedergli un favore, e il debito scende · se gli devi: prima o poi te lo chiede, e rifiutare fa salire il rancore |
-| **paura** | quanto teme ciò che puoi fargli | 2: minacciarla costa un gradino in meno · ogni minaccia che va a segno fa salire anche il rancore di 1 |
+| **paura** | quanto teme ciò che puoi fargli | 2: minacciarla costa uno scatto in meno · ogni minaccia che va a segno fa salire anche il rancore di 1 |
 | **affetto** | quanto tiene a te | 2: ti perdona uno sgarbo, e il rancore quella volta non sale · 3: rischia per te |
-| **rancore** | quanto ce l'ha con te | 2: non ti aiuta, e persuaderla costa un gradino in più · 3: ti danneggia alla prima occasione, se il suo movente lo permette |
+| **rancore** | quanto ce l'ha con te | 2: non ti aiuta, e persuaderla costa uno scatto in più · 3: ti danneggia alla prima occasione, se il suo movente lo permette |
 
 Ogni persona usa soltanto le dimensioni che le servono, di solito due o tre. Bressan ha fiducia, paura e rancore; l'affetto non gli serve. Zeno, l'oste, ha fiducia e debito.
 
@@ -1083,7 +1083,7 @@ Tre regole tengono in piedi i dialoghi.
 
 Un **confronto** è un modo di stare con qualcuno: quello in cui l'altro ti si oppone adesso. Può essere uno scontro armato, ma quasi sempre è un interrogatorio, una trattativa, un inseguimento.
 
-**La scheda dell'avversario** ha cinque righe: la **natura** (*chi si chiude*, che difende una posizione; *chi avanza*, che ti viene addosso), la **copertura** da cui parte (al coperto, esposto, allo scoperto: le parole dell'esposizione, guardate dall'altra parte, perché un avversario allo scoperto è un bene per te), i **punti deboli** (che cosa lo scopre, con quale capacità, di quanti gradi), il **pericolo** (un'arma, oppure una conseguenza sociale: chiama la guardia, ti denuncia), il **movente** (che cosa vuole, che cosa lo fa smettere, se mantiene la parola). Il movente non si lascia mai vuoto. Ciò che non vuole niente, come una tempesta, non è un avversario: è il mondo, e si evita.
+**La scheda dell'avversario** ha cinque righe: la **natura** (*chi si chiude*, che difende una posizione; *chi avanza*, che ti viene addosso), la **copertura** da cui parte (al coperto, in vista, allo scoperto: le parole dell'esposizione, guardate dall'altra parte, perché un avversario allo scoperto è un bene per te), i **punti deboli** (che cosa lo scopre, con quale capacità, di quanti gradi), il **pericolo** (un'arma, oppure una conseguenza sociale: chiama la guardia, ti denuncia), il **movente** (che cosa vuole, che cosa lo fa smettere, se mantiene la parola). Il movente non si lascia mai vuoto. Ciò che non vuole niente, come una tempesta, non è un avversario: è il mondo, e si evita.
 
 **Lo scambio.** Un confronto avanza a scambi. In ogni scambio scegli: una prova contro un punto debole, una prova per fare altro (fuggire, nasconderti, prendere ciò per cui sei venuto), il ripiego, oppure parlare. Poi l'avversario reagisce secondo la sua natura: chi si chiude, se la tua prova non è riuscita, si ricopre di un grado; chi avanza si avvicina, e quando ti ha raggiunto ogni sua reazione è un attacco.
 
@@ -1149,14 +1149,14 @@ Il rimedio riporta il logorio al primo stadio, e costa: dormire costa ore, mangi
 
 *Hai visto il coltello di Teodoro a un palmo dalla faccia. Adesso sei spaventato: nella stiva buia ti sembra di sentire respirare, e restare fermo e zitto ti costa uno sforzo che prima non ti costava.*
 
-Uno **stato d'animo** è ciò che il personaggio prova adesso: *spaventato*, *furioso*, *umiliato*, *sicuro di sé*. Arriva con un evento, e passa. Agisce come un tratto (apre, chiude, sposta una soglia di un gradino in casi dichiarati), oppure come una penalità di −1 su un genere di prove. E dichiara sempre **come passa**: con il tempo, in un luogo sicuro, con un evento.
+Uno **stato d'animo** è ciò che il personaggio prova adesso: *spaventato*, *furioso*, *umiliato*, *sicuro di sé*. Arriva con un evento, e passa. Agisce come un tratto (apre, chiude, sposta una soglia di uno scatto in casi dichiarati), oppure come una penalità di −1 su un genere di prove. E dichiara sempre **come passa**: con il tempo, in un luogo sicuro, con un evento.
 
 | Stato d'animo | Che cosa fa | Come passa |
 |---|---|---|
-| **Spaventato** | restare fermo e zitto, un gradino in più · per avvicinarti a ciò che ti ha spaventato serve prima una prova di *Resistere* | in un luogo sicuro, o quando dai un nome a ciò che ti spaventava |
-| **Furioso** | mentire e persuadere, un gradino in più · apre vie che una persona calma non prende | dopo un'ora, o dopo aver sfogato la rabbia |
+| **Spaventato** | restare fermo e zitto, uno scatto in più · per avvicinarti a ciò che ti ha spaventato serve prima una prova di *Resistere* | in un luogo sicuro, o quando dai un nome a ciò che ti spaventava |
+| **Furioso** | mentire e persuadere, uno scatto in più · apre vie che una persona calma non prende | dopo un'ora, o dopo aver sfogato la rabbia |
 | **Umiliato** | −1 alle prove di voce davanti a chi ti ha umiliato | quando ti prendi una rivincita, o dopo una notte |
-| **Sicuro di sé** | persuadere, un gradino in meno | al primo *Non riesci* |
+| **Sicuro di sé** | persuadere, uno scatto in meno | al primo *Non riesci* |
 
 Il personaggio ha al massimo due stati d'animo alla volta; uno nuovo dello stesso genere prende il posto del vecchio.
 
@@ -1174,7 +1174,7 @@ Nel motore non esistono punti ferita. Una ferita è una cosa precisa, con un nom
 
 La scena, o l'arma, dice dove colpisce. Curare è una capacità come le altre: Facile per una ferita lieve, Impegnativa per una grave, Ardua per una mortale, e la cura richiede ciò che serve (bende, un medico, un posto pulito).
 
-Una ferita grave, guarita, può lasciare un **segno**: un tratto nuovo, che l'arma o la scena dichiarano. *Una cicatrice alla mano*: forzare e lavorare di precisione, un gradino in più. Il corpo ricorda (§40).
+Una ferita grave, guarita, può lasciare un **segno**: un tratto nuovo, che l'arma o la scena dichiarano. *Una cicatrice alla mano*: forzare e lavorare di precisione, uno scatto in più. Il corpo ricorda (§40).
 
 > **Una ferita non ti rende più debole in generale. Ti toglie una strada.**
 
@@ -1184,7 +1184,7 @@ Una ferita grave, guarita, può lasciare un **segno**: un tratto nuovo, che l'ar
 
 La **Traccia** è ciò che il mondo ricorda di te in una zona: chi ti ha visto, chi ha fatto domande, chi ti cerca. Si segna da 0 a 3 tacche per zona.
 
-- **Sale** di una tacca con gli esiti esposti o allo scoperto, come dice il §28.6. Mai più di una tacca per prova.
+- **Sale** di una tacca con gli esiti in vista o allo scoperto, come dice il §28.6. Mai più di una tacca per prova.
 - **Pesa**: con 2 tacche o più, nella zona vale l'aggravante «qui ti hanno già visto».
 - **Cala** di una tacca ogni tre ore in cui non ne lasci di nuova in quella zona. Il ritmo lo dichiara l'ambientazione.
 
@@ -1213,9 +1213,9 @@ Quattro regole rendono il pericolo onesto.
 
 > **3. Andarsene si può sempre.** In ogni scontro c'è un ripiego: fuggire, arrendersi, consegnare ciò che vogliono. Non si tira, e costa: Traccia, l'obiettivo perso, una cosa, la libertà.
 
-> **4. Le armi dichiarano che cosa fanno.** Ogni arma dice la ferita che infligge se ti colpisce quando sei esposto, e quella che infligge quando sei allo scoperto.
+> **4. Le armi dichiarano che cosa fanno.** Ogni arma dice la ferita che infligge se ti colpisce quando sei in vista, e quella che infligge quando sei allo scoperto.
 
-| Arma | Da esposto | Da allo scoperto |
+| Arma | Se sei in vista | Se sei allo scoperto |
 |---|---|---|
 | pugni, bastone | lieve | grave |
 | coltello, bottiglia rotta | grave | mortale |
@@ -1230,7 +1230,7 @@ Quando ti attaccano, ti difendi con una prova: la capacità la scegli tu (nel po
 | **Quasi** | il colpo ti prende di striscio. Scegli: la ferita dell'arma, un grado più lieve; oppure perdi qualcosa (l'arma, la posizione, ciò che hai in mano) |
 | **Non riesci** | la ferita dell'arma, per il tuo grado |
 
-Con un coltello, da esposto, il *Quasi* ti lascia scegliere fra una ferita lieve e perdere il coltello che stringevi. Da allo scoperto, fra una ferita grave e la stessa perdita.
+Con un coltello, se sei in vista, il *Quasi* ti lascia scegliere fra una ferita lieve e perdere il coltello che stringevi. Allo scoperto, fra una ferita grave e la stessa perdita.
 
 ### 38.1 Le protezioni
 
@@ -1275,10 +1275,10 @@ Nessun punto si spende sui tratti. Si guadagnano e si perdono con la storia, qua
 
 | Tratto | Da dove viene | Che cosa fa |
 |---|---|---|
-| *Una cicatrice alla mano* | una ferita grave alla mano, guarita | forzare e lavorare di precisione, un gradino in più · chi ha combattuto la riconosce, e ti rispetta di più |
+| *Una cicatrice alla mano* | una ferita grave alla mano, guarita | forzare e lavorare di precisione, uno scatto in più · chi ha combattuto la riconosce, e ti rispetta di più |
 | *Conosciuto al porto* | uno snodo, o la Traccia a 3 in tre zone diverse | vale «qui ti riconoscono» in ogni zona del porto · apre: chiedere un favore a chi ti conosce |
 | *Non ha più paura del buio* | una scena in cui affronti il buio fino in fondo | toglie *Ha paura del buio* |
-| *Ha ucciso un uomo* | aver ucciso qualcuno | minacciare chi lo sa, un gradino in meno · chiude: le vie di chi non ha mai fatto del male a nessuno · i nervi salgono di uno stadio ogni volta che qualcuno te lo ricorda |
+| *Ha ucciso un uomo* | aver ucciso qualcuno | minacciare chi lo sa, uno scatto in meno · chiude: le vie di chi non ha mai fatto del male a nessuno · i nervi salgono di uno stadio ogni volta che qualcuno te lo ricorda |
 
 Tre regole:
 
@@ -1312,7 +1312,7 @@ Adattare il motore a un mondo significa compilare questa scheda. È l'elenco com
 
 | # | Voce | Che cosa contiene |
 |---|---|---|
-| 1 | **La frase dell'esposizione** | *In questo mondo, essere esposti significa…* |
+| 1 | **La frase dell'esposizione** | *In questo mondo, essere in vista significa…* |
 | 2 | **Il criterio del Fondo** | *Ha un Fondo ciò che…* |
 | 3 | **Gli ambiti** | da 3 a 5, con nome |
 | 4 | **Le capacità** | da 8 a 14, con ambito, partenza, Fondo e la frase della partenza |
@@ -1349,8 +1349,8 @@ Il catalogo elenca le cose del mondo con la loro soglia e, accanto, tutto ciò c
 
 ```
 Una serratura di magazzino                               Impegnativa (8)
-  un gradino in meno   sai com'è fatta                   notizia
-  un gradino in più    al buio, senza una luce           proprietà
+  uno scatto in meno   sai com'è fatta                   notizia
+  uno scatto in più    al buio, senza una luce           proprietà
   attrezzi             un grimaldello (+1)
   serve                —
 
@@ -1422,7 +1422,7 @@ Una storia è pronta quando passa questi controlli. Nell'app li fa un programma;
 | 12 | Almeno metà delle capacità ha partenza 0, al massimo due hanno partenza 2, e nessuna ha il Fondo più alto della partenza |
 | 13 | Ogni luogo, in almeno un momento, ha un ambito a −1 |
 | 14 | Tutti i valori di proprietà e righe proprie sono −1, 0 o +1 |
-| 15 | Ogni soglia viene dal catalogo, e nessuna prova la sposta di più di un gradino per parte |
+| 15 | Ogni soglia viene dal catalogo, e nessuna prova la sposta di più di uno scatto per parte |
 | 16 | Nessuna cosa ha due usi nella stessa prova |
 | 17 | Nessuna notizia falsa sposta una soglia o compare nel quadro |
 | 18 | Ogni notizia falsa si può smentire: con un'altra notizia, una scena o una verifica |
@@ -1435,7 +1435,7 @@ Una storia è pronta quando passa questi controlli. Nell'app li fa un programma;
 | 25 | Ogni avversario ha le cinque righe, e almeno due punti deboli con capacità di ambiti diversi |
 | 26 | Nessun ostacolo offre due vie che differiscono soltanto nel nome della capacità |
 | 27 | Ogni confronto è raggiunto da una pressione: restare al coperto per sempre non deve essere gratis |
-| 28 | Nessun *Non riesci* al coperto o esposto porta a un finale o a una ferita: solo il rovescio può chiudere la storia |
+| 28 | Nessun *Non riesci* al coperto o in vista porta a un finale o a una ferita: solo il rovescio può chiudere la storia |
 | 29 | *Avviso.* Ogni scelta è scritta in prima persona |
 | 30 | *Avviso.* Ogni tratto iniziale apre e chiude, o rende più difficile, qualcosa |
 | 31 | Ogni cosa di una scena esiste, e ciò che serve per vederla, riconoscerla o sollevarla rimanda a cose, tratti e notizie che esistono; nessuna cosa occupa posti negativi |
@@ -1523,9 +1523,9 @@ Il porto è un'ambientazione d'intrigo, con un po' di violenza. Per sapere se il
 
 *Villa Ardenghi, sul lago, ottobre 1928. Il vecchio Ernesto Ardenghi è morto nel sonno, e domani si apre il testamento. Tu sei l'avvocato giovane dello studio che lo custodisce, invitato per la lettura. Hai il sospetto che nel sonno qualcuno l'abbia aiutato.*
 
-**La frase dell'esposizione.** *Nella villa, essere esposti significa che qualcuno della casa potrà dire dov'eri.*
+**La frase dell'esposizione.** *Nella villa, essere in vista significa che qualcuno della casa potrà dire dov'eri.*
 
-**Le proprietà.** La villa di notte ha il **silenzio** (mano +1, voce +1) e il **buio** (corpo −1; leggere, cercare: un gradino in più senza una luce). Di giorno ha la **servitù in giro**, una sorveglianza leggera (corpo +1). Lo studio del morto ha una riga propria: *chi fruga nello studio del morto non ha una buona ragione per farlo* (mente +1).
+**Le proprietà.** La villa di notte ha il **silenzio** (mano +1, voce +1) e il **buio** (corpo −1; leggere, cercare: uno scatto in più senza una luce). Di giorno ha la **servitù in giro**, una sorveglianza leggera (corpo +1). Lo studio del morto ha una riga propria: *chi fruga nello studio del morto non ha una buona ragione per farlo* (mente +1).
 
 **Il taccuino, a mezzanotte.**
 
@@ -1558,7 +1558,7 @@ COSTA?     0  guardare, di suo, non si nota
           ──  0  AL COPERTO
 
 DOPO?     riesci: ciò che c'è nel doppio fondo
-          quasi: tutto, ma qualcuno sente lo scatto · la metà: la lettera, non la busta
+          quasi: tutto, ma qualcuno sente la serratura · la metà: la lettera, non la busta
                  · oppure lasci perdere, e scopri qualcosa sullo scrittoio
           non riesci: scopri qualcosa sullo scrittoio
 ```
@@ -1575,9 +1575,9 @@ Una delle due notizie su Carlo è falsa, e il taccuino le tiene unite: non posso
 
 *Punta Nera, novembre 1911. Il guardiano del faro non risponde ai segnali da tre notti, e la barca della capitaneria ti ha lasciato sugli scogli con una lanterna, un fiasco d'olio e l'ordine di riaccendere la luce. Dalla torre, a tratti, arriva un rumore di passi che non sono i tuoi.*
 
-**La frase dell'esposizione.** *Nel faro, essere esposti significa che la cosa nel faro sa dove sei.*
+**La frase dell'esposizione.** *Nel faro, essere in vista significa che la cosa nel faro sa dove sei.*
 
-**Le proprietà.** Il **buio** (corpo −1; cercare, riconoscere: un gradino in più senza luce). Il **rumore del mare**, al piano terra (voce −1: le grida non arrivano lontano). L'**altezza**, sulla scala e in cima (per chi soffre le vertigini, un gradino in più). La scala di ferro ha una riga propria: *ogni passo sul ferro risuona per tutta la torre* (corpo +1).
+**Le proprietà.** Il **buio** (corpo −1; cercare, riconoscere: uno scatto in più senza luce). Il **rumore del mare**, al piano terra (voce −1: le grida non arrivano lontano). L'**altezza**, sulla scala e in cima (per chi soffre le vertigini, uno scatto in più). La scala di ferro ha una riga propria: *ogni passo sul ferro risuona per tutta la torre* (corpo +1).
 
 **Il personaggio** ha, fra i tratti, *Ha paura del buio*: quando resta al buio senza una luce diventa **spaventato**. I nervi sono pesanti: hai già sentito la cosa muoversi.
 
@@ -1602,7 +1602,7 @@ COSTA?     0  muoversi, di suo, non si nota
           +1  ogni passo sul ferro risuona per tutta la torre
           −1  il buio copre il corpo
           +1  i nervi ti pesano
-          ──  1  ESPOSTO
+          ──  1  IN VISTA
 
 DOPO?     riesci: arrivi in cima
           quasi: tutto, e ne paghi il prezzo · la metà: il pianerottolo della finestra
@@ -1611,7 +1611,7 @@ DOPO?     riesci: arrivi in cima
           se va male: la cosa ti sente, e scende
 ```
 
-La soglia sale di un gradino perché sei spaventato: è il prezzo di aver lasciato la lanterna. Con la lanterna accesa non saresti spaventato, ma il buio non ti coprirebbe più: il costo salirebbe a 2, allo scoperto. Nessuna delle due scelte è giusta; ognuna ha il suo prezzo scritto.
+La soglia sale di uno scatto perché sei spaventato: è il prezzo di aver lasciato la lanterna. Con la lanterna accesa non saresti spaventato, ma il buio non ti coprirebbe più: il costo salirebbe a 2, allo scoperto. Nessuna delle due scelte è giusta; ognuna ha il suo prezzo scritto.
 
 **Che cosa mette alla prova.** Il logorio e lo stato d'animo insieme, la paura come tratto, un'azione in cui la stessa proprietà aiuta il costo e peggiora la riuscita, un avversario senza volto ma con un movente, la porta che chiede forza con le sue alternative, le cose fragili: la lanterna può rompersi con un *Non riesci*, e l'olio è una scorta che finisce.
 
@@ -1619,7 +1619,7 @@ La soglia sale di un gradino perché sei spaventato: è il prezzo di aver lascia
 
 *Campo estivo del Lago Scuro, luglio 1987. Hai undici anni. Stanotte qualcuno ha rubato la bandiera della vostra squadra, e tu sai che la torcia per andarla a cercare nel bosco è chiusa nella cucina del campo.*
 
-**La frase dell'esposizione.** *Al campo, essere esposti significa che un animatore potrà dire di averti visto fuori dalla tenda.*
+**La frase dell'esposizione.** *Al campo, essere in vista significa che un animatore potrà dire di averti visto fuori dalla tenda.*
 
 **Nessuna morte.** L'ambientazione lo dichiara nella voce delle ferite: si possono prendere soltanto ferite lievi, una sbucciatura, una caviglia storta. Le armi non ci sono. La posta più alta è essere rimandati a casa, e il quadro lo dice.
 
@@ -1653,7 +1653,7 @@ DOPO?     riesci: sei in cucina
 
 Tiri 11: con il +2 fa 13, sette sopra la soglia. *In pieno*. Il dono è una persona: Giulia ti ha visto sgusciare dentro senza un rumore, e il suo affetto sale a 2. D'ora in poi, se combini un guaio, lei ti perdona una volta.
 
-Più tardi, nel bosco, la paura ti costerà un gradino in ogni prova in cui devi restare calmo o farti coraggio. Alla fine della storia, se hai trovato la bandiera, perdi il tratto *Ha paura del bosco di notte*: è la tua crescita, ed è scritta sulla scheda con la sua origine.
+Più tardi, nel bosco, la paura ti costerà uno scatto in ogni prova in cui devi restare calmo o farti coraggio. Alla fine della storia, se hai trovato la bandiera, perdi il tratto *Ha paura del bosco di notte*: è la tua crescita, ed è scritta sulla scheda con la sua origine.
 
 **Che cosa mette alla prova.** Una storia senza morte e senza violenza, in cui tutto il peso sta nei legami. Un tratto che apre invece di sommare. Un aiuto che ha un prezzo in favori. E una domanda che soltanto le persone possono chiudere: il quadro si capisce a undici anni? Per un pubblico così giovane il quadro potrebbe mostrare soltanto le parole, senza numeri. È un'opzione da provare.
 
@@ -1700,7 +1700,7 @@ Il quadro si può provare anche senza il programma. Si stampano dieci quadri del
 - **Superata** se almeno quattro persone su cinque rispondono giusto alle prime due domande per almeno otto quadri su dieci, e se per la terza nominano una riga del quadro.
 - **Da ripensare** se il tempo per leggere un quadro, misurato con l'orologio, resta sopra i trenta secondi anche al decimo quadro.
 
-Nella stessa sessione si fa la **prova delle parole**: si chiede a ciascuno che cosa vuol dire, senza spiegazioni, *ripiego*, *quadro*, *esposto*, *Traccia*, *Quasi*. Una parola che meno di quattro persone su cinque capiscono nel senso giusto si cambia.
+Nella stessa sessione si fa la **prova delle parole**: si chiede a ciascuno che cosa vuol dire, senza spiegazioni, *ripiego*, *quadro*, *in vista*, *Traccia*, *Quasi*. Una parola che meno di quattro persone su cinque capiscono nel senso giusto si cambia.
 
 ### 54.2 Le simulazioni
 
@@ -1715,7 +1715,7 @@ Criteri, per mille partite di ciascuno:
 1. **Nessuna partita bloccata**, nessun errore, tutte le scene raggiungibili raggiunte da almeno una strategia.
 2. **Nessuna strategia batte tutte le altre su tutto** (finali raggiunti, Traccia, ferite, ore spese). Se una lo fa, il motore ha una soluzione, e le scelte sono finte.
 3. **Il *Quasi* è una scelta vera**: il giocatore che sceglie secondo la situazione raggiunge il finale migliore più spesso di ciascuno dei tre che scelgono sempre la stessa cosa. Se uno dei tre lo batte, una delle possibilità del *Quasi* vale sempre più delle altre, e va corretta.
-4. **Esiste una situazione in cui conviene essere esposti**, invece che al coperto. Di solito quando una scadenza incalza.
+4. **Esiste una situazione in cui conviene essere in vista**, invece che al coperto. Di solito quando una scadenza incalza.
 5. **Le fasce osservate coincidono con le tabelle**, entro due punti su cento. Serve a verificare il codice, non il modello.
 6. **Il pericolo resta**: il temerario subisce almeno un rovescio o una ferita in più di metà delle partite. Se non succede, il motore ha reso il mondo troppo clemente, e si interviene sul catalogo (§26).
 
@@ -1747,7 +1747,7 @@ E un criterio sul lavoro di chi scrive: nella Santa Rita la media dei testi obbl
 
 **Criterio 5, superato.** Le fasce osservate coincidono con le tabelle.
 
-**Criteri 4 e 6, non ancora misurati.** I giocatori automatici non contano ancora le partite con almeno un rovescio, né le situazioni in cui conviene essere esposti.
+**Criteri 4 e 6, non ancora misurati.** I giocatori automatici non contano ancora le partite con almeno un rovescio, né le situazioni in cui conviene essere in vista.
 
 **La scadenza.** Chi conosce la strada arriva alla fine in sei ore circa, e alla nave che salpa ne restano diciannove: la scadenza non lo preme. Chi esplora è un altro discorso: la nave che salpa chiude 66 partite su 100 del casuale, 38 della scrupolosa e 41 dell'opportunista. La scadenza resta di ventiquattro ore, per una ragione di progetto: accorciarla toglierebbe la notte, e la notte è dove i costi si rovesciano (§19.4). Il suo compito è premere su chi esplora, e lo fa; chi conosce già la strada, in un librogame, finisce sempre presto. Una regola lega la scadenza a ciò che fai: ogni allarme del porto fa salpare la nave tre ore prima (§15.4), e il rumore costa anche tempo.
 
@@ -1846,13 +1846,13 @@ Valori su 36; ogni riga somma 36. Per avere la percentuale, dividi per 36 e molt
 **Il quadro, punto per punto**
 
 1. *Puoi?* Controlla i requisiti: tratti, cose, notizie, legami, posizione, condizioni.
-2. *Riesci?* Prendi la soglia dal catalogo; spostala al massimo di un gradino in giù e uno in su; aggiungi livello, attrezzi e aiuti (al massimo +2), togli le penalità (al massimo −3); calcola *d* e leggi le fasce.
+2. *Riesci?* Prendi la soglia dal catalogo; spostala al massimo di uno scatto in giù e uno in su; aggiungi livello, attrezzi e aiuti (al massimo +2), togli le penalità (al massimo −3); calcola *d* e leggi le fasce.
 3. *Costa?* Scrivi la partenza; aggiungi l'ambiente per l'ambito (al massimo 2 in su o in giù); aggiungi 1 per ogni aggravante, togli 1 per ogni preparazione; tieni il grado fra il Fondo e 2.
 4. *Dopo?* Scrivi che cosa ottieni in ogni fascia, le righe che non contano, e la posta.
 
 **Dopo il tiro**
 
-| | Al coperto | Esposto | Allo scoperto |
+| | Al coperto | In vista | Allo scoperto |
 |---|---|---|---|
 | **In pieno** | ottieni, e il dono | ottieni, il dono · +1 Traccia | ottieni, il dono · +1 Traccia, il prezzo |
 | **Riesci** | ottieni | ottieni · +1 Traccia | ottieni · +1 Traccia, il prezzo |
@@ -1865,7 +1865,7 @@ Valori su 36; ogni riga somma 36. Per avere la percentuale, dividi per 36 e molt
 
 Una città di porto in un Seicento senza nome. Il personaggio cerca il fratello Matteo, sparito da tre giorni. È l'ambientazione della storia di prova, compilata per intero con le voci della scheda (§43).
 
-**1. La frase dell'esposizione.** *Nel porto, essere esposti significa che qualcuno potrà dire di averti visto.* Al coperto: nessuno ti ha notato. Esposto: qualcuno ti ha notato e se ne ricorderà. Allo scoperto: sanno chi sei e che cosa hai fatto.
+**1. La frase dell'esposizione.** *Nel porto, essere in vista significa che qualcuno potrà dire di averti visto.* Al coperto: nessuno ti ha notato. In vista: qualcuno ti ha notato e se ne ricorderà. Allo scoperto: sanno chi sei e che cosa hai fatto.
 
 **2. Il criterio del Fondo.** *Ha un Fondo ciò che lascia un segno che resta: un corpo ferito, una porta forzata, una parola detta a qualcuno che se la ricorderà.*
 
@@ -1892,14 +1892,14 @@ Una città di porto in un Seicento senza nome. Il personaggio cerca il fratello 
 | Tratto | Effetti |
 |---|---|
 | *Robusto* | apre: le cose che chiedono forza · chiude: passare da aperture strette |
-| *Minuto* | apre: passare da aperture strette · sposta: trattenere qualcuno o liberarsi da una presa, un gradino in più |
-| *Vista acuta* | apre: leggere da lontano, se sai leggere · sposta: notare qualcosa da lontano, un gradino in meno |
+| *Minuto* | apre: passare da aperture strette · sposta: trattenere qualcuno o liberarsi da una presa, uno scatto in più |
+| *Vista acuta* | apre: leggere da lontano, se sai leggere · sposta: notare qualcosa da lontano, uno scatto in meno |
 | *Sa leggere* | apre: leggere registri, lettere, bolle di carico |
 | *Sa nuotare* | apre: entrare in acqua e nuotare |
-| *Soffre il mare* | chiude: arrampicarsi sulle sartie col mare mosso · sposta: le prove di corpo a bordo, con la nave in movimento, un gradino in più |
-| *Soffre le vertigini* | sposta: le prove in altezza, un gradino in più |
+| *Soffre il mare* | chiude: arrampicarsi sulle sartie col mare mosso · sposta: le prove di corpo a bordo, con la nave in movimento, uno scatto in più |
+| *Soffre le vertigini* | sposta: le prove in altezza, uno scatto in più |
 | *Conosciuto al porto* (si guadagna) | aggrava: «qui ti riconoscono» nelle zone del porto · apre: chiedere un favore a chi ti conosce |
-| *Una cicatrice alla mano* (si guadagna) | sposta: forzare e lavorare di precisione, un gradino in più |
+| *Una cicatrice alla mano* (si guadagna) | sposta: forzare e lavorare di precisione, uno scatto in più |
 
 Il personaggio della Santa Rita ha *Vista acuta*, *Sa leggere*, *Minuto*, *Soffre il mare*.
 
@@ -1907,13 +1907,13 @@ Il personaggio della Santa Rita ha *Vista acuta*, *Sa leggere*, *Minuto*, *Soffr
 
 | Proprietà | Corpo | Mano | Mente | Voce | Riuscita e requisiti |
 |---|---|---|---|---|---|
-| **buio** | −1 | | | | chi porta una luce accesa non è coperto · cercare, riconoscere, lavorare di precisione: un gradino in più senza luce · leggere: serve una luce |
-| **silenzio** | | +1 | | +1 | cogliere un discorso: un gradino in meno |
-| **folla** | | −1 | | −1 | seguire qualcuno: un gradino in più |
+| **buio** | −1 | | | | chi porta una luce accesa non è coperto · cercare, riconoscere, lavorare di precisione: uno scatto in più senza luce · leggere: serve una luce |
+| **silenzio** | | +1 | | +1 | cogliere un discorso: uno scatto in meno |
+| **folla** | | −1 | | −1 | seguire qualcuno: uno scatto in più |
 | **sorveglianza** | +1 | +1 | | | — |
 | **posto di lavoro** | | | +1 | | fra chi lavora, uno sconosciuto che si guarda intorno si nota |
-| **acqua** | | | | | nuotare: serve *Sa nuotare*, o un compagno che sappia nuotare · di notte, un gradino in più |
-| **altezza** | | | | | chi soffre le vertigini: un gradino in più · la posta di una caduta è una ferita |
+| **acqua** | | | | | nuotare: serve *Sa nuotare*, o un compagno che sappia nuotare · di notte, uno scatto in più |
+| **altezza** | | | | | chi soffre le vertigini: uno scatto in più · la posta di una caduta è una ferita |
 
 **7. I luoghi.** Ogni luogo è una zona.
 
@@ -1955,7 +1955,7 @@ Le righe proprie della sera: *di sera, fra gente che beve, chi resta sobrio a gu
 | Qui ti hanno già visto | Traccia della zona a 2 o più |
 | La stanchezza o i nervi ti pesano | un logorio al secondo stadio o oltre, per gli ambiti che tocca |
 | Sono in tanti a guardare | più di un avversario, o una guardia presente |
-| Porti addosso qualcosa che non dovresti | una cosa compromettente in vista |
+| Porti addosso qualcosa che non dovresti | una cosa compromettente che si vede |
 | Qui ti riconoscono | il tratto *Conosciuto al porto* |
 
 **10. Le preparazioni.**
@@ -1987,14 +1987,14 @@ Le righe proprie della sera: *di sera, fra gente che beve, chi resta sobrio a gu
 | Cosa | Soglia | Spostamenti e requisiti |
 |---|---|---|
 | la porta chiusa a chiave di una casa | Facile (6) | attrezzi: grimaldello |
-| un lucchetto vecchio o da armadio | Facile (6) | un gradino in più al buio, senza luce |
-| convincere un facchino o un oste | Facile (6) | un gradino in meno se si fida di te |
+| un lucchetto vecchio o da armadio | Facile (6) | uno scatto in più al buio, senza luce |
+| convincere un facchino o un oste | Facile (6) | uno scatto in meno se si fida di te |
 | una serratura di magazzino | Impegnativa (8) | attrezzi: grimaldello |
 | prendere qualcosa sotto gli occhi di chi lo sorveglia | Impegnativa (8) | attrezzi: borsa da facchino |
-| un archivista sospettoso | Impegnativa (8) | un gradino in meno se si fida di te; uno in più se ti porta rancore |
-| la serratura nuova del magazzino sette | Ardua (10) | un gradino in meno se sai che è di Genova |
+| un archivista sospettoso | Impegnativa (8) | uno scatto in meno se si fida di te; uno in più se ti porta rancore |
+| la serratura nuova del magazzino sette | Ardua (10) | uno scatto in meno se sai che è di Genova |
 | sfondare una porta sprangata | Ardua (10) | serve forza: *Robusto*, una leva, o qualcuno che spinga con te |
-| convincere un ufficiale della guardia | Ardua (10) | un gradino in meno se hai un testimone della capitaneria |
+| convincere un ufficiale della guardia | Ardua (10) | uno scatto in meno se hai un testimone della capitaneria |
 | difendersi da un marinaio col coltello | Impegnativa (8) | — |
 | difendersi da un soldato | Ardua (10) | — |
 | la serratura della dogana reale | Estrema (12) | — |
@@ -2091,8 +2091,7 @@ Deduzione: *il carico è di Grimani* più *le casse pesano troppo* danno *nelle 
 | **filo** | una delle storie in corso, con le sue tappe |
 | **finestra** | l'istante in cui un avversario è allo scoperto e decidi tu come finisce |
 | **Fondo** | il grado sotto il quale un'azione non scende mai |
-| **gradino** | la distanza fra due soglie vicine: due punti sul tiro |
-| **grado** | uno dei tre livelli dell'esposizione: al coperto, esposto, allo scoperto |
+| **grado** | uno dei tre livelli dell'esposizione: al coperto, in vista, allo scoperto |
 | **imprevisto** | un evento che arriva tanto più spesso quanta più Traccia hai nella zona |
 | **In pieno** | la fascia di chi supera la soglia di 4 o più: ottieni, e un dono |
 | **legame** | il rapporto del personaggio con una persona, fatto di dimensioni e ricordi |
@@ -2125,6 +2124,7 @@ Deduzione: *il carico è di Grimani* più *le casse pesano troppo* danno *nelle 
 | **ripiego** | la via che c'è sempre: costa, e non si tira |
 | **rovescio** | l'esito peggiore: la situazione precipita, e sei in un'altra scena |
 | **scadenza** | una cosa che accadrà comunque, con il conto alla rovescia; può avanzare anche per ciò che fai |
+| **scatto** | la distanza fra due soglie vicine: due punti sul tiro |
 | **scelta esaurita** | una scelta che non può più darti niente, e sparisce |
 | **scena** | un'unità della storia; sulla carta, un paragrafo |
 | **scheda dell'ambientazione** | le ventiquattro voci che adattano il motore a un mondo |
@@ -2147,14 +2147,14 @@ Deduzione: *il carico è di Grimani* più *le casse pesano troppo* danno *nelle 
 |---|---|---|
 | **Resta** | il costo che si ricava da azione, luogo e momento, per ambito · il quadro prima di agire · il ripiego · al coperto il dado non può rovinarti · nessuna morte senza avviso · la violenza realistica · la Traccia che cala sempre · le scadenze · la memoria che apre e chiude le scene · nessun testo generato durante il gioco · i formati da una fonte sola · il Fondo, il tetto, le righe che non contano · il catalogo e la difficoltà che non cresce · il confronto con le due nature, la finestra e le tre fini · la crescita a tre fonti · due dadi a sei facce e quattro livelli | reggono, e nessuna prova le ha smentite |
 | **Cambia nome** | via povera → ripiego · passo → ora · ricevuta → quadro · qualità della storia → memoria della storia · conoscenza → notizia · oggetti → cose · catalogo delle soglie → catalogo delle difficoltà | nell'italiano comune le vecchie parole dicevano un'altra cosa: «povera» non vuol dire «sicura ma costosa», un passo è anche un gesto, una ricevuta arriva dopo aver pagato, le qualità di una storia sono i suoi pregi, le conoscenze sono anche le persone che conosci |
-| **Cambia sostanza** | il dado risponde con quattro fasce invece che con sì o no · l'esito si legge due volte, dal dado e dall'esposizione · la notizia del *Non riesci* vale a ogni grado · il personaggio ha sei parti · i tratti, dove il 2.0 aveva soltanto capacità e condizioni · le cose hanno usi, stati e combinazioni · gli attrezzi e gli aiuti danno +1 al tiro · la difficoltà si sposta di un gradino per ragioni dichiarate, al massimo uno per parte · i luoghi si descrivono con proprietà che valgono per tutte e quattro le domande · le notizie hanno uno stato visibile e si mettono insieme · le persone hanno legami a cinque dimensioni, ricordano e tradiscono · gli stati d'animo · i tratti che si guadagnano e si perdono · le scelte in prima persona, e quelle esaurite che spariscono · gli imprevisti si controllano una volta per scelta · quattro formati invece di tre | il 2.0 era sottile proprio dove un romanzo di ruolo deve essere profondo: il personaggio, le persone, il mondo che reagisce. E chi gioca non sentiva differenza fra mancare di poco e mancare di molto |
+| **Cambia sostanza** | il dado risponde con quattro fasce invece che con sì o no · l'esito si legge due volte, dal dado e dall'esposizione · la notizia del *Non riesci* vale a ogni grado · il personaggio ha sei parti · i tratti, dove il 2.0 aveva soltanto capacità e condizioni · le cose hanno usi, stati e combinazioni · gli attrezzi e gli aiuti danno +1 al tiro · la difficoltà si sposta di uno scatto per ragioni dichiarate, al massimo uno per parte · i luoghi si descrivono con proprietà che valgono per tutte e quattro le domande · le notizie hanno uno stato visibile e si mettono insieme · le persone hanno legami a cinque dimensioni, ricordano e tradiscono · gli stati d'animo · i tratti che si guadagnano e si perdono · le scelte in prima persona, e quelle esaurite che spariscono · gli imprevisti si controllano una volta per scelta · quattro formati invece di tre | il 2.0 era sottile proprio dove un romanzo di ruolo deve essere profondo: il personaggio, le persone, il mondo che reagisce. E chi gioca non sentiva differenza fra mancare di poco e mancare di molto |
 | **Esce** | le sei caselle come esiti a sé, con i loro nomi · il fallimento pulito come unica occasione di imparare qualcosa · il rovescio per chi manca la soglia di poco, che ora è una scelta | le sei caselle restano, come lettura del costo; ciò che esce sono i nomi che confondevano la riuscita con il costo |
 
 **Le parole.** Alcune parole sono cambiate, perché nell'italiano di tutti i giorni dicevano un'altra cosa: la via povera si chiama **ripiego**, il passo è diventato l'**ora**, la ricevuta è il **quadro**, le qualità della storia sono la sua **memoria**, le conoscenze si dividono in **notizie** e **convinzioni**. Escono: *casella* e i nomi delle sei caselle (successo pieno, successo sporco, successo a caro prezzo, fallimento pulito, rovescio minore), *conoscenza*, *passo*, *qualità*, *ricevuta*, *via povera*.
 
 **Il porto.** Con le proprietà, un effetto vale una volta sola: all'alba il Gallo non ha due volte la folla (nel 2.0 mano e voce scendevano a −2), di notte i magazzini non hanno due volte il buio (nel 2.0 il corpo scendeva a −2), e di notte il Gallo non ha il silenzio (nel 2.0 mano e voce tornavano a 0). Il passo di un'ora e mezza diventa l'ora: le scadenze e il logorio sono stati ricalcolati per durare lo stesso tempo di prima.
 
-**Dopo il 3.0.** Il 29 ottobre 2026 sono cambiate alcune regole, e il documento le dice al loro posto. Nel *Quasi* prendere tutto costa il prezzo anche al coperto, e lasciar perdere dà la notizia del *Non riesci* (§28.3). Il quadro non spegne più righe per il Fondo e per il tetto, ma lo dice sotto il totale (§21.3), e nella riuscita scrive la soglia che risulta da un gradino («→ 10») invece di un «+2» che si confondeva con i bonus (§21.1). Le scadenze possono avanzare per ciò che fai (§15.4). Sulla carta, le notizie sono voci in fondo al libro che si leggono solo quando le segni (§48.1). Il confronto fra i tre modelli per le fasce, che stava nella Parte V, è passato nell'appendice E; l'elenco del lavoro fatto sul codice per adeguarlo al 3.0 sta in `archivio/ADEGUAMENTO-MOTORE-3.0.md`.
+**Dopo il 3.0.** Il 29 ottobre 2026 sono cambiate alcune regole, e il documento le dice al loro posto. Nel *Quasi* prendere tutto costa il prezzo anche al coperto, e lasciar perdere dà la notizia del *Non riesci* (§28.3). Il quadro non spegne più righe per il Fondo e per il tetto, ma lo dice sotto il totale (§21.3), e nella riuscita scrive la soglia che risulta da uno scatto («→ 10») invece di un «+2» che si confondeva con i bonus (§21.1). Le scadenze possono avanzare per ciò che fai (§15.4). Due parole hanno cambiato nome: il grado di mezzo, che si chiamava *esposto*, è **in vista**, perché «al coperto · in vista · allo scoperto» si legge in ordine da solo e non cambia col genere; lo spostamento della soglia, che si chiamava *gradino*, è lo **scatto**, perché «grado» e «gradino» erano quasi la stessa parola. Sulla carta, le notizie sono voci in fondo al libro che si leggono solo quando le segni (§48.1). Il confronto fra i tre modelli per le fasce, che stava nella Parte V, è passato nell'appendice E; l'elenco del lavoro fatto sul codice per adeguarlo al 3.0 sta in `archivio/ADEGUAMENTO-MOTORE-3.0.md`.
 
 ---
 
@@ -2169,7 +2169,7 @@ Il modello più diretto incrocia le quattro fasce con i tre gradi di esposizione
 | | +4 o più | da 0 a +3 | −1 o −2 | −3 o meno |
 |---|---|---|---|---|
 | **Al coperto** | successo brillante | successo pieno | successo mancato | fallimento pulito |
-| **Esposto** | successo netto | successo sporco | mezzo successo sporco | rovescio minore |
+| **In vista** | successo netto | successo sporco | mezzo successo sporco | rovescio minore |
 | **Allo scoperto** | successo netto a caro prezzo | successo a caro prezzo | rovescio lieve | rovescio |
 
 **I conti.** Il grado lo sceglie chi gioca, il dado sceglie la colonna. Per un Pratico davanti a un'Impegnativa, allo scoperto: successo netto a caro prezzo 8, successo a caro prezzo 50, rovescio lieve 25, rovescio 17. Le stesse quattro probabilità valgono in ogni riga: il grado sposta la riga, non la colonna.

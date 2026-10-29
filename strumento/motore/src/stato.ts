@@ -1024,7 +1024,7 @@ function imprevisto(g: Gioco, p: Partita, eventi: Evento[], piuTempo: (n: number
   if (v.vai && !p.deviazione && !p.confronto) p.deviazione = v.vai;
 }
 
-/** Una complicazione dal repertorio della zona, per il Non riesci da esposto (§28.4). */
+/** Una complicazione dal repertorio della zona, per il Non riesci in vista (§28.4). */
 export function complicazione(g: Gioco, p: Partita, eventi: Evento[]): number {
   const zona = luogoDi(g, p).zona;
   const voci = g.amb.repertorio.filter((v) => v.zona === zona && !v.vai && v.tipo !== "prezzo" && (!v.quando || vale(g, p, v.quando)));
@@ -1050,7 +1050,7 @@ export function prezzoPredefinito(g: Gioco, p: Partita, eventi: Evento[]): numbe
 }
 
 export function nomeGrado(g: Grado): string {
-  return ["al coperto", "esposto", "allo scoperto"][g];
+  return ["al coperto", "in vista", "allo scoperto"][g];
 }
 
 export type { Grado };

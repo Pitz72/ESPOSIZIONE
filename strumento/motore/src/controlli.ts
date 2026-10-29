@@ -247,7 +247,7 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
     if (amb.posti.ferita && !ambiti.has(amb.posti.ferita.ambito)) err("rimandi", "posti", `Ambito inesistente: ${amb.posti.ferita.ambito}.`);
   }
   for (const z of new Set(amb.luoghi.map((l) => l.zona))) {
-    if (!amb.repertorio.some((v) => v.zona === z && !v.vai && !v.quando && v.tipo !== "prezzo")) avviso("repertorio", `zona ${z}`, "Nessuna complicazione sempre disponibile per il Non riesci da esposto.");
+    if (!amb.repertorio.some((v) => v.zona === z && !v.vai && !v.quando && v.tipo !== "prezzo")) avviso("repertorio", `zona ${z}`, "Nessuna complicazione sempre disponibile per il Non riesci in vista.");
   }
   for (const v of amb.repertorio) rimandiEffetti(v.effetti, `repertorio ${v.id}`);
 
@@ -401,8 +401,8 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       if (!capacita.has(p.capacita)) err("rimandi", qui, `Capacità inesistente: ${p.capacita}.`);
       const voce = catalogo.get(p.soglia);
       if (!voce) err("15", qui, `Soglia non in catalogo: ${p.soglia}.`);
-      // Controllo 15: al massimo un gradino per parte, anche per l'autore.
-      if ((p.sposta ?? []).filter((x) => x.gradini < 0).length > 1 || (p.sposta ?? []).filter((x) => x.gradini > 0).length > 1) avviso("15", qui, "Più di un gradino per parte: le righe in più non conteranno.");
+      // Controllo 15: al massimo uno scatto per parte, anche per l'autore.
+      if ((p.sposta ?? []).filter((x) => x.scatti < 0).length > 1 || (p.sposta ?? []).filter((x) => x.scatti > 0).length > 1) avviso("15", qui, "Più di uno scatto per parte: le righe in più non conteranno.");
       if (p.persona && !persone.has(p.persona)) err("rimandi", qui, `Persona inesistente: ${p.persona}.`);
       if (p.aiuto && !persone.has(p.aiuto)) err("rimandi", qui, `Persona inesistente: ${p.aiuto}.`);
       // Controllo 10
@@ -417,9 +417,9 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       const uccide = [p.riesci, p.nonRiesci, ...(p.rovescio ? [p.rovescio] : [])].some((e) => scene.get(e.vai)?.finale?.tipo === "morte" || (e.effetti ?? []).some((x) => "ferita" in x && (x.ferita.gravita === "mortale" || x.ferita.gravita === "morte")));
       if (uccide && !/vita/i.test(p.posta)) err("4", qui, "Questa prova può uccidere, e la posta non lo dice.");
       if (!p.posta) err("4", qui, "Manca la posta.");
-      // Controllo 28: al coperto il dado non può rovinarti; esposto il peggio è una complicazione.
-      if (scene.get(p.nonRiesci.vai)?.finale) err("28", qui, "Un Non riesci al coperto o esposto porta a un finale: solo il rovescio può chiudere la storia.");
-      if ((p.nonRiesci.effetti ?? []).some((x) => "ferita" in x)) err("28", qui, "Un Non riesci al coperto o esposto produce una ferita.");
+      // Controllo 28: al coperto il dado non può rovinarti; in vista il peggio è una complicazione.
+      if (scene.get(p.nonRiesci.vai)?.finale) err("28", qui, "Un Non riesci al coperto o in vista porta a un finale: solo il rovescio può chiudere la storia.");
+      if ((p.nonRiesci.effetti ?? []).some((x) => "ferita" in x)) err("28", qui, "Un Non riesci al coperto o in vista produce una ferita.");
       // La metà presa da un ripiego che esiste.
       if (p.meta && "ripiego" in p.meta && !scelte.some((x) => x.id === (p.meta as { ripiego: string }).ripiego && x.ripiego)) err("rimandi", qui, "La metà rimanda a un ripiego che non c'è.");
       if (voce?.serve) for (const x of voce.serve.una) leggiTratti(x);

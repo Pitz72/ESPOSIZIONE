@@ -48,7 +48,7 @@ function quadro(q: Quadro): string {
     const v = x.tipo === "partenza" ? ` ${x.valore}` : segno(x.valore);
     out.push(`      ${i === 0 ? "COSTA? " : "       "}  ${v.padStart(4)}  ${x.testo}${x.nota ? `   — ${x.nota}` : ""}`);
   });
-  out.push(`                ──  ${q.costo.somma}  ${["AL COPERTO", "ESPOSTO", "ALLO SCOPERTO"][q.grado]}${q.costo.nota ? `   — ${q.costo.nota}` : ""}`);
+  out.push(`                ──  ${q.costo.somma}  ${["AL COPERTO", "IN VISTA", "ALLO SCOPERTO"][q.grado]}${q.costo.nota ? `   — ${q.costo.nota}` : ""}`);
   out.push(`      DOPO?    riesci: ${q.dopo.riesci} · quasi: ${q.dopo.quasi.join(" / ")} · non riesci: ${q.dopo.nonRiesci}`);
   for (const x of q.dopo.persone) out.push(`               ${x}`);
   if (q.dopo.posta) out.push(`               ${q.dopo.posta}`);

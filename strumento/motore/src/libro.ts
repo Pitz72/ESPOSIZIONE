@@ -211,7 +211,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     for (const r of [...(luogo(l).righe ?? []), ...(amb.momenti.find((x) => x.id === m)!.righe ?? [])]) if (r.ambito === c.ambito) amb_ += r.valore;
     return c.partenza + Math.max(-2, Math.min(2, amb_)) + righe;
   };
-  /** La soglia con le proprietà del luogo e del momento: un gradino al massimo per parte. */
+  /** La soglia con le proprietà del luogo e del momento: uno scatto al massimo per parte. */
   const sogliaDi = (capId: string, sogliaId: string, l: string, m: string) => {
     const v = amb.catalogo.find((x) => x.id === sogliaId)!;
     const generi = v.generi ?? [];
@@ -221,7 +221,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
       for (const s of amb.proprieta.find((x) => x.id === id)?.sposta ?? []) {
         if (s.se) continue;
         if (!(s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId))) continue;
-        if (s.gradini > 0) su = true;
+        if (s.scatti > 0) su = true;
         else giu = true;
       }
     }
@@ -240,7 +240,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
       for (const id of ids) {
         const pr = amb.proprieta.find((x) => x.id === id);
         costo += verso * (pr?.valori[c.ambito] ?? 0);
-        for (const s of pr?.sposta ?? []) if (!s.se && (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId))) soglia += verso * s.gradini * 2;
+        for (const s of pr?.sposta ?? []) if (!s.se && (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId))) soglia += verso * s.scatti * 2;
       }
     }
     return { costo, soglia };
@@ -278,9 +278,9 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     const v = amb.catalogo.find((x) => x.id === sogliaId)!;
     const generi = v.generi ?? [];
     const out: string[] = [];
-    for (const s of v.sposta ?? []) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia se ${frase(s.se)}`);
-    for (const t of amb.tratti) for (const s of t.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) if (!s.se || !("luogo" in s.se) || [s.se.luogo].flat().includes(l)) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia se hai il tratto ${t.nome.toUpperCase()}`);
-    for (const st of amb.statiAnimo) for (const s of st.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia se sei ${st.nome.toLowerCase()}`);
+    for (const s of v.sposta ?? []) out.push(`${s.scatti < 0 ? "−2" : "+2"} alla soglia se ${frase(s.se)}`);
+    for (const t of amb.tratti) for (const s of t.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) if (!s.se || !("luogo" in s.se) || [s.se.luogo].flat().includes(l)) out.push(`${s.scatti < 0 ? "−2" : "+2"} alla soglia se hai il tratto ${t.nome.toUpperCase()}`);
+    for (const st of amb.statiAnimo) for (const s of st.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) out.push(`${s.scatti < 0 ? "−2" : "+2"} alla soglia se sei ${st.nome.toLowerCase()}`);
     if (proprietaIn(l, "notte").includes("buio") || luogo(l).proprieta.includes("buio")) {
       const buio = amb.proprieta.find((x) => x.id === "buio");
       if (buio?.sposta?.some((s) => s.generi?.some((x) => generi.includes(x)))) out.push("con una luce accesa ignora il buio");
@@ -291,7 +291,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
       if (amb.sociali.paura.includes(capId)) out.push(`−2 alla soglia se ${persona(pr.persona)} ha paura almeno 2`);
     }
     if (pr?.aiuto) out.push(`+1 al tiro con l'aiuto di ${persona(pr.aiuto)}, se ha fiducia almeno 2 o ti deve un favore; poi il debito scende di 1`);
-    for (const s of pr?.sposta ?? []) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia: ${s.testo}`);
+    for (const s of pr?.sposta ?? []) out.push(`${s.scatti < 0 ? "−2" : "+2"} alla soglia: ${s.testo}`);
     if (v.serve) out.push(`${v.serve.testo.split(":")[0]}: ${v.serve.una.map(frase).join(", oppure ")}`);
     out.push(...perStati(capId, sogliaId, l).soglia);
     return out;
@@ -320,8 +320,8 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p(`**Le prove.** Quando una scelta è una prova, prima di tirare ti fai il quadro, con quattro domande.`);
   p();
   p(`1. **Puoi?** Se la prova dice «serve…» e non hai quello che serve, non puoi tentarla.`);
-  p(`2. **Ci riesci?** Prendi la soglia scritta nel paragrafo: se dice «qui», vale il numero di qui, per il momento del giorno in cui sei. Toglile 2 o aggiungile 2 per le ragioni scritte fra parentesi che valgono per te, ma **al massimo 2 in giù e 2 in su**. Poi aggiungi al tiro il livello della capacità (Inesperto +0, Pratico +1, Esperto +2, Maestro +3), +1 per ogni attrezzo o aiuto (al massimo +2), −1 per ogni ferita lieve all'ambito della capacità, per ogni logorio allo stremo e per ogni stato d'animo che lo dice (al massimo −3). Se la soglia scende sotto 6, non tiri: riesci.`);
-  p(`3. **Quanto ti costa?** Prendi il *costo di partenza* scritto nel paragrafo, aggiungi 1 per ogni aggravante vera, togli 1 per ogni preparazione. Il grado è il risultato, ma non sotto il Fondo della capacità e non sopra 2: **0 al coperto, 1 esposto, 2 allo scoperto**.`);
+  p(`2. **Ci riesci?** Prendi la soglia scritta nel paragrafo: se dice «qui», vale il numero di qui, per il momento del giorno in cui sei. Toglile 2 o aggiungile 2 per le ragioni scritte fra parentesi che valgono per te, ma **al massimo 2 in giù e 2 in su**. Questi 2 punti sono uno **scatto**: «uno scatto in più» vuol dire +2 alla soglia. Poi aggiungi al tiro il livello della capacità (Inesperto +0, Pratico +1, Esperto +2, Maestro +3), +1 per ogni attrezzo o aiuto (al massimo +2), −1 per ogni ferita lieve all'ambito della capacità, per ogni logorio allo stremo e per ogni stato d'animo che lo dice (al massimo −3). Se la soglia scende sotto 6, non tiri: riesci.`);
+  p(`3. **Quanto ti costa?** Prendi il *costo di partenza* scritto nel paragrafo, aggiungi 1 per ogni aggravante vera, togli 1 per ogni preparazione. Il grado è il risultato, ma non sotto il Fondo della capacità e non sopra 2: **0 al coperto, 1 in vista, 2 allo scoperto**.`);
   p(`4. **Che cosa cambia?** Leggi la posta, cioè che cosa rischi. Se non ti piace, puoi ancora scegliere un'altra via.`);
   p();
   p(`Poi tiri due dadi e aggiungi i tuoi bonus. Confronta il totale con la soglia:`);
@@ -330,9 +330,9 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   p(`Il paragrafo ti dice dove andare in ogni caso. Poi segni il costo del tuo grado, con la tabella «Dopo il tiro».`);
   p();
-  p(`**Il Quasi.** Quando manca 1 o 2, scegli tu fra tre possibilità. **Tutto**: vai al paragrafo del Riesci, e paghi come chi riesce allo scoperto, cioè una tacca di Traccia e il prezzo; se eri già allo scoperto, segna ciò che il Riesci ti dà e vai al paragrafo del rovescio. **La metà**, se il paragrafo la offre: vai al suo paragrafo e paghi il costo del tuo grado. **Lasci perdere**: non ottieni niente, segni la voce del taccuino che avresti scoperto non riuscendo, e paghi solo una tacca di Traccia se eri esposto o allo scoperto.`);
+  p(`**Il Quasi.** Quando manca 1 o 2, scegli tu fra tre possibilità. **Tutto**: vai al paragrafo del Riesci, e paghi come chi riesce allo scoperto, cioè una tacca di Traccia e il prezzo; se eri già allo scoperto, segna ciò che il Riesci ti dà e vai al paragrafo del rovescio. **La metà**, se il paragrafo la offre: vai al suo paragrafo e paghi il costo del tuo grado. **Lasci perdere**: non ottieni niente, segni la voce del taccuino che avresti scoperto non riuscendo, e paghi solo una tacca di Traccia se eri in vista o allo scoperto.`);
   p();
-  p(`**Ritentare.** Se non sei riuscito al coperto o esposto, o se hai lasciato perdere, puoi tornare al paragrafo della prova e ritentare, ma prima segni un'ora. Le prove segnate «una volta sola» non si ritentano.`);
+  p(`**Ritentare.** Se non sei riuscito al coperto o in vista, o se hai lasciato perdere, puoi tornare al paragrafo della prova e ritentare, ma prima segni un'ora. Le prove segnate «una volta sola» non si ritentano.`);
   p();
   p(`**Il taccuino.** Quando un paragrafo ti dice di segnare una voce del taccuino, scrivi il suo numero nel taccuino della scheda e leggila fra «Le voci del taccuino», in fondo al libro: è una cosa che hai sentito dire. Leggi soltanto le voci che segni. Se un paragrafo te la fa verificare, scrivi una V accanto al numero. Alcune voci ti dicono di cancellarne un'altra: vuol dire che quella non era vera. Non tutto quello che si sente dire al porto è vero.`);
   p();
@@ -399,12 +399,12 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   // ---- confronto
   p(`### Il confronto`);
   p();
-  p(`Alcuni paragrafi mettono davanti a te un avversario. Segna sulla scheda la sua **copertura** (al coperto, esposto, allo scoperto) e procedi a scambi:`);
+  p(`Alcuni paragrafi mettono davanti a te un avversario. Segna sulla scheda la sua **copertura** (al coperto, in vista, allo scoperto) e procedi a scambi:`);
   p();
   p(`1. Scegli una delle vie del paragrafo: una prova contro un punto debole, parlare (una volta sola), oppure andartene (non si tira).`);
   p(`2. Contro un punto debole: con «riesci» la sua copertura scende di quanto dice il punto debole, con «in pieno» di un grado in più; con «quasi» scegli se scoprirlo salendo tu di un grado, o lasciar perdere; con «non riesci» non lo scopri.`);
   p(`3. Se ora è allo scoperto si apre la finestra: scegli una delle fini del paragrafo, senza tirare.`);
-  p(`4. Altrimenti reagisce. **Chi si chiude**, se la tua prova non è riuscita, si ricopre di un grado; se eri allo scoperto, scatta il suo pericolo. **Chi avanza** scende di un grado da solo; da esposto in giù ti è addosso e colpisce: fai una prova di difesa con ${amb.difesa.map((x) => cap(x).nome).join(" o ")}, al grado della tua ultima azione. Con «riesci» eviti il colpo; con «in pieno» lo eviti e lui si scopre di un grado; con «quasi» scegli fra la ferita dell'arma un grado più lieve e perdere qualcosa; con «non riesci» subisci la ferita dell'arma. Al coperto non ti raggiunge.`);
+  p(`4. Altrimenti reagisce. **Chi si chiude**, se la tua prova non è riuscita, si ricopre di un grado; se eri allo scoperto, scatta il suo pericolo. **Chi avanza** scende di un grado da solo; quando è in vista o allo scoperto ti è addosso e colpisce: fai una prova di difesa con ${amb.difesa.map((x) => cap(x).nome).join(" o ")}, al grado della tua ultima azione. Con «riesci» eviti il colpo; con «in pieno» lo eviti e lui si scopre di un grado; con «quasi» scegli fra la ferita dell'arma un grado più lieve e perdere qualcosa; con «non riesci» subisci la ferita dell'arma. Al coperto non ti raggiunge.`);
   p();
 
   // ---- scheda
@@ -479,7 +479,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   p(`### Dopo il tiro`);
   p();
-  p(`| | Al coperto | Esposto | Allo scoperto |`);
+  p(`| | Al coperto | In vista | Allo scoperto |`);
   p(`|---|---|---|---|`);
   p(`| **In pieno** | ottieni, e qualcosa in più | + una tacca di Traccia | + una tacca di Traccia e il prezzo |`);
   p(`| **Riesci** | ottieni | + una tacca di Traccia | + una tacca di Traccia e il prezzo |`);
@@ -494,7 +494,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   for (const pr of amb.proprieta) {
     const val = Object.entries(pr.valori).filter(([, v]) => v).map(([a, v]) => `${a} ${segno(v!)}`).join(", ");
-    const sp = maiuscola((pr.sposta ?? []).map((s) => `${s.testo}: ${s.gradini < 0 ? "−2" : "+2"} alla soglia`).join("; "));
+    const sp = maiuscola((pr.sposta ?? []).map((s) => `${s.testo}: ${s.scatti < 0 ? "−2" : "+2"} alla soglia`).join("; "));
     const lg = pr.logora ? `la ${amb.logorii.find((l) => l.id === pr.logora!.logorio)!.nome.toLowerCase()} sale di uno stadio ogni ${pr.logora.ogniOre} ore passate qui` : "";
     p(`- **${pr.nome}**${val ? ` (costo: ${val})` : ""}${sp ? `. ${sp}` : ""}${pr.serve?.length ? `. ${maiuscola(pr.serve.map((s) => s.testo).join("; "))}` : ""}${pr.annullataDa ? `. ${maiuscola(pr.annullataDa.testo)}` : ""}${lg ? `. ${maiuscola(lg)}` : ""}.`);
   }
@@ -529,9 +529,9 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   p(`### Armi`);
   p();
-  p(`| Arma | Se ti colpisce esposto | Se ti colpisce allo scoperto |`);
+  p(`| Arma | Se sei in vista | Se sei allo scoperto |`);
   p(`|---|---|---|`);
-  for (const ar of amb.armi) p(`| ${ar.nome} | ${ar.daEsposto} | ${ar.daScoperto} |`);
+  for (const ar of amb.armi) p(`| ${ar.nome} | ${ar.inVista} | ${ar.alloScoperto} |`);
   p();
   p(`### Imprevisti e prezzi`);
   p();
@@ -598,7 +598,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
       const conf = s.confronto;
       const avv = amb.avversari.find((x) => x.id === conf.avversario)!;
       const arma = avv.pericolo.arma ? amb.armi.find((x) => x.id === avv.pericolo.arma) : undefined;
-      p(`**Confronto con ${avv.nome}**: ${avv.natura === "avanza" ? "chi avanza" : "chi si chiude"}, parte ${["al coperto", "esposto", "allo scoperto"][avv.copertura]}. Pericolo: ${arma ? `${arma.nome} (esposto: ${arma.daEsposto}; allo scoperto: ${arma.daScoperto})${avv.sogliaDifesa ? `, difesa ${SOGLIA_NOME[amb.catalogo.find((x) => x.id === avv.sogliaDifesa)!.soglia]}` : ""}` : `${avv.pericolo.sociale} (vai al ${n(conf.seTiPrende!)})`}. Vuole ${avv.movente.vuole}; smette ${avv.movente.smette}; ${avv.movente.mantieneLaParola ? "mantiene la parola" : "non mantiene la parola"}.`);
+      p(`**Confronto con ${avv.nome}**: ${avv.natura === "avanza" ? "chi avanza" : "chi si chiude"}, parte ${["al coperto", "in vista", "allo scoperto"][avv.copertura]}. Pericolo: ${arma ? `${arma.nome} (in vista: ${arma.inVista}; allo scoperto: ${arma.alloScoperto})${avv.sogliaDifesa ? `, difesa ${SOGLIA_NOME[amb.catalogo.find((x) => x.id === avv.sogliaDifesa)!.soglia]}` : ""}` : `${avv.pericolo.sociale} (vai al ${n(conf.seTiPrende!)})`}. Vuole ${avv.movente.vuole}; smette ${avv.movente.smette}; ${avv.movente.mantieneLaParola ? "mantiene la parola" : "non mantiene la parola"}.`);
       p();
       const cost = (capId: string) => perMomento(amb.momenti.map((m) => ({ m: m.id, v: segno(costoDi(capId, s.luogo, m.id, 0)).replace("+", "") })));
       for (const pd of avv.puntiDeboli) {

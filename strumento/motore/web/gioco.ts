@@ -18,7 +18,7 @@ const storia = storiaJson as unknown as Storia;
 const g = prepara(amb, storia);
 const paragrafo = numerazione(storia);
 const CHIAVE = "esposizione:santa-rita:app:4";
-const GRADI = ["al coperto", "esposto", "allo scoperto"];
+const GRADI = ["al coperto", "in vista", "allo scoperto"];
 const FASCE: Record<Fascia, string> = { pieno: "In pieno", riesci: "Riesci", quasi: "Quasi", non: "Non riesci" };
 const PARTE: Record<string, string> = { tratto: "tratto", notizia: "notizia", proprieta: "luogo", legame: "legame", "stato d'animo": "umore", scena: "scena", cosa: "cosa", aiuto: "aiuto", ferita: "ferita", logorio: "logorio" };
 const moto = () => !matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -19,7 +19,7 @@
     --tenue: #7f7b74;
     --acc: #f2a488;
     --coperto: #63c49b;
-    --esposto: #e8b24e;
+    --in-vista: #e8b24e;
     --scoperto: #ee6a50;
     --oro: #e8c46a;
     --occhi: #de8d7b;
@@ -28,7 +28,7 @@
     --inchiostro: #231e18;
     --inch-2: #6d6355;
     --coperto-c: #2c7553;
-    --esposto-c: #946409;
+    --in-vista-c: #946409;
     --scoperto-c: #a6381f;
     --display: "IM Fell English", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
     --testo-f: "Literata", "Iowan Old Style", Georgia, serif;
@@ -108,7 +108,7 @@
   .striscia b { color: var(--testo); font-weight: 600; }
   .striscia .st-nave.urgente { border-color: var(--scoperto); animation: urgente 1.6s ease-in-out infinite; }
   .striscia .st-nave.urgente b { color: var(--scoperto); }
-  .striscia .st-mondo { color: var(--esposto); border-color: color-mix(in srgb, var(--esposto) 40%, transparent); }
+  .striscia .st-mondo { color: var(--in-vista); border-color: color-mix(in srgb, var(--in-vista) 40%, transparent); }
   .striscia .st-male { color: #f0bb8e; }
   .luogo p { margin: 0; font: 500 10.5px/1.4 var(--mono); letter-spacing: 0.26em; text-transform: uppercase; color: var(--acc); transition: color 0.8s; }
   .luogo h1 { margin: 2px 0 0; font: 400 36px/1.05 var(--display); color: #f8f0e0; text-wrap: balance; }
@@ -165,7 +165,7 @@
   .ev.tiro .glifi { font-size: 24px; line-height: 1; letter-spacing: 2px; }
   .ev.esito { font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
   .ev.esito[data-g="0"] { color: var(--coperto); }
-  .ev.esito[data-g="1"] { color: var(--esposto); }
+  .ev.esito[data-g="1"] { color: var(--in-vista); }
   .ev.esito[data-g="2"] { color: var(--scoperto); }
   .ev.ferita, .ev.morte { font: italic 400 15px/1.5 var(--testo-f); color: #f19a86; }
   .ev.logorio { font: italic 400 15px/1.5 var(--testo-f); color: #f0bb8e; }
@@ -175,7 +175,7 @@
   .ev.persona { color: var(--testo); }
   .ev.statoAnimo { font: italic 400 15px/1.5 var(--testo-f); color: #f0bb8e; }
   .ev.esito[data-f="pieno"] { color: var(--oro); }
-  .ev.esito[data-f="quasi"] { color: var(--esposto); }
+  .ev.esito[data-f="quasi"] { color: var(--in-vista); }
   .ev.traccia { color: var(--occhi); }
   .ev.crescita { color: var(--oro); }
   .ev.confronto { color: var(--testo); }
@@ -228,13 +228,13 @@
   }
   .pill b { font-weight: 600; letter-spacing: 0; font-size: 12px; font-variant-numeric: tabular-nums; }
   .pill[data-g="0"] { color: var(--coperto); background: rgba(99, 196, 155, 0.12); }
-  .pill[data-g="1"] { color: var(--esposto); background: rgba(232, 178, 78, 0.12); }
+  .pill[data-g="1"] { color: var(--in-vista); background: rgba(232, 178, 78, 0.12); }
   .pill[data-g="2"] { color: var(--scoperto); background: rgba(238, 106, 80, 0.14); }
   .risposta.chiusa { opacity: 0.55; cursor: default; border-style: dashed; padding-block: 7px; font-size: 14.5px; }
   .risposta.chiusa[data-da="convinzione"] { opacity: 0.62; }
   .risposta.chiusa[data-da="convinzione"] small { font: italic 400 12.5px/1.4 var(--testo-f); color: var(--oro); }
-  .risposta.quasi { border-color: color-mix(in srgb, var(--esposto) 45%, transparent); }
-  .sospeso { margin: 0 auto 10px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--esposto); color: var(--esposto); font: italic 400 16px/1.45 var(--testo-f); }
+  .risposta.quasi { border-color: color-mix(in srgb, var(--in-vista) 45%, transparent); }
+  .sospeso { margin: 0 auto 10px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--in-vista); color: var(--in-vista); font: italic 400 16px/1.45 var(--testo-f); }
   .sospeso[data-t="ripensa"] { border-color: var(--oro); color: var(--oro); }
   .sospeso[data-t="posto"] { border-color: var(--testo-2); color: var(--testo-2); }
 
@@ -248,7 +248,7 @@
   .copertura { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
   .copertura span { text-align: center; padding: 7px 4px; border-radius: 6px; background: rgba(255, 255, 255, 0.05); font: 500 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--tenue); transition: all 0.4s; }
   .copertura span.attuale[data-g="0"] { background: var(--coperto); color: #0a0b0f; }
-  .copertura span.attuale[data-g="1"] { background: var(--esposto); color: #0a0b0f; }
+  .copertura span.attuale[data-g="1"] { background: var(--in-vista); color: #0a0b0f; }
   .copertura span.attuale[data-g="2"] { background: var(--scoperto); color: #0a0b0f; }
   .allarme { margin: 0; font: 600 13px/1.4 var(--mono); color: var(--scoperto); }
   .allarme.finestra { color: var(--acc); }
@@ -303,7 +303,7 @@
   .metro { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline; margin-bottom: 6px; }
   .metro .nome { font-weight: 600; font-size: 14px; }
   .metro .stato { font-style: italic; font-size: 13px; color: var(--tenue); }
-  .metro[data-s="2"] .pips i.on { background: var(--esposto); box-shadow: 0 0 6px var(--esposto); }
+  .metro[data-s="2"] .pips i.on { background: var(--in-vista); box-shadow: 0 0 6px var(--in-vista); }
   .metro[data-s="3"] .pips i.on { background: var(--scoperto); box-shadow: 0 0 6px var(--scoperto); }
   .metro[data-s="3"] .stato { color: var(--scoperto); }
   .righe-scheda { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
@@ -312,7 +312,7 @@
   .righe-scheda li.qui span:first-child { color: var(--testo); font-weight: 600; }
   .righe-scheda li.qui span:first-child::before { content: "◆ "; color: var(--acc); font-size: 9px; vertical-align: 2px; }
   .righe-scheda li:not(.qui) span:first-child { color: var(--testo-2); }
-  .ferita[data-g="lieve"] b { color: var(--esposto); }
+  .ferita[data-g="lieve"] b { color: var(--in-vista); }
   .ferita[data-g="grave"] b, .ferita[data-g="mortale"] b { color: var(--scoperto); }
   .ferita[data-g="mortale"] { animation: urgente 1s infinite; }
   .righe-scheda.capacita li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; }
@@ -330,9 +330,9 @@
   .lista-scheda .nome-t { display: block; font-weight: 600; font-size: 13.5px; color: var(--testo); }
   .righe-scheda li.umore span { font-style: italic; color: #f0bb8e; }
   .scadenza.annuncio { margin-top: 10px; }
-  .scadenza.annuncio .pips.nave i.on { background: var(--esposto); box-shadow: 0 0 6px var(--esposto); }
+  .scadenza.annuncio .pips.nave i.on { background: var(--in-vista); box-shadow: 0 0 6px var(--in-vista); }
   .mondo-lista { margin-top: 10px; }
-  .mondo-lista li.mondo span { color: var(--esposto) !important; font-style: italic; }
+  .mondo-lista li.mondo span { color: var(--in-vista) !important; font-style: italic; }
   .mondo-lista li.qui-ora b { text-transform: none; letter-spacing: 0; font: italic 400 13px/1.3 var(--testo-f); color: var(--testo-2); }
   .cose-lista .cosa-dx { display: inline-flex; align-items: center; gap: 8px; }
   .cose-lista .lascia { font: 500 10px/1 var(--mono); letter-spacing: 0.06em; padding: 4px 7px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.18); background: transparent; color: var(--tenue); }
@@ -364,7 +364,7 @@
   .avviso span { display: block; margin-top: 2px; font-size: 14px; line-height: 1.45; color: var(--testo); }
   .avviso.rosso { border-left-color: var(--scoperto); } .avviso.rosso b { color: var(--scoperto); }
   .avviso.oro { border-left-color: var(--oro); } .avviso.oro b { color: var(--oro); }
-  .avviso.ambra { border-left-color: var(--esposto); } .avviso.ambra b { color: var(--esposto); }
+  .avviso.ambra { border-left-color: var(--in-vista); } .avviso.ambra b { color: var(--in-vista); }
   .avviso.occhi { border-left-color: var(--occhi); } .avviso.occhi b { color: var(--occhi); }
   .avviso.imprevisto span { font-style: italic; }
 
@@ -451,7 +451,7 @@
   .carta-totale .v { width: 30px; text-align: right; font-size: 18px; font-weight: 600; }
   .grado { padding: 3px 9px; border-radius: 3px; font: 600 10.5px/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: #fff; }
   .grado[data-g="0"] { background: var(--coperto-c); }
-  .grado[data-g="1"] { background: var(--esposto-c); }
+  .grado[data-g="1"] { background: var(--in-vista-c); }
   .grado[data-g="2"] { background: var(--scoperto-c); }
   .carta-nota { margin: 6px 0 0; font: italic 400 12.5px/1.35 var(--testo-f); color: var(--inch-2); }
   .sez-carta { margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--inch-2); }
@@ -464,7 +464,7 @@
   .fasce span i { font: normal 500 7.5px/1.3 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
   .fasce [data-f="pieno"] { background: #8a6a12; }
   .fasce [data-f="riesci"] { background: var(--coperto-c); }
-  .fasce [data-f="quasi"] { background: var(--esposto-c); }
+  .fasce [data-f="quasi"] { background: var(--in-vista-c); }
   .fasce [data-f="non"] { background: var(--scoperto-c); }
   .carta-dadi { margin: 5px 0 0; font: italic 400 12px/1.3 var(--testo-f); color: var(--inch-2); }
   .carta-dopo { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font: 400 12.5px/1.4 var(--testo-f); }
@@ -496,7 +496,7 @@
   .timbro.grado-t { transform: rotate(6deg); animation-delay: 0.25s; }
   .timbro.grado-t b { font-size: 15px; }
   .timbro.grado-t[data-g="0"] { color: var(--coperto-c); }
-  .timbro.grado-t[data-g="1"] { color: var(--esposto-c); }
+  .timbro.grado-t[data-g="1"] { color: var(--in-vista-c); }
   .timbro.grado-t[data-g="2"] { color: var(--scoperto-c); }
   .timbro b { display: block; font: 600 25px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
   .timbro span { display: block; margin-top: 4px; font: 500 10.5px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
@@ -704,10 +704,10 @@
     <h3>Le quattro fasce</h3>
     <p><b>In pieno</b>: superi la soglia di 4 o più, e ottieni qualcosa in più. <b>Riesci</b>: ottieni ciò che volevi. <b>Quasi</b>: ti manca 1 o 2, e scegli tu. Puoi prendere tutto e pagarne il prezzo, accontentarti della metà, oppure lasciar perdere: non ottieni niente, ma scopri qualcosa che ti servirà per riprovare. <b>Non riesci</b>: non ottieni, ma scopri qualcosa.</p>
     <h3>Come si legge «Ci riesci?»</h3>
-    <p>La prima riga è la soglia, cioè quanto devi fare. Se qualcosa la sposta, la riga dice dove arriva: «→ 10» vuol dire che adesso devi fare 10. Le righe con «+1» ti aiutano, quelle con «−1» ti ostacolano. In fondo c'è quanto devono fare i dadi.</p>
+    <p>La prima riga è la soglia, cioè quanto devi fare. Se qualcosa la sposta di uno scatto, cioè di due punti, la riga dice dove arriva: «→ 10» vuol dire che adesso devi fare 10. Le righe con «+1» ti aiutano, quelle con «−1» ti ostacolano. In fondo c'è quanto devono fare i dadi.</p>
     <h3>I tre gradi</h3>
-    <div class="gradi-leg"><span class="grado" data-g="0">al coperto</span><span class="grado" data-g="1">esposto</span><span class="grado" data-g="2">allo scoperto</span></div>
-    <p><b>Al coperto</b> il peggio che ti può capitare è non riuscire. <b>Esposto</b>, qualcuno ti nota. <b>Allo scoperto</b>, se riesci paghi un prezzo, e se non riesci la situazione precipita.</p>
+    <div class="gradi-leg"><span class="grado" data-g="0">al coperto</span><span class="grado" data-g="1">in vista</span><span class="grado" data-g="2">allo scoperto</span></div>
+    <p><b>Al coperto</b> il peggio che ti può capitare è non riuscire. <b>In vista</b>, qualcuno ti nota. <b>Allo scoperto</b>, se riesci paghi un prezzo, e se non riesci la situazione precipita.</p>
     <h3>La tua scheda</h3>
     <p>Sei fatto di capacità, tratti, cose, notizie e convinzioni, legami con le persone, e di come stai. Il taccuino distingue ciò che hai sentito dire da ciò che hai verificato: non tutto quello che si dice al porto è vero. In chiesa puoi ripensare a ciò che credi, e mettere insieme quello che sai.</p>
     <h3>Le cose e i posti</h3>

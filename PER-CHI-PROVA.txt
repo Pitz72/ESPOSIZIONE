@@ -20,7 +20,7 @@ Senza aprire il gioco e senza cercare niente, scrivi in una riga che cosa
 ti fanno pensare queste cinque parole. Se una non ti dice niente, scrivi
 «niente»: è una risposta utile anche quella.
 
-    ripiego  ·  quadro  ·  esposto  ·  Traccia  ·  Quasi
+    ripiego  ·  quadro  ·  in vista  ·  Traccia  ·  Quasi
 
 
 COME SI APRE
@@ -56,7 +56,7 @@ CHE COSA GUARDARE
   riesci. Nel Quasi ti è mancato poco, e scegli tu come va a finire:
   fai caso al perché della tua scelta.
 
-- Il costo. Al coperto, esposto, allo scoperto: il colore dice quanto
+- Il costo. Al coperto, in vista, allo scoperto: il colore dice quanto
   rischi, e non dipende dai dadi.
 
 - Il ripiego. Davanti a ogni ostacolo c'è almeno una via senza dadi,

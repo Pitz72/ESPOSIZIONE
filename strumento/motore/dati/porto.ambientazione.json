@@ -1,7 +1,7 @@
 {
   "id": "porto",
   "titolo": "Il porto",
-  "frase": "Nel porto, essere esposti significa che qualcuno potrà dire di averti visto.",
+  "frase": "Nel porto, essere in vista significa che qualcuno potrà dire di averti visto.",
   "criterioFondo": "Ha un Fondo ciò che lascia un segno che resta: un corpo ferito, una porta forzata, una parola detta a qualcuno che se la ricorderà.",
   "ambiti": [
     { "id": "corpo", "nome": "corpo" },
@@ -24,36 +24,36 @@
   ],
   "tratti": [
     { "id": "robusto", "nome": "Robusto", "delCorpo": true, "effetti": "apre: le cose che chiedono forza · chiude: passare da aperture strette" },
-    { "id": "minuto", "nome": "Minuto", "delCorpo": true, "effetti": "apre: passare da aperture strette · trattenere qualcuno o liberarsi da una presa, un gradino in più",
-      "sposta": [{ "generi": ["corpo_a_corpo"], "gradini": 1, "testo": "sei minuto: in una presa hai la peggio" }] },
-    { "id": "vista_acuta", "nome": "Vista acuta", "effetti": "apre: leggere da lontano, se sai leggere · notare qualcosa da lontano, un gradino in meno",
-      "sposta": [{ "generi": ["notare"], "gradini": -1, "testo": "hai la vista acuta" }] },
+    { "id": "minuto", "nome": "Minuto", "delCorpo": true, "effetti": "apre: passare da aperture strette · trattenere qualcuno o liberarsi da una presa, uno scatto in più",
+      "sposta": [{ "generi": ["corpo_a_corpo"], "scatti": 1, "testo": "sei minuto: in una presa hai la peggio" }] },
+    { "id": "vista_acuta", "nome": "Vista acuta", "effetti": "apre: leggere da lontano, se sai leggere · notare qualcosa da lontano, uno scatto in meno",
+      "sposta": [{ "generi": ["notare"], "scatti": -1, "testo": "hai la vista acuta" }] },
     { "id": "sa_leggere", "nome": "Sa leggere", "effetti": "apre: leggere registri, lettere, bolle di carico" },
     { "id": "sa_nuotare", "nome": "Sa nuotare", "delCorpo": true, "effetti": "apre: entrare in acqua e nuotare" },
-    { "id": "soffre_mare", "nome": "Soffre il mare", "effetti": "a bordo, le prove di corpo un gradino in più",
-      "sposta": [{ "capacita": ["muoversi", "battersi"], "se": { "luogo": "nave" }, "gradini": 1, "testo": "a bordo ti gira la testa" }] },
-    { "id": "vertigini", "nome": "Soffre le vertigini", "effetti": "le prove in altezza, un gradino in più" },
+    { "id": "soffre_mare", "nome": "Soffre il mare", "effetti": "a bordo, le prove di corpo uno scatto in più",
+      "sposta": [{ "capacita": ["muoversi", "battersi"], "se": { "luogo": "nave" }, "scatti": 1, "testo": "a bordo ti gira la testa" }] },
+    { "id": "vertigini", "nome": "Soffre le vertigini", "effetti": "le prove in altezza, uno scatto in più" },
     { "id": "conosciuto_porto", "nome": "Conosciuto al porto", "siGuadagna": true, "effetti": "vale «qui ti riconoscono» in ogni zona del porto" },
-    { "id": "cicatrice_mano", "nome": "Una cicatrice alla mano", "siGuadagna": true, "effetti": "forzare e lavorare di precisione, un gradino in più",
-      "sposta": [{ "generi": ["precisione"], "gradini": 1, "testo": "la cicatrice alla mano ti toglie finezza" }] }
+    { "id": "cicatrice_mano", "nome": "Una cicatrice alla mano", "siGuadagna": true, "effetti": "forzare e lavorare di precisione, uno scatto in più",
+      "sposta": [{ "generi": ["precisione"], "scatti": 1, "testo": "la cicatrice alla mano ti toglie finezza" }] }
   ],
   "proprieta": [
     {
       "id": "buio", "nome": "Buio",
       "valori": { "corpo": -1 }, "cause": { "corpo": "il buio copre il corpo" },
-      "sposta": [{ "generi": ["notare", "cercare", "precisione"], "gradini": 1, "testo": "al buio le mani e gli occhi lavorano peggio" }],
+      "sposta": [{ "generi": ["notare", "cercare", "precisione"], "scatti": 1, "testo": "al buio le mani e gli occhi lavorano peggio" }],
       "serve": [{ "generi": ["leggere"], "se": { "cosaProprieta": "luce" }, "testo": "serve una luce per leggere" }],
       "annullataDa": { "se": { "cosaProprieta": "luce" }, "testo": "il buio non conta: hai una luce accesa" }
     },
     {
       "id": "silenzio", "nome": "Silenzio",
       "valori": { "mano": 1, "voce": 1 }, "cause": { "mano": "nel silenzio ogni rumore di mani si sente", "voce": "nel silenzio ogni voce si sente" },
-      "sposta": [{ "generi": ["ascoltare"], "gradini": -1, "testo": "nel silenzio si sente tutto" }]
+      "sposta": [{ "generi": ["ascoltare"], "scatti": -1, "testo": "nel silenzio si sente tutto" }]
     },
     {
       "id": "folla", "nome": "Folla",
       "valori": { "mano": -1, "voce": -1 }, "cause": { "mano": "la folla copre le mani", "voce": "la folla copre le parole" },
-      "sposta": [{ "generi": ["confondersi"], "gradini": -1, "testo": "nella folla ci si confonde" }, { "generi": ["seguire"], "gradini": 1, "testo": "nella folla si perde di vista chiunque" }]
+      "sposta": [{ "generi": ["confondersi"], "scatti": -1, "testo": "nella folla ci si confonde" }, { "generi": ["seguire"], "scatti": 1, "testo": "nella folla si perde di vista chiunque" }]
     },
     {
       "id": "sorveglianza", "nome": "Sorveglianza",
@@ -70,13 +70,13 @@
     {
       "id": "acqua", "nome": "Acqua",
       "valori": {}, "cause": {},
-      "sposta": [{ "generi": ["nuotare"], "se": { "momento": "notte" }, "gradini": 1, "testo": "di notte l'acqua è nera e gelata" }],
+      "sposta": [{ "generi": ["nuotare"], "se": { "momento": "notte" }, "scatti": 1, "testo": "di notte l'acqua è nera e gelata" }],
       "serve": [{ "generi": ["nuotare"], "se": { "una": [{ "tratto": "sa_nuotare" }, { "trattoCompagno": "sa_nuotare" }] }, "testo": "serve saper nuotare, o qualcuno che nuoti con te" }]
     },
     {
       "id": "altezza", "nome": "Altezza",
       "valori": {}, "cause": {},
-      "sposta": [{ "generi": ["altezza"], "se": { "tratto": "vertigini" }, "gradini": 1, "testo": "soffri le vertigini" }]
+      "sposta": [{ "generi": ["altezza"], "se": { "tratto": "vertigini" }, "scatti": 1, "testo": "soffri le vertigini" }]
     },
     {
       "id": "freddo", "nome": "Freddo",
@@ -86,7 +86,7 @@
     {
       "id": "nebbia", "nome": "Nebbia",
       "valori": { "corpo": -1 }, "cause": { "corpo": "nella nebbia chi si muove non si vede" },
-      "sposta": [{ "generi": ["notare", "cercare", "seguire"], "gradini": 1, "testo": "nella nebbia non si vede a dieci passi" }]
+      "sposta": [{ "generi": ["notare", "cercare", "seguire"], "scatti": 1, "testo": "nella nebbia non si vede a dieci passi" }]
     }
   ],
   "luoghi": [
@@ -161,35 +161,35 @@
     { "id": "rete_carico", "cosa": "arrampicarsi su una rete di carico, rovesciare qualcosa addosso a qualcuno", "soglia": 6, "generi": ["agilita"] },
     { "id": "portello", "cosa": "infilarsi in un'apertura stretta", "soglia": 6, "generi": ["agilita"] },
     { "id": "lucchetto", "cosa": "un lucchetto vecchio o da armadio", "soglia": 6, "generi": ["serratura", "precisione"],
-      "sposta": [{ "se": { "notizia": "lucchetto_ruggine" }, "gradini": -1, "testo": "sai che basta far leva sulla ruggine" }, { "se": { "notizia": "lucchetto_catena" }, "gradini": -1, "testo": "sai che lo tiene chiuso la ruggine" }] },
+      "sposta": [{ "se": { "notizia": "lucchetto_ruggine" }, "scatti": -1, "testo": "sai che basta far leva sulla ruggine" }, { "se": { "notizia": "lucchetto_catena" }, "scatti": -1, "testo": "sai che lo tiene chiuso la ruggine" }] },
     { "id": "tasca_addormentato", "cosa": "prendere qualcosa a chi dorme", "soglia": 6, "generi": ["mani_leste", "stare_zitto", "precisione"],
-      "sposta": [{ "se": { "notizia": "chiave_teodoro" }, "gradini": -1, "testo": "sai in quale tasca tiene la chiave" }] },
+      "sposta": [{ "se": { "notizia": "chiave_teodoro" }, "scatti": -1, "testo": "sai in quale tasca tiene la chiave" }] },
     { "id": "nuotare_porto", "cosa": "nuotare nel porto", "soglia": 6, "generi": ["nuotare"] },
     { "id": "ubriaco", "cosa": "difendersi da un ubriaco", "soglia": 6, "generi": ["difesa"] },
     { "id": "serratura_magazzino", "cosa": "una serratura di magazzino, un portone", "soglia": 8, "generi": ["serratura", "precisione"] },
     { "id": "archivista", "cosa": "un archivista sospettoso, un carceriere", "soglia": 8, "generi": ["convincere"] },
     { "id": "carceriere", "cosa": "convincere un carceriere", "soglia": 8, "generi": ["convincere"],
-      "sposta": [{ "se": { "notizia": "carceriere_monete" }, "gradini": -1, "testo": "sai che parla la lingua delle monete" }] },
+      "sposta": [{ "se": { "notizia": "carceriere_monete" }, "scatti": -1, "testo": "sai che parla la lingua delle monete" }] },
     { "id": "capitano", "cosa": "convincere un capitano che non vuole grane", "soglia": 8, "generi": ["convincere"] },
     { "id": "sotto_gli_occhi", "cosa": "prendere qualcosa sotto gli occhi di chi lo sorveglia", "soglia": 8, "generi": ["mani_leste", "stare_zitto"] },
     { "id": "grondaia", "cosa": "arrampicarsi su una grondaia o su un tetto", "soglia": 8, "generi": ["altezza", "agilita"],
-      "sposta": [{ "se": { "notizia": "cortile_finestra" }, "gradini": -1, "testo": "sai che la finestra ha il chiavistello rotto" }] },
+      "sposta": [{ "se": { "notizia": "cortile_finestra" }, "scatti": -1, "testo": "sai che la finestra ha il chiavistello rotto" }] },
     { "id": "saltare_lancia", "cosa": "saltare in una lancia appesa alla fiancata", "soglia": 8, "generi": ["altezza", "agilita"] },
     { "id": "confondersi", "cosa": "confondersi fra i facchini sotto gli occhi di un nostromo", "soglia": 8, "generi": ["confondersi", "stare_zitto"],
-      "sposta": [{ "se": { "notizia": "nostromo_conta" }, "gradini": -1, "testo": "sai che il nostromo guarda solo chi sale senza carico" }] },
+      "sposta": [{ "se": { "notizia": "nostromo_conta" }, "scatti": -1, "testo": "sai che il nostromo guarda solo chi sale senza carico" }] },
     { "id": "nostromo", "cosa": "ingannare un nostromo diffidente", "soglia": 8, "generi": ["ingannare"],
-      "sposta": [{ "se": { "notizia": "nostromo_grimani" }, "gradini": -1, "testo": "sai che non ha mai visto Grimani in faccia" }] },
+      "sposta": [{ "se": { "notizia": "nostromo_grimani" }, "scatti": -1, "testo": "sai che non ha mai visto Grimani in faccia" }] },
     { "id": "ascoltare", "cosa": "cogliere un discorso in una taverna", "soglia": 8, "generi": ["ascoltare"],
-      "sposta": [{ "se": { "notizia": "marinai_santa_rita" }, "gradini": -1, "testo": "sai a quale tavolo siedono quelli della Santa Rita" }] },
+      "sposta": [{ "se": { "notizia": "marinai_santa_rita" }, "scatti": -1, "testo": "sai a quale tavolo siedono quelli della Santa Rita" }] },
     { "id": "registro_errore", "cosa": "trovare l'errore in un registro", "soglia": 8, "generi": ["notare", "leggere"],
-      "sposta": [{ "se": { "notizia": "registro_riga" }, "gradini": -1, "testo": "sai già dove guardare" }] },
+      "sposta": [{ "se": { "notizia": "registro_riga" }, "scatti": -1, "testo": "sai già dove guardare" }] },
     { "id": "marinaio_coltello", "cosa": "difendersi da un marinaio col coltello, o fermarlo con le parole", "soglia": 8, "generi": ["difesa", "corpo_a_corpo"] },
     { "id": "leggere_lontano", "cosa": "leggere una scrittura fitta da lontano, al contrario", "soglia": 10, "generi": ["notare", "leggere"] },
     { "id": "serratura_sette", "cosa": "la serratura nuova del magazzino sette", "soglia": 10, "generi": ["serratura", "precisione"],
-      "sposta": [{ "se": { "notizia": "serratura_nuova" }, "gradini": -1, "testo": "sai com'è fatta una serratura di Genova" }] },
+      "sposta": [{ "se": { "notizia": "serratura_nuova" }, "scatti": -1, "testo": "sai com'è fatta una serratura di Genova" }] },
     { "id": "strappare_catena", "cosa": "strappare una catena dal legno", "soglia": 10, "generi": ["forza"],
       "serve": { "testo": "serve forza: essere robusto, oppure una leva di ferro", "una": [{ "tratto": "robusto" }, { "cosa": "leva" }] },
-      "sposta": [{ "se": { "notizia": "catena_trave" }, "gradini": -1, "testo": "sai che la trave è marcia" }] },
+      "sposta": [{ "se": { "notizia": "catena_trave" }, "scatti": -1, "testo": "sai che la trave è marcia" }] },
     { "id": "cassaforte", "cosa": "la cassaforte della capitaneria", "soglia": 10, "generi": ["serratura", "precisione"] },
     { "id": "ufficiale", "cosa": "convincere un ufficiale della guardia", "soglia": 10, "generi": ["convincere", "denunciare"] },
     { "id": "soldato", "cosa": "difendersi da un soldato", "soglia": 10, "generi": ["difesa"] },
@@ -213,13 +213,13 @@
   ],
   "statiAnimo": [
     {
-      "id": "spaventato", "nome": "Spaventato", "effetti": "restare fermo e zitto, un gradino in più",
-      "sposta": [{ "generi": ["stare_zitto"], "gradini": 1, "testo": "sei spaventato: stare fermo e zitto ti costa" }],
+      "id": "spaventato", "nome": "Spaventato", "effetti": "restare fermo e zitto, uno scatto in più",
+      "sposta": [{ "generi": ["stare_zitto"], "scatti": 1, "testo": "sei spaventato: stare fermo e zitto ti costa" }],
       "passa": { "testo": "in un luogo tranquillo, o dopo sei ore", "ore": 6, "inLuogoTranquillo": true }
     },
     {
-      "id": "furioso", "nome": "Furioso", "effetti": "mentire e persuadere, un gradino in più",
-      "sposta": [{ "capacita": ["mentire", "persuadere"], "gradini": 1, "testo": "sei furioso, e si sente" }],
+      "id": "furioso", "nome": "Furioso", "effetti": "mentire e persuadere, uno scatto in più",
+      "sposta": [{ "capacita": ["mentire", "persuadere"], "scatti": 1, "testo": "sei furioso, e si sente" }],
       "passa": { "testo": "dopo un'ora", "ore": 1 }
     },
     {
@@ -228,15 +228,15 @@
       "passa": { "testo": "dopo dodici ore, o in un luogo tranquillo", "ore": 12, "inLuogoTranquillo": true }
     },
     {
-      "id": "sicuro", "nome": "Sicuro di sé", "effetti": "persuadere, un gradino in meno",
-      "sposta": [{ "capacita": ["persuadere"], "gradini": -1, "testo": "sei sicuro di te" }],
+      "id": "sicuro", "nome": "Sicuro di sé", "effetti": "persuadere, uno scatto in meno",
+      "sposta": [{ "capacita": ["persuadere"], "scatti": -1, "testo": "sei sicuro di te" }],
       "passa": { "testo": "al primo Non riesci", "alPrimoNonRiesci": true }
     }
   ],
   "armi": [
-    { "id": "pugni", "nome": "i pugni", "tipo": "botta", "colpisce": "corpo", "daEsposto": "lieve", "daScoperto": "grave" },
-    { "id": "coltello", "nome": "il coltello", "tipo": "taglio", "colpisce": "corpo", "daEsposto": "grave", "daScoperto": "mortale", "segno": "cicatrice_mano" },
-    { "id": "pistola", "nome": "la pistola", "tipo": "fuoco", "colpisce": "corpo", "daEsposto": "mortale", "daScoperto": "morte" }
+    { "id": "pugni", "nome": "i pugni", "tipo": "botta", "colpisce": "corpo", "inVista": "lieve", "alloScoperto": "grave" },
+    { "id": "coltello", "nome": "il coltello", "tipo": "taglio", "colpisce": "corpo", "inVista": "grave", "alloScoperto": "mortale", "segno": "cicatrice_mano" },
+    { "id": "pistola", "nome": "la pistola", "tipo": "fuoco", "colpisce": "corpo", "inVista": "mortale", "alloScoperto": "morte" }
   ],
   "ferite": { "lieveGuarisceIn": 24, "graveDiventaMortaleIn": 24, "mortaleUccideIn": 4, "conMortaleSoloAmbiti": ["voce"], "siMuore": true },
   "traccia": { "calaOgniOre": 3, "imprevistoFinoA": [2, 4, 6, 8] },

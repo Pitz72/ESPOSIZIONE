@@ -10,10 +10,10 @@ ESPOSIZIONE è un motore per scrivere e giocare **romanzi di ruolo**: storie lun
 
 - Prima di ogni azione che conta il gioco mostra il **quadro**, che risponde a quattro domande: **puoi farlo?** (tratti, cose, notizie, posizione), **ci riesci?** (dadi, capacità, attrezzi, aiuti), **quanto ti costa?** (l'esposizione), **che cosa cambia dopo?**
 - **Il tiro:** due dadi a sei facce, più il livello della capacità (+0 Inesperto … +3 Maestro), più attrezzi e aiuti (al massimo +2), meno le penalità (al massimo −3), contro una soglia di 6, 8, 10 o 12.
-- **La soglia** viene da un catalogo delle difficoltà, uguale in tutta la storia, e si sposta di un gradino (due punti) per ragioni dichiarate: una notizia, un tratto, il buio, un legame, uno stato d'animo. Al massimo un gradino in giù e uno in su.
+- **La soglia** viene da un catalogo delle difficoltà, uguale in tutta la storia, e si sposta di uno scatto (due punti) per ragioni dichiarate: una notizia, un tratto, il buio, un legame, uno stato d'animo. Al massimo uno scatto in giù e uno in su.
 - **Quattro fasce, secondo il margine:** *In pieno* (+4 o più: ottieni e in più un dono), *Riesci*, *Quasi* (manca 1 o 2), *Non riesci* (manca 3 o più: non ottieni, ma scopri sempre qualcosa sull'ostacolo).
 - **Il Quasi è una scelta di chi gioca:** prendere tutto e pagarne il prezzo, come chi riesce allo scoperto; accontentarsi della metà; oppure lasciar perdere, e scoprire quello che avresti scoperto non riuscendo, per riprovare meglio informato.
-- **Il costo è separato dalla riuscita.** L'esposizione ha tre gradi (al coperto, esposto, allo scoperto) e si ricava da una somma: la capacità, le proprietà del luogo e del momento per quell'ambito, le aggravanti, meno le preparazioni. I dadi non la toccano mai. Al coperto il peggio è non riuscire; esposto lasci Traccia; allo scoperto paghi un prezzo, o arriva il **rovescio**.
+- **Il costo è separato dalla riuscita.** L'esposizione ha tre gradi (al coperto, in vista, allo scoperto) e si ricava da una somma: la capacità, le proprietà del luogo e del momento per quell'ambito, le aggravanti, meno le preparazioni. I dadi non la toccano mai. Al coperto il peggio è non riuscire; in vista lasci Traccia; allo scoperto paghi un prezzo, o arriva il **rovescio**.
 - **Il ripiego:** davanti a ogni ostacolo c'è almeno una via che non si tira. Costa (tempo, denaro, un favore, una parte dell'obiettivo), ma c'è sempre.
 - **Nessuna morte senza avviso:** una prova può uccidere solo se il quadro l'ha scritto prima.
 
@@ -36,7 +36,7 @@ ESPOSIZIONE è un motore per scrivere e giocare **romanzi di ruolo**: storie lun
 - Le **persone** ricordano ciò che hai fatto, reagiscono, ti aiutano (+1, al prezzo di un favore), possono tradire se le loro dimensioni lo dicono (mai con un tiro nascosto). Si conoscono a tre livelli, e più le conosci più il gioco ti dice di loro.
 - **I compagni** viaggiano con te: in ogni prova in cui conoscono la capacità puoi farti aiutare o lasciarla fare a loro, con il loro livello e i loro tratti. Se va male ci vanno di mezzo loro; con rancore 3 se ne vanno.
 - **Il confronto** (un interrogatorio, una trattativa, uno scontro) non ha punti vita: l'avversario ha una copertura che scopri colpendo i suoi punti deboli, e quando è allo scoperto si apre la finestra, in cui decidi tu come finisce, senza tirare.
-- **Il tempo** si conta in ore; le **scadenze** avanzano comunque; la **Traccia** (quanto ti hanno notato in una zona) sale con le azioni esposte, cala se sparisci, e fa arrivare imprevisti.
+- **Il tempo** si conta in ore; le **scadenze** avanzano comunque; la **Traccia** (quanto ti hanno notato in una zona) sale con ciò che fai in vista o allo scoperto, cala se sparisci, e fa arrivare imprevisti.
 
 ### Scrivere, giocare, verificare
 

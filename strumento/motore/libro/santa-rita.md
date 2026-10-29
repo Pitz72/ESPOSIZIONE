@@ -15,8 +15,8 @@ Ti servono due dadi a sei facce, una matita e la scheda che trovi più avanti. C
 **Le prove.** Quando una scelta è una prova, prima di tirare ti fai il quadro, con quattro domande.
 
 1. **Puoi?** Se la prova dice «serve…» e non hai quello che serve, non puoi tentarla.
-2. **Ci riesci?** Prendi la soglia scritta nel paragrafo: se dice «qui», vale il numero di qui, per il momento del giorno in cui sei. Toglile 2 o aggiungile 2 per le ragioni scritte fra parentesi che valgono per te, ma **al massimo 2 in giù e 2 in su**. Poi aggiungi al tiro il livello della capacità (Inesperto +0, Pratico +1, Esperto +2, Maestro +3), +1 per ogni attrezzo o aiuto (al massimo +2), −1 per ogni ferita lieve all'ambito della capacità, per ogni logorio allo stremo e per ogni stato d'animo che lo dice (al massimo −3). Se la soglia scende sotto 6, non tiri: riesci.
-3. **Quanto ti costa?** Prendi il *costo di partenza* scritto nel paragrafo, aggiungi 1 per ogni aggravante vera, togli 1 per ogni preparazione. Il grado è il risultato, ma non sotto il Fondo della capacità e non sopra 2: **0 al coperto, 1 esposto, 2 allo scoperto**.
+2. **Ci riesci?** Prendi la soglia scritta nel paragrafo: se dice «qui», vale il numero di qui, per il momento del giorno in cui sei. Toglile 2 o aggiungile 2 per le ragioni scritte fra parentesi che valgono per te, ma **al massimo 2 in giù e 2 in su**. Questi 2 punti sono uno **scatto**: «uno scatto in più» vuol dire +2 alla soglia. Poi aggiungi al tiro il livello della capacità (Inesperto +0, Pratico +1, Esperto +2, Maestro +3), +1 per ogni attrezzo o aiuto (al massimo +2), −1 per ogni ferita lieve all'ambito della capacità, per ogni logorio allo stremo e per ogni stato d'animo che lo dice (al massimo −3). Se la soglia scende sotto 6, non tiri: riesci.
+3. **Quanto ti costa?** Prendi il *costo di partenza* scritto nel paragrafo, aggiungi 1 per ogni aggravante vera, togli 1 per ogni preparazione. Il grado è il risultato, ma non sotto il Fondo della capacità e non sopra 2: **0 al coperto, 1 in vista, 2 allo scoperto**.
 4. **Che cosa cambia?** Leggi la posta, cioè che cosa rischi. Se non ti piace, puoi ancora scegliere un'altra via.
 
 Poi tiri due dadi e aggiungi i tuoi bonus. Confronta il totale con la soglia:
@@ -25,9 +25,9 @@ Poi tiri due dadi e aggiungi i tuoi bonus. Confronta il totale con la soglia:
 
 Il paragrafo ti dice dove andare in ogni caso. Poi segni il costo del tuo grado, con la tabella «Dopo il tiro».
 
-**Il Quasi.** Quando manca 1 o 2, scegli tu fra tre possibilità. **Tutto**: vai al paragrafo del Riesci, e paghi come chi riesce allo scoperto, cioè una tacca di Traccia e il prezzo; se eri già allo scoperto, segna ciò che il Riesci ti dà e vai al paragrafo del rovescio. **La metà**, se il paragrafo la offre: vai al suo paragrafo e paghi il costo del tuo grado. **Lasci perdere**: non ottieni niente, segni la voce del taccuino che avresti scoperto non riuscendo, e paghi solo una tacca di Traccia se eri esposto o allo scoperto.
+**Il Quasi.** Quando manca 1 o 2, scegli tu fra tre possibilità. **Tutto**: vai al paragrafo del Riesci, e paghi come chi riesce allo scoperto, cioè una tacca di Traccia e il prezzo; se eri già allo scoperto, segna ciò che il Riesci ti dà e vai al paragrafo del rovescio. **La metà**, se il paragrafo la offre: vai al suo paragrafo e paghi il costo del tuo grado. **Lasci perdere**: non ottieni niente, segni la voce del taccuino che avresti scoperto non riuscendo, e paghi solo una tacca di Traccia se eri in vista o allo scoperto.
 
-**Ritentare.** Se non sei riuscito al coperto o esposto, o se hai lasciato perdere, puoi tornare al paragrafo della prova e ritentare, ma prima segni un'ora. Le prove segnate «una volta sola» non si ritentano.
+**Ritentare.** Se non sei riuscito al coperto o in vista, o se hai lasciato perdere, puoi tornare al paragrafo della prova e ritentare, ma prima segni un'ora. Le prove segnate «una volta sola» non si ritentano.
 
 **Il taccuino.** Quando un paragrafo ti dice di segnare una voce del taccuino, scrivi il suo numero nel taccuino della scheda e leggila fra «Le voci del taccuino», in fondo al libro: è una cosa che hai sentito dire. Leggi soltanto le voci che segni. Se un paragrafo te la fa verificare, scrivi una V accanto al numero. Alcune voci ti dicono di cancellarne un'altra: vuol dire che quella non era vera. Non tutto quello che si sente dire al porto è vero.
 
@@ -65,12 +65,12 @@ Il paragrafo ti dice dove andare in ogni caso. Poi segni il costo del tuo grado,
 
 ### Il confronto
 
-Alcuni paragrafi mettono davanti a te un avversario. Segna sulla scheda la sua **copertura** (al coperto, esposto, allo scoperto) e procedi a scambi:
+Alcuni paragrafi mettono davanti a te un avversario. Segna sulla scheda la sua **copertura** (al coperto, in vista, allo scoperto) e procedi a scambi:
 
 1. Scegli una delle vie del paragrafo: una prova contro un punto debole, parlare (una volta sola), oppure andartene (non si tira).
 2. Contro un punto debole: con «riesci» la sua copertura scende di quanto dice il punto debole, con «in pieno» di un grado in più; con «quasi» scegli se scoprirlo salendo tu di un grado, o lasciar perdere; con «non riesci» non lo scopri.
 3. Se ora è allo scoperto si apre la finestra: scegli una delle fini del paragrafo, senza tirare.
-4. Altrimenti reagisce. **Chi si chiude**, se la tua prova non è riuscita, si ricopre di un grado; se eri allo scoperto, scatta il suo pericolo. **Chi avanza** scende di un grado da solo; da esposto in giù ti è addosso e colpisce: fai una prova di difesa con Muoversi o Battersi, al grado della tua ultima azione. Con «riesci» eviti il colpo; con «in pieno» lo eviti e lui si scopre di un grado; con «quasi» scegli fra la ferita dell'arma un grado più lieve e perdere qualcosa; con «non riesci» subisci la ferita dell'arma. Al coperto non ti raggiunge.
+4. Altrimenti reagisce. **Chi si chiude**, se la tua prova non è riuscita, si ricopre di un grado; se eri allo scoperto, scatta il suo pericolo. **Chi avanza** scende di un grado da solo; quando è in vista o allo scoperto ti è addosso e colpisce: fai una prova di difesa con Muoversi o Battersi, al grado della tua ultima azione. Con «riesci» eviti il colpo; con «in pieno» lo eviti e lui si scopre di un grado; con «quasi» scegli fra la ferita dell'arma un grado più lieve e perdere qualcosa; con «non riesci» subisci la ferita dell'arma. Al coperto non ti raggiunge.
 
 ## La tua scheda
 
@@ -155,7 +155,7 @@ Quanto devono fare i dadi, cioè la soglia meno i tuoi bonus, e che cosa ti aspe
 
 ### Dopo il tiro
 
-| | Al coperto | Esposto | Allo scoperto |
+| | Al coperto | In vista | Allo scoperto |
 |---|---|---|---|
 | **In pieno** | ottieni, e qualcosa in più | + una tacca di Traccia | + una tacca di Traccia e il prezzo |
 | **Riesci** | ottieni | + una tacca di Traccia | + una tacca di Traccia e il prezzo |
@@ -191,21 +191,21 @@ Ti servono per capire perché la soglia e il costo cambiano. I paragrafi li hann
 ### I tratti
 
 - **Robusto**: apre: le cose che chiedono forza · chiude: passare da aperture strette.
-- **Minuto**: apre: passare da aperture strette · trattenere qualcuno o liberarsi da una presa, un gradino in più.
-- **Vista acuta**: apre: leggere da lontano, se sai leggere · notare qualcosa da lontano, un gradino in meno.
+- **Minuto**: apre: passare da aperture strette · trattenere qualcuno o liberarsi da una presa, uno scatto in più.
+- **Vista acuta**: apre: leggere da lontano, se sai leggere · notare qualcosa da lontano, uno scatto in meno.
 - **Sa leggere**: apre: leggere registri, lettere, bolle di carico.
 - **Sa nuotare**: apre: entrare in acqua e nuotare.
-- **Soffre il mare**: a bordo, le prove di corpo un gradino in più.
-- **Soffre le vertigini**: le prove in altezza, un gradino in più.
+- **Soffre il mare**: a bordo, le prove di corpo uno scatto in più.
+- **Soffre le vertigini**: le prove in altezza, uno scatto in più.
 - **Conosciuto al porto**: vale «qui ti riconoscono» in ogni zona del porto.
-- **Una cicatrice alla mano**: forzare e lavorare di precisione, un gradino in più.
+- **Una cicatrice alla mano**: forzare e lavorare di precisione, uno scatto in più.
 
 ### Gli stati d'animo
 
-- **Spaventato**: restare fermo e zitto, un gradino in più. Passa in un luogo tranquillo, o dopo sei ore.
-- **Furioso**: mentire e persuadere, un gradino in più. Passa dopo un'ora.
+- **Spaventato**: restare fermo e zitto, uno scatto in più. Passa in un luogo tranquillo, o dopo sei ore.
+- **Furioso**: mentire e persuadere, uno scatto in più. Passa dopo un'ora.
 - **Umiliato**: −1 alle prove di voce. Passa dopo dodici ore, o in un luogo tranquillo.
-- **Sicuro di sé**: persuadere, un gradino in meno. Passa al primo Non riesci.
+- **Sicuro di sé**: persuadere, uno scatto in meno. Passa al primo Non riesci.
 
 ### Aggravanti (+1 ciascuna)
 
@@ -229,7 +229,7 @@ Ti servono per capire perché la soglia e il costo cambiano. I paragrafi li hann
 
 ### Armi
 
-| Arma | Se ti colpisce esposto | Se ti colpisce allo scoperto |
+| Arma | Se sei in vista | Se sei allo scoperto |
 |---|---|---|
 | i pugni | lieve | grave |
 | il coltello | grave | mortale |
@@ -315,7 +315,7 @@ Teodoro si alza, senza fretta. «Lo sapevo che saresti venuto», dice. Il coltel
 
 *Segna: conosci Teodoro il Pesce.*
 
-**Confronto con Teodoro il Pesce**: chi avanza, parte al coperto. Pericolo: il coltello (esposto: grave; allo scoperto: mortale), difesa Impegnativa. Vuole la taglia che Grimani ha messo su chi cerca Matteo; smette se gli offri di più, o se il rumore attira la guardia; non mantiene la parola.
+**Confronto con Teodoro il Pesce**: chi avanza, parte al coperto. Pericolo: il coltello (in vista: grave; allo scoperto: mortale), difesa Impegnativa. Vuole la taglia che Grimani ha messo su chi cerca Matteo; smette se gli offri di più, o se il rumore attira la guardia; non mantiene la parola.
 
 - **Punto debole: Gli rovescio addosso quello che ho a portata di mano**. Muoversi, soglia 6, costo di partenza −1. Se riesci, lo scopri di un grado.
 - **Punto debole: Gli dico che il capitano Serra non vuole morti sulla sua nave** *(solo se hai segnato la voce 23 del taccuino, e non l'hai cancellata)*. Sapere, soglia 8, costo di partenza l'alba 1 · il giorno 1 · la sera 2 · la notte 1. Se riesci, lo scopri di due gradi.
@@ -944,7 +944,7 @@ Teodoro il Pesce ti sbarra la strada fra due file di barili. Ha in mano un colte
 
 *Segna: sei spaventato; conosci Teodoro il Pesce.*
 
-**Confronto con Teodoro il Pesce**: chi avanza, parte al coperto. Pericolo: il coltello (esposto: grave; allo scoperto: mortale), difesa Impegnativa. Vuole la taglia che Grimani ha messo su chi cerca Matteo; smette se gli offri di più, o se il rumore attira la guardia; non mantiene la parola.
+**Confronto con Teodoro il Pesce**: chi avanza, parte al coperto. Pericolo: il coltello (in vista: grave; allo scoperto: mortale), difesa Impegnativa. Vuole la taglia che Grimani ha messo su chi cerca Matteo; smette se gli offri di più, o se il rumore attira la guardia; non mantiene la parola.
 
 - **Punto debole: Gli rovescio addosso quello che ho a portata di mano**. Muoversi, soglia 6, costo di partenza l'alba 0 · il giorno 0 · la sera 0 · la notte −1. Se riesci, lo scopri di un grado.
 - **Punto debole: Gli dico che il capitano Serra non vuole morti sulla sua nave** *(solo se hai segnato la voce 23 del taccuino, e non l'hai cancellata)*. Sapere, soglia 8, costo di partenza l'alba 0 · il giorno 0 · la sera 1 · la notte 0. Se riesci, lo scopri di due gradi.

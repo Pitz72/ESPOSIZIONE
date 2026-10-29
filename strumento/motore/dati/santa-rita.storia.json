@@ -808,7 +808,7 @@
           "id": "convinci", "testo": "Lo convinco ad abbordare la Santa Rita stanotte",
           "prova": {
             "capacita": "persuadere", "soglia": "ufficiale", "righe": [{ "testo": "hai la bolla firmata da Grimani e dal capitano", "valore": -1 }],
-            "sposta": [{ "testo": "sai che nelle casse ci sono moschetti", "gradini": -1 }],
+            "sposta": [{ "testo": "sai che nelle casse ci sono moschetti", "scatti": -1 }],
             "posta": "Se va male: ti fa arrestare per aver rubato una bolla di carico.", "ottieni": "che la guardia abbordi la nave",
             "riesci": { "vai": "finale_legge" },
             "nonRiesci": { "vai": "guardia_dubbia", "notizia": "ufficiale_testimone" },

@@ -95,14 +95,14 @@ export type Effetto =
   | { riconosci: string };
 
 /**
- * Uno spostamento della soglia di un gradino (§18.1). Vale per le prove di uno dei
+ * Uno spostamento della soglia di uno scatto (§18.1). Vale per le prove di uno dei
  * generi indicati, o di una delle capacità indicate, e se la condizione è vera.
  */
 export interface Spostamento {
   generi?: string[];
   capacita?: string[];
   se?: Condizione;
-  gradini: -1 | 1;
+  scatti: -1 | 1;
   testo: string;
 }
 
@@ -200,7 +200,7 @@ export interface VoceCatalogo {
   soglia: 6 | 8 | 10 | 12;
   /** I generi della prova: li leggono tratti, proprietà, stati d'animo e attrezzi. */
   generi?: string[];
-  sposta?: Array<{ se: Condizione; gradini: -1 | 1; testo: string }>;
+  sposta?: Array<{ se: Condizione; scatti: -1 | 1; testo: string }>;
   /** Ciò che serve per tentare: una delle condizioni (per esempio la forza). */
   serve?: { testo: string; una: Condizione[] };
 }
@@ -234,8 +234,8 @@ export interface Arma {
   tipo: string;
   /** L'ambito che la ferita colpisce, e quindi le capacità che impedisce. */
   colpisce: string;
-  daEsposto: Gravita;
-  daScoperto: Gravita;
+  inVista: Gravita;
+  alloScoperto: Gravita;
   /** Il tratto che una ferita grave lascia, guarendo (§36). */
   segno?: string;
 }
@@ -336,8 +336,8 @@ export interface Prova {
   soglia: string;
   /** Righe di costo scritte dall'autore (il ritocco del §45.1). */
   righe?: Array<{ testo: string; valore: Valore }>;
-  /** Spostamenti di soglia scritti dall'autore: al massimo un gradino per parte. */
-  sposta?: Array<{ testo: string; gradini: -1 | 1 }>;
+  /** Spostamenti di soglia scritti dall'autore: al massimo uno scatto per parte. */
+  sposta?: Array<{ testo: string; scatti: -1 | 1 }>;
   /** La persona con cui si fa la prova: i suoi legami spostano la soglia (§29). */
   persona?: string;
   /** Una persona che fa la cosa con te: +1 al tiro, e un favore (§30.3). */

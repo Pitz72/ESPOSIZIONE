@@ -31,7 +31,7 @@ Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento
 |---|---|
 | `src/tipi.ts` | il formato dei dati: l'ambientazione (la scheda del §43) e la storia |
 | `src/dadi.ts` | due dadi a sei facce, con un generatore riproducibile, e le quattro fasce |
-| `src/quadro.ts` | le sezioni del quadro: la riuscita, con il gradino al massimo per parte, e il costo, con le righe che non contano (§18, §21) |
+| `src/quadro.ts` | le sezioni del quadro: la riuscita, con uno scatto al massimo per parte, e il costo, con le righe che non contano (§18, §21) |
 | `src/stato.ts` | lo stato della partita: la memoria della storia, le notizie e le loro smentite, le persone e le loro reazioni, le proprietà dei luoghi, il tempo in ore, le ferite, gli stati d'animo, la Traccia, gli imprevisti; le cose nei luoghi, i posti, la forza e il riconoscere; gli stati del mondo con la loro durata, e l'ambiente che logora |
 | `src/motore.ts` | `vista` (che cosa mostrare) e `agisci` (che cosa succede): il quadro, le fasce, il *Quasi*, il dono, il rovescio, il confronto, le scelte esaurite, «Ci ripenso», «Metto insieme quello che so», gli aiuti, i compagni con le loro varianti, «Prendo…» e che cosa lasciare quando non c'è posto |
 | `src/controlli.ts` | i controlli del §47, più quelli strutturali |

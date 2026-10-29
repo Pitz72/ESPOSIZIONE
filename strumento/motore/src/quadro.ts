@@ -30,8 +30,8 @@ export interface Composizione {
   nota?: string;
 }
 
-export const NOMI_GRADO = ["AL COPERTO", "ESPOSTO", "ALLO SCOPERTO"] as const;
-export const NOMI_GRADO_MINUSCOLI = ["al coperto", "esposto", "allo scoperto"] as const;
+export const NOMI_GRADO = ["AL COPERTO", "IN VISTA", "ALLO SCOPERTO"] as const;
+export const NOMI_GRADO_MINUSCOLI = ["al coperto", "in vista", "allo scoperto"] as const;
 
 export function tieni(somma: number, fondo: Grado): Grado {
   if (somma < fondo) return fondo;
@@ -112,11 +112,11 @@ export function componi(partenza: { testo: string; valore: number }, altre: Arra
 export type Parte = "catalogo" | "tratto" | "notizia" | "proprieta" | "legame" | "stato d'animo" | "scena" | "capacità" | "cosa" | "aiuto" | "ferita" | "logorio";
 
 export interface RigaRiuscita {
-  tipo: "soglia" | "gradino" | "livello" | "spinta" | "penalita" | "nota";
+  tipo: "soglia" | "scatto" | "livello" | "spinta" | "penalita" | "nota";
   testo: string;
   valore: number;
   /**
-   * Il numero da scrivere accanto alla riga. La soglia e i suoi gradini scrivono la
+   * Il numero da scrivere accanto alla riga. La soglia e i suoi scatti scrivono la
    * soglia che ne risulta («8», poi «→ 10»); il livello, gli attrezzi, gli aiuti e le
    * penalità scrivono quanto aggiungono al tiro («+1», «−1»). Così nella stessa
    * sezione un «+» vuol dire sempre «ti aiuta».
@@ -152,7 +152,7 @@ export interface Ragione {
 }
 
 /**
- * Compone la riuscita. La soglia si sposta al massimo di un gradino in giù e di uno
+ * Compone la riuscita. La soglia si sposta al massimo di uno scatto in giù e di uno
  * in su: le altre ragioni restano nel quadro, segnate. Attrezzi e aiuti valgono al
  * massimo +2, le penalità al massimo −3.
  */
@@ -167,18 +167,18 @@ export function riuscita(
   const segno = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${-v}` : "+0");
   const righe: RigaRiuscita[] = [{ tipo: "soglia", testo: base.testo, valore: base.soglia, mostra: String(base.soglia), parte: "catalogo", conta: true }];
   let corrente = base.soglia;
-  const gradino = (r: Ragione, i: number, verso: -1 | 1) => {
+  const scatto = (r: Ragione, i: number, verso: -1 | 1) => {
     if (i === 0) corrente += 2 * verso;
-    righe.push({ tipo: "gradino", testo: r.testo, valore: 2 * verso, mostra: i === 0 ? `→ ${corrente}` : "", parte: r.parte, conta: i === 0, nota: i === 0 ? (verso > 0 ? "un gradino più difficile" : "un gradino più facile") : "non conta: basta un gradino" });
+    righe.push({ tipo: "scatto", testo: r.testo, valore: 2 * verso, mostra: i === 0 ? `→ ${corrente}` : "", parte: r.parte, conta: i === 0, nota: i === 0 ? (verso > 0 ? "uno scatto più difficile" : "uno scatto più facile") : "non conta: basta uno scatto" });
   };
-  giu.forEach((r, i) => gradino(r, i, -1));
-  su.forEach((r, i) => gradino(r, i, 1));
+  giu.forEach((r, i) => scatto(r, i, -1));
+  su.forEach((r, i) => scatto(r, i, 1));
   righe.push({ tipo: "livello", testo: livello.testo, valore: livello.valore, mostra: segno(livello.valore), parte: "capacità", conta: true });
   spinte.forEach((r, i) => righe.push({ tipo: "spinta", testo: r.testo, valore: 1, mostra: "+1", parte: r.parte, conta: i < 2, nota: i < 2 ? undefined : "non conta: attrezzi e aiuti valgono al massimo +2" }));
   penalita.forEach((r, i) => righe.push({ tipo: "penalita", testo: r.testo, valore: -1, mostra: "−1", parte: r.parte, conta: i < 3, nota: i < 3 ? undefined : "non conta: le penalità arrivano al massimo a −3" }));
 
-  const gradini = (giu.length ? -1 : 0) + (su.length ? 1 : 0);
-  const soglia = base.soglia + 2 * gradini;
+  const scatti = (giu.length ? -1 : 0) + (su.length ? 1 : 0);
+  const soglia = base.soglia + 2 * scatti;
   const bonus = livello.valore + Math.min(2, spinte.length) - Math.min(3, penalita.length);
   const dadi = soglia - bonus;
   const nonSiTira = soglia < 6;

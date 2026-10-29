@@ -76,8 +76,9 @@ Le voci segnate *proposta* cambiano un termine della specifica e richiedono una 
 | prova | un tentativo che si risolve col dado | prova, tiro, tentativo | check, tiro come sinonimo |
 | riesci / non riesci | la risposta del dado | Esito | «successo» e «fallimento» da soli, che sono anche nomi di caselle |
 | esposizione | quanto ti può costare l'azione che stai per fare, comunque vada il dado | Esposizione | rischio, pericolo, visibilità |
-| al coperto · esposto · allo scoperto *(proposta)* | i tre gradi dell'esposizione; due su tre non cambiano col genere | Coperto · Esposto · Allo scoperto | i numeri 0, 1, 2 nel testo corrente |
+| al coperto · in vista · allo scoperto | i tre gradi dell'esposizione; non cambiano col genere | Coperto · Esposto · Allo scoperto | i numeri 0, 1, 2 nel testo corrente; «esposto», il nome usato fino al 29 ottobre 2026, che si confondeva con l'esposizione |
 | grado | uno dei tre livelli dell'esposizione | livello, gradino | gradino |
+| scatto | lo spostamento della soglia fra due difficoltà vicine: due punti sul tiro | gradino | gradino, il nome usato fino al 29 ottobre 2026, quasi uguale a «grado» |
 | le sei caselle | Successo pieno, Successo sporco, Successo a caro prezzo, Fallimento pulito, Rovescio minore, Rovescio | la griglia (N2) | Rovescio pieno, critico |
 
 ### La scheda e le tabelle
