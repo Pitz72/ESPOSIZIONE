@@ -1,7 +1,7 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="typst/assets/logo/esposizione-inlinea-negativo.svg">
-    <img src="typst/assets/logo/esposizione-inlinea-positivo.svg" alt="ESPOSIZIONE: Narrative RPG Engine" width="620">
+    <img src="typst/assets/logo/esposizione-inlinea-positivo.svg" alt="ESPOSIZIONE: Narrative RPG Engine" width="540">
   </picture>
 </div>
 

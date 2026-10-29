@@ -1,6 +1,6 @@
 # Quattro proposte per il logotipo
 
-*29 ottobre 2026. Da scegliere. Il logotipo in uso resta quello della cartella sopra, descritto in [`USO.md`](../USO.md), finché non se ne sceglie uno di questi.*
+*29 ottobre 2026. **Scelta la quarta, «I due punti»**, lo stesso giorno: le forme definitive sono nella cartella sopra, descritte in [`USO.md`](../USO.md). Questa cartella resta com'era al momento della scelta.*
 
 La tavola per confrontarle, con le animazioni che girano, è la pagina **«Logotipo ESPOSIZIONE — proposte»**: <https://claude.ai/artifact/KSyXNknzS1EKnV96hNeT7E>. È privata: la vede solo chi ha ricevuto l'accesso.
 

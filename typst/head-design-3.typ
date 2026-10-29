@@ -13,6 +13,7 @@
     titolo: "ESPOSIZIONE",
     sottotitolo: "Un modello per romanzi di ruolo,\nsu carta e su schermo.",
     edizione: "Documento di design 3.0",
-    autore: "Simone Pizzi"),
+    autore: "Simone Pizzi",
+    marchio: "assets/logo/esposizione-inlinea-positivo.svg"),
   doc,
 )

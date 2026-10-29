@@ -237,8 +237,8 @@
   #text(font: SERIF, size: 14pt, fill: white)[#autore]
 ]
 
-// B — campo chiaro, logo a colori
-#let copertina-chiara(titolo: "", sottotitolo: "", edizione: "", autore: "") = page(
+// B — campo chiaro, logo a colori; con marchio, il logotipo prende il posto del titolo
+#let copertina-chiara(titolo: "", sottotitolo: "", edizione: "", autore: "", marchio: none) = page(
   paper: "a4", fill: rgb("#f7f5ee"), header: none, footer: none,
   margin: (left: 26mm, right: 26mm, top: 26mm, bottom: 24mm),
 )[
@@ -246,7 +246,14 @@
   #v(1fr)
   #text(font: SANS, size: 8.5pt, tracking: 0.3em, fill: arancio)[#upper(edizione)]
   #v(9pt)
-  #text(font: SANS, size: 47pt, weight: "bold", tracking: 0.01em, fill: teal)[#titolo]
+  #if marchio != none {
+    v(10pt)
+    // il file ha un margine di un decimo del corpo: lo si toglie per allineare a sinistra
+    move(dx: -2.3mm, image(marchio, width: 124mm, alt: titolo))
+    v(4pt)
+  } else {
+    text(font: SANS, size: 47pt, weight: "bold", tracking: 0.01em, fill: teal)[#titolo]
+  }
   #v(11pt)
   #line(length: 34%, stroke: 2pt + arancio)
   #v(15pt)

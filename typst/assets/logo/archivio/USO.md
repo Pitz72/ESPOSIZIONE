@@ -1,0 +1,45 @@
+# Il logotipo di ESPOSIZIONE — tavola d'uso
+
+*In archivio dal 29 ottobre 2026: il logotipo in uso è quello della cartella sopra, descritto nella sua [`USO.md`](../USO.md). Questo resta come storia. Il generatore, rilanciato da qui, scrive le sue sorgenti in questa cartella.*
+
+**ESPOSIZIONE: Narrative RPG Engine.** Il marchio resta italiano in ogni lingua; il descrittore lo accompagna sempre. Un'identità sola in cinque declinazioni: stessa parola, stesso dado, stesso descrittore.
+
+Il logotipo è composto in **TeX Gyre Pagella** (il carattere della specifica) con i glifi convertiti in tracciati: i file non dipendono da nessun font installato. Il descrittore è in **TeX Gyre Heros**, giustificato alla larghezza esatta della parola. L'emblema è un **d20 di filo** visto di faccia — diciotto spigoli, la faccia frontale disegnata — con **il punto del dado** come unico colore.
+
+## Le cinque forme
+
+| Forma | File | Mestiere |
+|---|---|---|
+| **In linea** | `esposizione-inlinea-*` | **la forma primaria**: testate, siti, documenti, firme |
+| **Emblema** | `esposizione-emblema-*` | verticale: frontespizi, colophon, schermate di titolo |
+| **Copertina** | `esposizione-copertina-*` | fra le righe del tetto e del pavimento: le copertine dei PDF |
+| **Espressiva** | `esposizione-espressiva-*` | il dado al posto della prima O. Con parsimonia: manifesti, aperture — mai nel corpo di un documento |
+| **Icona** | `esposizione-icona-*` | il dado da solo: favicon, icona app, timbro. Regge fino a 16 px |
+
+## Le tre varianti di colore
+
+| Suffisso | Inchiostro | Punto | Fondo previsto |
+|---|---|---|---|
+| `-positivo` | `#17150f` | terracotta `#7d2b1a` | carta e fondi chiari |
+| `-negativo` | `#f4f1e8` | terracotta chiara `#c4573c` | fondi scuri |
+| `-runtime` | `#f4f1e8` | arancio `#FE5200` | il teal `#005057` di Runtime Multimedia |
+
+## La serie Studio
+
+**ESPOSIZIONE Studio** è il logotipo dello strumento: stessa parola, stesso dado, e il qualificatore **STUDIO** in Pagella, giustificato alla larghezza esatta della parola — prende il posto del descrittore e parla più forte. L'icona non si duplica: il dado è uno solo, e vale per il motore e per lo strumento.
+
+| Forma | File | Mestiere |
+|---|---|---|
+| **In linea** | `esposizione-studio-inlinea-*` | la forma primaria dello strumento: testate, README, documenti |
+| **Emblema** | `esposizione-studio-emblema-*` | verticale: schermate di titolo, colophon dell'editor |
+
+Le tre varianti di colore sono le stesse della serie madre.
+
+## Le regole
+
+1. **Il punto del dado è l'unico colore.** Tutto il resto è inchiostro, in ogni variante.
+2. **Il descrittore non si separa** dalle forme che lo contengono, e non si ricompone con font di sistema: è parte del disegno.
+3. **Non si ricolora, non si inclina, non si ridisegna il dado.** Le varianti di colore sono le tre qui sopra.
+4. Le forme si modificano **rigenerandole**: `python genera.py` (richiede `fonttools`) riscrive le sette sorgenti — cinque della serie madre, due della serie Studio — con i colori come variabili CSS; i file depositati sono le stesse sorgenti con le tre palette risolte.
+
+*Proposta e tavole: agosto 2026. La pagina di presentazione con le prove su carta, scuro e teal è l'artifact «Logotipo ESPOSIZIONE».*

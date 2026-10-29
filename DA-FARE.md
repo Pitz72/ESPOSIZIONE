@@ -7,6 +7,7 @@
 - **Il motore 3.0** (`strumento/motore/`, versione 3.0.0-alpha.2) passa tutti i 56 test. I controlli non trovano errori né avvisi nelle 59 scene della Santa Rita, e i tipi sono a posto.
 - **Il documento di design** è stato rivisto il 29 ottobre: davanti le regole come sono oggi, in appendice la storia delle scelte. Gli ultimi due commit sono `4a5da65` (la revisione) e `e33b47d` (i nomi nuovi: il grado di mezzo si chiama «in vista», lo spostamento della soglia «scatto»).
 - **Tre formati dalla stessa fonte**: il librogame in PDF, la partita nel terminale, l'app web.
+- **Il logotipo è scelto**: la parola in minuscolo con due dadi al posto dei puntini delle i, il 29 ottobre. Le forme, i colori e le regole sono in [`typst/assets/logo/USO.md`](typst/assets/logo/USO.md).
 - **Nessuna persona ha ancora giocato il 3.0.** Non è un blocco: si progetta con il ragionamento e con le simulazioni, e le prove con le persone correggono quando arrivano.
 
 ### Come si rimette in moto
@@ -57,7 +58,6 @@ Tutti e due si aggiungono in `src/simulazione.ts` e nella stampa del comando `si
 
 | Decisione | Che cosa c'è sul tavolo | Che cosa serve per chiuderla |
 |---|---|---|
-| **Il logotipo** | Quattro proposte nuove, del 29 ottobre 2026, nella cartella [`typst/assets/logo/proposte/`](typst/assets/logo/proposte/LEGGIMI.md), e da confrontare sulla tavola «Logotipo ESPOSIZIONE — proposte» (il collegamento è nel `LEGGIMI.md`). Ognuna ha la forma piatta, la prova sul cuoio e l'animazione. | Sceglierne una, o due da incrociare. Poi si rigenerano le forme definitive con le tre varianti di colore, si riscrive la tavola d'uso (`USO.md`), e si aggiornano README e PDF. |
 | **Il vecchio InteractiveWriter** | `strumento/core`, `strumento/cli` e `strumento/editor` sono il codice d'origine, superato dal motore. Non seguono più le regole del documento. | Toglierlo alleggerisce il repository. Prima però vanno spostati esbuild e TypeScript in un `package.json` del motore: oggi l'app e il controllo dei tipi usano quelli di `strumento/editor/node_modules`. L'editor nuovo è la Fase 4. |
 | **La lingua delle chiavi nei dati** | Oggi le chiavi dei file JSON sono in italiano (`sposta`, `scatti`, `nonRiesci`…). Era la decisione D-S4 del vecchio piano dello strumento. | Va decisa prima dello schema JSON della 3.1. Le altre decisioni di quel piano (D-S3, D-S5, D-S6, in `archivio/ROADMAP-STRUMENTO.md`) riguardavano il vecchio motore e non valgono più. |
 
@@ -93,8 +93,8 @@ Tutti e due si aggiungono in `src/simulazione.ts` e nella stampa del comando `si
 - **La prova dei generi** (Fase 3): sei storie brevi, ognuna con la sua tabella degli attriti: giallo, horror, fantasy con magia, dramma sociale, fantascienza, racconto per ragazzi. Si parte dalle tre ambientazioni abbozzate nella Parte X del documento.
 - **ESPOSIZIONE Studio** (Fase 4): l'editor per chi scrive, ricostruito sul motore 3.x.
 - **I formati** (Fase 5): l'app con un tema per ogni ambientazione, il librogame, l'EPUB, il kit per il tavolo, l'esportazione per i motori grafici (Phaser, PixiJS, Godot, Ren'Py).
-- **Il manuale e la pubblicazione** (Fase 6). Qui nasce il **libro delle regole**, con la copertina in cuoio: il logotipo scelto ci arriva con la sua versione per la stampa a caldo in oro e per l'impressione a secco.
-- **Il logo animato** per i videogiochi: si disegna dopo la scelta del logotipo, partendo dall'idea di movimento che ogni proposta già dichiara.
+- **Il manuale e la pubblicazione** (Fase 6). Qui nasce il **libro delle regole**, con la copertina in cuoio. Il file per l'oro a caldo è già pronto: la forma centrata a un colore, da non stampare sotto i 100 mm di larghezza.
+- **Il logo animato** per i videogiochi. Il riferimento c'è già, `typst/assets/logo/esposizione-animato.svg`: i dadi cadono, rimbalzano e diventano i puntini. La versione per i giochi parte da lì; i tempi e i nomi delle parti sono in `USO.md`.
 - **Le persone**, quando arrivano: `PER-CHI-PROVA.txt` e il §54.3 dicono che cosa guardare, e l'app registra da sola i tempi di lettura dei quadri e le scelte nei *Quasi*.
 
 ---
