@@ -43,12 +43,19 @@ function altreDue(n: number): string {
   return n === 1 ? "ne servirebbe un'altra" : `ne servirebbero altre ${n}`;
 }
 
+/** Il grado più basso di un'azione, detto in una frase che regge anche con «al coperto». */
+function piuInBasso(fondo: Grado): string {
+  return fondo === 0 ? "il grado più basso è al coperto" : `il grado più basso di questa azione è ${NOMI_GRADO_MINUSCOLI[fondo]}`;
+}
+
 /**
- * Compone il costo e segna le righe che non contano, secondo la tabella del §21.3.
- * Le righe dell'ambiente contano al massimo 2 in su o in giù (§11.1): quelle in più
- * restano nel quadro, segnate, e non entrano nella somma. Le righe a zero non si
- * scrivono, tranne la partenza. Garanzia: togliendo insieme tutte le righe segnate,
- * il grado non cambia (vedi i test).
+ * Compone il costo e segna le righe che non contano (§21.3). Le righe dell'ambiente
+ * contano al massimo 2 in su o in giù (§11.1): quelle in più restano nel quadro,
+ * segnate, e non entrano nella somma. Il Fondo e il tetto non spengono nessuna riga:
+ * li dice una nota sotto il totale. Si segnano soltanto le preparazioni che non
+ * cambiano il grado, perché chi le ha pagate deve saperlo prima di tirare. Le righe a
+ * zero non si scrivono, tranne la partenza. Garanzia: togliendo insieme tutte le
+ * righe segnate, il grado non cambia (vedi i test).
  */
 export function componi(partenza: { testo: string; valore: number }, altre: Array<{ tipo: TipoRiga; testo: string; valore: number }>, fondo: Grado): Composizione {
   const righe: Riga[] = [{ tipo: "partenza", testo: partenza.testo, valore: partenza.valore, conta: true }];
@@ -70,8 +77,7 @@ export function componi(partenza: { testo: string; valore: number }, altre: Arra
   const dentro = righe.filter((r) => !fuori.has(r));
   const somma = dentro.reduce((s, r) => s + r.valore, 0);
   const grado = tieni(somma, fondo);
-  const alzano = dentro.filter((r) => r.tipo !== "partenza" && r.valore > 0);
-  const abbassano = dentro.filter((r) => r.tipo !== "partenza" && r.valore < 0);
+  const preparazioni = dentro.filter((r) => r.tipo === "preparazione");
 
   const spegni = (r: Riga, nota: string) => {
     r.conta = false;
@@ -79,26 +85,21 @@ export function componi(partenza: { testo: string; valore: number }, altre: Arra
   };
 
   if (fondo === 2) {
-    for (const r of [...alzano, ...abbassano]) spegni(r, "non conta");
+    for (const r of preparazioni) spegni(r, "non serve: questa azione costa sempre il massimo");
     return { righe, somma, fondo, grado, nota: "questa azione costa sempre il massimo" };
   }
 
   if (somma >= 2) {
-    // Al tetto: nessuna riga che abbassa basta a scendere.
+    // Al tetto: nessuna preparazione basta a scendere.
     const mancano = somma - 1;
-    for (const r of abbassano) spegni(r, r.tipo === "preparazione" ? `non basta: ${altreDue(mancano)}` : "non conta: resti allo scoperto");
-    // Oltre il tetto: le ultime righe che alzano, tante quanti i punti di troppo.
-    const troppo = somma - 2;
-    if (troppo > 0) for (const r of alzano.slice(alzano.length - troppo)) spegni(r, "non conta: sei già allo scoperto");
-  } else if (somma <= fondo) {
-    // Al Fondo o sotto: nessuna riga che alza conta.
-    for (const r of alzano) spegni(r, `non conta: saresti comunque ${NOMI_GRADO_MINUSCOLI[fondo]}`);
+    for (const r of preparazioni) spegni(r, `non basta: ${altreDue(mancano)}`);
+    return { righe, somma, fondo, grado, nota: somma > 2 ? "più su di allo scoperto non si va" : undefined };
+  }
+  if (somma < fondo) {
+    // Sotto il Fondo: le ultime preparazioni, tante quanti i punti di troppo, non servono.
     const sotto = fondo - somma;
-    if (sotto > 0) {
-      for (const r of abbassano.slice(abbassano.length - sotto)) {
-        spegni(r, `${r.tipo === "preparazione" ? "non serve" : "non conta"}: più in basso di ${NOMI_GRADO_MINUSCOLI[fondo]} non si scende`);
-      }
-    }
+    for (const r of preparazioni.slice(Math.max(0, preparazioni.length - sotto))) spegni(r, `non serve: ${fondo === 0 ? "sei già al coperto" : piuInBasso(fondo)}`);
+    return { righe, somma, fondo, grado, nota: piuInBasso(fondo) };
   }
   return { righe, somma, fondo, grado };
 }
@@ -114,6 +115,13 @@ export interface RigaRiuscita {
   tipo: "soglia" | "gradino" | "livello" | "spinta" | "penalita" | "nota";
   testo: string;
   valore: number;
+  /**
+   * Il numero da scrivere accanto alla riga. La soglia e i suoi gradini scrivono la
+   * soglia che ne risulta («8», poi «→ 10»); il livello, gli attrezzi, gli aiuti e le
+   * penalità scrivono quanto aggiungono al tiro («+1», «−1»). Così nella stessa
+   * sezione un «+» vuol dire sempre «ti aiuta».
+   */
+  mostra: string;
   parte?: Parte;
   conta: boolean;
   nota?: string;
@@ -156,12 +164,18 @@ export function riuscita(
   spinte: Ragione[],
   penalita: Ragione[],
 ): Riuscita {
-  const righe: RigaRiuscita[] = [{ tipo: "soglia", testo: base.testo, valore: base.soglia, parte: "catalogo", conta: true }];
-  giu.forEach((r, i) => righe.push({ tipo: "gradino", testo: r.testo, valore: -2, parte: r.parte, conta: i === 0, nota: i === 0 ? undefined : "non conta: basta un gradino" }));
-  su.forEach((r, i) => righe.push({ tipo: "gradino", testo: r.testo, valore: 2, parte: r.parte, conta: i === 0, nota: i === 0 ? undefined : "non conta: basta un gradino" }));
-  righe.push({ tipo: "livello", testo: livello.testo, valore: livello.valore, parte: "capacità", conta: true });
-  spinte.forEach((r, i) => righe.push({ tipo: "spinta", testo: r.testo, valore: 1, parte: r.parte, conta: i < 2, nota: i < 2 ? undefined : "non conta: attrezzi e aiuti valgono al massimo +2" }));
-  penalita.forEach((r, i) => righe.push({ tipo: "penalita", testo: r.testo, valore: -1, parte: r.parte, conta: i < 3, nota: i < 3 ? undefined : "non conta: le penalità arrivano al massimo a −3" }));
+  const segno = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${-v}` : "+0");
+  const righe: RigaRiuscita[] = [{ tipo: "soglia", testo: base.testo, valore: base.soglia, mostra: String(base.soglia), parte: "catalogo", conta: true }];
+  let corrente = base.soglia;
+  const gradino = (r: Ragione, i: number, verso: -1 | 1) => {
+    if (i === 0) corrente += 2 * verso;
+    righe.push({ tipo: "gradino", testo: r.testo, valore: 2 * verso, mostra: i === 0 ? `→ ${corrente}` : "", parte: r.parte, conta: i === 0, nota: i === 0 ? (verso > 0 ? "un gradino più difficile" : "un gradino più facile") : "non conta: basta un gradino" });
+  };
+  giu.forEach((r, i) => gradino(r, i, -1));
+  su.forEach((r, i) => gradino(r, i, 1));
+  righe.push({ tipo: "livello", testo: livello.testo, valore: livello.valore, mostra: segno(livello.valore), parte: "capacità", conta: true });
+  spinte.forEach((r, i) => righe.push({ tipo: "spinta", testo: r.testo, valore: 1, mostra: "+1", parte: r.parte, conta: i < 2, nota: i < 2 ? undefined : "non conta: attrezzi e aiuti valgono al massimo +2" }));
+  penalita.forEach((r, i) => righe.push({ tipo: "penalita", testo: r.testo, valore: -1, mostra: "−1", parte: r.parte, conta: i < 3, nota: i < 3 ? undefined : "non conta: le penalità arrivano al massimo a −3" }));
 
   const gradini = (giu.length ? -1 : 0) + (su.length ? 1 : 0);
   const soglia = base.soglia + 2 * gradini;

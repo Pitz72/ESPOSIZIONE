@@ -17,3 +17,4 @@ Questi file non si aggiornano più. Restano per chi vuole capire da dove vengono
 | `ANALISI-FAVELLA.md` | che cosa il progetto FAVELLA 1 insegnava alla 1.3 |
 | `ANALISI-CRITICITA-1.3.md` | i ventuno rilievi alla 1.3 che hanno portato alla riscrittura |
 | `LINGUA-DEL-MANUALE.md` | le regole di scrittura da cui nasce la lingua del documento 2.0 |
+| `ADEGUAMENTO-MOTORE-3.0.md` | l'elenco del lavoro per portare il motore al 3.0, fatto il 25 e il 27 settembre 2026; era l'appendice E del documento 3.0 |

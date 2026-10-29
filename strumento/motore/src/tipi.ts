@@ -83,6 +83,8 @@ export type Effetto =
   | { cura: true }
   | { tempo: number }
   | { filo: string; piu: number }
+  /** Una scadenza avanza di tante caselle, per ciò che hai fatto: la nave salpa prima (§15.4). */
+  | { scadenza: string; piu: number; testo?: string }
   | { preparazione: string }
   | { tacca: string }
   /** Uno stato del mondo prende un valore (§11.4). */
@@ -161,7 +163,7 @@ export interface Luogo {
   /** Proprietà dei momenti che qui non valgono: «all'alba i magazzini restano vuoti». */
   sospende?: Array<{ proprieta: string; momento?: string; testo: string }>;
   /** Gli stati del luogo (§11.3): se la condizione vale, aggiunge o toglie proprietà. */
-  stati?: Array<{ se: Condizione; aggiungi?: string[]; togli?: string[] }>;
+  stati?: Array<{ se: Condizione; aggiungi?: string[]; togli?: string[]; /** Il perché, detto a chi legge il librogame: «l'equipaggio ha acceso le lanterne». */ frase?: string }>;
   /** Un posto tranquillo: qui si ripensa e si mettono insieme le notizie (§8.3–8.5). */
   tranquillo?: boolean;
   /** All'aperto: il tempo che fa (§11.4) arriva qui. */

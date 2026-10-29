@@ -10,7 +10,7 @@ import { agisci, vista, type Vista, type VistaScelta } from "./motore.ts";
 import { nuovaPartita, scenaDi, type Gioco, type Partita, type DatiEsito } from "./stato.ts";
 import type { Condizione, Fascia, Scena } from "./tipi.ts";
 
-export const POLITICHE = ["casuale", "prudente", "temeraria", "scrupolosa", "opportunista", "sempre-tutto", "sempre-meta", "sempre-lascio", "situazione", "obiettivo"] as const;
+export const POLITICHE = ["casuale", "prudente", "temeraria", "scrupolosa", "opportunista", "sempre-tutto", "sempre-meta", "sempre-lascio", "situazione", "obiettivo", "obiettivo-tutto", "obiettivo-meta", "obiettivo-lascio"] as const;
 export type Politica = (typeof POLITICHE)[number];
 
 export interface Resoconto {
@@ -143,17 +143,47 @@ function sceltaObiettivo(g: Gioco, p: Partita, scelte: VistaScelta[], visite: Ma
   return migliore;
 }
 
+/**
+ * Il Quasi del giocatore con un obiettivo: pesa le tre possibilità con gli stessi conti
+ * che usa per le altre scelte. Tutto avvicina alla vittoria ma costa Traccia e il prezzo;
+ * la metà porta dove porta il ripiego; lasciar perdere costa un'ora e un nuovo tiro, e
+ * lascia la notizia che spesso rende più facile riprovare.
+ */
+function sceltaQuasiObiettivo(g: Gioco, p: Partita, scelte: VistaScelta[]): string | undefined {
+  const q = p.quasi;
+  const c = (suff: string) => scelte.find((s) => s.id === `quasi:${suff}`)?.id;
+  if (!q || q.tipo !== "prova") return q && q.grado < 2 ? c("tutto") ?? c("ferita") : c("meta") ?? c("lascia") ?? c("perdi");
+  const dist = distanzeDallaVittoria(g);
+  const scena = scenaDi(g, q.scena);
+  const pr = (scena.scelte ?? []).find((x) => x.id === q.scelta)!.prova!;
+  const d = (id: string | undefined) => (id ? dist.get(id) ?? 99 : 99);
+  const segno = q.grado >= 1 ? 1.5 : 0;
+  const punti: Array<[string | undefined, number]> = [];
+  punti.push([c("tutto"), q.grado < 2 ? d(pr.riesci.vai) + 1.5 + 1 : d(pr.rovescio?.vai) + 1.5 + 8]);
+  const meta = pr.meta ? ("ripiego" in pr.meta ? (scena.scelte ?? []).find((x) => x.id === (pr.meta as { ripiego: string }).ripiego)?.vai : pr.meta.vai) : undefined;
+  if (c("meta")) punti.push([c("meta"), d(meta) + segno + (q.grado === 2 ? 1 : 0)]);
+  const giaSa = !!p.notizie[pr.nonRiesci.notizia];
+  punti.push([c("lascia"), pr.unColpoSolo ? d(scena.id) + 3 + segno : d(pr.riesci.vai) + 1 + 0.25 + (giaSa ? 1.2 : 0.6) + segno]);
+  const validi = punti.filter((x): x is [string, number] => !!x[0]);
+  validi.sort((a, b) => a[1] - b[1]);
+  return validi[0]?.[0];
+}
+
 function aCaso(scelte: VistaScelta[], rng: number): { id: string; rng: number } {
   const i = intero(rng, 0, scelte.length - 1);
   return { id: scelte[i.valore].id, rng: i.stato };
 }
 
-/** Che cosa scegliere nel Quasi, secondo la strategia. */
+/**
+ * Che cosa scegliere nel Quasi, secondo la strategia. Il casuale sceglie a caso anche
+ * qui; le altre strategie semplici scelgono secondo la situazione, come «situazione».
+ */
 function sceltaQuasi(g: Gioco, p: Partita, v: Vista, politica: Politica, scelte: VistaScelta[]): string | undefined {
   const c = (suff: string) => scelte.find((s) => s.id === `quasi:${suff}`)?.id;
-  if (politica === "sempre-tutto") return c("tutto") ?? c("ferita");
-  if (politica === "sempre-meta") return c("meta") ?? c("lascia") ?? c("perdi");
-  if (politica === "sempre-lascio") return c("lascia") ?? c("perdi");
+  if (politica === "casuale") return undefined;
+  if (politica === "sempre-tutto" || politica === "obiettivo-tutto") return c("tutto") ?? c("ferita");
+  if (politica === "sempre-meta" || politica === "obiettivo-meta") return c("meta") ?? c("lascia") ?? c("perdi");
+  if (politica === "sempre-lascio" || politica === "obiettivo-lascio") return c("lascia") ?? c("perdi");
   // Secondo la situazione: tutto quando la scadenza incalza, lascio quando qui mi hanno già visto, altrimenti la metà.
   const sc = g.storia.scadenze[0];
   const incalza = sc && p.scadenze[sc.id] >= sc.caselle - 3;
@@ -163,19 +193,23 @@ function sceltaQuasi(g: Gioco, p: Partita, v: Vista, politica: Politica, scelte:
 }
 
 function scegli(g: Gioco, p: Partita, v: Vista, politica: Politica, scelte: VistaScelta[], rng: number, visite: Map<string, number>): { id: string; rng: number } {
-  if (politica === "obiettivo" && v.sospeso?.tipo === "quasi" && p.quasi) {
-    // Chi gioca per vincere prende tutto finché il prezzo è una tacca di Traccia; allo scoperto si accontenta.
-    const c = (suff: string) => scelte.find((s) => s.id === `quasi:${suff}`)?.id;
-    const id = p.quasi.grado < 2 ? c("tutto") ?? c("ferita") : c("meta") ?? c("lascia") ?? c("perdi");
+  // Le varianti del giocatore con un obiettivo giocano come lui, tranne nel Quasi: servono al criterio 3 (§54.2).
+  if (politica.startsWith("obiettivo-") && v.sospeso?.tipo === "quasi") {
+    const id = sceltaQuasi(g, p, v, politica, scelte);
     if (id) return { id, rng };
   }
-  if (politica === "obiettivo" && v.sospeso?.tipo === "posto") {
+  const obiettivo = politica === "obiettivo" || politica.startsWith("obiettivo-");
+  if (politica === "obiettivo" && v.sospeso?.tipo === "quasi" && p.quasi) {
+    const id = sceltaQuasiObiettivo(g, p, scelte);
+    if (id) return { id, rng };
+  }
+  if (obiettivo && v.sospeso?.tipo === "posto") {
     // Senza posto, lascia una cosa che non serve; se tutte servono, rinuncia a quella nuova.
     const inutile = scelte.find((s) => s.id.startsWith("posto:lascia:") && !coseUtili(g).has(s.id.slice(13)));
     const id = inutile?.id ?? scelte.find((s) => s.id === "posto:no")?.id ?? scelte[0].id;
     return { id, rng };
   }
-  if (politica === "obiettivo" && !v.sospeso) return { id: sceltaObiettivo(g, p, scelte, visite), rng };
+  if (obiettivo && !v.sospeso) return { id: sceltaObiettivo(g, p, scelte, visite), rng };
   if (v.sospeso?.tipo === "quasi") {
     const id = sceltaQuasi(g, p, v, politica, scelte);
     if (id) return { id, rng };
@@ -251,7 +285,7 @@ export function simula(g: Gioco, politica: Politica, partite: number, semeInizia
       const sc = g.storia.scadenze[0];
       if (p.finita?.tipo === "vittoria" && sc) {
         vittorie++;
-        margine += sc.caselle * sc.ogniOre - p.ora;
+        margine += (sc.caselle - (p.spinte?.[sc.id] ?? 0)) * sc.ogniOre - p.ora;
       }
       ore += p.ora;
       azioni += n;

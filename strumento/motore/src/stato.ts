@@ -114,6 +114,8 @@ export interface Partita {
   taccheScena: Record<string, true>;
   fili: Record<string, number>;
   scadenze: Record<string, number>;
+  /** Le caselle che le scadenze hanno guadagnato per ciò che hai fatto, oltre a quelle del tempo (§15.4). */
+  spinte?: Record<string, number>;
   preparazioni: Array<{ id: string; luogo?: string }>;
   usate: Record<string, true>;
   /** Tentativi in corso per ogni via, e com'è andata la prima volta per ogni capacità (§42). */
@@ -534,6 +536,7 @@ export function nuovaPartita(g: Gioco, seme: number): Partita {
     taccheScena: {},
     fili: {},
     scadenze: Object.fromEntries(g.storia.scadenze.map((s) => [s.id, 0])),
+    spinte: {},
     preparazioni: [],
     usate: {},
     tentativi: {},
@@ -679,7 +682,13 @@ export function applica(g: Gioco, p: Partita, effetti: Effetto[] | undefined, ev
     } else if ("ferita" in e) ferisci(g, p, e.ferita.nome, e.ferita.gravita, e.ferita.ambito, e.ferita.tipo, eventi, e.ferita.segno);
     else if ("cura" in e) cura(g, p, eventi);
     else if ("tempo" in e) tempo += e.tempo;
-    else if ("filo" in e) {
+    else if ("scadenza" in e) {
+      const def = g.storia.scadenze.find((x) => x.id === e.scadenza);
+      if (!def) throw new Error(`Scadenza inesistente: ${e.scadenza}`);
+      p.spinte = { ...(p.spinte ?? {}), [e.scadenza]: (p.spinte?.[e.scadenza] ?? 0) + e.piu };
+      if (e.testo) eventi.push({ tipo: "scadenza", testo: e.testo });
+      aggiornaScadenze(g, p, eventi);
+    } else if ("filo" in e) {
       p.fili[e.filo] = (p.fili[e.filo] ?? 0) + e.piu;
       const f = g.storia.fili.find((x) => x.id === e.filo);
       eventi.push({ tipo: "memoria", testo: `${f?.nome ?? e.filo}: ${p.fili[e.filo]} su ${f?.tappe ?? "?"}` });
@@ -864,6 +873,19 @@ export function nomeOre(g: Gioco, n: number): string {
   return `${numeri[n] ?? n} ${g.amb.tempo.plurale}`;
 }
 
+/** Le scadenze: una casella ogni tante ore, più quelle che ha aggiunto ciò che hai fatto. Quando una è piena succede ciò che dichiara. */
+export function aggiornaScadenze(g: Gioco, p: Partita, eventi: Evento[]): void {
+  for (const s of g.storia.scadenze) {
+    const prima = p.scadenze[s.id];
+    p.scadenze[s.id] = Math.min(s.caselle, Math.floor(p.ora / s.ogniOre) + (p.spinte?.[s.id] ?? 0));
+    if (p.scadenze[s.id] !== prima) eventi.push({ tipo: "scadenza", testo: `${s.nome}: ${p.scadenze[s.id]} su ${s.caselle}` });
+    if (p.scadenze[s.id] >= s.caselle && prima < s.caselle && !(s.salvoSe && vale(g, p, s.salvoSe))) {
+      applica(g, p, s.effetti, eventi);
+      if (s.alScadere && !p.deviazione) p.deviazione = s.alScadere;
+    }
+  }
+}
+
 /** Il tempo che passa: ogni ora le scadenze, il logorio, le ferite, la Traccia; una volta per scelta la resistenza e l'imprevisto. */
 export function avanza(g: Gioco, p: Partita, ore: number, eventi: Evento[]): void {
   let resto = ore;
@@ -885,15 +907,7 @@ export function avanza(g: Gioco, p: Partita, ore: number, eventi: Evento[]): voi
     }
 
     // 1. scadenze
-    for (const s of g.storia.scadenze) {
-      const prima = p.scadenze[s.id];
-      p.scadenze[s.id] = Math.min(s.caselle, Math.floor(p.ora / s.ogniOre));
-      if (p.scadenze[s.id] !== prima) eventi.push({ tipo: "scadenza", testo: `${s.nome}: ${p.scadenze[s.id]} su ${s.caselle}` });
-      if (p.scadenze[s.id] >= s.caselle && prima < s.caselle && !(s.salvoSe && vale(g, p, s.salvoSe))) {
-        applica(g, p, s.effetti, eventi);
-        if (s.alScadere && !p.deviazione) p.deviazione = s.alScadere;
-      }
-    }
+    aggiornaScadenze(g, p, eventi);
 
     // 2. logorio, e l'ambiente che logora (§11.4)
     for (const l of g.amb.logorii) {

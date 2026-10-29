@@ -117,7 +117,7 @@
       "id": "porto", "nome": "il porto", "iniziale": "tranquillo",
       "valori": [
         { "id": "tranquillo", "nome": "tranquillo" },
-        { "id": "allarme", "nome": "in allarme", "frase": "il porto è in allarme", "aggiungi": ["sorveglianza"], "dura": 6 }
+        { "id": "allarme", "nome": "in allarme", "frase": "il porto è in allarme", "aggiungi": ["sorveglianza"], "dura": 6, "entrando": [{ "scadenza": "salpa", "piu": 1, "testo": "Grimani lo viene a sapere, e fa anticipare la partenza: la Santa Rita salpa tre ore prima." }] }
       ]
     },
     {

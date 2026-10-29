@@ -437,7 +437,7 @@ function sezioneRiesci(q: Quadro): string {
   const r = q.riesci;
   const righe = r.righe
     .map((x) => {
-      const v = x.tipo === "soglia" ? String(x.valore) : x.tipo === "nota" ? "" : segno(x.valore);
+      const v = x.mostra;
       const parte = x.parte && x.tipo !== "soglia" && x.tipo !== "livello" ? `<em class="parte">${PARTE[x.parte] ?? x.parte}</em>` : "";
       return `<li class="${x.conta ? "" : "spenta"}"><span class="v">${v}</span><span class="c">${esc(x.testo)}${parte}${x.nota ? `<small>${esc(x.nota)}</small>` : ""}</span></li>`;
     })

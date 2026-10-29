@@ -21,21 +21,19 @@ Lo stesso motore funziona in quattro formati, con gli stessi numeri:
 
 Una storia scritta per un formato si porta negli altri senza cambiare le regole. Il motore decide che cosa succede; come mostrarlo lo decide chi costruisce il gioco.
 
-Il documento ha undici parti e cinque appendici. La Parte I racconta l'idea con una scena giocata. La II descrive il personaggio, la III il mondo. La IV spiega come si agisce, con le quattro domande. La V affronta le gradazioni fra successo e insuccesso, con tre modelli messi a confronto. La VI tratta le persone, la VII il pericolo, la VIII la crescita. La IX spiega come si scrive una storia, la X mostra il motore in tre generi lontani dal porto, la XI dice dove non funziona e come lo si mette alla prova. In appendice ci sono le tabelle, l'ambientazione d'esempio ricompilata, il glossario, il confronto con il 2.0 e l'elenco di ciò che andrà cambiato nel codice.
+Il documento ha undici parti e cinque appendici. La Parte I racconta l'idea con una scena giocata. La II descrive il personaggio, la III il mondo. La IV spiega come si agisce, con le quattro domande. La V spiega che cosa succede dopo il tiro: le quattro fasce, e quanto si paga. La VI tratta le persone, la VII il pericolo, la VIII la crescita. La IX spiega come si scrive una storia, la X mostra il motore in tre generi lontani dal porto, la XI dice dove non funziona e come lo si mette alla prova. In appendice ci sono le tabelle da tenere sottomano, l'ambientazione d'esempio compilata per intero, il glossario, il confronto con la versione precedente e i modelli che si sono scartati per le fasce.
 
-Chi conosce il 2.0 trova nell'appendice D che cosa resta, che cosa cambia e che cosa esce. Alcune parole sono cambiate, perché nell'italiano di tutti i giorni dicevano un'altra cosa: la via povera si chiama **ripiego**, il passo è diventato l'**ora**, la ricevuta è il **quadro**, le qualità della storia sono la sua **memoria**, le conoscenze si dividono in **notizie** e **convinzioni**.
+Il testo dice le regole come sono oggi. Il perché delle scelte meno ovvie sta accanto alla regola, in poche righe; la storia del progetto sta nelle appendici D ed E e nella cartella `archivio/`. Chi conosce la versione 2.0 trova nell'appendice D che cosa resta, che cosa cambia, che cosa esce e quali parole hanno cambiato nome.
 
 ## Che cosa è provato e che cosa no
 
-**Provato.** Il motore 2.0 esiste, in `strumento/motore/`: legge i dati, applica le regole, fa i diciannove controlli sui dati, passa i suoi test, e i giocatori automatici hanno giocato migliaia di partite senza restare bloccati. Una storia di cinquantadue scene, *Il registro della Santa Rita*, si gioca nel terminale, nell'app e sul librogame stampato. Il 24 settembre 2026 una persona l'ha giocata nell'app dall'inizio alla fine, vincendo. Da quella partita vengono tre correzioni di questo documento: le parole che non dicevano la cosa giusta, le scelte che restavano sullo schermo quando non servivano più, e il bisogno di una struttura per la difficoltà.
+*Lo stato al 29 ottobre 2026.*
 
-Il 25 settembre 2026 il motore è stato adeguato al 3.0 (appendice E). Passa 38 test, che controllano anche che i numeri di questo documento siano quelli che il motore produce, e i trenta controlli del §47 sui dati della Santa Rita riscritta. Mille partite simulate per ciascuna di nove strategie finiscono tutte, senza blocchi né errori, e le fasce vi escono con le frequenze delle tabelle. Le strategie contano: chi si prepara vince il 45% delle volte, chi sceglie a caso il 20%, e un giocatore automatico che gioca per vincere l'81%, dopo che ha scoperto, e si è corretta, una strada che vinceva sempre (§54.2). Un primo risultato non va nella direzione sperata: nel *Quasi*, scegliere secondo la situazione vince quanto scegliere sempre «tutto», e il criterio 3 del §54.2 non è ancora superato.
+**Provato.** Il motore esiste, in `strumento/motore/`, e fa quello che questo documento descrive. Passa 56 test, che controllano anche che i numeri del documento siano quelli che il motore produce, e i trentasei controlli del §47 sui dati. Una storia di prova di 59 scene, *Il registro della Santa Rita*, si gioca nel terminale, nell'app e sul librogame stampato, e le tre versioni escono dagli stessi dati.
 
-Il 27 settembre 2026 sono entrati nel motore le cose nei luoghi, i posti (§7.3) e lo stato del mondo (§11.4). I test sono 52, i controlli del §47 trentasei. Nelle simulazioni chi sceglie a caso vince un po' meno di prima, il 16% invece del 20%, perché la bolla di carico adesso bisogna prenderla, e chi sceglie a caso spesso non lo fa. Il giocatore con un obiettivo vince ancora l'81% (§54.2).
+I giocatori automatici del §54.2 giocano mille partite per ciascuna di tredici strategie: nessuna partita resta bloccata, non esce nessun errore, tutte le scene vengono raggiunte, e le fasce escono con le frequenze delle tabelle. Le strategie contano: chi gioca per vincere vince 81 partite su 100, chi si prepara sempre 43, chi sceglie a caso 15. Due cose non vanno ancora come dovrebbero, e il §54.2 le racconta: nel *Quasi* prendere sempre tutto vince quanto scegliere con giudizio, e chi conosce la strada arriva alla nave con molte ore di margine.
 
-**Non provato.** Nessuno ha ancora giocato il 3.0. I conti delle probabilità sono esatti e si rifanno a mano dalle tabelle dell'appendice A. Ma che le quattro fasce si sentano diverse, che il *Quasi* sia davvero una scelta, che i tratti e i legami arricchiscano la scheda senza appesantirla, che un quadro con quattro sezioni si legga in pochi secondi: tutto questo lo possono dire soltanto le persone che giocano. Il rischio più grande è proprio il quadro: il 2.0 chiedeva di leggere una ricevuta, il 3.0 chiede di leggerne una più lunga. La Parte XI dice come lo si verifica, e che cosa deve succedere perché la prova sia superata.
-
-Una persona sola, per di più l'autore del progetto, non fa una prova. Le osservazioni di quella partita sono servite a correggere la lingua e due regole; non dicono niente sul resto.
+**Non provato.** Nessuno ha ancora giocato questa versione. L'autore ha giocato per intero la precedente, e da quella partita vengono alcune regole di questo documento: le parole, le scelte che spariscono quando non servono più, la struttura della difficoltà. Che le quattro fasce si sentano diverse, che il quadro si legga in pochi secondi, che i tratti e i legami arricchiscano la scheda senza appesantirla: questo lo possono dire soltanto le persone che giocano. Il progetto non le aspetta per andare avanti. Quando arriveranno le loro risposte, il §54.3 dice come leggerle e il §54.4 che cosa farne.
 
 ---
 ---
@@ -64,10 +62,10 @@ Il motore non fa alcune cose, per scelta:
 - non ha attributi in numeri, e non ha livelli in cui si spendono punti su Forza per diventare forti;
 - non ha classi, né alberi di talenti;
 - non ha nemici che crescono insieme a te;
-- non tira mai contro di te: i dadi li tira soltanto chi gioca;
+- non tira mai di nascosto: i dadi li tira soltanto chi gioca, e prima di ogni tiro sai quanto rischi;
 - non genera testo mentre giochi: ogni frase è stata scritta, o almeno riletta e approvata, da chi ha scritto la storia.
 
-Il nome del motore viene da uno dei suoi meccanismi, l'**esposizione**: quanto la situazione ha presa su di te, e quindi quanto ti costa agire. Nel 2.0 era quasi tutto il gioco. Nel 3.0 risponde a una delle quattro domande, e le altre tre contano quanto lei.
+Il nome del motore viene da uno dei suoi meccanismi, l'**esposizione**: quanto la situazione ha presa su di te, e quindi quanto ti costa agire. Risponde a una delle quattro domande, e le altre tre contano quanto lei.
 
 ## 2. Una scena giocata
 
@@ -96,23 +94,24 @@ RIESCI?    8  Impegnativa: prendere qualcosa sotto gli occhi di chi lo sorveglia
           ──  in pieno 17 · riesci 56 · quasi 19 · non riesci 8
 
 COSTA?     0  Sottrarre, di suo, non si nota
-          +1  nell'archivio chi tocca le carte viene guardato   — non conta
+          +1  nell'archivio chi tocca le carte viene guardato
           −1  all'alba la folla dei capitani copre le mani
           ──  0  AL COPERTO
 
 DOPO?     riesci: hai il registro
-          quasi: tutto, ma qualcuno ti vede · oppure la metà: la nave, non i nomi
+          quasi: tutto, e ne paghi il prezzo · la metà: la nave, non i nomi
+                 · oppure lasci perdere, e scopri dove finisce il registro
           non riesci: scopri qualcosa sul registro e su chi lo custodisce
           se va male: niente di peggio che non riuscire
 ```
 
-Il quadro risponde a quattro domande. **Puoi farlo?** Sì: non ti serve niente che non hai. **Ci riesci?** Devi fare almeno 8 con due dadi, più 1 perché sai farlo e più 1 per la borsa: riesci 72 volte su 100, e di queste 17 in pieno. **Quanto ti costa?** Niente: sei al coperto. L'archivio espone chi tocca le carte, ma la folla dell'alba ti copre, e Sottrarre non scende sotto il coperto: la riga del +1 non cambia niente, e il quadro la segna. **Che cosa cambia dopo?** Dipende dalla fascia in cui cadrà il tiro, e il quadro te le elenca.
+Il quadro risponde a quattro domande. **Puoi farlo?** Sì: non ti serve niente che non hai. **Ci riesci?** Devi fare almeno 8 con due dadi, più 1 perché sai farlo e più 1 per la borsa: riesci 72 volte su 100, e di queste 17 in pieno. **Quanto ti costa?** Niente: sei al coperto. L'archivio espone chi tocca le carte (+1), ma la folla dell'alba copre le mani (−1), e le due righe si annullano. **Che cosa cambia dopo?** Dipende dalla fascia in cui cadrà il tiro, e il quadro te le elenca.
 
 Tiri: 3 e 2, cinque. Aggiungi 2: sette. Ti manca 1 per arrivare a 8. È un **Quasi**, e il gioco ti chiede di scegliere:
 
-- **tutto, ma un grado più esposto**: prendi il registro, ma un capitano ti vede infilarlo nella borsa. La Traccia dell'archivio sale di una tacca;
+- **tutto, e ne paghi il prezzo**: prendi il registro, ma un capitano ti vede infilarlo nella borsa. La Traccia dell'archivio sale di una tacca, e prima o poi Bressan lo saprà;
 - **la metà**: fai in tempo a leggere soltanto la riga della nave, *Santa Rita*, e il suo carico, ma non l'equipaggio. È quello che ti avrebbe dato il facchino;
-- **lasci perdere**: ritiri la mano prima che qualcuno se ne accorga. Non ottieni niente, e non paghi niente.
+- **lasci perdere**: ritiri la mano prima che qualcuno se ne accorga. Non ottieni niente e non paghi niente, ma intanto vedi che Bressan porta alla cintura la chiave dell'armadio, e capisci che di notte il registro finisce lì dentro. Puoi riprovare più tardi.
 
 Prendi tutto. Nel registro trovi il nome di Matteo, aggiunto dopo con un inchiostro più chiaro, e al posto della firma una croce. Matteo sa scrivere meglio di chiunque in questo porto: quella croce non l'ha fatta lui. Esci con il registro nella borsa e un capitano che ricorderà la tua faccia.
 
@@ -157,7 +156,7 @@ COSE         quattro monete · il biglietto di Matteo · una borsa da facchino
              una lanterna spenta e l'olio per accenderla · la giacca imbottita
 NOTIZIE      —
 CONVINZIONI  Matteo non scapperebbe mai di casa
-             Non fidarti di chi lavora per Grimani
+             Non ci si può fidare di chi lavora per Grimani
 LEGAMI       Zeno, l'oste del Gallo: si fida di te · ti deve un favore
 CONDIZIONI   Fatica: leggera · Nervi: saldi · nessuna ferita
 ```
@@ -264,7 +263,7 @@ Una cosa ha un solo uso per volta: nella stessa prova la borsa è un attrezzo op
 - **Rompere.** Una cosa ha tre stati: **intatta**, **rovinata**, **rotta**. Rovinata funziona ancora; rotta non funziona più. Una cosa *fragile* scende di uno stato ogni volta che una prova in cui l'hai usata finisce in *Non riesci*; le altre soltanto con un rovescio.
 - **Perdere.** Con un rovescio perdi ciò che avevi in mano, se la scena lo dice. Ciò che cade in acqua è perso. Ciò che ti sequestrano può tornare, se la storia lo prevede.
 
-L'ambientazione può anche dire **quanto porti**: per esempio sei cose, e una sola ingombrante. È un'opzione, utile nei viaggi e negli horror, dove scegliere che cosa lasciare è già una decisione.
+L'ambientazione può anche dire **quanto porti**, in posti (§7.3). Serve soprattutto nei viaggi e negli horror, dove scegliere che cosa lasciare è già una decisione.
 
 ### 7.2 Attrezzi e preparazioni: la divisione
 
@@ -280,8 +279,6 @@ Il grimaldello apre meglio la serratura, ma non ti nasconde. La casacca ti nasco
 Questa divisione tiene separate due domande che devono restare separate: quanto è probabile riuscire, e quanto ti costa provarci. Se un'unica cosa potesse abbassare tutte e due, diventerebbe la scelta ovvia in ogni situazione, e il gioco si ridurrebbe a procurarsela. Così invece ogni ostacolo chiede di scegliere su che cosa investire: tempo e denaro per nasconderti, oppure per riuscire meglio.
 
 ### 7.3 Raccogliere, portare, lasciare
-
-*Proposta del 25 settembre 2026, approvata il 27 settembre e nel motore dallo stesso giorno.*
 
 *Nel magazzino sette, su un barile, c'è una leva di ferro. La vedi perché hai la lanterna accesa. La prendi, ma la borsa è piena: per portarla devi lasciare lì il fiasco d'olio. Quando ci torni, due ore dopo, il fiasco è ancora sul barile.*
 
@@ -299,7 +296,7 @@ Sulla carta i posti sono una fila di caselle sulla scheda: una cosa ingombrante 
 
 Il limite serve a una cosa sola: rendere una decisione ciò che porti. Senza, il personaggio raccoglie tutto, e le cose smettono di contare. Con i posti, ogni cosa presa è una cosa lasciata, e chi torna in un luogo trova ciò che ha lasciato lì.
 
-**Le regole di dettaglio.** Scrivendo il motore è servito decidere alcune cose che la proposta non diceva:
+**Le regole di dettaglio.**
 
 - **Lasciare quando vuoi.** Una cosa si può lasciare in qualunque scena, fuori da un confronto, e non costa tempo. Nell'app lo si fa dalla scheda, perché l'elenco delle scelte resti corto; sul libro, scrivendo il nome della cosa nel margine del paragrafo.
 - **Una cosa che ti arriva quando non hai posto**, come il registro appena rubato, resta a terra nella scena in cui sei. La puoi prendere lasciando qualcos'altro.
@@ -352,7 +349,7 @@ Alcune notizie, messe insieme, ne danno una nuova. L'autore lo dichiara: da «il
 
 ### 8.4 Le convinzioni
 
-Una **convinzione** è una frase che il personaggio crede su di sé o sugli altri: «Matteo non scapperebbe mai di casa», «Non fidarti di chi lavora per Grimani», «Nessuno in questo porto mi aiuterà». Le scrive l'autore; il personaggio ne ha due o tre all'inizio, e altre gli nascono dagli eventi della storia.
+Una **convinzione** è una frase che il personaggio crede su di sé o sugli altri: «Matteo non scapperebbe mai di casa», «Non ci si può fidare di chi lavora per Grimani», «Nessuno in questo porto mi aiuterà». Le scrive l'autore; il personaggio ne ha due o tre all'inizio, e altre gli nascono dagli eventi della storia.
 
 Una convinzione agisce su quali scelte ti vengono in mente:
 
@@ -378,7 +375,7 @@ Cambiare idea può avere altri effetti, che l'autore dichiara: un tratto nuovo, 
 
 *Zeno, l'oste del Gallo, si fida di te e ti deve un favore. Quando gli chiedi di tenere d'occhio la porta mentre parli con il marinaio, lo fa; ma adesso non ti deve più niente.*
 
-Un **legame** è il rapporto del personaggio con una persona, descritto da alcune dimensioni fra cinque: **fiducia**, **debito**, **paura**, **affetto**, **rancore**. Ogni persona usa soltanto quelle che le servono, ciascuna da 0 a 3. Le persone ricordano quello che hai fatto, ti aiutano, ti chiedono favori, ti tradiscono, cambiano opinione. Se ne parla per intero nella Parte VI.
+Un **legame** è il rapporto del personaggio con una persona, descritto da alcune dimensioni fra cinque: **fiducia**, **debito**, **paura**, **affetto**, **rancore**. Ogni persona usa soltanto quelle che le servono, ciascuna da 0 a 3; il debito va da −3 a 3, perché può essere lei a doverti un favore o tu a lei. Le persone ricordano quello che hai fatto, ti aiutano, ti chiedono favori, ti tradiscono, cambiano opinione. Se ne parla per intero nella Parte VI.
 
 ## 10. Le condizioni
 
@@ -429,9 +426,9 @@ Due regole tengono in misura le proprietà:
 
 ### 11.2 Perché le proprietà
 
-Nel 2.0 ogni luogo e ogni momento avevano un valore per ogni ambito, scritto a mano: con venti luoghi, sei momenti e quattro ambiti, 104 caselle da tenere coerenti. Con le proprietà l'autore compila una tabella di dieci righe per quattro ambiti, e poi descrive ogni luogo con qualche parola. Le caselle diventano una quarantina, e restano coerenti da sole: il buio vale −1 al corpo in ogni luogo buio.
+Si potrebbe scrivere a mano, per ogni luogo e ogni momento, un valore per ogni ambito: con venti luoghi, sei momenti e quattro ambiti sono 104 caselle da tenere coerenti. Con le proprietà l'autore compila una tabella di dieci righe per quattro ambiti, e poi descrive ogni luogo con qualche parola. Le caselle diventano una quarantina, e restano coerenti da sole: il buio vale −1 al corpo in ogni luogo buio.
 
-C'è una seconda ragione, più importante. Nel 2.0 un luogo influiva soltanto sul costo. Con le proprietà, lo stesso buio che ti nasconde ti impedisce di leggere, e la stessa folla che copre le tue mani ti fa perdere di vista chi stai seguendo. Il mondo reagisce in modo coerente su tutte le domande, e chi gioca impara a leggerlo: *qui è buio, quindi*.
+C'è una seconda ragione, più importante. Un valore scritto a mano dice soltanto quanto costa agire lì. Con le proprietà, lo stesso buio che ti nasconde ti impedisce di leggere, e la stessa folla che copre le tue mani ti fa perdere di vista chi stai seguendo. Il mondo reagisce in modo coerente su tutte le domande, e chi gioca impara a leggerlo: *qui è buio, quindi*.
 
 ### 11.3 I luoghi che cambiano
 
@@ -441,19 +438,17 @@ Un luogo può avere degli **stati**, che dipendono dalla memoria della storia (�
 
 ### 11.4 Lo stato del mondo
 
-*Proposta del 25 settembre 2026, approvata il 27 settembre e nel motore dallo stesso giorno.*
-
 *Hai forzato il portone dell'archivio. Il giorno dopo il portone è ancora scardinato, e c'è una guardia. Nella stiva hai acceso la lanterna appesa alla trave, e adesso la stiva non è più buia, per nessuno: né per te né per chi ti cerca. Poi dal mare sale la nebbia, e per sei ore sulla banchina non si vede a dieci passi.*
 
-**Luoghi e cose hanno uno stato.** Un luogo, o una cosa di un luogo, può avere uno stato scelto da un elenco che l'autore dichiara: il portone chiuso, aperto o forzato; la lanterna della stiva spenta o accesa; il porto tranquillo o in allarme. Le azioni lo cambiano, e ogni stato aggiunge o toglie proprietà, vie e testo. Oggi il motore fa questo con i fatti e con gli stati del §11.3; lo stato esplicito lo rende leggibile, anche nel quadro: «il portone è forzato: +1, chi entra lascia un segno».
+**Luoghi e cose hanno uno stato.** Un luogo, o una cosa di un luogo, può avere uno stato scelto da un elenco che l'autore dichiara: il portone chiuso, aperto o forzato; la lanterna della stiva spenta o accesa; il porto tranquillo o in allarme. Le azioni lo cambiano, e ogni stato aggiunge o toglie proprietà, vie e testo. Lo stato si legge anche nel quadro: «il portone è forzato: +1, chi entra lascia un segno».
 
-**Gli stati possono durare e propagarsi.** Uno stato può scadere dopo un certo numero di ore («in allarme, per sei ore»). Un evento può cambiare lo stato di più luoghi insieme: l'allarme alla capitaneria mette in allarme tutto il porto, e la sorveglianza vale in ogni zona finché dura.
+**Gli stati possono durare e propagarsi.** Uno stato può scadere dopo un certo numero di ore («in allarme, per sei ore»). Un evento può cambiare lo stato di più luoghi insieme: l'allarme alla capitaneria mette in allarme tutto il porto, e la sorveglianza vale in ogni zona finché dura. Uno stato può anche spingere una scadenza (§15.4): quando il porto va in allarme, la nave salpa prima.
 
 **L'ambiente logora.** Una proprietà può far salire un logorio per ogni ora passata lì: l'acqua gelida la fatica, il freddo un logorio del freddo, il fumo il respiro. Lo dichiara la tabella delle proprietà; il rimedio resta quello del logorio.
 
 **Il tempo che fa.** Il meteo è uno stato del mondo che cambia con le ore o con un evento, e porta le sue proprietà in tutti i luoghi all'aperto: la nebbia (chi si muove non si vede, chi cerca non trova), la pioggia (il rumore copre le voci), la tempesta (niente barche). Si annuncia come una scadenza, perché chi gioca veda che arriva.
 
-**Salute e ambiente insieme.** Molto c'è già: una ferita chiude un ambito, il logorio pesa, gli stati d'animo spostano la soglia, al buio non si legge e in acqua serve saper nuotare. La proposta aggiunge due cose: le ferite contano anche per ciò che porti (una ferita grave al braccio toglie un posto) e per ciò che puoi prendere (una ferita grave al corpo toglie la forza).
+**Salute e ambiente insieme.** Molto c'è già: una ferita chiude un ambito, il logorio pesa, gli stati d'animo spostano la soglia, al buio non si legge e in acqua serve saper nuotare. In più, le ferite contano anche per ciò che porti (una ferita grave al braccio toglie un posto) e per ciò che puoi prendere (una ferita grave al corpo toglie la forza).
 
 La scheda dell'ambientazione (§43) si allarga: le cose di ogni luogo, i posti e i contenitori, gli stati dichiarati dei luoghi e delle cose, il meteo.
 
@@ -461,9 +456,9 @@ La scheda dell'ambientazione (§43) si allarga: le cose di ogni luogo, i posti e
 
 Nel quadro le proprietà che vengono da uno stato portano davanti la frase che lo dice: «il porto è in allarme: chi gira dove non deve viene notato». Sulla scheda compare ogni stato diverso dal solito, con le ore che gli restano.
 
-Scrivendo lo stato del mondo è venuto fuori un difetto del §11.3. Sulla Santa Rita in allarme le lanterne accese toglievano il buio, ma di notte il buio tornava con il momento del giorno. Adesso ciò che uno stato toglie resta tolto, qualunque cosa porti il momento.
+**Ciò che uno stato toglie resta tolto**, qualunque cosa porti il momento. Sulla Santa Rita, quando l'equipaggio ti nota e accende le lanterne, la notte non riporta il buio.
 
-**Nella Santa Rita.** Se ti prendono, all'archivio o ai magazzini, il porto va in allarme per sei ore: la sorveglianza vale in ogni luogo, e chi è appena uscito di cella la sente. Il portone dell'archivio, una volta forzato, resta forzato: di notte ci rientri senza tirare, di giorno davanti c'è una guardia. A metà della sera, all'ora 15, sale la nebbia, che la scheda annuncia come una scadenza: per sei ore, sulla banchina e nei magazzini, chi si muove non si vede e chi cerca non trova. Di notte, fuori, fa freddo: la fatica sale di uno stadio ogni quattro ore passate all'aperto.
+**Nella Santa Rita.** Se ti prendono, all'archivio o ai magazzini, il porto va in allarme per sei ore: la sorveglianza vale in ogni luogo, chi è appena uscito di cella la sente, e Grimani, avvertito, fa salpare la nave tre ore prima. Il portone dell'archivio, una volta forzato, resta forzato: di notte ci rientri senza tirare, di giorno davanti c'è una guardia. A metà della sera, all'ora 15, sale la nebbia, che la scheda annuncia come una scadenza: per sei ore, sulla banchina e nei magazzini, chi si muove non si vede e chi cerca non trova. Di notte, fuori, fa freddo: la fatica sale di uno stadio ogni quattro ore passate all'aperto.
 
 ## 12. Il tempo
 
@@ -552,7 +547,7 @@ Il costo in tempo o in denaro, quando c'è, si scrive fra parentesi dopo la scel
 
 Una storia lunga ha più **fili**: il fratello scomparso, il debito con l'usuraio, l'amicizia con il pilota del porto. Ogni filo avanza per tappe, e le scene successive richiedono che il filo sia arrivato a un certo punto.
 
-Le **scadenze** sono ciò che succederà comunque: la nave salpa, l'usuraio perde la pazienza, il processo comincia. Ogni scadenza avanza di una casella ogni tante ore, e quando è piena succede ciò che dichiara, salvo che una condizione dichiarata lo eviti. Tengono viva la pressione: prepararsi con calma è quasi sempre possibile, ma costa ore, e le ore fanno avanzare le scadenze.
+Le **scadenze** sono ciò che succederà comunque: la nave salpa, l'usuraio perde la pazienza, il processo comincia. Ogni scadenza avanza di una casella ogni tante ore, e quando è piena succede ciò che dichiara, salvo che una condizione dichiarata lo eviti. Può anche avanzare per ciò che fai, se l'autore lo dichiara: nel porto, ogni allarme fa salpare la nave tre ore prima. Così il rumore costa anche tempo. Tengono viva la pressione: prepararsi con calma è quasi sempre possibile, ma costa ore, e le ore fanno avanzare le scadenze.
 
 ### 15.5 Gli snodi
 
@@ -703,7 +698,7 @@ Per le sole capacità, senza attrezzi né penalità, la tabella diventa questa:
 | **Esperto (+2)** | 42 · 50 · 8 · 0 | 17 · 56 · 19 · 8 | 3 · 39 · 31 · 28 | 0 · 17 · 25 · 58 |
 | **Maestro (+3)** | 58 · 39 · 3 · 0 | 28 · 56 · 14 · 3 | 8 · 50 · 25 · 17 | 0 · 28 · 31 · 42 |
 
-Tre cose si leggono subito. *In pieno* più *Riesci* dà la stessa probabilità di riuscire del 2.0: chi aveva 42 su 100 ha ancora 42 su 100 di ottenere ciò che vuole senza patti. Un gradino vale due righe della tabella: sapere com'è fatta la serratura, per un Inesperto davanti a un'Ardua, porta la probabilità di riuscire da 17 a 42. E un attrezzo vale quanto un livello di capacità: per questo attrezzi e aiuti insieme non superano +2, altrimenti comprare vorrebbe dire più che imparare.
+Due cose si leggono subito. Un gradino vale due righe della tabella: sapere com'è fatta la serratura, per un Inesperto davanti a un'Ardua, porta la probabilità di riuscire da 17 a 42. E un attrezzo vale quanto un livello di capacità: per questo attrezzi e aiuti insieme non superano +2, altrimenti comprare vorrebbe dire più che imparare.
 
 ## 19. Quanto ti costa?
 
@@ -800,12 +795,15 @@ COSTA?     1  Forzare: una serratura forzata resta forzata
           ──  2  ALLO SCOPERTO
 
 DOPO?     riesci: hai il registro
-          quasi: tutto, ma la ronda arriva mentre esci · oppure lasci perdere
+          quasi: tutto, ma la ronda arriva mentre esci
+                 · oppure lasci perdere, e scopri qualcosa sul lucchetto
           non riesci: scopri qualcosa sul lucchetto
           se va male: la ronda ti trova col ferro in mano
 ```
 
 Le quattro sezioni seguono sempre questo ordine. Accanto alle righe della riuscita, al margine, c'è la parte della scheda da cui vengono: cosa, tratto, notizia, legame. Chi gioca impara così dove guardare per cambiare le cose.
+
+Nella sezione «Ci riesci?» il primo numero è la soglia. Se un tratto, una notizia o il luogo la spostano, la riga dice dove arriva: «→ 10» vuol dire che adesso devi fare 10. Le righe con il «+» e il «−» si aggiungono al tiro, e un «+» ti aiuta sempre. Nella sezione «Quanto ti costa?» vale il contrario: ogni «+» ti espone di più. Sono due domande diverse, e ciascuna tiene il suo verso.
 
 ### 21.2 Tre regole di scrittura
 
@@ -815,21 +813,18 @@ Le quattro sezioni seguono sempre questo ordine. Accanto alle righe della riusci
 
 ### 21.3 Le righe che non contano
 
-Un quadro dice anche quali righe, in questa situazione, non cambiano niente. Nella riuscita è semplice: non contano le ragioni oltre il primo gradino in una direzione (§18.1), gli attrezzi e gli aiuti oltre +2, le penalità oltre −3.
+Un quadro dice anche quali righe, in questa situazione, non cambiano niente. Sono di quattro tipi:
 
-Nel costo le righe si dividono in righe che **alzano** (ambiente positivo, aggravanti) e righe che **abbassano** (ambiente negativo, preparazioni). La partenza non si segna mai. Si guarda la somma finale:
+- nella riuscita, le ragioni oltre il primo gradino in una direzione (§18.1), gli attrezzi e gli aiuti oltre +2, le penalità oltre −3;
+- nel costo, le righe dell'ambiente oltre 2 in su o in giù (§11.1);
+- nel costo, le **preparazioni che non bastano**: se anche con loro resti allo scoperto, il quadro lo scrive accanto, con quante ne servirebbero: «non basta: ne servirebbe un'altra»;
+- nel costo, le **preparazioni che non servono**: se senza di loro saresti già al grado più basso che l'azione permette, il quadro scrive «non serve».
 
-| La somma è… | Righe che alzano | Righe che abbassano |
-|---|---|---|
-| **sopra 2** | le ultime non contano, tante quanti i punti oltre il 2 | nessuna conta: «non basta, ne servirebbero *N* in più», con *N* = somma − 1 |
-| **uguale a 2** | contano | nessuna conta: «non basta, ne servirebbe una in più» |
-| **fra il Fondo e 2** | contano | contano |
-| **uguale al Fondo** | nessuna conta | contano |
-| **sotto il Fondo** | nessuna conta | le ultime non contano, tante quanti i punti sotto il Fondo |
+Il Fondo e il tetto non spengono nessuna riga. Si sommano le righe, e una nota sotto il totale dice quando la somma esce dalla scala: «il grado più basso di questa azione è esposto», oppure «più su di allo scoperto non si va». Con Fondo 2 la nota dice «questa azione costa sempre il massimo».
 
-Con Fondo 2 nessuna riga conta mai, e il quadro lo dice una volta sola: «questa azione costa sempre il massimo».
+Nel quadro del §21.1 la somma è 1 + 1 + 1 − 1 = 2. La preparazione non basta: senza di lei la somma sarebbe 3, e resteresti comunque allo scoperto; con una seconda scenderebbe a 1. Da qui «ne servirebbe un'altra». È la riga che più importa segnalare: chi ha speso tempo per prepararsi deve sapere, prima di tirare, che non è bastato.
 
-Nel quadro del §21.1 la somma è 1 + 1 + 1 − 1 = 2. Le righe che alzano contano tutte: togline una qualsiasi e la somma scende a 1, esposto. La preparazione non conta: senza di lei la somma sarebbe 3, e il tetto la riporterebbe a 2. Una seconda preparazione porterebbe la somma a 1: da qui «ne servirebbe un'altra». La riga che più importa segnalare è proprio questa: chi ha speso tempo per prepararsi deve sapere, prima di tirare, che non è bastato.
+Si segnano soltanto le preparazioni perché sono le sole righe del costo che chi gioca ha scelto e pagato. Le altre vengono dal mondo, e segnare una riga come «non conta» mentre un'altra, uguale e contraria, conta confonde più di quanto spieghi. Nell'archivio all'alba la sorveglianza (+1) e la folla (−1) si annullano, e il quadro le scrive tutte e due.
 
 ### 21.4 Il quadro sulla carta e al tavolo
 
@@ -842,7 +837,7 @@ Le prove sono di due tipi.
 - **Prova ritentabile.** Puoi riprovare, ma ogni nuovo tentativo ti costa un'ora, con tutto ciò che un'ora comporta: le scadenze avanzano, il logorio sale, può arrivare un imprevisto, e il momento del giorno può cambiare. Prima di ogni tentativo il gioco rifà il quadro.
 - **Prova da una volta sola.** Si tenta una volta, e segna la partita: una bugia detta a un giudice, un salto fra due tetti, un'offerta a un nemico. Il gioco la segnala prima, con le parole «una volta sola». Una prova da una volta sola non è mai l'unica via di un ostacolo.
 
-Il *Quasi* offre anche di lasciar perdere (§28.3): chi lo sceglie non paga il costo pieno e, se la prova è ritentabile, può riprovare più tardi.
+Il *Quasi* offre anche di lasciar perdere (§28.3): chi lo sceglie scopre qualcosa sull'ostacolo, paga soltanto il segno del suo grado e, se la prova è ritentabile, può riprovare più tardi, spesso con una soglia più bassa.
 
 Qui sta il senso della competenza. Chi è Esperto forza una serratura Impegnativa al primo tentativo 72 volte su 100; chi è Inesperto ci mette in media due tentativi e mezzo. Ogni tentativo in più è un'ora in più, con la sua fatica e il suo rischio di imprevisti. E chi è bravo, oltre a metterci meno, riesce in pieno più spesso: 17 volte su 100 l'Esperto, 3 l'Inesperto.
 
@@ -853,59 +848,21 @@ Qui sta il senso della competenza. Chi è Esperto forza una serratura Impegnativ
 
 # PARTE V — LE GRADAZIONI
 
-## 23. Il problema
+## 23. Due letture dello stesso tiro
 
-*Due persone giocano la stessa scena dell'archivio e arrivano allo stesso tiro: manca 1. La prima prende il registro e accetta che un capitano la veda. La seconda si accontenta del nome della nave e se ne va senza lasciare segni. Tre ore dopo, al Gallo, la prima si sente chiamare per nome da uno sconosciuto; la seconda entra in una taverna che non sa niente di lei, ma non conosce il nome del capitano della Santa Rita.*
+*Due persone giocano la stessa scena dell'archivio e arrivano allo stesso tiro: manca 1. La prima prende il registro e ne paga il prezzo: un capitano la vede. La seconda si accontenta del nome della nave e se ne va senza lasciare segni. Tre ore dopo, al Gallo, la prima si sente chiamare per nome da uno sconosciuto; la seconda entra in una taverna che non sa niente di lei, ma non conosce il nome del capitano della Santa Rita.*
 
-Nel 2.0 il dado rispondeva sì o no. Il resto lo faceva l'esposizione: sei esiti, riesci o non riesci per tre gradi, ognuno con un ruolo diverso. Un tiro di 7 contro una soglia di 8 valeva quanto un tiro di 2: non riesci. Un tiro di 12 valeva quanto un tiro di 8: riesci. Chi gioca lo sente, e il dado finisce per sembrare una moneta.
-
-La specifica 1.3 aveva rifiutato la scala di gradi (fallimento grave, fallimento, successo parziale, successo pieno) con una ragione precisa, scritta nel suo §1: una scala ordinata suggerisce a chi scrive «meglio» e «peggio», e spinge a scrivere versioni più o meno forti della stessa conseguenza. Il successo parziale diventa il successo con qualcosa in meno; il fallimento grave diventa il fallimento con qualcosa in più. Dopo cento prove, le quattro caselle dicono la stessa cosa a volume diverso, e tenerle distinte diventa una questione di disciplina degli autori. Su un progetto lungo, la disciplina cede. Il 2.0 ha ereditato questo rifiuto senza riscriverlo.
-
-La ragione è buona, e il 3.0 la tiene. Ma le gradazioni servono: chi gioca deve sentire la differenza fra mancare di poco e mancare di molto, fra riuscire e riuscire in pieno. Il compito è costruire gradazioni che non cadano nel difetto della scala.
-
-Prima di confrontare i modelli, ecco che cosa ciascuno deve garantire. I criteri sono scritti qui, prima dei conti.
-
-1. **Natura.** Due esiti vicini differiscono per che cosa succede, non soltanto per quanto.
-2. **Al coperto il dado non può rovinarti.** Il peggio, al coperto, è non ottenere.
-3. **Nessuna morte senza avviso.** Nessuna fascia può uccidere se il quadro non lo ha detto.
-4. **Le scelte contano più dei dadi.** Il costo di un'azione resta nelle mani di chi gioca.
-5. **Scrivere non costa più del 2.0.** Nel 2.0 una prova chiedeva tre testi obbligatori.
-6. **Si legge a colpo d'occhio**, sul quadro e sulla carta.
-7. **I conti si rifanno a mano**, con la tabella dei due dadi.
-
-Tutti e tre i modelli usano il **margine**, cioè il tiro meno la soglia, e le stesse quattro fasce: +4 o più, da 0 a +3, −1 o −2, −3 o meno. Cambia che cosa se ne fa. Le probabilità delle fasce sono quelle del §18.3.
-
-## 24. Modello A: la griglia a dodici
-
-Il modello più diretto incrocia le quattro fasce con i tre gradi di esposizione. Ne escono dodici caselle, ciascuna con il suo esito predefinito:
-
-| | +4 o più | da 0 a +3 | −1 o −2 | −3 o meno |
-|---|---|---|---|---|
-| **Al coperto** | successo brillante | successo pieno | successo mancato | fallimento pulito |
-| **Esposto** | successo netto | successo sporco | mezzo successo sporco | rovescio minore |
-| **Allo scoperto** | successo netto a caro prezzo | successo a caro prezzo | rovescio lieve | rovescio |
-
-**I conti.** Il grado lo sceglie chi gioca, il dado sceglie la colonna. Per un Pratico davanti a un'Impegnativa, allo scoperto: successo netto a caro prezzo 8, successo a caro prezzo 50, rovescio lieve 25, rovescio 17. Le stesse quattro probabilità valgono in ogni riga: il grado sposta la riga, non la colonna.
-
-**Il difetto.** Basta leggere i nomi. *Rovescio lieve* e *rovescio*, *successo netto* e *successo sporco* sono coppie ordinate: la stessa conseguenza a volume diverso. È proprio ciò che la 1.3 temeva. Per tenere distinte dodici caselle ogni ambientazione dovrebbe scrivere dodici predefiniti di natura diversa, e ogni autore dovrebbe rispettarli.
-
-**Quanto costa scrivere.** Con i predefiniti, da sei a otto testi per prova, perché le caselle vicine chiedono sfumature che nessun predefinito dà. Senza, dodici.
-
-**Leggibilità.** Dodici nomi non si ricordano. Sul quadro il modello si mostra, ma chi gioca non lo impara.
-
-## 25. Modello B: due letture dello stesso tiro
-
-Il secondo modello tiene le fasce e l'esposizione su due assi separati, e dà a ciascun asse le sue gradazioni.
+Dopo il tiro l'esito si legge due volte, su due assi separati.
 
 - **Il dado dice quanto ottieni**, in quattro fasce, ciascuna di natura diversa: un dono, l'obiettivo, una scelta, una scoperta.
-- **L'esposizione dice quanto paghi**, nei tre gradi del 2.0: niente, un segno, un prezzo. E se non ottieni ciò che volevi, una complicazione o un rovescio.
+- **L'esposizione dice quanto paghi**, nei suoi tre gradi: niente, un segno, un prezzo. E se non ottieni ciò che volevi, una complicazione o il rovescio.
 
-| Fascia | Che cosa ottieni | Di che natura |
-|---|---|---|
-| **In pieno** | ciò che volevi, e un **dono**: una notizia, tempo risparmiato, una persona che ti nota, una cosa | un regalo del mondo |
-| **Riesci** | ciò che volevi | l'obiettivo |
-| **Quasi** | scegli tu: tutto, ma un grado più esposto; oppure **la metà**; oppure lasci perdere | una decisione |
-| **Non riesci** | non ottieni, ma **scopri qualcosa** sull'ostacolo | una notizia |
+| Fascia | Margine | Che cosa ottieni | Di che natura |
+|---|---|---|---|
+| **In pieno** | +4 o più | ciò che volevi, e un **dono**: una notizia, tempo risparmiato, una persona che ti nota, una cosa | un regalo del mondo |
+| **Riesci** | da 0 a +3 | ciò che volevi | l'obiettivo |
+| **Quasi** | −1 o −2 | scegli tu: tutto, pagandone il prezzo; **la metà**; oppure lasci perdere, e scopri qualcosa | una decisione |
+| **Non riesci** | −3 o meno | non ottieni, ma **scopri qualcosa** sull'ostacolo | una notizia |
 
 | Grado | Se ottieni | Se non ottieni |
 |---|---|---|
@@ -913,56 +870,40 @@ Il secondo modello tiene le fasce e l'esposizione su due assi separati, e dà a 
 | **Esposto** | +1 Traccia | +1 Traccia e una complicazione |
 | **Allo scoperto** | +1 Traccia e il prezzo | +1 Traccia e il rovescio |
 
-La seconda tabella è quella delle sei caselle del 2.0, letta come costo. La prima è ciò che il 3.0 aggiunge.
+Il dado non tocca mai il costo, e l'esposizione non tocca mai la probabilità di riuscire. Le due letture si incontrano in un punto solo, il *Quasi*, e si incontrano per una scelta di chi gioca, non per il dado.
 
-**I conti.** Le probabilità delle fasce sono quelle del §18.3. Il fallimento gravissimo, cioè il rovescio, arriva soltanto con *Non riesci* allo scoperto, oppure quando chi gioca, nel *Quasi*, sceglie di prendere tutto allo scoperto. Rispetto al 2.0 il rovescio diventa più raro, perché i tiri che mancano di poco passano al *Quasi*:
+## 24. Perché quattro fasce, e non una scala
+
+Il modo più comune di graduare un tiro è una scala: fallimento grave, fallimento, successo parziale, successo pieno. Ha un difetto che si vede soltanto sui progetti lunghi. Una scala ordinata suggerisce a chi scrive «meglio» e «peggio», e lo spinge a scrivere la stessa conseguenza a volume diverso: il successo parziale diventa il successo con qualcosa in meno, il fallimento grave il fallimento con qualcosa in più. Dopo cento prove le quattro caselle dicono la stessa cosa a quattro volumi, e tenerle distinte diventa una questione di disciplina degli autori. Su un progetto lungo, la disciplina cede.
+
+Le quattro fasce evitano il difetto perché ognuna riempie nei dati una casella di tipo diverso. Il dono è una cosa che non cercavi, l'obiettivo è ciò che cercavi, il *Quasi* è una domanda che il gioco ti fa, la notizia del *Non riesci* è una scoperta. L'autore non può fare del *Quasi* un *Riesci* più debole, perché il *Quasi* per costruzione offre una scelta a chi gioca.
+
+Le fasce dovevano rispettare sette condizioni, scritte prima di fare i conti: due esiti vicini differiscono per natura e non solo per quantità; al coperto il dado non può rovinarti; nessuna fascia uccide senza avviso; il costo resta nelle mani di chi gioca; scrivere una prova chiede al massimo tre testi; si legge a colpo d'occhio; i conti si rifanno a mano. Altri due modelli sono stati scartati perché ne violavano qualcuna: sono nell'appendice E, con i conti.
+
+## 25. Quanto resta pericoloso
+
+Il rovescio, cioè l'esito peggiore, arriva soltanto con *Non riesci* allo scoperto, oppure quando chi gioca, nel *Quasi*, sceglie di prendere tutto allo scoperto. Una parte del pericolo passa quindi da una scelta:
 
 | Probabilità del rovescio, allo scoperto, per un Pratico | Facile | Impegnativa | Ardua | Estrema |
 |---|---|---|---|---|
-| nel 2.0 (non riesci) | 17 | 42 | 72 | 92 |
-| nel 3.0 (*Non riesci*) | 3 | 17 | 42 | 72 |
-| nel 3.0, più il *Quasi* in cui scegli di rischiare | 17 | 42 | 72 | 92 |
+| soltanto con *Non riesci* | 3 | 17 | 42 | 72 |
+| con *Non riesci*, più il *Quasi* in cui prendi tutto | 17 | 42 | 72 | 92 |
 
-L'ultima riga dice una cosa importante: il 3.0 non rende il mondo più clemente di nascosto. Il pericolo del 2.0 c'è ancora tutto, ma una parte ora passa da una scelta. Chi manca di poco decide se tentare la sorte o ritirarsi.
+La seconda riga è il pericolo pieno, quello che corre chi prende sempre tutto. Il mondo non è diventato più clemente di nascosto: chi manca di poco decide se tentare la sorte o ritirarsi.
 
-**Il difetto della scala, evitato.** Le quattro fasce non sono quattro intensità dello stesso esito: il dono è una cosa che non cercavi, l'obiettivo è ciò che cercavi, il *Quasi* è una domanda che il gioco ti fa, la notizia del *Non riesci* è una scoperta. Ognuna riempie nei dati una casella di tipo diverso, e l'autore non può fare del *Quasi* un *Riesci* più debole, perché il *Quasi* per costruzione offre una scelta a chi gioca. Il costo, dall'altra parte, resta quello del 2.0, che aveva già sei caselle di natura diversa.
+## 26. Più facile da attraversare, più caro
 
-**Quanto costa scrivere.** Tre testi obbligatori, come nel 2.0: che cosa ottieni, la notizia del *Non riesci*, il rovescio (una scena o un rimando). Tutto il resto ha un predefinito (§28.6).
+Le fasce cambiano quante volte si ottiene ciò che si vuole. Un Inesperto davanti a un'Impegnativa lo ottiene 42 volte su 100 senza patti, con *In pieno* o *Riesci*, e altre 31 volte può ottenerlo pagando, con il *Quasi*. Le storie diventano più facili da attraversare, e più care. Se le simulazioni o le prove mostreranno che sono troppo facili, la leva è il catalogo delle difficoltà, non le fasce.
 
-**Leggibilità.** Due timbri: la fascia e il grado. Sul quadro, una fila di quattro numeri sotto la riuscita e un grado sotto il costo.
+## 27. Che cosa rende il *Quasi* una scelta
 
-## 26. Modello C: il margine da spendere
+Il *Quasi* funziona soltanto se nessuna delle tre possibilità conviene sempre. Per questo ognuna costa una cosa diversa:
 
-Il terzo modello, sul modello di *Genesys*, trasforma il margine in una moneta. Ogni punto sopra la soglia compra un vantaggio da una lista (un'ora risparmiata, una notizia, una tacca di Traccia in meno, una persona che si fida di più); ogni punto sotto si paga con uno svantaggio (un'ora persa, una tacca di Traccia, un attrezzo rovinato, una ferita).
+- **tutto** costa il prezzo: lo stesso che paga chi riesce allo scoperto, e allo scoperto il rovescio;
+- **la metà** costa la parte che lasci: di solito è ciò che dà il ripiego, che di suo costerebbe tempo o denaro;
+- **lasci perdere** costa tempo: non ottieni niente adesso, ma scopri ciò che avresti scoperto non riuscendo, e spesso quella notizia rende più facile riprovare.
 
-**I conti.** Per un Pratico davanti a un'Impegnativa, i dadi devono fare 7, e il margine si distribuisce così:
-
-| Margine | −5 | −4 | −3 | −2 | −1 | 0 | +1 | +2 | +3 | +4 | +5 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| su 36 | 1 | 2 | 3 | 4 | 5 | 6 | 5 | 4 | 3 | 2 | 1 |
-| su 100 | 3 | 6 | 8 | 11 | 14 | 17 | 14 | 11 | 8 | 6 | 3 |
-
-In media un tiro dà poco meno di un punto da spendere (35 trentaseiesimi) e poco meno di un punto da pagare: moltiplica ogni margine per quante volte esce, somma i positivi e dividi per 36.
-
-**I difetti.** Il modello dà molta scelta, e ha tre problemi. Il primo: il dado entra nel costo. Se un punto di margine compra una tacca di Traccia in meno, un buon tiro cancella il prezzo di una cattiva scelta, e le scelte smettono di contare più dei dadi. Si potrebbe togliere la Traccia dalla lista, ma resterebbe il secondo problema: al coperto, un margine negativo si paga, e il dado torna a poterti rovinare. Il terzo è il tempo: ogni tiro diventa una piccola spesa, sulla carta bisogna contare e scegliere da una lista, e ogni scena deve dire che cosa si compra lì.
-
-**Quanto costa scrivere.** Le liste possono stare nell'ambientazione, ma una prova che conta ne vuole una sua: da cinque a otto testi.
-
-## 27. Il confronto e la scelta
-
-| Criterio | A: la griglia | B: due letture | C: il margine da spendere |
-|---|---|---|---|
-| 1. Natura | no: caselle vicine differiscono per intensità | sì: dono, obiettivo, scelta, scoperta | sì, ma sono voci di una lista |
-| 2. Al coperto il dado non rovina | sì | sì | no, salvo eccezioni |
-| 3. Nessuna morte senza avviso | sì | sì | sì |
-| 4. Le scelte contano più dei dadi | sì | sì: il dado non tocca il costo | no: il margine compra costo |
-| 5. Scrivere non costa più del 2.0 | no: 6–12 testi | sì: 3 testi | no: 5–8 testi |
-| 6. Si legge a colpo d'occhio | no: dodici nomi | sì: due timbri | no: una spesa a ogni tiro |
-| 7. I conti si rifanno a mano | sì | sì | sì |
-
-**Il 3.0 adotta il modello B.** È l'unico che rispetta tutti i criteri. Ha una ragione in più, che nessuna tabella misura: fa del tiro vicino alla soglia il momento più interessante della prova. Nel 2.0 mancare di uno era una delusione; nel 3.0 è una domanda. Quanto vuoi quella cosa, e che cosa sei disposto a lasciare dietro di te per averla?
-
-Il modello ha un costo. Nel 2.0 un Inesperto davanti a un'Impegnativa otteneva ciò che voleva 42 volte su 100. Nel 3.0 lo ottiene 42 volte senza patti, e altre 31 volte può ottenerlo pagando. Le storie diventano più facili da attraversare, e più care. Se le simulazioni e le prove mostreranno che sono troppo facili, la leva è il catalogo delle difficoltà, non le fasce.
+Chi ha fretta prende tutto; chi non può permettersi il prezzo si accontenta; chi ha tempo si ritira e riprova meglio informato. Le regole precise sono nel §28.3, e il §54.2 dice quanto le simulazioni confermano questo disegno.
 
 ## 28. Le fasce nel dettaglio
 
@@ -987,19 +928,19 @@ Chi raggiunge la soglia, o la supera di meno di 4, ottiene ciò che voleva, né 
 
 Chi manca la soglia di 1 o 2 sceglie fra tre possibilità, che il gioco gli mostra con il loro costo:
 
-- **Tutto, un grado più esposto.** Ottieni ciò che volevi, e il costo si legge un grado più su: al coperto diventa esposto, esposto diventa allo scoperto. Allo scoperto, più su non si va: ottieni ciò che volevi, e arriva il rovescio lo stesso. Esci dall'archivio con il registro sotto la giacca e la ronda alle calcagna.
+- **Tutto.** Ottieni ciò che volevi, e paghi come chi riesce allo scoperto: una tacca di Traccia e il prezzo. Se eri già allo scoperto, ottieni ciò che volevi e arriva il rovescio lo stesso: esci dall'archivio con il registro sotto la giacca e la ronda alle calcagna.
 - **La metà.** Ottieni una parte di ciò che volevi, al tuo grado, come se fossi riuscito. La metà la scrive l'autore; se non la scrive e nella scena c'è un ripiego con lo stesso obiettivo, la metà è ciò che dà il ripiego. Se non c'è né l'una né l'altro, questa possibilità non c'è.
-- **Lasci perdere.** Non ottieni niente, e paghi solo il segno del tuo grado: una tacca di Traccia se eri esposto o allo scoperto, niente al coperto. Niente complicazione, niente prezzo, niente rovescio. Se la prova è ritentabile, puoi riprovare più tardi.
+- **Lasci perdere.** Non ottieni niente, e **scopri ciò che avresti scoperto non riuscendo**: la notizia del *Non riesci*. Paghi solo il segno del tuo grado: una tacca di Traccia se eri esposto o allo scoperto, niente al coperto. Niente complicazione, niente prezzo, niente rovescio. Se la prova è ritentabile, puoi riprovare più tardi.
 
-| Grado | Tutto, un grado più esposto | La metà | Lasci perdere |
+| Grado | Tutto | La metà | Lasci perdere |
 |---|---|---|---|
-| **Al coperto** | ottieni · +1 Traccia | la metà · niente | niente |
-| **Esposto** | ottieni · +1 Traccia e il prezzo | la metà · +1 Traccia | niente · +1 Traccia |
-| **Allo scoperto** | ottieni · +1 Traccia e il rovescio | la metà · +1 Traccia e il prezzo | niente · +1 Traccia |
+| **Al coperto** | ottieni · +1 Traccia e il prezzo | la metà · niente | la notizia · niente |
+| **Esposto** | ottieni · +1 Traccia e il prezzo | la metà · +1 Traccia | la notizia · +1 Traccia |
+| **Allo scoperto** | ottieni · +1 Traccia e il rovescio | la metà · +1 Traccia e il prezzo | la notizia · +1 Traccia |
 
-Nessuna delle tre possibilità vince sempre. Al coperto *tutto* costa una tacca di Traccia, e *lasci perdere* non costa niente ma ti fa perdere tempo; quale convenga dipende da quanto manca alla scadenza e da quanta Traccia hai già in quella zona. Allo scoperto *tutto* ti dà l'obiettivo e un rovescio, e *lasci perdere* ti salva dal rovescio a mani vuote. Se le prove con le persone mostreranno che una delle tre viene scelta quasi sempre, il modello andrà corretto (§54).
+Due ragioni stanno dietro a queste regole. Lasciar perdere dà la notizia perché chi si ritira in tempo non deve sapere meno di chi manca la soglia di tre punti: altrimenti mancare di poco sarebbe peggio che mancare di molto. Prendere tutto costa il prezzo anche al coperto perché una tacca di Traccia, da sola, cala in tre ore e quasi non si sente: con quella soltanto, prendere tutto sarebbe la scelta giusta quasi sempre.
 
-Il *Quasi* è l'unica fascia in cui chi gioca può scegliere di pagare di più. Per questo non viola la promessa del coperto: al coperto il dado da solo non ti fa mai male, e sei tu a decidere se una tacca di Traccia vale il registro.
+Il *Quasi* è l'unica fascia in cui chi gioca può scegliere di pagare di più. Per questo non viola la promessa del coperto: al coperto il dado da solo non ti fa mai male, e sei tu a decidere se il prezzo vale il registro.
 
 **Nei confronti e nella difesa** il *Quasi* ha una forma propria, descritta nel §32 e nel §38: contro un punto debole, l'avversario si scopre ma tu sali di un grado; quando ti difendi, il colpo ti prende di striscio, e scegli fra una ferita più lieve e perdere qualcosa.
 
@@ -1030,12 +971,11 @@ Il **prezzo**, se la scena non lo dichiara, si pesca dai prezzi del repertorio d
 
 ### 28.7 Quanto costa scrivere una prova
 
-| | Obbligatori | Facoltativi, con predefinito |
-|---|---|---|
-| **2.0** | il riesci · il non riesci con la sua conoscenza · il rovescio | il prezzo |
-| **3.0** | il riesci · la notizia del *Non riesci* · il rovescio, se la prova può essere allo scoperto | il dono (la notizia del *Non riesci*, poi un'ora) · la metà (il ripiego) · il prezzo (il repertorio) |
+| Obbligatori | Facoltativi, con predefinito |
+|---|---|
+| il riesci · la notizia del *Non riesci* · il rovescio, se la prova può essere allo scoperto | il dono (la notizia del *Non riesci*, poi un'ora) · la metà (il ripiego) · il prezzo (il repertorio) |
 
-Il numero di testi obbligatori è lo stesso. Il *Non riesci* non ha più un testo suo diverso dalla notizia: la notizia è il testo. Ecco la prova del registro scritta come dati, in forma leggibile:
+Il *Non riesci* non ha un testo suo diverso dalla notizia: la notizia è il testo, e serve tre volte, al *Non riesci*, come dono di *In pieno* e a chi lascia perdere nel *Quasi*. Ecco la prova del registro scritta come dati, in forma leggibile:
 
 ```
 Prendo il registro di nascosto
@@ -1070,7 +1010,7 @@ Il paragrafo del librogame dice dove andare in ogni caso (§48.1).
 
 *La prima volta che entri nell'archivio, Bressan non alza gli occhi. La seconda, dopo che gli hai promesso che il suo nome non verrà fuori, ti fa un cenno. La terza, dopo che un capitano gli ha raccontato di averti visto con il registro sotto la giacca, chiama la guardia appena ti vede sulla porta.*
 
-Una persona, per il motore, non è un ostacolo con una difficoltà. Ha un **legame** con il personaggio, fatto di alcune **dimensioni**, e una memoria di ciò che le hai fatto. Le dimensioni sono cinque, e ciascuna va da 0 a 3:
+Una persona, per il motore, non è un ostacolo con una difficoltà. Ha un **legame** con il personaggio, fatto di alcune **dimensioni**, e una memoria di ciò che le hai fatto. Le dimensioni sono cinque. Ciascuna va da 0 a 3, tranne il debito, che va da −3 a 3:
 
 | Dimensione | Che cosa dice | Che cosa fa |
 |---|---|---|
@@ -1141,9 +1081,9 @@ Tre regole tengono in piedi i dialoghi.
 
 *Bressan nega di aver visto Matteo. Ha paura, e si chiude. Gli fai notare la riga scritta con un altro inchiostro: la penna gli si ferma a metà di una parola.*
 
-Un **confronto** è un modo di stare con qualcuno: quello in cui l'altro ti si oppone adesso. Può essere uno scontro armato, ma quasi sempre è un interrogatorio, una trattativa, un inseguimento. Tiene le regole del 2.0, con le fasce.
+Un **confronto** è un modo di stare con qualcuno: quello in cui l'altro ti si oppone adesso. Può essere uno scontro armato, ma quasi sempre è un interrogatorio, una trattativa, un inseguimento.
 
-**La scheda dell'avversario** ha cinque righe: la **natura** (*chi si chiude*, che difende una posizione; *chi avanza*, che ti viene addosso), la **copertura** da cui parte (al coperto, esposto, allo scoperto), i **punti deboli** (che cosa lo scopre, con quale capacità, di quanti gradi), il **pericolo** (un'arma, oppure una conseguenza sociale: chiama la guardia, ti denuncia), il **movente** (che cosa vuole, che cosa lo fa smettere, se mantiene la parola). Il movente non si lascia mai vuoto. Ciò che non vuole niente, come una tempesta, non è un avversario: è il mondo, e si evita.
+**La scheda dell'avversario** ha cinque righe: la **natura** (*chi si chiude*, che difende una posizione; *chi avanza*, che ti viene addosso), la **copertura** da cui parte (al coperto, esposto, allo scoperto: le parole dell'esposizione, guardate dall'altra parte, perché un avversario allo scoperto è un bene per te), i **punti deboli** (che cosa lo scopre, con quale capacità, di quanti gradi), il **pericolo** (un'arma, oppure una conseguenza sociale: chiama la guardia, ti denuncia), il **movente** (che cosa vuole, che cosa lo fa smettere, se mantiene la parola). Il movente non si lascia mai vuoto. Ciò che non vuole niente, come una tempesta, non è un avversario: è il mondo, e si evita.
 
 **Lo scambio.** Un confronto avanza a scambi. In ogni scambio scegli: una prova contro un punto debole, una prova per fare altro (fuggire, nasconderti, prendere ciò per cui sei venuto), il ripiego, oppure parlare. Poi l'avversario reagisce secondo la sua natura: chi si chiude, se la tua prova non è riuscita, si ricopre di un grado; chi avanza si avvicina, e quando ti ha raggiunto ogni sua reazione è un attacco.
 
@@ -1153,7 +1093,7 @@ Un **confronto** è un modo di stare con qualcuno: quello in cui l'altro ti si o
 |---|---|
 | **In pieno** | lo scopri di un grado in più di quanto dice il punto debole |
 | **Riesci** | lo scopri di quanto dice il punto debole |
-| **Quasi** | scegli: lo scopri, ma tu sali di un grado di esposizione per il resto dello scambio; oppure lasci perdere, e lui non si ricopre |
+| **Quasi** | scegli: lo scopri, ma tu sali di un grado, e se adesso ti attacca ti difendi da lì; oppure lasci perdere, e lui non si ricopre |
 | **Non riesci** | si ricopre, se si chiude; e scopri un suo punto debole che non conoscevi, se ne ha |
 
 **La finestra.** Quando l'avversario è allo scoperto si apre la **finestra**: non tiri, e decidi tu come finisce, scegliendo fra le fini che la scena rende possibili. Ogni fine ha il suo prezzo scritto.
@@ -1162,7 +1102,7 @@ Un **confronto** è un modo di stare con qualcuno: quello in cui l'altro ti si o
 
 **Come finisce.** Uno dei due non può più, uno dei due non vuole più, uno dei due non c'è più. Nella vita vera quasi nessuno scontro finisce con qualcuno a terra: finisce perché uno dei due smette di volerlo.
 
-In più, nel 3.0, **l'avversario è una persona**. Se ha un legame con te, il confronto lo cambia: un accordo lascia un debito, un'umiliazione lascia rancore, una grazia concessa può lasciare affetto. E le sue dimensioni cambiano il confronto: chi ha paura di te parte più scoperto, chi si fida di te può desistere prima.
+**L'avversario è anche una persona.** Se ha un legame con te, il confronto lo cambia: un accordo lascia un debito, un'umiliazione lascia rancore, una grazia concessa può lasciare affetto. E le sue dimensioni cambiano il confronto: chi ha paura di te parte più scoperto, chi si fida di te può desistere prima.
 
 ## 33. I compagni
 
@@ -1401,7 +1341,7 @@ Se un mondo ha bisogno di qualcosa che questa scheda non prevede, conviene ferma
 
 **L'ordine conta.** Prima la frase dell'esposizione, perché dà il tono a tutto il resto; poi gli ambiti, le capacità e i tratti; poi le proprietà, e solo dopo i luoghi e i momenti, perché si descrivono con le proprietà. Per ultimo il catalogo, che cresce mentre si scrive.
 
-La tabella delle proprietà resta il lavoro più delicato, perché ogni riga vale in tutto il mondo. Con le proprietà, però, il lavoro è molto più piccolo che nel 2.0 (§11.2), e si fa una volta sola: in cambio l'autore non deve più decidere il costo di nessuna azione, in nessuna scena.
+La tabella delle proprietà resta il lavoro più delicato, perché ogni riga vale in tutto il mondo. Con le proprietà, però, il lavoro è molto più piccolo che scrivere un valore per ogni luogo (§11.2), e si fa una volta sola: in cambio l'autore non deve più decidere il costo di nessuna azione, in nessuna scena.
 
 ## 44. Il catalogo delle difficoltà
 
@@ -1509,18 +1449,18 @@ Una storia è pronta quando passa questi controlli. Nell'app li fa un programma;
 
 ### 48.1 Il librogame
 
-Chi legge ha una scheda con le sei parti del personaggio, le tacche di Traccia per zona, le scadenze, e la riga delle fasce (§28.8). Ha due dadi e una matita. Le notizie sono parole chiave, con accanto una casella per segnarle verificate o smentite; i legami sono righe con le caselle delle dimensioni.
+Chi legge ha una scheda con le sei parti del personaggio, le tacche di Traccia per zona, le scadenze, e la riga delle fasce (§28.8). Ha due dadi e una matita. Le notizie sono numeri di voci, con accanto lo spazio per segnarle verificate o cancellarle; i legami sono righe con le caselle delle dimensioni.
 
 Una prova, in un paragrafo, si presenta così:
 
 > **112.** L'archivio è pieno di capitani che protestano per le tariffe. Il registro degli imbarchi è aperto sul banco, sotto il naso dell'archivista.
 >
-> ◆ *Prendo il registro di nascosto.* Sottrarre, Impegnativa (8); se hai una borsa, +1. Costo con archivio e alba: 0; aggiungi le tue aggravanti, togli le preparazioni. **In pieno**: vai al 57 e segna ARMADIO. **Riesci**: 57. **Quasi**: scegli fra il 57 salendo di un grado, il 19 (la metà) o tornare qui. **Non riesci**: 88. Se va male: la guardia (140).
+> ◆ *Prendo il registro di nascosto.* Sottrarre, Impegnativa (8); se hai una borsa, +1. Costo con archivio e alba: 0; aggiungi le tue aggravanti, togli le preparazioni. **In pieno**: vai al 57 e segna la voce 31 del taccuino. **Riesci**: 57. **Quasi**: tutto (57, e paghi il prezzo), la metà (19), oppure lasci perdere (segna la voce 31 e resta qui). **Non riesci**: segna la voce 31 e vai all'88. Se va male: la guardia (140).
 > ◆ *Leggo il registro al contrario* (se hai VISTA ACUTA e SA LEGGERE): vai al 204.
 > ◆ *Chiedo a Bressan di Matteo:* vai al 203.
 > ◆ *Pago un facchino perché legga il registro al posto mio* (due monete, un'ora): vai al 19.
 
-Il paragrafo stampa la somma di partenza del costo, cioè capacità e ambiente, già calcolata; se lo stesso paragrafo si raggiunge in momenti diversi, ne stampa una per momento. Stampa anche gli spostamenti di soglia che dipendono da parole chiave: «se hai GENOVA, la soglia è 8 invece di 10». Chi legge aggiunge soltanto ciò che dipende da lui. Gli effetti predefiniti delle fasce e dei gradi sono stampati sulla scheda; i paragrafi di esito dicono soltanto ciò che è proprio della scena. Per il *Quasi*, «salendo di un grado» vuol dire leggere il costo sulla riga di sopra della tabella della scheda.
+Il paragrafo stampa la somma di partenza del costo, cioè capacità e ambiente, già calcolata; se lo stesso paragrafo si raggiunge in momenti diversi, ne stampa una per momento. Stampa anche gli spostamenti di soglia che dipendono da parole chiave: «se hai GENOVA, la soglia è 8 invece di 10». Chi legge aggiunge soltanto ciò che dipende da lui. Gli effetti predefiniti delle fasce e dei gradi sono stampati sulla scheda; i paragrafi di esito dicono soltanto ciò che è proprio della scena. Le notizie stanno in fondo al libro, come voci numerate in ordine mescolato, e si leggono soltanto quando un paragrafo dice di segnarle: la scheda porta solo i numeri. Così la scheda non racconta la storia prima del tempo, e una notizia falsa si scopre falsa soltanto quando arriva la voce che la smentisce e dice di cancellarla.
 
 La tabella degli imprevisti e il repertorio di ogni zona stanno in fondo al libro, con un numero per voce. In fondo stanno anche i tratti, le proprietà e gli stati d'animo con i loro effetti.
 
@@ -1528,7 +1468,7 @@ La tabella degli imprevisti e il repertorio di ogni zona stanno in fondo al libr
 
 Il **narratore** ha la scheda dell'ambientazione e conduce la storia; i giocatori decidono. Valgono le regole di tutto il documento, con cinque precisazioni.
 
-- **Il narratore non tira mai contro i giocatori.** I dadi li tirano solo loro. Gli avversari reagiscono secondo la loro natura, senza dadi.
+- **Il narratore non tira mai.** I dadi li tirano solo i giocatori, anche quelli degli imprevisti. Gli avversari reagiscono secondo la loro natura, senza dadi.
 - **Il quadro si fa ad alta voce**, sezione per sezione. Il giocatore aggiunge le sue cose e le sue preparazioni, e decide se agire.
 - **Il *Quasi* lo sceglie il giocatore**, mai il narratore.
 - **Il narratore gioca il mondo e le persone**: gli imprevisti, le reazioni, le dimensioni dei legami, le scadenze. Non decide mai quanto costa o quanto è difficile un'azione: lo dicono le tabelle e il catalogo.
@@ -1546,9 +1486,8 @@ Il programma fa tutti i conti. Deve:
 6. tenere un taccuino con le notizie e il loro stato, le convinzioni, e le persone con i legami detti a parole;
 7. mostrare la crescita: i tentativi risparmiati, le fasce migliorate, la scheda finale accanto a quella iniziale;
 8. salvare in modo che la stessa partita, con lo stesso seme dei dadi, si possa rigiocare identica;
-9. non generare testo durante il gioco.
-
-Una nota dalla prima partita alla Santa Rita: le schermate che coprono il diario, come quella finale, devono coprirlo del tutto. Un titolo che si legge sopra il testo di sotto confonde proprio nel momento in cui chi gioca vuole capire com'è andata.
+9. coprire del tutto il diario con le schermate che ci vanno sopra, come quella finale: un titolo che si legge sopra il testo di sotto confonde proprio quando chi gioca vuole capire com'è andata;
+10. non generare testo durante il gioco.
 
 ### 48.4 Il gioco grafico
 
@@ -1578,7 +1517,7 @@ Per chi costruisce il gioco valgono due regole in più.
 
 # PARTE X — TRE GENERI
 
-Il porto è un'ambientazione d'intrigo, con un po' di violenza. Per sapere se il motore vale davvero per ogni genere, ecco tre scene da tre mondi lontani, ciascuna scelta per mettere sotto sforzo una parte diversa del 3.0. Le ambientazioni sono abbozzate, non compilate: servono a vedere il motore all'opera.
+Il porto è un'ambientazione d'intrigo, con un po' di violenza. Per sapere se il motore vale davvero per ogni genere, ecco tre scene da tre mondi lontani, ciascuna scelta per mettere sotto sforzo una parte diversa del motore. Le ambientazioni sono abbozzate, non compilate: servono a vedere il motore all'opera.
 
 ## 49. Un giallo: la villa sul lago
 
@@ -1594,7 +1533,7 @@ Il porto è un'ambientazione d'intrigo, con un po' di violenza. Per sapere se il
 NOTIZIE
   Lo scrittoio dello studio ha un doppio fondo.         sentita dire (la governante)
   Il nipote Carlo era in giardino alle undici.          sentita dire (l'autista)
-  Il giardiniere chiude il cancello alle dieci e mezza. verificata
+  Alle undici Carlo giocava a carte col dottor Morelli. sentita dire (la cuoca)
   (la seconda e la terza non possono essere vere tutte e due)
 CONVINZIONI
   Il dottor Morelli è un uomo onesto.
@@ -1608,7 +1547,7 @@ Apro il doppio fondo dello scrittoio                   Osservare · mente
 PUOI?     sì · sei nello studio · hai una candela: puoi leggere
 
 RIESCI?   10  Ardua: un nascondiglio fatto da un ebanista
-          −2  sai dov'è il doppio fondo                              notizia
+         → 8  sai dov'è il doppio fondo                              notizia
           +1  sei Pratico in Osservare
           ──  i dadi devono fare 7
               in pieno 8 · riesci 50 · quasi 25 · non riesci 17
@@ -1619,7 +1558,8 @@ COSTA?     0  guardare, di suo, non si nota
           ──  0  AL COPERTO
 
 DOPO?     riesci: ciò che c'è nel doppio fondo
-          quasi: tutto, ma qualcuno sente lo scatto · oppure la metà: la lettera, non la busta
+          quasi: tutto, ma qualcuno sente lo scatto · la metà: la lettera, non la busta
+                 · oppure lasci perdere, e scopri qualcosa sullo scrittoio
           non riesci: scopri qualcosa sullo scrittoio
 ```
 
@@ -1627,7 +1567,7 @@ Tiri 6: con il +1 fa 7, ne manca 1. *Quasi*. Scegli la metà: nel doppio fondo c
 
 Adesso sul taccuino c'è una notizia che mette in dubbio la tua convinzione sul dottore. Il gioco ti offre **«Ci ripenso»**. Se lasci andare la convinzione, si apre «Chiedo al dottor Morelli di che dosi parlava», una via che prima vedevi chiusa: *credi che il dottor Morelli sia un uomo onesto*. E in biblioteca, luogo tranquillo, **«Metto insieme quello che so»**: la lettera, più il flacone di laudano che hai visto in bagno, danno la notizia «Ernesto prendeva il laudano da Morelli, a dosi crescenti».
 
-La notizia dell'autista su Carlo in giardino è falsa, e il taccuino lo lascia intuire: è in contrasto con il cancello chiuso. Resta a te scoprire chi mente, e perché.
+Una delle due notizie su Carlo è falsa, e il taccuino le tiene unite: non possono essere vere tutte e due. Se mente l'autista, Carlo era al tavolo da gioco; se mente la cuoca, l'alibi di Carlo è il dottore, cioè l'uomo delle dosi. Resta a te scoprire chi mente, e perché.
 
 **Che cosa mette alla prova.** Le notizie false e in contrasto, la via rivelata, le deduzioni, una convinzione che si incrina, la metà del *Quasi* in un'indagine, dove mezza prova è spesso meglio di un segno lasciato. Non c'è un solo tiro contro una persona.
 
@@ -1653,7 +1593,7 @@ Salgo in silenzio fino alla cima                        Muoversi · corpo
 PUOI?     sì · la scala è libera
 
 RIESCI?    8  Impegnativa: salire una scala di ferro senza far rumore
-          +2  sei spaventato: stare zitto ti costa di più         stato d'animo
+        → 10  sei spaventato: stare zitto ti costa di più         stato d'animo
           +1  sei Pratico in Muoversi
           ──  i dadi devono fare 9
               in pieno 0 · riesci 28 · quasi 31 · non riesci 42
@@ -1665,7 +1605,8 @@ COSTA?     0  muoversi, di suo, non si nota
           ──  1  ESPOSTO
 
 DOPO?     riesci: arrivi in cima
-          quasi: tutto, ma allo scoperto · oppure la metà: il pianerottolo della finestra
+          quasi: tutto, e ne paghi il prezzo · la metà: il pianerottolo della finestra
+                 · oppure lasci perdere, e scopri qualcosa sulla scala
           non riesci: scopri qualcosa sulla scala
           se va male: la cosa ti sente, e scende
 ```
@@ -1712,7 +1653,7 @@ DOPO?     riesci: sei in cucina
 
 Tiri 11: con il +2 fa 13, sette sopra la soglia. *In pieno*. Il dono è una persona: Giulia ti ha visto sgusciare dentro senza un rumore, e il suo affetto sale a 2. D'ora in poi, se combini un guaio, lei ti perdona una volta.
 
-Più tardi, nel bosco, la paura del bosco ti costerà un gradino a ogni prova. Alla fine della storia, se hai trovato la bandiera, perdi il tratto *Ha paura del bosco di notte*: è la tua crescita, ed è scritta sulla scheda con la sua origine.
+Più tardi, nel bosco, la paura ti costerà un gradino in ogni prova in cui devi restare calmo o farti coraggio. Alla fine della storia, se hai trovato la bandiera, perdi il tratto *Ha paura del bosco di notte*: è la tua crescita, ed è scritta sulla scheda con la sua origine.
 
 **Che cosa mette alla prova.** Una storia senza morte e senza violenza, in cui tutto il peso sta nei legami. Un tratto che apre invece di sommare. Un aiuto che ha un prezzo in favori. E una domanda che soltanto le persone possono chiudere: il quadro si capisce a undici anni? Per un pubblico così giovane il quadro potrebbe mostrare soltanto le parole, senza numeri. È un'opzione da provare.
 
@@ -1722,7 +1663,7 @@ Le tre scene non sono tre storie giocate. Servono a vedere dove il motore regge,
 
 | Genere | Regge | Chiede ancora |
 |---|---|---|
-| **Giallo** | notizie false e in contrasto, vie rivelate, deduzioni, convinzioni | un modo per mostrare sulla carta le notizie in contrasto senza svelare quale cade |
+| **Giallo** | notizie false e in contrasto, vie rivelate, deduzioni, convinzioni; sulla carta, voci del taccuino che si leggono solo quando le segni (§48.1) | un modo di verificare una notizia che non chieda ogni volta una scena scritta a mano |
 | **Horror** | stato d'animo e logorio insieme, proprietà che aiutano e danneggiano, un avversario con un movente | una regola per la cosa senza movente che però insegue, come l'acqua che sale: oggi è una scadenza |
 | **Ragazzi** | nessuna morte, legami al centro, tratti che crescono | un quadro con sole parole per i più giovani, da provare |
 
@@ -1746,7 +1687,7 @@ Dove una di queste manca, il motore non si adatta: semplicemente non serve. Rest
 
 La grafica non è un limite: un gioco con immagini, mappe ed esplorazione libera rientra pienamente, purché le azioni che contano si decidano scegliendo e non con i riflessi (§48.4). Resta dentro quasi tutta la narrativa interattiva che vale la pena progettare: avventure, indagini, drammi, viaggi, intrighi, storie di paura, storie per ragazzi, in cui un personaggio sceglie e il mondo se ne ricorda.
 
-Il 3.0 ha anche un limite suo: è più grande del 2.0. Sei parti del personaggio, le proprietà, le persone con le loro dimensioni, quattro fasce. Una storia breve non ha bisogno di tutto. Un'ambientazione può fare a meno dei compagni, degli stati d'animo, delle deduzioni, delle convinzioni; non può fare a meno delle quattro domande.
+Il motore ha anche un limite suo: è grande. Sei parti del personaggio, le proprietà, le persone con le loro dimensioni, quattro fasce, lo stato del mondo. Una storia breve non ha bisogno di tutto. Un'ambientazione può fare a meno dei compagni, degli stati d'animo, delle deduzioni, delle convinzioni; non può fare a meno delle quattro domande.
 
 ## 54. Il piano di verifica
 
@@ -1754,7 +1695,7 @@ Un motore si verifica in tre modi, e nessuno sostituisce gli altri: i controlli 
 
 ### 54.1 Prima del codice: il quadro sulla carta
 
-Il 3.0 si può cominciare a provare prima di scrivere una riga di programma. Si stampano dieci quadri della Santa Rita, di situazioni diverse, e si danno a cinque persone che non conoscono il progetto, con una sola pagina di spiegazione. Per ogni quadro si chiede: *che cosa rischi? quanto è probabile che ti vada bene? che cosa cambieresti per rischiare di meno?*
+Il quadro si può provare anche senza il programma. Si stampano dieci quadri della Santa Rita, di situazioni diverse, e si danno a cinque persone che non conoscono il progetto, con una sola pagina di spiegazione. Per ogni quadro si chiede: *che cosa rischi? quanto è probabile che ti vada bene? che cosa cambieresti per rischiare di meno?*
 
 - **Superata** se almeno quattro persone su cinque rispondono giusto alle prime due domande per almeno otto quadri su dieci, e se per la terza nominano una riga del quadro.
 - **Da ripensare** se il tempo per leggere un quadro, misurato con l'orologio, resta sopra i trenta secondi anche al decimo quadro.
@@ -1763,11 +1704,11 @@ Nella stessa sessione si fa la **prova delle parole**: si chiede a ciascuno che 
 
 ### 54.2 Le simulazioni
 
-I giocatori automatici del 2.0 restano: il **prudente**, che resta sempre al coperto; il **temerario**, che non si prepara mai; lo **scrupoloso**, che si prepara sempre; l'**opportunista**, che aspetta il luogo e il momento giusti. Se ne aggiungono cinque:
+I giocatori automatici sono tredici, e giocano mille partite ciascuno.
 
-- tre giocatori che nel *Quasi* scelgono sempre la stessa cosa: **sempre tutto**, **sempre la metà**, **sempre lascio perdere**;
-- uno che nel *Quasi* sceglie **secondo la situazione**: prende tutto quando la scadenza incalza, lascia perdere quando la Traccia della zona è già alta, prende la metà negli altri casi;
-- un giocatore **con un obiettivo**, che cerca la strada più breve verso un finale, per misurare se la storia si può vincere e quanto margine lascia la scadenza.
+- Cinque giocano in modo semplice: il **casuale**, che sceglie a caso, anche nel *Quasi*; il **prudente**, che resta sempre al coperto; il **temerario**, che non si prepara mai; lo **scrupoloso**, che si prepara sempre; l'**opportunista**, che aspetta il luogo e il momento giusti. Nel *Quasi*, tutti tranne il casuale scelgono secondo la situazione.
+- Quattro servono al *Quasi*. Tre scelgono sempre la stessa cosa: **sempre tutto**, **sempre la metà**, **sempre lascio perdere**. Uno sceglie **secondo la situazione**: tutto quando la scadenza incalza, lascia perdere quando la Traccia della zona è già alta, la metà negli altri casi. Fuori dal *Quasi* giocano tutti e quattro a caso, come il casuale.
+- Quattro giocano per vincere: il giocatore **con un obiettivo**, che cerca la strada più breve verso un finale pesando probabilità, costo e tempo, e anche nel *Quasi* sceglie con questi conti; e tre sue copie che nel *Quasi* scelgono sempre tutto, sempre la metà o sempre lascio perdere. Servono a misurare il *Quasi* con chi gioca bene il resto della partita.
 
 Criteri, per mille partite di ciascuno:
 
@@ -1776,19 +1717,43 @@ Criteri, per mille partite di ciascuno:
 3. **Il *Quasi* è una scelta vera**: il giocatore che sceglie secondo la situazione raggiunge il finale migliore più spesso di ciascuno dei tre che scelgono sempre la stessa cosa. Se uno dei tre lo batte, una delle possibilità del *Quasi* vale sempre più delle altre, e va corretta.
 4. **Esiste una situazione in cui conviene essere esposti**, invece che al coperto. Di solito quando una scadenza incalza.
 5. **Le fasce osservate coincidono con le tabelle**, entro due punti su cento. Serve a verificare il codice, non il modello.
-6. **Il pericolo resta**: il temerario subisce almeno un rovescio o una ferita in più di metà delle partite. Se non succede, il 3.0 ha reso il mondo troppo clemente, e si interviene sul catalogo (§27).
+6. **Il pericolo resta**: il temerario subisce almeno un rovescio o una ferita in più di metà delle partite. Se non succede, il motore ha reso il mondo troppo clemente, e si interviene sul catalogo (§26).
 
-E un criterio sul lavoro di chi scrive: nella Santa Rita riscritta, la media dei testi obbligatori per prova non supera tre.
+E un criterio sul lavoro di chi scrive: nella Santa Rita la media dei testi obbligatori per prova non supera tre.
 
-Il giocatore con un obiettivo esiste dal 25 settembre 2026, e al primo giro ha fatto il suo lavoro: ha trovato nella Santa Rita una strada che vinceva sempre, una catena di ripieghi (caricare casse, aspettare che Teodoro si addormenti, spezzare la catena con l'ascia) che finiva in un salto sempre al coperto, perché il buio della nave copriva anche l'allarme. La correzione è venuta dallo stato del mondo: quando suona l'allarme si accendono le lanterne, e il buio non copre più nessuno. Dopo la correzione il giocatore con un obiettivo vince 81 partite su 100, contro le 20 di chi sceglie a caso. Il criterio 2 è superato. Resta un dato da portare alle prove con le persone: chi gioca bene finisce in sei ore circa, e alla nave che salpa restano in media diciannove ore. La scadenza, per un giocatore attento, quasi non preme.
+**I risultati, al 29 ottobre 2026.**
 
-Il 27 settembre 2026, dopo le cose nei luoghi e lo stato del mondo, mille partite per strategia: nessun blocco, nessun errore, tutte le scene raggiunte, le fasce ancora con le frequenze delle tabelle. Le vittorie: il giocatore con un obiettivo 81%, la scrupolosa 43%, l'opportunista 38%, la temeraria 30%, la casuale 16%, la prudente 5%. Per capire che cosa aveva fatto scendere la casuale dal 20 al 16% e la prudente dall'11 al 5%, si sono tolte le novità una alla volta: quasi tutta la differenza viene dalla bolla, che nel magazzino sette adesso bisogna prendere; la nebbia, il freddo, l'allarme del porto e la correzione del buio notturno sulla nave spostano un punto o niente. Il *Quasi* resta com'era: secondo la situazione 16%, sempre tutto 16%, sempre la metà e sempre lascio perdere 13%. Il criterio 3 non è superato, e la scadenza lascia sempre diciannove ore a chi gioca bene. Tutte e due le decisioni aspettano le partite delle persone: il motore non cambia su un dato che solo loro possono dare.
+| Strategia | Vittorie su 100 | Ore medie | Rovesci per partita |
+|---|---|---|---|
+| con un obiettivo | 81 | 5,7 | 0,12 |
+| con un obiettivo, sempre tutto | 81 | 5,7 | 0,19 |
+| con un obiettivo, sempre la metà | 59 | 6,4 | 0,24 |
+| con un obiettivo, sempre lascio perdere | 58 | 6,7 | 0,25 |
+| scrupolosa | 43 | 18,4 | 0,49 |
+| opportunista | 36 | 17,9 | 0,26 |
+| temeraria | 29 | 17,6 | 0,65 |
+| sempre tutto | 16 | 20,3 | 0,37 |
+| casuale | 15 | 20,6 | 0,29 |
+| secondo la situazione | 15 | 20,1 | 0,34 |
+| sempre la metà | 13 | 20,4 | 0,21 |
+| sempre lascio perdere | 13 | 20,5 | 0,20 |
+| prudente | 4 | 22,6 | 0,00 |
 
-Una nota sul giocatore «secondo la situazione»: fuori dal *Quasi* sceglie a caso, come il casuale, e per questo vince quanto lui. Il criterio 3 confronta regole per il *Quasi*, e dice qualcosa soltanto se il resto della partita è giocato allo stesso modo.
+**Criterio 1, superato.** Nessuna partita bloccata, nessun errore, tutte le scene raggiunte.
+
+**Criterio 2, superato.** Il giocatore con un obiettivo vince più di tutti e in meno ore, ma subisce più rovesci del prudente. Al primo giro aveva trovato una strada che vinceva sempre: una catena di ripieghi (caricare casse, aspettare che Teodoro si addormenti, spezzare la catena con l'ascia) che finiva in un salto sempre al coperto, perché il buio della nave copriva anche chi aveva dato l'allarme. La correzione è venuta dallo stato dei luoghi: quando sulla nave ti notano, l'equipaggio accende le lanterne, e il buio non copre più nessuno.
+
+**Criterio 3, non ancora superato.** Fino al 29 ottobre la misura non diceva niente: per un errore del codice il casuale sceglieva nel *Quasi* con la stessa regola del giocatore «secondo la situazione», e i due erano lo stesso giocatore. Corretto l'errore, il confronto che conta è fra il giocatore con un obiettivo e le sue tre copie. Prendere sempre tutto vince quanto scegliere con i conti, 81 partite su 100, mentre sempre la metà e sempre lascio perdere ne perdono più di venti. Chi sceglie con i conti subisce un terzo di rovesci in meno, perché allo scoperto non prende tutto. Nella Santa Rita, dunque, il *Quasi* è una scelta vera soltanto allo scoperto. Le due regole del §28.3 (tutto paga il prezzo anche al coperto, lasciar perdere dà la notizia) sono giuste per costruzione, ma qui non hanno spostato le vittorie, perché le prove decisive della storia hanno prezzi leggeri: una moneta, un'ora, una sbucciatura. La prossima correzione riguarda la storia, non il motore: un prezzo che pesi dove la scelta conta.
+
+**Criterio 5, superato.** Le fasce osservate coincidono con le tabelle.
+
+**Criteri 4 e 6, non ancora misurati.** I giocatori automatici non contano ancora le partite con almeno un rovescio, né le situazioni in cui conviene essere esposti.
+
+**La scadenza.** Chi conosce la strada arriva alla fine in sei ore circa, e alla nave che salpa ne restano diciannove: la scadenza non lo preme. Chi esplora è un altro discorso: la nave che salpa chiude 66 partite su 100 del casuale, 38 della scrupolosa e 41 dell'opportunista. La scadenza resta di ventiquattro ore, per una ragione di progetto: accorciarla toglierebbe la notte, e la notte è dove i costi si rovesciano (§19.4). Il suo compito è premere su chi esplora, e lo fa; chi conosce già la strada, in un librogame, finisce sempre presto. Una regola lega la scadenza a ciò che fai: ogni allarme del porto fa salpare la nave tre ore prima (§15.4), e il rumore costa anche tempo.
 
 ### 54.3 Le persone
 
-Almeno **dieci persone** giocano la Santa Rita riscritta con il 3.0: cinque sul libro, cinque nell'app. L'app registra la partita, compresi i tempi di lettura dei quadri e le scelte nei *Quasi*. Alla fine si fanno sette domande, ciascuna con il suo criterio.
+Quando ci saranno, almeno **dieci persone** giocano la Santa Rita: cinque sul libro, cinque nell'app. L'app registra la partita, compresi i tempi di lettura dei quadri e le scelte nei *Quasi*. Alla fine si fanno sette domande, ciascuna con il suo criterio.
 
 | # | Domanda | Superata se |
 |---|---|---|
@@ -1800,11 +1765,11 @@ Almeno **dieci persone** giocano la Santa Rita riscritta con il 3.0: cinque sul 
 | 6 | «Che cosa poteva o non poteva fare il tuo personaggio, per com'era fatto?» | almeno 6 su 10 citano un tratto e che cosa ha aperto o chiuso |
 | 7 | «Hai mai cambiato idea su qualcosa, nella storia?» | almeno 5 su 10 raccontano un «Ci ripenso», o una notizia smentita |
 
-Dal 27 settembre 2026 l'app registra ciò che serve: in fondo al registro della partita, che si copia alla fine o dal pannello «Sotto il cofano», ci sono i secondi in cui è rimasto aperto ogni quadro, e ogni scelta nei *Quasi* con la situazione in cui è stata fatta (il grado, l'ora, la Traccia del luogo, quanto manca alla nave).
+L'app registra ciò che serve: in fondo al registro della partita, che si copia alla fine o dal pannello «Sotto il cofano», ci sono i secondi in cui è rimasto aperto ogni quadro, e ogni scelta nei *Quasi* con la situazione in cui è stata fatta (il grado, l'ora, la Traccia del luogo, quanto manca alla nave).
 
 Il foglio per chi gioca, `PER-CHI-PROVA.txt`, chiede prima la prova delle parole (§54.1), poi riporta le sette domande in una forma a cui si risponde da soli, più tre: se il tempo si è fatto sentire (per la scadenza), che cosa si è portato e lasciato (per i posti), che cosa si toglierebbe. La domanda 4, che al tavolo si fa leggendo ad alta voce tre esiti, sul foglio chiede di spiegare le fasce con parole proprie: vale meno, e se ne tiene conto leggendo le risposte.
 
-C'è poi una misura che non chiede niente a nessuno: **il tempo di lettura del quadro**, registrato dall'app. Se dopo le prime cinque prove la mediana resta sopra i quindici secondi, il quadro è troppo lungo, e va ripensato come mostrarlo prima di aggiungere qualunque altra cosa. È il rischio più grande del 3.0, e la roadmap lo aveva già scritto per la ricevuta.
+C'è poi una misura che non chiede niente a nessuno: **il tempo di lettura del quadro**, registrato dall'app. Se dopo le prime cinque prove la mediana resta sopra i quindici secondi, il quadro è troppo lungo, e va ripensato come mostrarlo prima di aggiungere qualunque altra cosa. È il rischio più grande del motore.
 
 Nella prova dei generi, ogni storia nuova si fa giocare ad almeno tre persone, con le stesse domande.
 
@@ -1812,16 +1777,15 @@ Nella prova dei generi, ogni storia nuova si fa giocare ad almeno tre persone, c
 
 Un criterio mancato non si corregge spostando il criterio. Si corregge il motore o la storia, e il documento dice che cosa è cambiato e perché, in una nota datata. Se un criterio si rivela sbagliato in sé (per esempio perché misura una cosa che non conta), lo si corregge scrivendo accanto perché, prima di guardare di nuovo i risultati.
 
+Le prove con le persone non fermano il progetto. Le decisioni si prendono con il ragionamento e con le simulazioni, e le risposte delle persone, quando arrivano, le correggono.
+
 ## 55. Prossimi passi
 
-1. **Approvare questo documento.** Fino ad allora il 2.0 resta il riferimento.
-2. **Adeguare il motore e i dati.** Fatto il 25 settembre 2026, secondo l'appendice E, compresi i compagni e il giocatore con un obiettivo. Il 27 settembre sono entrate anche le cose nei luoghi, i posti e lo stato del mondo (§7.3, §11.4). Resta l'editor.
-3. **Riscrivere la Santa Rita** nel 3.0. Fatto anche questo: le scelte in prima persona, i ripieghi, le proprietà dei luoghi, le persone con i loro legami, i tratti del personaggio, le notizie con il loro stato, una convinzione che si può lasciare andare.
-4. **La prova del quadro sulla carta** (§54.1), che si può fare anche prima del punto 2.
-5. **La prova con le persone** (§54.3), che diventa la Fase 1 della roadmap.
-6. **La prova dei generi**, partendo dalle tre ambientazioni abbozzate nella Parte X.
-7. **Aggiornare la roadmap**, che oggi mette il documento 3.0 alla fine del percorso: adesso ne è l'inizio.
-8. Correggere questo documento con ciò che le prove insegnano, dichiarando ogni cambiamento.
+1. **Lo strumento per chi scrive.** Oggi una storia si scrive a mano, nei file di dati: la Santa Rita sono quasi novecento righe. È il limite più grande del motore, e la Fase 4 della roadmap.
+2. **I prezzi della Santa Rita.** Dare alle prove decisive un prezzo che pesi, e rimisurare il *Quasi* (§54.2).
+3. **La prova dei generi**, partendo dalle tre ambientazioni abbozzate nella Parte X.
+4. **Le persone**, quando arrivano: il §54.3 dice che cosa guardare.
+5. Correggere questo documento con ciò che si impara, dichiarando ogni cambiamento.
 
 ---
 ---
@@ -1892,14 +1856,14 @@ Valori su 36; ogni riga somma 36. Per avere la percentuale, dividi per 36 e molt
 |---|---|---|---|
 | **In pieno** | ottieni, e il dono | ottieni, il dono · +1 Traccia | ottieni, il dono · +1 Traccia, il prezzo |
 | **Riesci** | ottieni | ottieni · +1 Traccia | ottieni · +1 Traccia, il prezzo |
-| **Quasi** | scegli: tutto (+1 Traccia) · la metà · lasci perdere | scegli: tutto (+1 Traccia, il prezzo) · la metà (+1 Traccia) · lasci perdere (+1 Traccia) | scegli: tutto (+1 Traccia, il rovescio) · la metà (+1 Traccia, il prezzo) · lasci perdere (+1 Traccia) |
+| **Quasi** | scegli: tutto (+1 Traccia, il prezzo) · la metà · lasci perdere (la notizia) | scegli: tutto (+1 Traccia, il prezzo) · la metà (+1 Traccia) · lasci perdere (la notizia, +1 Traccia) | scegli: tutto (+1 Traccia, il rovescio) · la metà (+1 Traccia, il prezzo) · lasci perdere (la notizia, +1 Traccia) |
 | **Non riesci** | la notizia | la notizia · +1 Traccia, una complicazione | la notizia · +1 Traccia, il rovescio |
 
 ---
 
-# APPENDICE B — Il porto, ricompilato
+# APPENDICE B — Il porto
 
-Una città di porto in un Seicento senza nome. Il personaggio cerca il fratello Matteo, sparito da tre giorni. È l'ambientazione del 2.0, ricompilata con le voci del 3.0. Dove i numeri cambiano rispetto al 2.0, lo dice la nota in fondo.
+Una città di porto in un Seicento senza nome. Il personaggio cerca il fratello Matteo, sparito da tre giorni. È l'ambientazione della storia di prova, compilata per intero con le voci della scheda (§43).
 
 **1. La frase dell'esposizione.** *Nel porto, essere esposti significa che qualcuno potrà dire di averti visto.* Al coperto: nessuno ti ha notato. Esposto: qualcuno ti ha notato e se ne ricorderà. Allo scoperto: sanno chi sei e che cosa hai fatto.
 
@@ -1971,7 +1935,7 @@ Le righe proprie, come compaiono nel quadro:
 - la chiesa: *in chiesa le mani vicino alle offerte si vedono* (mano +1), *in chiesa chi sta in silenzio non disturba* (mente −1), *in chiesa si parla solo sussurrando* (voce −1);
 - la Santa Rita: *a bordo ogni voce rimbomba nel legno* (voce +1). Il buio vale sottocoperta; sul ponte, di giorno, no.
 
-Stati: dopo che il registro è sparito, l'archivio ha la sorveglianza anche di notte, e una guardia alla porta. Dopo che la Santa Rita ha preso il largo, la banchina perde la scelta di andare alla nave.
+Stati: dopo che il registro è sparito, l'archivio ha la sorveglianza anche di notte, e una guardia alla porta. Dopo che la Santa Rita ha preso il largo, la banchina perde la scelta di andare alla nave. Quando sulla nave la Traccia arriva a 2, l'equipaggio accende le lanterne, e sottocoperta il buio sparisce.
 
 **8. I momenti.** Sei ore ciascuno.
 
@@ -2060,7 +2024,7 @@ Le righe proprie della sera: *di sera, fra gente che beve, chi resta sobrio a gu
 
 *Teodoro detto il Pesce.* Avversario: chi avanza, al coperto, gli basta uno scambio per esserti addosso. Punti deboli: quello che gli rovesci addosso (*Muoversi*, 1); il nome del suo capitano, che non vuole morti a bordo (*Sapere*, 2); colpirlo per primo (*Battersi*, 1). Pericolo: coltello. Movente: la taglia che Grimani ha messo su chi cerca Matteo; smette se gli offri di più o se il rumore attira la guardia; non mantiene la parola.
 
-*Il capitano Nicolò Serra.* Fiducia 0. Movente: portare il carico a destinazione, senza morti a bordo. Una scelta per parlargli è chiusa dalla convinzione *Non fidarti di chi lavora per Grimani*.
+*Il capitano Nicolò Serra.* Fiducia 0. Movente: portare il carico a destinazione, senza morti a bordo. Una scelta per parlargli è chiusa dalla convinzione *Non ci si può fidare di chi lavora per Grimani*.
 
 **19. Le protezioni.** La giacca imbottita, che declassa una ferita da taglio o da botta.
 
@@ -2075,7 +2039,7 @@ Le righe proprie della sera: *di sera, fra gente che beve, chi resta sobrio a gu
 
 **21. La crescita.** Arco lungo. Insegnano: un vecchio scassinatore alla taverna (*Forzare*), il medico degli annegati (*Curare*), il libro dei portolani in archivio (*Sapere*). Danno punti: la chiusura di ogni filo. Si guadagnano: *Conosciuto al porto*, *Una cicatrice alla mano*; si perde: *Soffre il mare*, dopo una notte in mare.
 
-**22. La memoria della storia.** Filo *Dov'è Matteo* (4 tappe). Scadenza *La Santa Rita salpa* (8 caselle, una ogni tre ore, dall'alba del primo giorno). Fatti: HAI IL REGISTRO, SAI DEL FIGLIO, TAGLIA, LIBERO. Misura: Sospetti della guardia (0–3).
+**22. La memoria della storia.** Filo *Dov'è Matteo* (4 tappe). Scadenza *La Santa Rita salpa* (8 caselle, una ogni tre ore, dall'alba del primo giorno; ogni allarme del porto ne annerisce una in più). Fatti: HAI IL REGISTRO, SAI DEL FIGLIO, TAGLIA, LIBERO. Misura: Sospetti della guardia (0–3).
 
 | Notizia | Verità | Smentita da |
 |---|---|---|
@@ -2092,92 +2056,88 @@ Deduzione: *il carico è di Grimani* più *le casse pesano troppo* danno *nelle 
 | Convinzione | Messa in dubbio da |
 |---|---|
 | Matteo non scapperebbe mai di casa | — (è vera: nessuna notizia vera la smentisce) |
-| Non fidarti di chi lavora per Grimani | «Il capitano Serra non vuole morti a bordo» |
+| Non ci si può fidare di chi lavora per Grimani | «Il capitano Serra non vuole morti a bordo» |
 
 **Verifica.** Undici capacità, sette con partenza 0 e due con partenza 2; nessun Fondo sopra la partenza. Ogni luogo ha un −1 in almeno un momento: la banchina e il Gallo sempre alla mano, l'archivio e la chiesa alla mente, i magazzini e la nave al corpo. Tutti i valori sono −1, 0 o +1. Ogni logorio ha il suo rimedio. Ogni tratto del corpo che chiude una via ha un'alternativa. La notizia falsa ha chi la smentisce; la convinzione che può cadere ha chi la mette in dubbio.
 
-**Che cosa cambia rispetto al 2.0.** Con le proprietà, un effetto vale una volta sola: all'alba il Gallo non ha due volte la folla (nel 2.0 mano e voce scendevano a −2), di notte i magazzini non hanno due volte il buio (nel 2.0 il corpo scendeva a −2), e di notte il Gallo non ha il silenzio (nel 2.0 mano e voce tornavano a 0). Il passo di un'ora e mezza diventa l'ora: le scadenze e il logorio sono stati ricalcolati per durare lo stesso tempo di prima.
 
 ---
 
 # APPENDICE C — Glossario
 
-Nella terza colonna: *nuovo* se il termine nasce nel 3.0, *cambiato* se cambia nome o significato rispetto al 2.0.
+| Termine | Che cosa vuol dire |
+|---|---|
+| **aggravante** | un fatto del mondo che alza l'esposizione di un grado |
+| **aiuto** | una persona che fa la cosa con te: +1 al tiro |
+| **ambito** | il genere di un'azione: corpo, mano, mente, voce, o quelli scelti dall'ambientazione |
+| **attrezzo** | una cosa che aiuta un genere di azione: +1 al tiro |
+| **avversario** | una persona che ti si oppone adesso; si descrive con cinque righe |
+| **capacità** | un genere di azione che il personaggio sa fare, con un livello da Inesperto a Maestro |
+| **catalogo delle difficoltà** | l'elenco delle cose del mondo, con la loro soglia, ciò che la sposta e ciò che serve |
+| **compagno** | una persona che viaggia con il personaggio, con capacità, tratti e condizioni proprie |
+| **condizioni** | come sta il personaggio: logorio, ferite, stati d'animo |
+| **confronto** | uno dei modi di stare con una persona: quello in cui ti si oppone adesso |
+| **convinzione** | una frase che il personaggio crede su di sé o sugli altri; apre e chiude scelte |
+| **copertura** | il grado di esposizione di un avversario: allo scoperto è un bene per te |
+| **cose** | ciò che il personaggio porta con sé; hanno usi, proprietà e tre stati |
+| **debito** | la dimensione di un legame che dice chi deve un favore a chi, da −3 a 3 |
+| **deduzione** | una notizia che si ricava mettendone insieme altre |
+| **dimensione** | una delle cinque misure di un legame: fiducia, debito, paura, affetto, rancore |
+| **dono** | ciò che ottieni in più con *In pieno* |
+| **esposizione** | quanto ti costa un'azione, comunque vada il dado; ha tre gradi |
+| **fascia** | una delle quattro risposte del dado: *In pieno*, *Riesci*, *Quasi*, *Non riesci* |
+| **fatto** | una memoria della storia che vale sì o no |
+| **ferita** | un danno con un nome e un posto, che impedisce qualcosa; lieve, grave o mortale |
+| **filo** | una delle storie in corso, con le sue tappe |
+| **finestra** | l'istante in cui un avversario è allo scoperto e decidi tu come finisce |
+| **Fondo** | il grado sotto il quale un'azione non scende mai |
+| **gradino** | la distanza fra due soglie vicine: due punti sul tiro |
+| **grado** | uno dei tre livelli dell'esposizione: al coperto, esposto, allo scoperto |
+| **imprevisto** | un evento che arriva tanto più spesso quanta più Traccia hai nella zona |
+| **In pieno** | la fascia di chi supera la soglia di 4 o più: ottieni, e un dono |
+| **legame** | il rapporto del personaggio con una persona, fatto di dimensioni e ricordi |
+| **livello** | quanto sai fare una capacità: Inesperto, Pratico, Esperto, Maestro |
+| **logorio** | ciò che sale da solo e ha un rimedio; ha tre stadi |
+| **luogo** | dove si svolge una scena; ha una zona, proprietà e righe proprie |
+| **margine** | il tiro meno la soglia; dice la fascia |
+| **memoria della storia** | tutto ciò che il gioco ricorda |
+| **metà** | ciò che ottieni scegliendola nel *Quasi*: di solito quello che dà il ripiego |
+| **misura** | una memoria della storia che vale un numero piccolo |
+| **momento** | una parte del giorno; porta le sue proprietà |
+| **narratore** | chi conduce la storia al tavolo; non tira mai i dadi |
+| **Non riesci** | la fascia di chi manca la soglia di 3 o più: non ottieni, e scopri qualcosa |
+| **notizia** | una cosa che il personaggio sa del mondo, o crede di sapere; vera, incompleta o falsa; sentita dire, verificata o smentita |
+| **ora** | l'unità di tempo della storia; un'ambientazione può usarne un'altra |
+| **partenza** | quanto una capacità espone di suo |
+| **penalità** | −1 al tiro per una ferita lieve, il logorio allo stremo, uno stato d'animo; al massimo −3 |
+| **posta** | che cosa succede nel caso peggiore; si scrive nel quadro |
+| **preparazione** | ciò che fai prima di agire per abbassare l'esposizione di un grado |
+| **prezzo** | ciò che paghi riuscendo allo scoperto, o prendendo tutto nel *Quasi* |
+| **proprietà** | una caratteristica di un luogo o di un momento (buio, folla, silenzio…) che agisce su tutte e quattro le domande |
+| **protezione** | una cosa che declassa una conseguenza e si consuma |
+| **prova** | una scelta che si risolve con i dadi |
+| **quadro** | ciò che il gioco mostra prima di una prova: puoi, riesci, costa, dopo |
+| **Quasi** | la fascia di chi manca la soglia di 1 o 2: scegli fra tutto pagando il prezzo, la metà, e lasciar perdere scoprendo qualcosa |
+| **reazione** | che cosa cambia in una persona quando succede qualcosa |
+| **repertorio** | le complicazioni, gli imprevisti e i prezzi di ogni zona |
+| **Riesci** | la fascia di chi raggiunge la soglia, o la supera di meno di 4 |
+| **riga propria** | un valore di costo che vale soltanto per un luogo o un momento |
+| **ripiego** | la via che c'è sempre: costa, e non si tira |
+| **rovescio** | l'esito peggiore: la situazione precipita, e sei in un'altra scena |
+| **scadenza** | una cosa che accadrà comunque, con il conto alla rovescia; può avanzare anche per ciò che fai |
+| **scelta esaurita** | una scelta che non può più darti niente, e sparisce |
+| **scena** | un'unità della storia; sulla carta, un paragrafo |
+| **scheda dell'ambientazione** | le ventiquattro voci che adattano il motore a un mondo |
+| **snodo** | una scelta che non si disfa, scritta a mano dall'autore |
+| **soglia** | il numero che il tiro deve raggiungere: 6, 8, 10 o 12 |
+| **stadio** | uno dei tre livelli di un logorio |
+| **stato d'animo** | ciò che il personaggio prova adesso; agisce come un tratto e passa |
+| **tacca** | l'unità della Traccia e della crescita |
+| **Traccia** | quanto ti hanno notato in una zona, da 0 a 3 |
+| **tratto** | una parola che dice com'è fatto il personaggio; apre, chiude, sposta, aggrava |
+| **via** | uno dei modi di affrontare un ostacolo |
+| **zona** | la parte del mondo in cui si conta la Traccia |
 
-| Termine | Che cosa vuol dire | |
-|---|---|---|
-| **aggravante** | un fatto del mondo che alza l'esposizione di un grado | |
-| **aiuto** | una persona che fa la cosa con te: +1 al tiro | nuovo |
-| **ambito** | il genere di un'azione: corpo, mano, mente, voce, o quelli scelti dall'ambientazione | |
-| **attrezzo** | una cosa che aiuta un genere di azione: +1 al tiro | nuovo |
-| **avversario** | una persona che ti si oppone adesso; si descrive con cinque righe | |
-| **capacità** | un genere di azione che il personaggio sa fare, con un livello da Inesperto a Maestro | |
-| **catalogo delle difficoltà** | l'elenco delle cose del mondo, con la loro soglia, ciò che la sposta e ciò che serve | cambiato (era il catalogo delle soglie) |
-| **compagno** | una persona che viaggia con il personaggio, con capacità, tratti e condizioni proprie | nuovo |
-| **condizioni** | come sta il personaggio: logorio, ferite, stati d'animo | cambiato |
-| **confronto** | uno dei modi di stare con una persona: quello in cui ti si oppone adesso | |
-| **convinzione** | una frase che il personaggio crede su di sé o sugli altri; apre e chiude scelte | nuovo |
-| **copertura** | il grado di esposizione di un avversario | |
-| **cose** | ciò che il personaggio porta con sé; hanno usi, proprietà e tre stati | nuovo (erano gli oggetti) |
-| **debito** | la dimensione di un legame che dice chi deve un favore a chi | nuovo |
-| **deduzione** | una notizia che si ricava mettendone insieme altre | nuovo |
-| **dimensione** | una delle cinque misure di un legame: fiducia, debito, paura, affetto, rancore | nuovo |
-| **dono** | ciò che ottieni in più con *In pieno* | nuovo |
-| **esposizione** | quanto ti costa un'azione, comunque vada il dado; ha tre gradi | |
-| **fascia** | una delle quattro risposte del dado: *In pieno*, *Riesci*, *Quasi*, *Non riesci* | nuovo |
-| **fatto** | una memoria della storia che vale sì o no | |
-| **ferita** | un danno con un nome e un posto, che impedisce qualcosa; lieve, grave o mortale | |
-| **filo** | una delle storie in corso, con le sue tappe | |
-| **finestra** | l'istante in cui un avversario è allo scoperto e decidi tu come finisce | |
-| **Fondo** | il grado sotto il quale un'azione non scende mai | |
-| **gradino** | la distanza fra due soglie vicine: due punti sul tiro | nuovo |
-| **grado** | uno dei tre livelli dell'esposizione: al coperto, esposto, allo scoperto | |
-| **imprevisto** | un evento che arriva tanto più spesso quanta più Traccia hai nella zona | |
-| **In pieno** | la fascia di chi supera la soglia di 4 o più: ottieni, e un dono | nuovo |
-| **legame** | il rapporto del personaggio con una persona, fatto di dimensioni e ricordi | nuovo |
-| **livello** | quanto sai fare una capacità: Inesperto, Pratico, Esperto, Maestro | |
-| **logorio** | ciò che sale da solo e ha un rimedio; ha tre stadi | |
-| **luogo** | dove si svolge una scena; ha una zona, proprietà e righe proprie | cambiato |
-| **margine** | il tiro meno la soglia; dice la fascia | nuovo |
-| **memoria della storia** | tutto ciò che il gioco ricorda | cambiato (erano le qualità della storia) |
-| **metà** | ciò che ottieni scegliendola nel *Quasi*: di solito quello che dà il ripiego | nuovo |
-| **misura** | una memoria della storia che vale un numero piccolo | |
-| **momento** | una parte del giorno; porta le sue proprietà | cambiato |
-| **narratore** | chi conduce la storia al tavolo; non tira mai i dadi | |
-| **Non riesci** | la fascia di chi manca la soglia di 3 o più: non ottieni, e scopri qualcosa | nuovo |
-| **notizia** | una cosa che il personaggio sa del mondo, o crede di sapere; vera, incompleta o falsa; sentita dire, verificata o smentita | cambiato (erano le conoscenze) |
-| **ora** | l'unità di tempo della storia; un'ambientazione può usarne un'altra | cambiato (era il passo) |
-| **partenza** | quanto una capacità espone di suo | |
-| **penalità** | −1 al tiro per una ferita lieve, il logorio allo stremo, uno stato d'animo; al massimo −3 | |
-| **posta** | che cosa succede nel caso peggiore; si scrive nel quadro | |
-| **preparazione** | ciò che fai prima di agire per abbassare l'esposizione di un grado | |
-| **prezzo** | ciò che perdi riuscendo allo scoperto | |
-| **proprietà** | una caratteristica di un luogo o di un momento (buio, folla, silenzio…) che agisce su tutte e quattro le domande | nuovo |
-| **protezione** | una cosa che declassa una conseguenza e si consuma | |
-| **prova** | una scelta che si risolve con i dadi | |
-| **quadro** | ciò che il gioco mostra prima di una prova: puoi, riesci, costa, dopo | cambiato (era la ricevuta) |
-| **Quasi** | la fascia di chi manca la soglia di 1 o 2: scegli fra tutto, la metà e lasciar perdere | nuovo |
-| **reazione** | che cosa cambia in una persona quando succede qualcosa | nuovo |
-| **repertorio** | le complicazioni, gli imprevisti e i prezzi di ogni zona | |
-| **Riesci** | la fascia di chi raggiunge la soglia, o la supera di meno di 4 | nuovo |
-| **riga propria** | un valore di costo che vale soltanto per un luogo o un momento | nuovo |
-| **ripiego** | la via che c'è sempre: costa, e non si tira | cambiato (era la via povera) |
-| **rovescio** | l'esito peggiore: la situazione precipita, e sei in un'altra scena | cambiato: più raro, perché chi manca di poco passa al *Quasi* e sceglie se rischiarlo |
-| **scadenza** | una cosa che accadrà comunque, con il conto alla rovescia | |
-| **scelta esaurita** | una scelta che non può più darti niente, e sparisce | nuovo |
-| **scena** | un'unità della storia; sulla carta, un paragrafo | |
-| **scheda dell'ambientazione** | le ventidue voci che adattano il motore a un mondo | cambiato |
-| **snodo** | una scelta che non si disfa, scritta a mano dall'autore | |
-| **soglia** | il numero che il tiro deve raggiungere: 6, 8, 10 o 12 | |
-| **stadio** | uno dei tre livelli di un logorio | |
-| **stato d'animo** | ciò che il personaggio prova adesso; agisce come un tratto e passa | nuovo |
-| **tacca** | l'unità della Traccia e della crescita | |
-| **Traccia** | quanto ti hanno notato in una zona, da 0 a 3 | |
-| **tratto** | una parola che dice com'è fatto il personaggio; apre, chiude, sposta, aggrava | nuovo |
-| **via** | uno dei modi di affrontare un ostacolo | |
-| **zona** | la parte del mondo in cui si conta la Traccia | |
-
-Escono dal glossario: *casella* e i nomi delle sei caselle (successo pieno, successo sporco, successo a caro prezzo, fallimento pulito, rovescio minore), *conoscenza*, *passo*, *qualità*, *ricevuta*, *via povera*.
 
 ---
 
@@ -2190,49 +2150,63 @@ Escono dal glossario: *casella* e i nomi delle sei caselle (successo pieno, succ
 | **Cambia sostanza** | il dado risponde con quattro fasce invece che con sì o no · l'esito si legge due volte, dal dado e dall'esposizione · la notizia del *Non riesci* vale a ogni grado · il personaggio ha sei parti · i tratti, dove il 2.0 aveva soltanto capacità e condizioni · le cose hanno usi, stati e combinazioni · gli attrezzi e gli aiuti danno +1 al tiro · la difficoltà si sposta di un gradino per ragioni dichiarate, al massimo uno per parte · i luoghi si descrivono con proprietà che valgono per tutte e quattro le domande · le notizie hanno uno stato visibile e si mettono insieme · le persone hanno legami a cinque dimensioni, ricordano e tradiscono · gli stati d'animo · i tratti che si guadagnano e si perdono · le scelte in prima persona, e quelle esaurite che spariscono · gli imprevisti si controllano una volta per scelta · quattro formati invece di tre | il 2.0 era sottile proprio dove un romanzo di ruolo deve essere profondo: il personaggio, le persone, il mondo che reagisce. E chi gioca non sentiva differenza fra mancare di poco e mancare di molto |
 | **Esce** | le sei caselle come esiti a sé, con i loro nomi · il fallimento pulito come unica occasione di imparare qualcosa · il rovescio per chi manca la soglia di poco, che ora è una scelta | le sei caselle restano, come lettura del costo; ciò che esce sono i nomi che confondevano la riuscita con il costo |
 
+**Le parole.** Alcune parole sono cambiate, perché nell'italiano di tutti i giorni dicevano un'altra cosa: la via povera si chiama **ripiego**, il passo è diventato l'**ora**, la ricevuta è il **quadro**, le qualità della storia sono la sua **memoria**, le conoscenze si dividono in **notizie** e **convinzioni**. Escono: *casella* e i nomi delle sei caselle (successo pieno, successo sporco, successo a caro prezzo, fallimento pulito, rovescio minore), *conoscenza*, *passo*, *qualità*, *ricevuta*, *via povera*.
+
+**Il porto.** Con le proprietà, un effetto vale una volta sola: all'alba il Gallo non ha due volte la folla (nel 2.0 mano e voce scendevano a −2), di notte i magazzini non hanno due volte il buio (nel 2.0 il corpo scendeva a −2), e di notte il Gallo non ha il silenzio (nel 2.0 mano e voce tornavano a 0). Il passo di un'ora e mezza diventa l'ora: le scadenze e il logorio sono stati ricalcolati per durare lo stesso tempo di prima.
+
+**Dopo il 3.0.** Il 29 ottobre 2026 sono cambiate alcune regole, e il documento le dice al loro posto. Nel *Quasi* prendere tutto costa il prezzo anche al coperto, e lasciar perdere dà la notizia del *Non riesci* (§28.3). Il quadro non spegne più righe per il Fondo e per il tetto, ma lo dice sotto il totale (§21.3), e nella riuscita scrive la soglia che risulta da un gradino («→ 10») invece di un «+2» che si confondeva con i bonus (§21.1). Le scadenze possono avanzare per ciò che fai (§15.4). Sulla carta, le notizie sono voci in fondo al libro che si leggono solo quando le segni (§48.1). Il confronto fra i tre modelli per le fasce, che stava nella Parte V, è passato nell'appendice E; l'elenco del lavoro fatto sul codice per adeguarlo al 3.0 sta in `archivio/ADEGUAMENTO-MOTORE-3.0.md`.
+
 ---
 
-# APPENDICE E — Che cosa cambiare nel motore e nei dati
+# APPENDICE E — I modelli scartati per le fasce
 
-Questo era l'elenco del lavoro per adeguare `strumento/motore/`. È stato fatto il 25 settembre 2026, compresi i compagni (§33) e il giocatore automatico con un obiettivo (§54.2), aggiunti lo stesso giorno. Il 27 settembre si sono aggiunte le proposte del §7.3 e del §11.4, con i controlli dal 31 al 36 del §47. Resta da fare l'editor di ESPOSIZIONE Studio. Il `README.md` del motore dice com'è fatto adesso.
+Prima di scegliere le quattro fasce del §23 si sono confrontati tre modelli. Tutti usano il margine, cioè il tiro meno la soglia, e le stesse quattro fasce: +4 o più, da 0 a +3, −1 o −2, −3 o meno. Cambia che cosa se ne fa. Qui ci sono i due scartati e il confronto; il modello adottato, chiamato B, è quello del §23.
 
-**Il formato dei dati** (`src/tipi.ts`)
+## Modello A: la griglia a dodici
 
-- *Tratto*: id, nome, effetti (apre, chiude, sposta con la situazione, aggrava), origine se guadagnato.
-- *Proprietà*: valori per ambito, spostamenti di soglia per genere di prova, requisiti. *Luogo* con proprietà, righe proprie, proprietà sospese e stati condizionati. *Momento* con proprietà e ore.
-- *Cosa*: usi (attrezzo con il genere di azione, chiave, preparazione, protezione, prova, scorta), proprietà (fragile, ingombrante, compromettente, fa luce), stato; *Combinazione*.
-- *Voce del catalogo*: soglia, spostamenti (tratto, notizia, proprietà, legame, stato d'animo), attrezzi, requisiti con alternative.
-- *Notizia*: stato (sentita dire, verificata, smentita), smentita da, in contrasto con, verificabile. *Deduzione*. *Convinzione*: frase, messa in dubbio da, effetti del lasciarla andare e del tenerla.
-- *Persona*: dimensioni usate e valori iniziali, reazioni, ricordi, tradisce se, livello di conoscenza; *Compagno* con capacità, tratti, condizioni.
-- *Stato d'animo*: effetti, come passa.
-- *Prova*: riesci, notizia del *Non riesci* (obbligatoria), rovescio, e facoltativi dono, metà, prezzo; righe di ritocco con spostamenti di soglia.
-- *Scelta*: «sempre disponibile»; gli effetti bastano al motore per capire quando è esaurita.
-- *Tempo*: l'unità, le ore dei momenti, i ritmi di scadenze, logorio e Traccia in ore.
+Il modello più diretto incrocia le quattro fasce con i tre gradi di esposizione. Ne escono dodici caselle, ciascuna con il suo esito predefinito:
 
-**Le regole**
+| | +4 o più | da 0 a +3 | −1 o −2 | −3 o meno |
+|---|---|---|---|---|
+| **Al coperto** | successo brillante | successo pieno | successo mancato | fallimento pulito |
+| **Esposto** | successo netto | successo sporco | mezzo successo sporco | rovescio minore |
+| **Allo scoperto** | successo netto a caro prezzo | successo a caro prezzo | rovescio lieve | rovescio |
 
-- `src/ricevuta.ts` diventa il quadro, in quattro sezioni: requisiti, riuscita con gli spostamenti di soglia e il limite di un gradino per parte, costo come oggi con l'ambiente ricavato dalle proprietà (al massimo 2), dopo. Le righe che non contano anche nella riuscita.
-- `src/motore.ts`: il margine e le quattro fasce; il dono con i suoi predefiniti; il *Quasi* come scelta successiva al tiro, con le tre possibilità e il loro costo; la notizia del *Non riesci* a ogni grado; il rovescio soltanto allo scoperto; la difesa e il confronto con le fasce; aiuti e compagni; le scelte esaurite; «Ci ripenso» e «Metto insieme quello che so»; i tradimenti.
-- `src/stato.ts`: tratti, cose con stato, notizie con stato, convinzioni, persone con dimensioni e ricordi, stati d'animo; il tempo in ore; l'imprevisto una volta per scelta che consuma tempo.
-- `src/controlli.ts`: i trenta controlli del §47. Sono nuovi quelli sui tratti, sulle cose, sulle notizie, sulle convinzioni, sugli stati d'animo, sulle persone, sulle scelte esaurite e sulla prima persona.
-- `src/simulazione.ts`: i cinque giocatori nuovi del §54.2 e le misure dei criteri.
-- `src/libro.ts`: il paragrafo con le quattro fasce e il *Quasi* in riga; la scheda con le sei parti, la riga delle fasce, le persone; in fondo al libro tratti, proprietà, stati d'animo.
-- `test/`: i conti delle fasce contro la tabella dell'appendice A; il *Quasi*; le scelte esaurite; le notizie smentite; i tradimenti.
+**I conti.** Il grado lo sceglie chi gioca, il dado sceglie la colonna. Per un Pratico davanti a un'Impegnativa, allo scoperto: successo netto a caro prezzo 8, successo a caro prezzo 50, rovescio lieve 25, rovescio 17. Le stesse quattro probabilità valgono in ogni riga: il grado sposta la riga, non la colonna.
 
-**L'app** (`web/`)
+**Il difetto.** Basta leggere i nomi. *Rovescio lieve* e *rovescio*, *successo netto* e *successo sporco* sono coppie ordinate: la stessa conseguenza a volume diverso. È proprio il difetto della scala (§24). Per tenere distinte dodici caselle ogni ambientazione dovrebbe scrivere dodici predefiniti di natura diversa, e ogni autore dovrebbe rispettarli.
 
-- il quadro in quattro sezioni, con la barra delle fasce e le parole;
-- due timbri, la fascia e il grado; il pannello del *Quasi*;
-- il taccuino con le notizie e il loro stato, le convinzioni, le persone;
-- le scelte esaurite che spariscono;
-- la scheda finale accanto a quella iniziale;
-- la schermata finale coprente: oggi è semitrasparente, e sotto il titolo si legge il diario.
+**Quanto costa scrivere.** Con i predefiniti, da sei a otto testi per prova, perché le caselle vicine chiedono sfumature che nessun predefinito dà. Senza, dodici.
 
-**I dati**
+**Leggibilità.** Dodici nomi non si ricordano. Sul quadro il modello si mostra, ma chi gioca non lo impara.
 
-- `dati/porto.ambientazione.json`: ricompilato come nell'appendice B.
-- `dati/santa-rita.storia.json`: tutte le scelte in prima persona («Vado a cercarlo» al posto di «Cominciare a cercare»); i ripieghi al posto delle vie povere; le notizie del *Non riesci* per ogni prova; le persone con i legami; i tratti del personaggio e la borsa da facchino; le convinzioni e le deduzioni; il tempo in ore; la scadenza ricalcolata.
+## Modello C: il margine da spendere
 
-**La documentazione**
+Il terzo modello, sul modello di *Genesys*, trasforma il margine in una moneta. Ogni punto sopra la soglia compra un vantaggio da una lista (un'ora risparmiata, una notizia, una tacca di Traccia in meno, una persona che si fida di più); ogni punto sotto si paga con uno svantaggio (un'ora persa, una tacca di Traccia, un attrezzo rovinato, una ferita).
 
-- `strumento/motore/README.md`, `ROADMAP.md` e il glossario dell'editor si aggiornano con le parole nuove.
+**I conti.** Per un Pratico davanti a un'Impegnativa, i dadi devono fare 7, e il margine si distribuisce così:
+
+| Margine | −5 | −4 | −3 | −2 | −1 | 0 | +1 | +2 | +3 | +4 | +5 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| su 36 | 1 | 2 | 3 | 4 | 5 | 6 | 5 | 4 | 3 | 2 | 1 |
+| su 100 | 3 | 6 | 8 | 11 | 14 | 17 | 14 | 11 | 8 | 6 | 3 |
+
+In media un tiro dà poco meno di un punto da spendere (35 trentaseiesimi) e poco meno di un punto da pagare: moltiplica ogni margine per quante volte esce, somma i positivi e dividi per 36.
+
+**I difetti.** Il modello dà molta scelta, e ha tre problemi. Il primo: il dado entra nel costo. Se un punto di margine compra una tacca di Traccia in meno, un buon tiro cancella il prezzo di una cattiva scelta, e le scelte smettono di contare più dei dadi. Si potrebbe togliere la Traccia dalla lista, ma resterebbe il secondo problema: al coperto, un margine negativo si paga, e il dado torna a poterti rovinare. Il terzo è il tempo: ogni tiro diventa una piccola spesa, sulla carta bisogna contare e scegliere da una lista, e ogni scena deve dire che cosa si compra lì.
+
+**Quanto costa scrivere.** Le liste possono stare nell'ambientazione, ma una prova che conta ne vuole una sua: da cinque a otto testi.
+
+## Il confronto
+
+| Criterio | A: la griglia | B: due letture | C: il margine da spendere |
+|---|---|---|---|
+| 1. Natura | no: caselle vicine differiscono per intensità | sì: dono, obiettivo, scelta, scoperta | sì, ma sono voci di una lista |
+| 2. Al coperto il dado non rovina | sì | sì | no, salvo eccezioni |
+| 3. Nessuna morte senza avviso | sì | sì | sì |
+| 4. Le scelte contano più dei dadi | sì | sì: il dado non tocca il costo | no: il margine compra costo |
+| 5. Al massimo tre testi per prova | no: 6–12 | sì: 3 | no: 5–8 |
+| 6. Si legge a colpo d'occhio | no: dodici nomi | sì: due timbri | no: una spesa a ogni tiro |
+| 7. I conti si rifanno a mano | sì | sì | sì |
+
+**Si adotta il modello B**, quello del §23: due letture separate dello stesso tiro. È l'unico che rispetta tutti i criteri, e ha una ragione in più, che nessuna tabella misura: fa del tiro vicino alla soglia il momento più interessante della prova. Mancare di uno smette di essere una delusione e diventa una domanda: quanto vuoi quella cosa, e che cosa sei disposto a lasciare dietro di te per averla?

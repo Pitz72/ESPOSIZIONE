@@ -1,11 +1,11 @@
 # ESPOSIZIONE Studio — il motore 3.0
 
-Il motore di [`ESPOSIZIONE-DESIGN-3.md`](../../ESPOSIZIONE-DESIGN-3.md). Scritto da capo il 23 settembre 2026 per il 2.0, adeguato al 3.0 il 25 settembre 2026; il 27 settembre ha imparato le cose nei luoghi, i posti e lo stato del mondo (§7.3, §11.4). TypeScript puro, nessuna dipendenza, gira con Node 22.6 o successivo senza compilare niente.
+Il motore di [`ESPOSIZIONE-DESIGN-3.md`](../../ESPOSIZIONE-DESIGN-3.md). Scritto da capo il 23 settembre 2026 per il 2.0, adeguato al 3.0 il 25 settembre 2026; il 27 settembre ha imparato le cose nei luoghi, i posti e lo stato del mondo (§7.3, §11.4); il 29 ottobre le regole nuove del *Quasi* (§28.3), il quadro che scrive la soglia («→ 10») invece di un «+2» (§21.1) e le scadenze che avanzano per ciò che fai (§15.4). TypeScript puro, nessuna dipendenza, gira con Node 22.6 o successivo senza compilare niente.
 
 Dagli stessi dati escono quattro cose:
 
 - **la partita**, nel terminale oppure in qualunque interfaccia, testuale o grafica, che usi le due funzioni `vista` e `agisci`;
-- **il librogame**, in Markdown, che la catena Typst del repository impagina in [`pdf/SANTA-RITA-librogame.pdf`](../../pdf/SANTA-RITA-librogame.pdf);
+- **il librogame**, in Markdown, che la catena Typst del repository impagina in [`pdf/SANTA-RITA-librogame.pdf`](../../pdf/SANTA-RITA-librogame.pdf). Le notizie sono voci numerate in fondo al libro, in ordine mescolato, da leggere solo quando un paragrafo dice di segnarle;
 - **l'app web**, [`libro/santa-rita.html`](libro/santa-rita.html): un solo file HTML con dentro motore, dati e interfaccia, da aprire in qualunque browser. Ha un panorama del porto disegnato in tempo reale, con la luce che cambia col momento del giorno. Il quadro è un foglio della capitaneria con le quattro domande e la barra delle fasce, su cui rotolano i dadi e cadono due timbri: la fascia e il grado. Il *Quasi* compare fra le scelte, ciascuna con il suo costo. Quando c'è un compagno, il foglio ha tre linguette (da solo, con il suo aiuto, lui al posto tuo) e il quadro si ricalcola per ciascuna. La scheda mostra tratti, compagni, persone, convinzioni e il taccuino con lo stato di ogni notizia. Lo schermo largo ha tre colonne: a sinistra «Qui e adesso» (la giornata, la nave, il tempo che fa, come stai, la Traccia), al centro la storia e le scelte, con quelle chiuse raccolte in fondo, a destra la scheda in quattro linguette (Tu, Cose, Taccuino, Persone), che si segnano quando vi cambia qualcosa. Sotto i 1200 pixel la colonna di sinistra diventa la linguetta «Adesso», e la nave e la fatica passano in una striscia sul panorama. Nella scheda le cose hanno i loro posti e un pulsante per lasciarle dove sei; sopra, gli stati del mondo diversi dal solito e le scadenze che li annunciano. Il pannello «Sotto il cofano» mostra i dati grezzi che il motore restituisce: l'app li disegna e basta. Da lì, o dalla schermata finale, si copia il registro della partita, che in fondo porta i dati per la prova con le persone (§54.3): i secondi di ogni quadro e ogni scelta nei *Quasi*, con la situazione in cui è stata fatta;
 - **le verifiche**: i trentasei controlli del §47 e i giocatori automatici del §54.2.
 
@@ -18,7 +18,7 @@ node src/cli.ts gioca            # gioca nel terminale (scrivi "scheda" per vede
 node src/cli.ts gioca --seme 11  # la stessa partita, con gli stessi dadi
 node src/cli.ts controlla        # i controlli del §47 sui dati
 node src/cli.ts libro            # rigenera libro/santa-rita.md
-node src/cli.ts simula           # 500 partite per ciascuna delle dieci strategie automatiche
+node src/cli.ts simula           # 500 partite per ciascuna delle tredici strategie automatiche (--partite 1000 per il §54.2)
 node web/costruisci.mjs          # rigenera la versione elettronica, libro/santa-rita.html
 node --test                      # i test
 ```
@@ -35,7 +35,7 @@ Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento
 | `src/stato.ts` | lo stato della partita: la memoria della storia, le notizie e le loro smentite, le persone e le loro reazioni, le proprietà dei luoghi, il tempo in ore, le ferite, gli stati d'animo, la Traccia, gli imprevisti; le cose nei luoghi, i posti, la forza e il riconoscere; gli stati del mondo con la loro durata, e l'ambiente che logora |
 | `src/motore.ts` | `vista` (che cosa mostrare) e `agisci` (che cosa succede): il quadro, le fasce, il *Quasi*, il dono, il rovescio, il confronto, le scelte esaurite, «Ci ripenso», «Metto insieme quello che so», gli aiuti, i compagni con le loro varianti, «Prendo…» e che cosa lasciare quando non c'è posto |
 | `src/controlli.ts` | i controlli del §47, più quelli strutturali |
-| `src/simulazione.ts` | i giocatori automatici: le strategie semplici, quelle per il *Quasi*, e il giocatore con un obiettivo, che cerca la strada più breve verso una vittoria pesando probabilità, rumore e rischio di rovescio |
+| `src/simulazione.ts` | i giocatori automatici: le strategie semplici, quelle per il *Quasi*, e il giocatore con un obiettivo, che cerca la strada più breve verso una vittoria pesando probabilità, rumore e rischio di rovescio, con tre copie che nel *Quasi* scelgono sempre la stessa cosa |
 | `src/libro.ts` | il generatore del librogame |
 | `src/cli.ts` | la riga di comando |
 | `web/` | l'app web: l'interfaccia (`gioco.ts`), il panorama del porto (`panorama.ts`), il suono generato nel browser (`suono.ts`), la pagina (`pagina.html`) e lo script che impacchetta tutto con il motore in un solo file. Il panorama e i colori sono il tema di questa ambientazione: un'altra storia ne avrebbe un altro. Per impacchettare usa esbuild, già presente fra gli strumenti di sviluppo dell'editor; la pagina che ne esce non ha dipendenze |
@@ -66,18 +66,14 @@ Dal 27 settembre il personaggio porta quattro cose a mani vuote, e la borsa da f
 
 Il personaggio non sa nuotare: da solo non può entrare in acqua. Lucia sì, e con lei le vie dell'acqua si aprono. In ogni prova in cui conosce la capacità, il gioco offre di farsi aiutare da lei (+1) o di lasciarla fare al posto tuo, con il suo livello e i suoi tratti.
 
-## Le simulazioni, il 25 settembre 2026
+## Le simulazioni, il 29 ottobre 2026
 
-Mille partite per strategia. Nessuna partita bloccata, nessun errore. Le fasce osservate coincidono con le tabelle. Le strategie contano: la scrupolosa vince il 49% delle volte, l'opportunista il 41%, la casuale il 21%, la prudente il 10%. Nel *Quasi*, scegliere secondo la situazione vince quanto scegliere sempre «tutto» (21%), e più di scegliere sempre la metà (17%) o sempre lasciar perdere (16%): il criterio 3 del §54.2 non è ancora superato. È la prima cosa da guardare.
+Mille partite per ciascuna delle tredici strategie, con `node src/cli.ts simula --partite 1000`. Nessun blocco, nessun errore, tutte le scene raggiunte, le fasce con le frequenze delle tabelle. Il giocatore con un obiettivo vince l'81%, la scrupolosa il 43%, l'opportunista il 36%, la temeraria il 29%, la casuale il 15%, la prudente il 4%. Nel *Quasi*, il giocatore con un obiettivo vince quanto la sua copia che prende sempre tutto (81% e 81%), con meno rovesci (0,12 contro 0,19 a partita); le copie che prendono sempre la metà o lasciano sempre perdere scendono al 59% e al 58%. Il §54.2 del documento racconta che cosa vuol dire, e perché la scadenza resta di ventiquattro ore.
 
-Dopo l'arrivo dei compagni (cinquecento partite per strategia): nessun blocco, nessun errore, e adesso tutte le scene vengono raggiunte, comprese quelle dell'acqua. La scrupolosa vince il 51% delle volte, la casuale il 22%. Il *Quasi* dà lo stesso risultato: secondo la situazione 22%, sempre tutto 22%.
-
-Poi è arrivato il **giocatore con un obiettivo**, che ha vinto il 100% delle partite: una catena di ripieghi (caricare casse, aspettare che Teodoro dorma, spezzare la catena con l'ascia) finiva in un salto sempre al coperto, perché il buio della nave copriva anche l'allarme. Corretto con lo stato del luogo: quando la Traccia sulla nave arriva a 2 si accendono le lanterne, e il buio sparisce. Dopo la correzione, su mille partite: il giocatore con un obiettivo vince l'81%, la scrupolosa il 45%, la casuale il 20%. Chi gioca bene finisce in circa sei ore e lascia diciannove ore di margine alla scadenza: la nave che salpa quasi non preme. Da decidere dopo le prove con le persone.
-
-Il 27 settembre, con le cose nei luoghi, i posti e lo stato del mondo (mille partite per strategia): nessun blocco, nessun errore, tutte le scene raggiunte. Il giocatore con un obiettivo vince l'81%, la scrupolosa il 43%, l'opportunista il 38%, la temeraria il 30%, la casuale il 16%, la prudente il 5%. La casuale e la prudente scendono perché la bolla, nel magazzino sette, adesso bisogna prenderla: togliendo le novità una alla volta, la nebbia, il freddo, l'allarme e la correzione del buio notturno spostano un punto o niente. Il *Quasi* resta com'era: secondo la situazione 16%, sempre tutto 16%.
+Fino al 29 ottobre la strategia casuale sceglieva nel *Quasi* con la regola di «situazione», e le due erano lo stesso giocatore: i confronti sul *Quasi* fatti prima di quella data non valgono.
 
 ## Che cosa manca
 
 - Le storie con più protagonisti non sono ancora nel motore.
-- L'editor grafico di `strumento/editor/` usa ancora il vecchio motore di InteractiveWriter, in `strumento/core/`. Va ricostruito su questo.
+- L'editor grafico di `strumento/editor/` usa ancora il vecchio motore di InteractiveWriter, in `strumento/core/`. Va ricostruito su questo; fino ad allora il vecchio motore resta nel repository soltanto per lui.
 - Nessuna persona ha ancora giocato il librogame, né l'app del 3.0.

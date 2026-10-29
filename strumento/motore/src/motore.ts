@@ -315,7 +315,7 @@ export function quadroProva(g: Gioco, p0: Partita, spec: SpecProva): Quadro {
   const livello = spec.attore ? livelloCompagno(g, spec.attore, cap.id) : p.livelli[cap.id] ?? 0;
   const chi = spec.attore ? `${nomePersona(g, spec.attore)} è` : "sei";
   const ris = riuscita({ testo: `${TIPO_SOGLIA[voce.soglia]}: ${voce.cosa}`, soglia: voce.soglia }, giu, su, { testo: `${chi} ${nomeLivello(g, livello, spec.attore)} in ${cap.nome}`, valore: livello }, spinte, penalita);
-  for (const n of note) ris.righe.push({ tipo: "nota", testo: n, valore: 0, conta: false });
+  for (const n of note) ris.righe.push({ tipo: "nota", testo: n, valore: 0, mostra: "", conta: false });
   if (ris.troppoDifficile) richiede ??= "troppo difficile per te adesso";
 
   // --- Quanto ti costa?
@@ -346,11 +346,11 @@ export function quadroProva(g: Gioco, p0: Partita, spec: SpecProva): Quadro {
   const pr = spec.prova;
   const ottieni = pr ? pr.ottieni ?? scenaDi(g, pr.riesci.vai).titolo.toLowerCase() : "ciò che volevi";
   const quasi: string[] = [];
-  if (grado < 2) quasi.push(`tutto, ma ${NOMI_GRADO_MINUSCOLI[grado + 1]}`);
+  if (grado < 2) quasi.push("tutto, e paghi il prezzo");
   else quasi.push("tutto, e il rovescio lo stesso");
   const meta = pr ? testoMeta(g, scena, pr) : undefined;
   if (meta) quasi.push(`la metà: ${meta}`);
-  quasi.push("lasci perdere");
+  quasi.push("lasci perdere, e scopri qualcosa sull'ostacolo");
   const persone: string[] = [];
   for (const x of [spec.aiuto, spec.aiutoCompagno]) if (x && puoAiutare(p, x)) persone.push(dim(p, x, "debito") > 0 ? `${nomePersona(g, x)} non ti dovrà più un favore` : `dovrai un favore a ${nomePersona(g, x)}`);
   if (spec.attore) persone.push(`se va male, ci va di mezzo ${nomePersona(g, spec.attore)}`);
@@ -584,7 +584,7 @@ function statoVista(g: Gioco, p: Partita): Vista["stato"] {
 /** Le possibilità del Quasi, con quello che costano (§28.3). */
 function scelteQuasi(g: Gioco, p: Partita): VistaScelta[] {
   const q = p.quasi!;
-  const su = (gr: Grado) => (gr === 0 ? "+1 Traccia" : gr === 1 ? "+1 Traccia e il prezzo" : "+1 Traccia e il rovescio");
+  const su = (gr: Grado) => (gr < 2 ? "+1 Traccia e il prezzo" : "+1 Traccia e il rovescio");
   const segno = (gr: Grado) => (gr === 0 ? "niente" : "+1 Traccia");
   if (q.tipo === "difesa") {
     const avv = g.amb.avversari.find((a) => a.id === p.confronto?.avversario);
@@ -594,15 +594,16 @@ function scelteQuasi(g: Gioco, p: Partita): VistaScelta[] {
     ];
   }
   const out: VistaScelta[] = [];
-  const tutto = q.tipo === "prova" ? "Prendo tutto, anche se mi espongo di più" : q.tipo === "debole" ? "Lo scopro, anche se mi espongo di più" : "Insisto, anche se mi espongo di più";
-  out.push({ id: "quasi:tutto", testo: tutto, tipo: "quasi", disponibile: true, costa: su(q.grado) });
+  const tutto = q.tipo === "prova" ? "Prendo tutto, e pago quello che costa" : q.tipo === "debole" ? "Lo scopro, anche se mi espongo di più" : "Insisto, anche se mi espongo di più";
+  out.push({ id: "quasi:tutto", testo: tutto, tipo: "quasi", disponibile: true, costa: q.tipo === "prova" ? su(q.grado) : `+1 Traccia, e da qui in poi sei ${NOMI_GRADO_MINUSCOLI[Math.min(2, q.grado + 1)]}` });
   if (q.tipo === "prova") {
     const scena = scenaDi(g, q.scena);
     const s = (scena.scelte ?? []).find((x) => x.id === q.scelta)!;
     const meta = testoMeta(g, scena, s.prova!);
     if (meta) out.push({ id: "quasi:meta", testo: `Mi accontento della metà: ${meta}`, tipo: "quasi", disponibile: true, costa: q.grado === 2 ? "+1 Traccia e il prezzo" : segno(q.grado) });
   }
-  out.push({ id: "quasi:lascia", testo: "Lascio perdere, prima che qualcuno se ne accorga", tipo: "quasi", disponibile: true, costa: segno(q.grado) });
+  const impari = q.tipo === "prova" ? "scopri qualcosa sull'ostacolo · " : "";
+  out.push({ id: "quasi:lascia", testo: "Lascio perdere, prima che qualcuno se ne accorga", tipo: "quasi", disponibile: true, costa: `${impari}${segno(q.grado)}` });
   return out;
 }
 
@@ -1009,9 +1010,9 @@ function risolviQuasi(g: Gioco, p: Partita, id: string, eventi: Evento[]): Uscit
     delete p.tentativi[q.chiave];
     dopoAiuto(g, p, pr, q.grado === 2, eventi, q.modo);
     if (q.grado < 2) {
-      const su = (q.grado + 1) as Grado;
-      esito(eventi, "quasi", q.grado, `prendi tutto, ma adesso sei ${NOMI_GRADO_MINUSCOLI[su]}`);
-      let tempo = costoOttenuto(g, p, su, pr, eventi);
+      // Tutto si paga come chi riesce allo scoperto: una tacca di Traccia e il prezzo (§28.3).
+      esito(eventi, "quasi", q.grado, "prendi tutto, e paghi il prezzo");
+      let tempo = costoOttenuto(g, p, 2, pr, eventi);
       tempo += applica(g, p, pr.riesci.effetti, eventi);
       return { verso: pr.riesci.vai, tempo };
     }
@@ -1035,9 +1036,10 @@ function risolviQuasi(g: Gioco, p: Partita, id: string, eventi: Evento[]): Uscit
     return { verso: m.vai, tempo };
   }
   if (id === "quasi:lascia") {
-    esito(eventi, "quasi", q.grado, "lasci perdere");
+    // Chi si ritira in tempo vede almeno quanto chi non riesce: la notizia del Non riesci (§28.3).
+    esito(eventi, "quasi", q.grado, "lasci perdere, e scopri qualcosa sull'ostacolo");
     if (q.grado >= 1) aggiungiTraccia(g, p, luogoDi(g, p).zona, 1, eventi);
-    return resta;
+    return { verso: scena.id, tempo: applica(g, p, [{ notizia: pr.nonRiesci.notizia }], eventi) };
   }
   throw new Error(`Scelta del Quasi inesistente: ${id}`);
 }

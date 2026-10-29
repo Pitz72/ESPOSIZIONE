@@ -126,7 +126,7 @@
     },
     {
       "id": "nave", "nome": "La Santa Rita", "zona": "nave", "proprieta": ["buio", "posto_lavoro", "acqua", "altezza"],
-      "stati": [{ "se": { "traccia": "nave", "almeno": 2 }, "togli": ["buio"] }],
+      "stati": [{ "se": { "traccia": "nave", "almeno": 2 }, "togli": ["buio"], "frase": "l'equipaggio ti ha notato e ha acceso le lanterne" }],
       "righe": [{ "ambito": "voce", "valore": 1, "testo": "a bordo ogni voce rimbomba nel legno" }]
     }
   ],

@@ -121,6 +121,7 @@ export function controlla(amb: Ambientazione, storia: Storia): Rilievo[] {
       if ("statoAnimo" in e && !amb.statiAnimo.some((x) => x.id === e.statoAnimo)) err("rimandi", dove, `Stato d'animo inesistente: ${e.statoAnimo}.`);
       if ("compagno" in e && !storia.persone.find((k) => k.id === e.compagno)?.compagno) err("33", dove, `${e.compagno} non ha una scheda da compagno.`);
       if ("preparazione" in e && !amb.preparazioni.some((p) => p.id === e.preparazione)) err("rimandi", dove, `Preparazione inesistente: ${e.preparazione}.`);
+      if ("scadenza" in e && !storia.scadenze.some((x) => x.id === e.scadenza)) err("rimandi", dove, `Scadenza inesistente: ${e.scadenza}.`);
       if ("trova" in e && !cose.has(e.trova)) err("rimandi", dove, `Cosa inesistente: ${e.trova}.`);
       if ("riconosci" in e && !cose.has(e.riconosci)) err("rimandi", dove, `Cosa inesistente: ${e.riconosci}.`);
       if ("stato" in e) {

@@ -8,7 +8,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { componi, riuscita, tieni } from "../src/quadro.ts";
 import { almeno, fasce, fascePercento, fasciaDi, percentuale } from "../src/dadi.ts";
-import { applica, avanza, capienza, forzaPer, haProprieta, occupati, prepara, nuovaPartita, proprietaAttive, type Evento, type Partita } from "../src/stato.ts";
+import { applica, avanza, cambiaStato, capienza, forzaPer, haProprieta, occupati, prepara, nuovaPartita, proprietaAttive, type Evento, type Partita } from "../src/stato.ts";
 import { agisci, vista } from "../src/motore.ts";
 import { controlla } from "../src/controlli.ts";
 import { distanzeDallaVittoria, simula } from "../src/simulazione.ts";
@@ -98,6 +98,15 @@ test("la soglia si sposta al massimo di un gradino per parte (§18.1)", () => {
   assert.ok(sotto.nonSiTira);
 });
 
+test("nel quadro un «+» della riuscita vuol dire sempre «ti aiuta»: i gradini scrivono la soglia che ne esce (§21.1)", () => {
+  // Il faro del §50: Impegnativa, spaventato, Pratico.
+  const r = riuscita({ testo: "Impegnativa", soglia: 8 }, [], [{ testo: "sei spaventato", parte: "stato d'animo" }], { testo: "sei Pratico", valore: 1 }, [], [{ testo: "una mano tagliata", parte: "ferita" }]);
+  assert.deepEqual(r.righe.map((x) => x.mostra), ["8", "→ 10", "+1", "−1"]);
+  assert.equal(r.dadi, 10);
+  const annulla = riuscita({ testo: "Ardua", soglia: 10 }, [{ testo: "a", parte: "notizia" }, { testo: "c", parte: "tratto" }], [{ testo: "b", parte: "proprieta" }], { testo: "liv", valore: 0 }, [], []);
+  assert.deepEqual(annulla.righe.map((x) => x.mostra), ["10", "→ 8", "", "→ 10", "+0"]);
+});
+
 test("attrezzi e aiuti valgono al massimo +2, le penalità al massimo −3", () => {
   const r = riuscita({ testo: "Impegnativa", soglia: 8 }, [], [], { testo: "liv", valore: 1 }, [1, 2, 3].map((i) => ({ testo: `s${i}`, parte: "cosa" as const })), [1, 2, 3, 4].map((i) => ({ testo: `p${i}`, parte: "ferita" as const })));
   assert.equal(r.bonus, 1 + 2 - 3);
@@ -113,6 +122,26 @@ test("l'esempio del §21.1: la preparazione non basta, le righe che alzano conta
   assert.equal(c.grado, 2);
   assert.deepEqual(c.righe.map((r) => r.conta), [true, true, true, false]);
   assert.match(c.righe[3].nota!, /un'altra/);
+});
+
+test("il Fondo e il tetto non spengono righe: lo dice una nota sotto il totale (§21.3)", () => {
+  // La scena del §2: Sottrarre all'alba nell'archivio. Il +1 e il −1 contano tutti e due.
+  const alba = componi({ testo: "partenza", valore: 0 }, [
+    { tipo: "ambiente", testo: "sorveglianza", valore: 1 },
+    { tipo: "ambiente", testo: "folla", valore: -1 },
+  ], 0);
+  assert.equal(alba.grado, 0);
+  assert.ok(alba.righe.every((r) => r.conta));
+  assert.equal(alba.nota, undefined);
+  // Sotto il Fondo una preparazione non serve, e il quadro lo dice.
+  const sotto = componi({ testo: "partenza", valore: 1 }, [
+    { tipo: "ambiente", testo: "folla", valore: -1 },
+    { tipo: "preparazione", testo: "travestimento", valore: -1 },
+  ], 1);
+  assert.equal(sotto.grado, 1);
+  assert.deepEqual(sotto.righe.map((r) => r.conta), [true, true, false]);
+  assert.match(sotto.righe[2].nota!, /non serve/);
+  assert.match(sotto.nota!, /più basso di questa azione è esposto/);
 });
 
 test("l'ambiente conta al massimo 2 (§11.1)", () => {
@@ -210,7 +239,7 @@ function semeCon(scena: string, scelta: string, fascia: string, ora = 0): Partit
   throw new Error(`nessun seme dà ${fascia}`);
 }
 
-test("il Quasi al coperto: tutto costa una tacca di Traccia, la metà niente, lasciar perdere niente (§28.3)", () => {
+test("il Quasi al coperto: tutto costa una tacca di Traccia e il prezzo, la metà niente, lasciar perdere niente e dà la notizia del Non riesci (§28.3)", () => {
   const p = semeCon("archivio", "sottrarre", "quasi");
   const q = a(p, "sottrarre");
   assert.equal(q.scena, "archivio");
@@ -220,12 +249,27 @@ test("il Quasi al coperto: tutto costa una tacca di Traccia, la metà niente, la
   const tutto = a(q, "quasi:tutto");
   assert.equal(tutto.scena, "registro");
   assert.equal(tutto.traccia.archivio, 1);
+  // Il prezzo della prova del registro (un capitano ti ha visto, e Bressan lo saprà: rancore +1),
+  // più la reazione di Bressan al registro sparito con Traccia nell'archivio (rancore +1).
+  assert.equal(tutto.persone.bressan.dim.rancore, 2);
   const meta = a(q, "quasi:meta");
   assert.equal(meta.scena, "registro_meta");
   assert.equal(meta.traccia.archivio ?? 0, 0);
   const lascia = a(q, "quasi:lascia");
   assert.equal(lascia.scena, "archivio");
   assert.equal(lascia.traccia.archivio ?? 0, 0);
+  // Chi si ritira in tempo non sa meno di chi non riesce.
+  assert.equal(lascia.notizie.bressan_armadio, "sentita");
+  assert.equal(q.notizie.bressan_armadio, undefined);
+});
+
+test("l'allarme del porto fa salpare la nave prima: la scadenza guadagna una casella (§15.4)", () => {
+  const p = in_("archivio", 0);
+  const prima = p.scadenze.salpa;
+  const eventi: Evento[] = [];
+  cambiaStato(g, p, "porto", "allarme", eventi);
+  assert.equal(p.scadenze.salpa, prima + 1);
+  assert.ok(eventi.some((e) => /anticipare la partenza/.test(e.testo)));
 });
 
 test("il Non riesci dà la sua notizia a ogni grado (§28.4)", () => {

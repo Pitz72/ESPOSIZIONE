@@ -28,14 +28,36 @@ export function numerazione(storia: Storia, seme = 7): Map<string, number> {
   return new Map<string, number>([[storia.inizio, 1], ...altre.map((id, i) => [id, i + 2] as [string, number])]);
 }
 
+/** Il numero di ogni voce del taccuino, mescolato: l'ordine non deve raccontare la storia. */
+export function numerazioneVoci(storia: Storia, seme = 11): Map<string, number> {
+  const ids = storia.notizie.map((k) => k.id);
+  let rng = seme;
+  for (let i = ids.length - 1; i > 0; i--) {
+    const r = intero(rng, 0, i);
+    rng = r.stato;
+    [ids[i], ids[r.valore]] = [ids[r.valore], ids[i]];
+  }
+  return new Map(ids.map((id, i) => [id, i + 1] as [string, number]));
+}
+
+/** «La Santa Rita» → «della Santa Rita»: la preposizione giusta davanti al nome di un luogo. */
+function diLuogo(nome: string): string {
+  const art: Array<[RegExp, string]> = [[/^La /, "della "], [/^Il /, "del "], [/^I /, "dei "], [/^L'/, "dell'"], [/^Lo /, "dello "], [/^Gli /, "degli "], [/^Le /, "delle "]];
+  for (const [re, di] of art) if (re.test(nome)) return nome.replace(re, di);
+  return `di ${nome}`;
+}
+
+const maiuscola = (t: string) => t.replace(/^./, (x) => x.toUpperCase());
+
 export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   const numero = numerazione(storia, seme);
+  const numeriVoci = numerazioneVoci(storia);
   const n = (id: string) => `**${numero.get(id) ?? "?"}**`;
 
   const cap = (id: string) => amb.capacita.find((c) => c.id === id)!;
   const luogo = (id: string) => amb.luoghi.find((l) => l.id === id)!;
   const momentoBreve = (id: string) => amb.momenti.find((m) => m.id === id)!.nome.split(",")[0];
-  const voce = (id: string) => storia.notizie.findIndex((k) => k.id === id) + 1;
+  const voce = (id: string) => numeriVoci.get(id) ?? 0;
   const notizia = (id: string) => `la voce ${voce(id)} del taccuino`;
   const parola = (id: string) => storia.fatti.find((f) => f.id === id)?.parola ?? id.toUpperCase();
   const cosa = (id: string) => storia.cose.find((o) => o.id === id)?.nome ?? id;
@@ -58,6 +80,21 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     return c.proprieta?.includes("ingombrante") ? 2 : 1;
   };
 
+  /**
+   * Una condizione su uno stato del mondo, detta come la vede chi legge: sulla scheda
+   * c'è una casella per ogni valore tranne quello iniziale, che vale finché non ne hai
+   * segnata nessuna. «Il portone è chiuso» diventa «non hai segnato: forzato».
+   */
+  const statoSegnato = (id: string, valori: string[], vero: boolean): string => {
+    const st = mondo(id);
+    const altri = st.valori.filter((v) => v.id !== st.iniziale);
+    // Chi chiede il valore iniziale chiede che non sia segnato nessuno degli altri valori che non chiede.
+    const segnati = valori.includes(st.iniziale) ? altri.filter((v) => !valori.includes(v.id)).map((v) => v.id) : valori;
+    const positivo = valori.includes(st.iniziale) ? !vero : vero;
+    const nomi = segnati.map((v) => valoreMondo(id, v)).join(" o ");
+    return `${positivo ? "hai segnato" : "non hai segnato"} «${st.nome}: ${nomi}»`;
+  };
+
   // ---- condizioni ed effetti a parole
   const frase = (c: Condizione): string => {
     if ("tutte" in c) return c.tutte.map(frase).join(" e ");
@@ -65,39 +102,39 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if ("non" in c) {
       const x = c.non;
       if ("momento" in x) return `non è ${[x.momento].flat().map(momentoBreve).join(" né ")}`;
-      if ("traccia" in x) return `la Traccia a ${luogo(x.traccia).nome} è meno di ${x.almeno}`;
+      if ("traccia" in x) return `la Traccia ${diLuogo(luogo(x.traccia).nome)} è meno di ${x.almeno}`;
       if ("convinzione" in x) return `non credi più che «${convinzione(x.convinzione)}»`;
-      if ("tratto" in x) return `non sei ${tratto(x.tratto)}`;
+      if ("tratto" in x) return `non hai il tratto ${tratto(x.tratto)}`;
       if ("proprieta" in x) {
         const pr = amb.proprieta.find((k) => k.id === x.proprieta);
         return `non c'è ${proprietaNome(x.proprieta)}${pr?.annullataDa ? `, oppure ${frase(pr.annullataDa.se)}` : ""}`;
       }
-      if ("stato" in x) return `non hai segnato «${mondo(x.stato).nome}: ${[x.valore].flat().map((v) => valoreMondo(x.stato, v)).join(" o ")}»`;
+      if ("stato" in x) return statoSegnato(x.stato, [x.valore].flat(), false);
       return `non vale: ${frase(x)}`;
     }
     if ("fatto" in c) return `hai la parola chiave ${parola(c.fatto)}`;
     if ("nonFatto" in c) return `non hai la parola chiave ${parola(c.nonFatto)}`;
     if ("misura" in c) return `${misura(c.misura)} è almeno ${c.almeno ?? 0}`;
-    if ("cosa" in c) return (c.almeno ?? 1) > 1 ? `hai almeno ${c.almeno} ${cosa(c.cosa).toLowerCase()}` : `hai: ${cosa(c.cosa)}`;
+    if ("cosa" in c) return (c.almeno ?? 1) > 1 ? `hai almeno ${c.almeno} ${cosa(c.cosa).toLowerCase()}` : `hai ${cosa(c.cosa).replace(/^./, (x) => x.toLowerCase())}`;
     if ("cosaProprieta" in c) return c.cosaProprieta === "luce" ? "hai una luce accesa" : `hai una cosa ${c.cosaProprieta}`;
-    if ("notizia" in c) return `hai segnato ${notizia(c.notizia)}, e non è smentita`;
+    if ("notizia" in c) return `hai segnato ${notizia(c.notizia)}, e non l'hai cancellata`;
     if ("nonNotizia" in c) return `non hai segnato ${notizia(c.nonNotizia)}`;
-    if ("tratto" in c) return `sei ${tratto(c.tratto)}`;
+    if ("tratto" in c) return `hai il tratto ${tratto(c.tratto)}`;
     if ("convinzione" in c) return `credi che «${convinzione(c.convinzione)}»`;
     if ("statoAnimo" in c) return `sei ${stato(c.statoAnimo)}`;
     if ("persona" in c) return `${persona(c.persona)} ha ${DIMENSIONI[c.dimensione]} almeno ${c.almeno ?? 0}`;
     if ("conosci" in c) return `conosci ${persona(c.conosci)}`;
     if ("tradisce" in c) return `${persona(c.tradisce)} ha rancore 3, oppure paura 2 e rancore 2`;
     if ("compagno" in c) return `${persona(c.compagno)} è con te`;
-    if ("trattoCompagno" in c) return `con te c'è qualcuno che è ${tratto(c.trattoCompagno)}`;
-    if ("traccia" in c) return `la Traccia a ${luogo(c.traccia).nome} è almeno ${c.almeno}`;
+    if ("trattoCompagno" in c) return `con te c'è qualcuno con il tratto ${tratto(c.trattoCompagno)}`;
+    if ("traccia" in c) return `la Traccia ${diLuogo(luogo(c.traccia).nome)} è almeno ${c.almeno}`;
     if ("momento" in c) return `è ${[c.momento].flat().map(momentoBreve).join(" o ")}`;
     if ("luogo" in c) return `sei ${[c.luogo].flat().map((l) => luogo(l).nome).join(" o ")}`;
     if ("logorio" in c) return `${logorio(c.logorio).nome} è almeno «${logorio(c.logorio).stadi[c.almeno - 1]}»`;
     if ("ferita" in c) return `hai una ferita almeno ${c.ferita}`;
     if ("filo" in c) return `${c.filo} è almeno ${c.almeno}`;
     if ("scadenza" in c) return `${c.scadenza} è almeno ${c.almeno}`;
-    if ("stato" in c) return `hai segnato «${mondo(c.stato).nome}: ${[c.valore].flat().map((v) => valoreMondo(c.stato, v)).join(" o ")}»`;
+    if ("stato" in c) return statoSegnato(c.stato, [c.valore].flat(), true);
     if ("proprieta" in c) return `c'è ${proprietaNome(c.proprieta)}`;
     return "(condizione di prova)";
   };
@@ -108,7 +145,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if ("fatto" in e) return `la parola chiave ${parola(e.fatto)}`;
     if ("togliFatto" in e) return `cancella la parola chiave ${parola(e.togliFatto)}`;
     if ("notizia" in e) return notizia(e.notizia);
-    if ("verifica" in e) return `${notizia(e.verifica)}, come verificata`;
+    if ("verifica" in e) return `${notizia(e.verifica)}, verificata: scrivi una V accanto`;
     if ("convinzione" in e) return `la convinzione «${convinzione(e.convinzione)}»`;
     if ("togliConvinzione" in e) return `cancella la convinzione «${convinzione(e.togliConvinzione)}»`;
     if ("tratto" in e) return `il tratto ${tratto(e.tratto)}${e.origine ? ` (${e.origine})` : ""}`;
@@ -120,11 +157,15 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     if ("statoAnimo" in e) return `sei ${stato(e.statoAnimo)}`;
     if ("passaStatoAnimo" in e) return `non sei più ${stato(e.passaStatoAnimo)}`;
     if ("misura" in e) return `${misura(e.misura)} ${segno(e.piu)}`;
-    if ("traccia" in e) return `${segno(e.piu)} Traccia a ${e.traccia === "qui" ? "questo luogo" : luogo(e.traccia).nome}`;
+    if ("traccia" in e) return `${segno(e.piu)} Traccia (${e.traccia === "qui" ? "questo luogo" : luogo(e.traccia).nome.replace(/^./, (x) => x.toLowerCase())})`;
     if ("logorio" in e) return `${logorio(e.logorio).nome} sale di uno stadio`;
     if ("rimedio" in e) return `${logorio(e.rimedio).nome} torna «${logorio(e.rimedio).stadi[0]}»`;
     if ("ferita" in e) return `ferita ${e.ferita.gravita}: ${e.ferita.nome} (${e.ferita.ambito})`;
     if ("cura" in e) return "la ferita più grave migliora di un grado";
+    if ("scadenza" in e) {
+      const sc = storia.scadenze.find((x) => x.id === e.scadenza);
+      return `${e.testo ? `${e.testo} ` : ""}${sc?.nome ?? e.scadenza}: annerisci subito ${e.piu === 1 ? "una casella" : `${NUMERI[e.piu] ?? e.piu} caselle`}`;
+    }
     if ("filo" in e) return `${storia.fili.find((f) => f.id === e.filo)?.nome ?? e.filo} ${segno(e.piu)}`;
     if ("preparazione" in e) return `preparazione: «${amb.preparazioni.find((p) => p.id === e.preparazione)?.testo}»`;
     if ("tacca" in e) return `una tacca a ${cap(e.tacca).nome}`;
@@ -209,11 +250,12 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     const generi = amb.catalogo.find((x) => x.id === sogliaId)!.generi ?? [];
     const lu = luogo(l);
     const out = { soglia: [] as string[], costo: [] as string[] };
-    const scrivi = (cambi: { costo: number; soglia: number }, quando: string) => {
+    const scrivi = (cambi: { costo: number; soglia: number }, quando: string, perche?: string) => {
+      if (perche) quando = `${quando} (${perche})`;
       if (cambi.costo) out.costo.push(`${segno(cambi.costo)} se ${quando}`);
       if (cambi.soglia) out.soglia.push(`${segno(cambi.soglia)} alla soglia se ${quando}`);
     };
-    for (const st of lu.stati ?? []) scrivi(cambiDi(capId, generi, (st.aggiungi ?? []).filter((id) => !lu.proprieta.includes(id)), (st.togli ?? []).filter((id) => lu.proprieta.includes(id)), []), frase(st.se));
+    for (const st of lu.stati ?? []) scrivi(cambiDi(capId, generi, (st.aggiungi ?? []).filter((id) => !lu.proprieta.includes(id)), (st.togli ?? []).filter((id) => lu.proprieta.includes(id)), []), frase(st.se), st.frase);
     for (const st of storia.stati ?? []) {
       const qui = !st.dove || st.dove.luoghi?.includes(l) || (st.dove.allAperto && lu.allAperto);
       if (!qui) continue;
@@ -237,8 +279,8 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     const generi = v.generi ?? [];
     const out: string[] = [];
     for (const s of v.sposta ?? []) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia se ${frase(s.se)}`);
-    for (const t of amb.tratti) for (const s of t.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) if (!s.se || !("luogo" in s.se) || [s.se.luogo].flat().includes(l)) out.push(`${s.gradini < 0 ? "−2" : "+2"} se sei ${t.nome.toUpperCase()}`);
-    for (const st of amb.statiAnimo) for (const s of st.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) out.push(`${s.gradini < 0 ? "−2" : "+2"} se sei ${st.nome.toLowerCase()}`);
+    for (const t of amb.tratti) for (const s of t.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) if (!s.se || !("luogo" in s.se) || [s.se.luogo].flat().includes(l)) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia se hai il tratto ${t.nome.toUpperCase()}`);
+    for (const st of amb.statiAnimo) for (const s of st.sposta ?? []) if (s.generi?.some((x) => generi.includes(x)) || s.capacita?.includes(capId)) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia se sei ${st.nome.toLowerCase()}`);
     if (proprietaIn(l, "notte").includes("buio") || luogo(l).proprieta.includes("buio")) {
       const buio = amb.proprieta.find((x) => x.id === "buio");
       if (buio?.sposta?.some((s) => s.generi?.some((x) => generi.includes(x)))) out.push("con una luce accesa ignora il buio");
@@ -250,7 +292,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     }
     if (pr?.aiuto) out.push(`+1 al tiro con l'aiuto di ${persona(pr.aiuto)}, se ha fiducia almeno 2 o ti deve un favore; poi il debito scende di 1`);
     for (const s of pr?.sposta ?? []) out.push(`${s.gradini < 0 ? "−2" : "+2"} alla soglia: ${s.testo}`);
-    if (v.serve) out.push(`${v.serve.testo} (${v.serve.una.map(frase).join(" oppure ")})`);
+    if (v.serve) out.push(`${v.serve.testo.split(":")[0]}: ${v.serve.una.map(frase).join(", oppure ")}`);
     out.push(...perStati(capId, sogliaId, l).soglia);
     return out;
   };
@@ -278,7 +320,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p(`**Le prove.** Quando una scelta è una prova, prima di tirare ti fai il quadro, con quattro domande.`);
   p();
   p(`1. **Puoi?** Se la prova dice «serve…» e non hai quello che serve, non puoi tentarla.`);
-  p(`2. **Ci riesci?** Prendi la soglia scritta nel paragrafo per il momento del giorno in cui sei. Toglile 2 o aggiungile 2 per le ragioni scritte fra parentesi che valgono per te, ma **al massimo 2 in giù e 2 in su**. Poi aggiungi al tiro il livello della capacità (Inesperto +0, Pratico +1, Esperto +2, Maestro +3), +1 per ogni attrezzo o aiuto (al massimo +2), −1 per ogni ferita lieve all'ambito della capacità, per ogni logorio allo stremo e per ogni stato d'animo che lo dice (al massimo −3). Se la soglia scende sotto 6, non tiri: riesci.`);
+  p(`2. **Ci riesci?** Prendi la soglia scritta nel paragrafo: se dice «qui», vale il numero di qui, per il momento del giorno in cui sei. Toglile 2 o aggiungile 2 per le ragioni scritte fra parentesi che valgono per te, ma **al massimo 2 in giù e 2 in su**. Poi aggiungi al tiro il livello della capacità (Inesperto +0, Pratico +1, Esperto +2, Maestro +3), +1 per ogni attrezzo o aiuto (al massimo +2), −1 per ogni ferita lieve all'ambito della capacità, per ogni logorio allo stremo e per ogni stato d'animo che lo dice (al massimo −3). Se la soglia scende sotto 6, non tiri: riesci.`);
   p(`3. **Quanto ti costa?** Prendi il *costo di partenza* scritto nel paragrafo, aggiungi 1 per ogni aggravante vera, togli 1 per ogni preparazione. Il grado è il risultato, ma non sotto il Fondo della capacità e non sopra 2: **0 al coperto, 1 esposto, 2 allo scoperto**.`);
   p(`4. **Che cosa cambia?** Leggi la posta, cioè che cosa rischi. Se non ti piace, puoi ancora scegliere un'altra via.`);
   p();
@@ -288,16 +330,16 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   p(`Il paragrafo ti dice dove andare in ogni caso. Poi segni il costo del tuo grado, con la tabella «Dopo il tiro».`);
   p();
-  p(`**Il Quasi.** Quando manca 1 o 2, scegli tu fra tre possibilità: **tutto**, e il costo si legge sulla riga del grado di sopra (allo scoperto, più su non si va: ottieni, e vai lo stesso al paragrafo del rovescio); **la metà**, se il paragrafo la offre, al tuo grado; oppure **lasci perdere**: non ottieni niente, e paghi solo una tacca di Traccia se eri esposto o allo scoperto.`);
+  p(`**Il Quasi.** Quando manca 1 o 2, scegli tu fra tre possibilità. **Tutto**: vai al paragrafo del Riesci, e paghi come chi riesce allo scoperto, cioè una tacca di Traccia e il prezzo; se eri già allo scoperto, segna ciò che il Riesci ti dà e vai al paragrafo del rovescio. **La metà**, se il paragrafo la offre: vai al suo paragrafo e paghi il costo del tuo grado. **Lasci perdere**: non ottieni niente, segni la voce del taccuino che avresti scoperto non riuscendo, e paghi solo una tacca di Traccia se eri esposto o allo scoperto.`);
   p();
   p(`**Ritentare.** Se non sei riuscito al coperto o esposto, o se hai lasciato perdere, puoi tornare al paragrafo della prova e ritentare, ma prima segni un'ora. Le prove segnate «una volta sola» non si ritentano.`);
   p();
-  p(`**Il taccuino.** Quando un paragrafo ti dice di segnare una voce del taccuino, spuntala: è una cosa che hai sentito dire. Se il paragrafo dice «come verificata», spunta anche la seconda casella. Alcune voci dicono da quali altre sono smentite: quando segni una di quelle, cancella la voce smentita. Non tutto quello che si sente dire al porto è vero.`);
+  p(`**Il taccuino.** Quando un paragrafo ti dice di segnare una voce del taccuino, scrivi il suo numero nel taccuino della scheda e leggila fra «Le voci del taccuino», in fondo al libro: è una cosa che hai sentito dire. Leggi soltanto le voci che segni. Se un paragrafo te la fa verificare, scrivi una V accanto al numero. Alcune voci ti dicono di cancellarne un'altra: vuol dire che quella non era vera. Non tutto quello che si sente dire al porto è vero.`);
   p();
   p(`**Le convinzioni.** Sulla scheda ci sono le cose che credi. Alcune scelte sono chiuse finché ci credi. In un luogo tranquillo, se hai segnato una voce che mette in dubbio una convinzione, puoi ripensarci: segna un'ora, e decidi se lasciarla andare o tenerla.`);
   p();
   if (storia.deduzioni.length) {
-    p(`**Mettere insieme.** In un luogo tranquillo, se hai segnato certe voci del taccuino, puoi metterle insieme: segna un'ora e la voce nuova. ${storia.deduzioni.map((d) => `Le voci ${d.da.map(voce).join(" e ")} danno la voce ${voce(d.notizia)}.`).join(" ")}`);
+    p(`**Mettere insieme.** In un luogo tranquillo, se hai segnato certe voci del taccuino, puoi metterle insieme: segna un'ora e la voce nuova. ${storia.deduzioni.map((d) => `Le voci ${d.da.map(voce).sort((a, b) => a - b).join(" e ")} danno la voce ${voce(d.notizia)}.`).join(" ")}`);
     p();
   }
   if (storia.combinazioni.length) {
@@ -310,7 +352,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     p();
   }
   if (storia.stati?.length) {
-    p(`**Lo stato del mondo.** Alcuni paragrafi ti dicono di segnare uno stato del mondo. Spunta la sua casella sulla scheda; se dura qualche ora, scrivi le ore accanto e cancellane una ogni ora che passa: a zero, lo stato torna com'era. Finché lo hai segnato, cambia i luoghi: ${(storia.stati ?? []).flatMap((st) => st.valori.filter((v) => v.id !== st.iniziale && (v.aggiungi?.length || v.togli?.length || v.righe?.length)).map((v) => `«${st.nome}: ${v.nome}» ${[v.aggiungi?.length ? `porta ${v.aggiungi.map(proprietaNome).join(" e ")}` : "", v.togli?.length ? `toglie ${v.togli.map(proprietaNome).join(" e ")}` : "", ...(v.righe ?? []).map((r) => `${r.testo} (${r.ambito} ${segno(r.valore)})`)].filter(Boolean).join(", ")} ${!st.dove ? "in tutti i luoghi" : st.dove.allAperto ? `nei luoghi all'aperto (${amb.luoghi.filter((l) => l.allAperto).map((l) => l.nome.replace(/^./, (x) => x.toLowerCase())).join(", ")})` : `in questi luoghi: ${st.dove.luoghi!.map((l) => luogo(l).nome.replace(/^./, (x) => x.toLowerCase())).join(", ")}`}`)).join("; ")}. Gli altri stati li leggono i paragrafi. Le prove dicono quanto cambiano il costo e la soglia.`);
+    p(`**Lo stato del mondo.** Alcuni paragrafi ti dicono di segnare uno stato del mondo. Spunta la sua casella sulla scheda; se dura qualche ora, scrivi le ore accanto e cancellane una ogni ora che passa: a zero, lo stato torna com'era. Finché lo hai segnato, cambia i luoghi: ${(storia.stati ?? []).flatMap((st) => st.valori.filter((v) => v.id !== st.iniziale && (v.aggiungi?.length || v.togli?.length || v.righe?.length)).map((v) => `«${st.nome}: ${v.nome}» ${[v.aggiungi?.length ? `porta ${v.aggiungi.map(proprietaNome).join(" e ")}` : "", v.togli?.length ? `toglie ${v.togli.map(proprietaNome).join(" e ")}` : "", ...(v.righe ?? []).map((r) => `${r.testo} (${r.ambito} ${segno(r.valore)})`)].filter(Boolean).join(", ")} ${!st.dove ? "in tutti i luoghi" : st.dove.allAperto ? `nei luoghi all'aperto (${amb.luoghi.filter((l) => l.allAperto).map((l) => l.nome.replace(/^./, (x) => x.toLowerCase())).join(", ")})` : `in questi luoghi: ${st.dove.luoghi!.map((l) => luogo(l).nome.replace(/^./, (x) => x.toLowerCase())).join(", ")}`}`)).join("; ")}.${(storia.stati ?? []).flatMap((st) => st.valori.filter((v) => v.entrando?.length).map((v) => ` Quando segni «${st.nome}: ${v.nome}», segna anche: ${v.entrando!.map(effetto).join("; ")}.`)).join("")} Gli altri stati li leggono i paragrafi. Le prove dicono quanto cambiano il costo e la soglia.`);
     p();
   }
   const compagni = storia.persone.filter((x) => x.compagno);
@@ -324,7 +366,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   for (const s of storia.scadenze) {
     const cosaSuccede = [s.effetti?.length ? `segna ${s.effetti.map(effetto).join(", ")}` : "", s.alScadere ? `vai subito al ${n(s.alScadere)}` : ""].filter(Boolean).join(", e ");
-    p(`**La scadenza.** ${s.nome}: annerisci una casella ogni ${s.ogniOre} ore. Quando anneriresti l'ultima${s.salvoSe ? `, a meno che ${frase(s.salvoSe)},` : ","} ${cosaSuccede}.`);
+    p(`**La scadenza.** ${s.nome}: annerisci una casella ogni ${s.ogniOre} ore. Quando anneriresti l'ultima${s.salvoSe ? `, salvo se ${frase(s.salvoSe)},` : ","} ${cosaSuccede}.`);
     p();
   }
   p(`**La morte.** Se muori, vai al ${n(storia.morte)}. Nessuna prova può ucciderti senza che la sua posta lo dica prima.`);
@@ -416,9 +458,9 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     p(`| ${x.nome} | ${d("fiducia")} | ${d("debito")} | ${d("paura")} | ${d("affetto")} | ${d("rancore")} |`);
   }
   p();
-  p(`**Il taccuino.** Ogni voce ha due caselle: la prima quando la senti, la seconda quando la verifichi.`);
+  p(`**Il taccuino.** Scrivi qui il numero di ogni voce che segni; una V accanto quando la verifichi; una riga sopra quando la cancelli. Le voci si leggono in fondo al libro.`);
   p();
-  storia.notizie.forEach((k, i) => p(`${i + 1}. ☐ ☐ ${k.testo}${k.smentitaDa?.length ? ` *Smentita dalle voci ${k.smentitaDa.map(voce).join(" e ")}.*` : ""}${storia.convinzioni.some((c) => c.dubbioDa.includes(k.id)) ? ` *Mette in dubbio: «${storia.convinzioni.filter((c) => c.dubbioDa.includes(k.id)).map((c) => c.testo).join("», «")}».*` : ""}`));
+  p(Array.from({ length: Math.ceil(storia.notizie.length / 8) }, () => Array.from({ length: 8 }, () => "\_\_\_\_\_\_").join(" · ")).join("  \n"));
   p();
 
   // ---- tabelle
@@ -441,10 +483,10 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p(`|---|---|---|---|`);
   p(`| **In pieno** | ottieni, e qualcosa in più | + una tacca di Traccia | + una tacca di Traccia e il prezzo |`);
   p(`| **Riesci** | ottieni | + una tacca di Traccia | + una tacca di Traccia e il prezzo |`);
-  p(`| **Quasi** | tutto (+1 Traccia) · la metà · lasci perdere | tutto (+1 Traccia e il prezzo) · la metà (+1 Traccia) · lasci perdere (+1 Traccia) | tutto (+1 Traccia e il rovescio) · la metà (+1 Traccia e il prezzo) · lasci perdere (+1 Traccia) |`);
+  p(`| **Quasi** | tutto (+1 Traccia e il prezzo) · la metà · lasci perdere (la voce) | tutto (+1 Traccia e il prezzo) · la metà (+1 Traccia) · lasci perdere (la voce, +1 Traccia) | tutto (+1 Traccia e il rovescio) · la metà (+1 Traccia e il prezzo) · lasci perdere (la voce, +1 Traccia) |`);
   p(`| **Non riesci** | segni la voce del taccuino | + una tacca di Traccia e un imprevisto del luogo | + una tacca di Traccia, sale il logorio del suo ambito, perdi il travestimento, vai al paragrafo del rovescio |`);
   p();
-  p(`Il **prezzo**, se il paragrafo non lo dice, è la voce «prezzo» degli imprevisti del luogo. La Traccia non sale mai più di una tacca per prova.`);
+  p(`Il **prezzo** si paga riuscendo allo scoperto, o prendendo tutto nel Quasi. Se il paragrafo non lo dice, è la voce «prezzo» degli imprevisti del luogo. La Traccia non sale mai più di una tacca per prova.`);
   p();
   p(`### Le proprietà dei luoghi`);
   p();
@@ -452,9 +494,9 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   for (const pr of amb.proprieta) {
     const val = Object.entries(pr.valori).filter(([, v]) => v).map(([a, v]) => `${a} ${segno(v!)}`).join(", ");
-    const sp = (pr.sposta ?? []).map((s) => `${s.testo}: ${s.gradini < 0 ? "−2" : "+2"} alla soglia`).join("; ");
+    const sp = maiuscola((pr.sposta ?? []).map((s) => `${s.testo}: ${s.gradini < 0 ? "−2" : "+2"} alla soglia`).join("; "));
     const lg = pr.logora ? `la ${amb.logorii.find((l) => l.id === pr.logora!.logorio)!.nome.toLowerCase()} sale di uno stadio ogni ${pr.logora.ogniOre} ore passate qui` : "";
-    p(`- **${pr.nome}**${val ? ` (costo: ${val})` : ""}${sp ? `. ${sp}` : ""}${pr.serve?.length ? `. ${pr.serve.map((s) => s.testo).join("; ")}` : ""}${pr.annullataDa ? `. ${pr.annullataDa.testo}` : ""}${lg ? `. ${lg}` : ""}.`);
+    p(`- **${pr.nome}**${val ? ` (costo: ${val})` : ""}${sp ? `. ${sp}` : ""}${pr.serve?.length ? `. ${maiuscola(pr.serve.map((s) => s.testo).join("; "))}` : ""}${pr.annullataDa ? `. ${maiuscola(pr.annullataDa.testo)}` : ""}${lg ? `. ${maiuscola(lg)}` : ""}.`);
   }
   p();
   p(`| Luogo | Proprietà | ${amb.momenti.map((m) => momentoBreve(m.id)).join(" | ")} |`);
@@ -473,7 +515,7 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
   p();
   for (const ag of amb.aggravanti) {
     const q = ag.quando;
-    const quando = "tracciaQui" in q ? `la Traccia del luogo in cui sei è almeno ${q.tracciaQui}` : "logorioSuAmbito" in q ? "un logorio che tocca l'ambito della capacità è almeno al secondo stadio" : "tagScena" in q ? "il paragrafo dice «sono in tanti a guardare»" : "cosaProprieta" in q ? `porti ${storia.cose.filter((o) => o.proprieta?.includes(q.cosaProprieta)).map((o) => o.nome.toLowerCase()).join(" o ")}` : frase(q);
+    const quando = "tracciaQui" in q ? `la Traccia del luogo in cui sei è almeno ${q.tracciaQui}` : "logorioSuAmbito" in q ? "un logorio che tocca l'ambito della capacità è almeno al secondo stadio" : "tagScena" in q ? "il paragrafo dice «sono in tanti a guardare»" : "cosaProprieta" in q ? `porti ${storia.cose.filter((o) => o.proprieta?.includes(q.cosaProprieta)).map((o) => o.nome.replace(/^./, (x) => x.toLowerCase())).join(" o ")}` : frase(q);
     p(`- *${ag.testo}*: se ${quando}.`);
   }
   p();
@@ -519,9 +561,11 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
     const c_ = cap(pr.capacita);
     const meta = pr.meta ? ("ripiego" in pr.meta ? (s.scelte ?? []).find((x) => x.id === (pr.meta as { ripiego: string }).ripiego)?.vai : pr.meta.vai) : undefined;
     const dono = pr.dono ? `segna anche: ${pr.dono.testo}${segna(pr.dono.effetti)}` : `segna anche ${notizia(pr.nonRiesci.notizia)}`;
-    const quasi = [`al ${n(pr.riesci.vai)} salendo di un grado`, meta ? `al ${n(meta)} (la metà)` : "", `resta qui (lasci perdere)`].filter(Boolean).join(", ");
-    const extra = [pr.unColpoSolo ? "Una volta sola." : "", pr.prezzo ? `Il prezzo, allo scoperto: ${pr.prezzo.testo}${segna(pr.prezzo.effetti)}` : ""].filter(Boolean).join(" ");
-    return `- **Prova: ${c.testo}**${req}. ${c_.nome} (${c_.ambito}, Fondo ${c_.fondo}). Soglia ${nomeSoglia}: ${sog}${vari.length ? ` (${vari.join("; ")})` : ""}. Costo di partenza: ${cost}${(pr.righe ?? []).map((r) => ` (compresa la riga «${r.testo}», ${segno(r.valore)})`).join("")}${costoStati.length ? ` (${costoStati.join("; ")})` : ""}. *${pr.posta}* **In pieno**: ${n(pr.riesci.vai)}, e ${dono} · **Riesci**: ${n(pr.riesci.vai)}${segna(pr.riesci.effetti)} · **Quasi**: scegli ${quasi} · **Non riesci**: segna ${notizia(pr.nonRiesci.notizia)}, vai al ${n(pr.nonRiesci.vai)}${segna(pr.nonRiesci.effetti)}${pr.rovescio ? `; allo scoperto, rovescio: ${n(pr.rovescio.vai)}${segna(pr.rovescio.effetti)}` : ""}.${extra ? ` ${extra}` : ""}`;
+    const quasi = [`tutto (${n(pr.riesci.vai)}, e paghi il prezzo)`, meta ? `la metà (${n(meta)})` : "", `lasci perdere (segna ${notizia(pr.nonRiesci.notizia)} e resta qui)`].filter(Boolean).join(", ");
+    const extra = [pr.unColpoSolo ? "Una volta sola." : "", pr.prezzo ? `Il prezzo, allo scoperto o prendendo tutto nel Quasi: ${pr.prezzo.testo}${segna(pr.prezzo.effetti)}` : ""].filter(Boolean).join(" ");
+    const sogliaBase = amb.catalogo.find((x) => x.id === pr.soglia)!.soglia;
+    const sogliaTesto = `${nomeSoglia} (${sogliaBase})${sog === String(sogliaBase) ? "" : `, qui ${sog}`}`;
+    return `- **Prova: ${c.testo}**${req}. ${c_.nome} (${c_.ambito}, Fondo ${c_.fondo}). Soglia ${sogliaTesto}${vari.length ? ` (${vari.join("; ")})` : ""}. Costo di partenza: ${cost}${(pr.righe ?? []).map((r) => ` (compresa la riga «${r.testo}», ${segno(r.valore)})`).join("")}${costoStati.length ? ` (${costoStati.join("; ")})` : ""}. *${pr.posta}* **In pieno**: ${n(pr.riesci.vai)}, e ${dono} · **Riesci**: ${n(pr.riesci.vai)}${segna(pr.riesci.effetti)} · **Quasi**: scegli fra ${quasi} · **Non riesci**: segna ${notizia(pr.nonRiesci.notizia)}, vai al ${n(pr.nonRiesci.vai)}${segna(pr.nonRiesci.effetti)}${pr.rovescio ? `; allo scoperto, rovescio: ${n(pr.rovescio.vai)}${segna(pr.rovescio.effetti)}` : ""}.${extra ? ` ${extra}` : ""}`;
   };
   for (const s of ordinate) {
     const lu = luogo(s.luogo);
@@ -565,6 +609,25 @@ export function libro(amb: Ambientazione, storia: Storia, seme = 7): string {
       p(`- *Ripiego, non si tira:* ${conf.andarsene.testo}.${segna(conf.andarsene.effetti)} Vai al ${n(conf.andarsene.vai)}.`);
       p(`- **Finestra** (quando è allo scoperto, senza tirare): ${conf.fini.map((f) => `${f.testo}${segna(f.effetti)} → ${n(f.vai)}`).join(" · ")}.`);
     }
+    p();
+  }
+
+  // ---- le voci del taccuino, da leggere soltanto quando le segni
+  p(`## Le voci del taccuino`);
+  p();
+  p(`*Leggi una voce soltanto quando un paragrafo ti dice di segnarla.*`);
+  p();
+  const perNumero = [...storia.notizie].sort((a, b) => voce(a.id) - voce(b.id));
+  for (const k of perNumero) {
+    const smentisce = storia.notizie.filter((x) => x.smentitaDa?.includes(k.id)).map((x) => voce(x.id));
+    const contrasto = (k.contrasto ?? []).map(voce);
+    const dubbi = storia.convinzioni.filter((c) => c.dubbioDa.includes(k.id)).map((c) => `«${c.testo}»`);
+    const note = [
+      smentisce.length ? `Se hai segnato ${smentisce.length === 1 ? `la voce ${smentisce[0]}` : `le voci ${smentisce.join(" e ")}`}, cancella${smentisce.length === 1 ? "la" : "le"}: non era vera.` : "",
+      contrasto.length ? `Non può essere vera insieme ${contrasto.length === 1 ? `alla voce ${contrasto[0]}` : `alle voci ${contrasto.join(" e ")}`}.` : "",
+      dubbi.length ? `Mette in dubbio la convinzione ${dubbi.join(" e ")}.` : "",
+    ].filter(Boolean);
+    p(`**${voce(k.id)}.** ${k.testo}${note.length ? ` *${note.join(" ")}*` : ""}`);
     p();
   }
   return out.join("\n");

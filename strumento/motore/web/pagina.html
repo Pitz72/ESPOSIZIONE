@@ -441,11 +441,12 @@
   .carta-quando { margin: 8px 0 0; font: italic 400 13px/1.3 var(--testo-f); color: var(--inch-2); }
   .carta-azione { margin: 2px 0 12px; font: 400 22px/1.15 var(--display); color: var(--inchiostro); text-wrap: balance; }
   .carta-righe { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
-  .carta-righe li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 8px; }
+  .carta-righe li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 8px; }
   .carta-righe .v { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
   .carta-righe small { display: block; font: italic 400 11.5px/1.35 var(--testo-f); color: var(--inch-2); }
   .carta-righe li.spenta .c { color: var(--inch-2); }
   .carta-righe li.spenta .v { color: var(--inch-2); text-decoration: line-through; }
+  .carta-righe .v { white-space: nowrap; }
   .carta-totale { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 8px; border-top: 1.5px solid var(--inchiostro); }
   .carta-totale .v { width: 30px; text-align: right; font-size: 18px; font-weight: 600; }
   .grado { padding: 3px 9px; border-radius: 3px; font: 600 10.5px/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: #fff; }
@@ -701,7 +702,9 @@
     <h3>Le quattro domande</h3>
     <p>Prima di ogni prova compare il <b>quadro</b> della capitaneria. Risponde a quattro domande. <b>Puoi farlo?</b> Dipende da chi sei, da che cosa hai e da che cosa sai. <b>Ci riesci?</b> Due dadi, più il tuo livello, gli attrezzi e gli aiuti, contro una soglia che le tue notizie, i tuoi tratti e il luogo possono spostare. <b>Quanto ti costa?</b> Dipende da che cosa fai, dove e quando: i dadi non lo toccano. <b>Che cosa cambia?</b> Il quadro ti dice che cosa ottieni in ogni caso, e che cosa rischi.</p>
     <h3>Le quattro fasce</h3>
-    <p><b>In pieno</b>: superi la soglia di 4 o più, e ottieni qualcosa in più. <b>Riesci</b>: ottieni ciò che volevi. <b>Quasi</b>: ti manca 1 o 2, e scegli tu se prendere tutto esponendoti di più, accontentarti della metà, o lasciar perdere. <b>Non riesci</b>: non ottieni, ma scopri qualcosa.</p>
+    <p><b>In pieno</b>: superi la soglia di 4 o più, e ottieni qualcosa in più. <b>Riesci</b>: ottieni ciò che volevi. <b>Quasi</b>: ti manca 1 o 2, e scegli tu. Puoi prendere tutto e pagarne il prezzo, accontentarti della metà, oppure lasciar perdere: non ottieni niente, ma scopri qualcosa che ti servirà per riprovare. <b>Non riesci</b>: non ottieni, ma scopri qualcosa.</p>
+    <h3>Come si legge «Ci riesci?»</h3>
+    <p>La prima riga è la soglia, cioè quanto devi fare. Se qualcosa la sposta, la riga dice dove arriva: «→ 10» vuol dire che adesso devi fare 10. Le righe con «+1» ti aiutano, quelle con «−1» ti ostacolano. In fondo c'è quanto devono fare i dadi.</p>
     <h3>I tre gradi</h3>
     <div class="gradi-leg"><span class="grado" data-g="0">al coperto</span><span class="grado" data-g="1">esposto</span><span class="grado" data-g="2">allo scoperto</span></div>
     <p><b>Al coperto</b> il peggio che ti può capitare è non riuscire. <b>Esposto</b>, qualcuno ti nota. <b>Allo scoperto</b>, se riesci paghi un prezzo, e se non riesci la situazione precipita.</p>
@@ -710,7 +713,7 @@
     <h3>Le cose e i posti</h3>
     <p>Le cose stanno nei luoghi: quando ne vedi una, puoi prenderla. Alcune si vedono solo con una luce, e una carta che non sai leggere resta un foglio qualunque. Prendere non costa tempo, ma costa posto: a mani vuote porti quattro cose, la borsa da facchino ne aggiunge tre, una cosa ingombrante ne occupa due, le monete e i fogli nessuno. Quando sei pieno, per prendere lasci qualcosa, e lo ritrovi dove l'hai lasciato. Dalla scheda puoi lasciare una cosa quando vuoi.</p>
     <h3>Il mondo che cambia</h3>
-    <p>Ciò che fai resta: un portone forzato resta forzato. Se ti prendono, il porto va in allarme, e per qualche ora le guardie girano dappertutto. La sera sale la nebbia, che nasconde chi si muove all'aperto; di notte, fuori, il freddo stanca. La scheda dice che cosa sta cambiando, e il quadro perché ti costa di più.</p>
+    <p>Ciò che fai resta: un portone forzato resta forzato. Se ti prendono, il porto va in allarme: per qualche ora le guardie girano dappertutto, e Grimani fa salpare la nave tre ore prima. La sera sale la nebbia, che nasconde chi si muove all'aperto; di notte, fuori, il freddo stanca. La scheda dice che cosa sta cambiando, e il quadro perché ti costa di più.</p>
     <h3>Il tempo e la nave</h3>
     <p>Spostarti, aspettare e ritentare costano ore. Il giorno cambia la luce, e la luce cambia le cose: il buio copre chi si muove, ma di notte ogni rumore si sente, e senza una luce le mani lavorano peggio. La <em>Santa Rita</em> salpa prima dell'alba.</p>
     <h3>Il ripiego</h3>

@@ -9,8 +9,10 @@
 #let tint    = rgb("#f4f1e8")
 #let tint2   = rgb("#efece2")
 
-#let SERIF = "TeX Gyre Pagella"
-#let SANS  = "TeX Gyre Heros"
+// DejaVu Sans Mono in coda: i caratteri che Pagella e Heros non hanno (☐, ┆) li prende
+// da un font del repository, non da uno di sistema che cambia da macchina a macchina.
+#let SERIF = ("TeX Gyre Pagella", "DejaVu Sans Mono")
+#let SANS  = ("TeX Gyre Heros", "DejaVu Sans Mono")
 #let MONO  = "DejaVu Sans Mono"
 
 // ── elementi ────────────────────────────────────────────────

@@ -41,15 +41,14 @@ function quadro(q: Quadro): string {
   out.push(`      PUOI?    ${q.puoi.aperta ? "sì" : `no: ${q.puoi.richiede}`}${q.puoi.righe.length ? ` · ${q.puoi.righe.join(" · ")}` : ""}`);
   const r = q.riesci;
   r.righe.forEach((x, i) => {
-    const v = x.tipo === "soglia" ? ` ${x.valore}` : x.tipo === "nota" ? "   " : segno(x.valore);
-    out.push(`      ${i === 0 ? "RIESCI?" : "       "}  ${v.padStart(3)}  ${x.testo}${x.nota ? `   — ${x.nota}` : ""}`);
+    out.push(`      ${i === 0 ? "RIESCI?" : "       "}  ${x.mostra.padStart(4)}  ${x.testo}${x.nota ? `   — ${x.nota}` : ""}`);
   });
-  out.push(r.nonSiTira ? "               ──  sotto Facile: non si tira" : `               ──  i dadi devono fare ${r.dadi}: in pieno ${r.fasce.pieno} · riesci ${r.fasce.riesci} · quasi ${r.fasce.quasi} · non riesci ${r.fasce.non}`);
+  out.push(r.nonSiTira ? "                ──  sotto Facile: non si tira" : `                ──  i dadi devono fare ${r.dadi}: in pieno ${r.fasce.pieno} · riesci ${r.fasce.riesci} · quasi ${r.fasce.quasi} · non riesci ${r.fasce.non}`);
   q.costo.righe.forEach((x, i) => {
     const v = x.tipo === "partenza" ? ` ${x.valore}` : segno(x.valore);
-    out.push(`      ${i === 0 ? "COSTA? " : "       "}  ${v.padStart(3)}  ${x.testo}${x.nota ? `   — ${x.nota}` : ""}`);
+    out.push(`      ${i === 0 ? "COSTA? " : "       "}  ${v.padStart(4)}  ${x.testo}${x.nota ? `   — ${x.nota}` : ""}`);
   });
-  out.push(`               ──  ${q.costo.somma}  ${["AL COPERTO", "ESPOSTO", "ALLO SCOPERTO"][q.grado]}${q.costo.nota ? `   — ${q.costo.nota}` : ""}`);
+  out.push(`                ──  ${q.costo.somma}  ${["AL COPERTO", "ESPOSTO", "ALLO SCOPERTO"][q.grado]}${q.costo.nota ? `   — ${q.costo.nota}` : ""}`);
   out.push(`      DOPO?    riesci: ${q.dopo.riesci} · quasi: ${q.dopo.quasi.join(" / ")} · non riesci: ${q.dopo.nonRiesci}`);
   for (const x of q.dopo.persone) out.push(`               ${x}`);
   if (q.dopo.posta) out.push(`               ${q.dopo.posta}`);

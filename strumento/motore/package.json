@@ -1,7 +1,7 @@
 {
   "name": "@esposizione/motore",
-  "version": "2.0.0-alpha.1",
-  "description": "ESPOSIZIONE Studio, il motore 2.0: formato dati, regole, controlli, librogame e simulazione. Nessuna dipendenza.",
+  "version": "3.0.0-alpha.2",
+  "description": "ESPOSIZIONE Studio, il motore 3.0: formato dati, regole, controlli, librogame, app e simulazione. Nessuna dipendenza.",
   "type": "module",
   "license": "CC-BY-SA-4.0",
   "engines": {

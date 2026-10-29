@@ -1,6 +1,6 @@
 # Roadmap: da prototipo a sistema compiuto
 
-*24 settembre 2026, aggiornata il 25 settembre con il documento di design 3.0. Sostituisce la roadmap della versione 1.3, che sta in `archivio/`.*
+*24 settembre 2026, aggiornata il 25 settembre con il documento di design 3.0 e il 29 ottobre. Sostituisce la roadmap della versione 1.3, che sta in `archivio/`.*
 
 ## Dove vogliamo arrivare
 
@@ -8,7 +8,7 @@ ESPOSIZIONE deve diventare un sistema compiuto per scrivere e giocare **qualunqu
 
 «Compiuto» qui vuol dire cinque cose, e la roadmap finisce quando sono vere tutte:
 
-1. **Provato da persone.** Almeno trenta persone hanno giocato storie scritte con il motore, e le due domande del §24 del documento di design danno risposte che si possono contare.
+1. **Provato da persone.** Almeno trenta persone hanno giocato storie scritte con il motore, e le domande del §54.3 del documento di design danno risposte che si possono contare.
 2. **Provato su generi diversi.** Almeno sei generi lontani fra loro hanno una storia giocabile, e ogni cosa che mancava è stata aggiunta al motore per tutti, non inventata dentro la singola storia.
 3. **Scrivibile da chi non programma.** Un autore scrive e verifica una storia con ESPOSIZIONE Studio senza mai aprire un file di dati.
 4. **Pubblicabile in ogni formato.** Da una storia escono, senza lavoro in più: il librogame da stampare, la versione elettronica, l'app web, il kit per il tavolo, i dati per un motore grafico.
@@ -23,6 +23,8 @@ Fatto fra il 23 e il 25 settembre 2026:
 - **un'ambientazione** (il porto) e **una storia di prova**, *Il registro della Santa Rita*, di 59 scene;
 - **tre formati dalla stessa fonte**: il librogame in PDF, la partita nel terminale e l'app web.
 
+Il 29 ottobre 2026 il documento di design è stato rivisto: le regole come sono oggi davanti, la storia delle scelte in appendice. Sono cambiate alcune regole (il *Quasi*, il quadro, le scadenze che avanzano per ciò che fai), e il librogame non rivela più la storia sulla scheda.
+
 Manca tutto ciò che si impara soltanto facendo giocare persone vere, e manca la prova dei generi.
 
 ## Che cosa manca al motore
@@ -31,11 +33,11 @@ Manca tutto ciò che si impara soltanto facendo giocare persone vere, e manca la
 
 Il cuore della prova regge: quattro domande, quattro fasce, il costo separato dalla riuscita, il personaggio in sei parti, le persone, le notizie, i controlli. Mancano cinque cose, in quest'ordine di peso.
 
-1. **Le persone.** Nessuno ha giocato il 3.0. È la Fase 1, e decide tutto il resto.
+1. **Le persone.** Nessuno ha giocato il 3.0. Dal 29 ottobre 2026 non è più un blocco: le decisioni si prendono con il ragionamento e con le simulazioni, e le prove con le persone le correggono quando arrivano.
 2. **Il mondo con uno stato.** ~~Servono le cose nei luoghi, i posti per portarle, lo stato dei luoghi e delle cose, l'ambiente che logora e il meteo.~~ Approvati il 27 settembre 2026 e nel motore dallo stesso giorno (§7.3 e §11.4 del documento di design).
 3. **Scrivere costa troppo.** La Santa Rita sono circa ottocento righe di dati scritte a mano. Senza lo strumento della Fase 4 nessun autore lo farà. Tre aiuti vengono prima dello strumento: la **mappa dei luoghi** (gli spostamenti li calcola il motore, invece di scriverli in ogni scena), le **routine delle persone** (dove sta ciascuno in ogni momento) e i **dialoghi per argomenti** (il gioco offre da solo «Chiedo a Bressan di Grimani», e la risposta dipende dal legame).
-4. **Il *Quasi* non è ancora una scelta vera.** Nelle simulazioni scegliere secondo la situazione vince quanto prendere sempre tutto. Una correzione candidata: lasciar perdere non fa pagare l'ora del nuovo tentativo. Si decide con i dati delle prove: dal 27 settembre l'app registra ogni scelta nei *Quasi*, con la situazione in cui è stata fatta.
-5. **La taratura delle storie.** Il giocatore con un obiettivo ha già trovato, e fatto correggere, una strada che vinceva sempre. Oggi vince 81 volte su 100 e finisce con diciannove ore di margine sulla scadenza: la nave che salpa quasi non preme su chi gioca bene.
+4. **Il *Quasi* è una scelta vera soltanto allo scoperto.** Il 29 ottobre si è scoperto che la misura era sbagliata (il giocatore casuale e quello «secondo la situazione» erano lo stesso giocatore), la si è corretta, e si sono cambiate due regole: prendere tutto costa il prezzo anche al coperto, lasciar perdere dà la notizia del *Non riesci*. Chi gioca bene vince ancora quanto chi prende sempre tutto, con un terzo di rovesci in meno. La prossima correzione è nella storia: prezzi che pesino nelle prove decisive (§54.2).
+5. **La taratura delle storie.** Il giocatore con un obiettivo ha già trovato, e fatto correggere, una strada che vinceva sempre. Oggi vince 81 volte su 100 e finisce con diciannove ore di margine sulla scadenza. È una scelta: la scadenza preme su chi esplora (la nave che salpa chiude due partite su tre del giocatore casuale), non su chi conosce già la strada; accorciarla toglierebbe la notte. Dal 29 ottobre ogni allarme del porto fa salpare la nave tre ore prima.
 
 Le **ramificazioni** si lavorano sui test narrativi veri: i punti 2 e 3 danno gli strumenti, le storie diranno come usarli.
 
@@ -48,9 +50,9 @@ Le **ramificazioni** si lavorano sui test narrativi veri: i punti 2 e 3 danno gl
 
 ---
 
-## Fase 1 — La prova con le persone *(ottobre 2026)*
+## Fase 1 — La prova con le persone *(quando arrivano)*
 
-La Santa Rita si fa giocare, su carta e nell'app.
+La Santa Rita si fa giocare, su carta e nell'app. Questa fase non blocca le altre: corre accanto, e le sue risposte correggono ciò che si è deciso nel frattempo.
 
 - I criteri sono già scritti, nel §54 del documento di design 3.0: la prova del quadro sulla carta, sette domande alle persone, il tempo di lettura del quadro.
 - Almeno **dieci persone**: cinque sul libro, cinque sull'app. Si registrano le partite (l'app può esportare il registro della partita) e si fanno le due domande.
@@ -90,15 +92,14 @@ Il documento 3.0 ha già dato una prima risposta a tre di queste domande: la pau
 
 Per ogni storia si tiene una **tabella degli attriti**, compilata mentre si scrive e non dopo: che cosa si voleva fare, che cosa il motore non permetteva, come lo si è risolto.
 
-Alla fine si decide, per ogni attrito, se diventa una **voce nuova della scheda** (disponibile a tutti), un'**opzione** (una scelta dell'ambientazione, come il personaggio fisso), oppure un **limite dichiarato** (§23). Le candidate più probabili, già visibili oggi, sono:
+Alla fine si decide, per ogni attrito, se diventa una **voce nuova della scheda** (disponibile a tutti), un'**opzione** (una scelta dell'ambientazione, come il personaggio fisso), oppure un **limite dichiarato** (§53). Le candidate più probabili, già visibili oggi, sono:
 
-- **i compagni**: altri personaggi che viaggiano con il protagonista, con capacità e condizioni proprie;
 - **i dialoghi**: conversazioni a più battute, in cui ogni risposta è una via e l'interlocutore ha la sua copertura;
 - **il tempo lungo**: storie che durano settimane o anni, con unità di tempo di scala diversa;
 - **le risorse**: denaro e scorte, che oggi sono solo oggetti contati;
 - **i protagonisti multipli** e le storie a più punti di vista.
 
-**Uscita:** sei storie giocabili, sei tabelle degli attriti, il documento di design 2.2 con le aggiunte decise, e per ciascuna storia almeno tre persone che l'hanno giocata.
+**Uscita:** sei storie giocabili, sei tabelle degli attriti, il documento di design aggiornato con le aggiunte decise, e, quando ci saranno, almeno tre persone per ciascuna storia che l'hanno giocata.
 
 ## Fase 4 — Lo strumento per chi scrive *(gennaio – marzo 2027)*
 
