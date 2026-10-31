@@ -595,12 +595,13 @@ function scelteQuasi(g: Gioco, p: Partita): VistaScelta[] {
   }
   const out: VistaScelta[] = [];
   const tutto = q.tipo === "prova" ? "Prendo tutto, e pago quello che costa" : q.tipo === "debole" ? "Lo scopro, anche se mi espongo di più" : "Insisto, anche se mi espongo di più";
-  out.push({ id: "quasi:tutto", testo: tutto, tipo: "quasi", disponibile: true, costa: q.tipo === "prova" ? su(q.grado) : `+1 Traccia, e da qui in poi sei ${NOMI_GRADO_MINUSCOLI[Math.min(2, q.grado + 1)]}` });
-  if (q.tipo === "prova") {
-    const scena = scenaDi(g, q.scena);
-    const s = (scena.scelte ?? []).find((x) => x.id === q.scelta)!;
-    const meta = testoMeta(g, scena, s.prova!);
-    if (meta) out.push({ id: "quasi:meta", testo: `Mi accontento della metà: ${meta}`, tipo: "quasi", disponibile: true, costa: q.grado === 2 ? "+1 Traccia e il prezzo" : segno(q.grado) });
+  // Il prezzo scritto dall'autore si legge prima di scegliere: senza, il Quasi si sceglie al buio (§28.3).
+  const pr = q.tipo === "prova" ? (scenaDi(g, q.scena).scelte ?? []).find((x) => x.id === q.scelta)!.prova! : undefined;
+  const prezzo = pr?.prezzo ? `+1 Traccia e il prezzo: ${pr.prezzo.testo}` : "+1 Traccia e il prezzo";
+  out.push({ id: "quasi:tutto", testo: tutto, tipo: "quasi", disponibile: true, costa: pr ? (q.grado < 2 ? prezzo : su(q.grado)) : `+1 Traccia, e da qui in poi sei ${NOMI_GRADO_MINUSCOLI[Math.min(2, q.grado + 1)]}` });
+  if (pr) {
+    const meta = testoMeta(g, scenaDi(g, q.scena), pr);
+    if (meta) out.push({ id: "quasi:meta", testo: `Mi accontento della metà: ${meta}`, tipo: "quasi", disponibile: true, costa: q.grado === 2 ? prezzo : segno(q.grado) });
   }
   const impari = q.tipo === "prova" ? "scopri qualcosa sull'ostacolo · " : "";
   out.push({ id: "quasi:lascia", testo: "Lascio perdere, prima che qualcuno se ne accorga", tipo: "quasi", disponibile: true, costa: `${impari}${segno(q.grado)}` });

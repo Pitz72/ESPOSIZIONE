@@ -4,9 +4,10 @@
 
 ## Dove siamo
 
-- **Il motore 3.0** (`strumento/motore/`, versione 3.0.0-alpha.2) passa tutti i 56 test. I controlli non trovano errori né avvisi nelle 59 scene della Santa Rita, e i tipi sono a posto.
+- **Il motore 3.0** (`strumento/motore/`, versione 3.0.0-alpha.2) passa tutti i 58 test. I controlli non trovano errori né avvisi nelle 59 scene della Santa Rita, e i tipi sono a posto.
 - **Il documento di design** è stato rivisto il 29 ottobre: davanti le regole come sono oggi, in appendice la storia delle scelte. Gli ultimi due commit sono `4a5da65` (la revisione) e `e33b47d` (i nomi nuovi: il grado di mezzo si chiama «in vista», lo spostamento della soglia «scatto»).
 - **Tre formati dalla stessa fonte**: il librogame in PDF, la partita nel terminale, l'app web.
+- **Il *Quasi* è una scelta vera** dal 31 ottobre: le prove decisive della Santa Rita hanno un prezzo che pesa, e chi sceglie con giudizio vince 79 partite su 100 contro le 64 di chi prende sempre tutto (§54.2).
 - **Il logotipo è scelto**: la parola in minuscolo con due dadi al posto dei puntini delle i, il 29 ottobre. Le forme, i colori e le regole sono in [`typst/assets/logo/USO.md`](typst/assets/logo/USO.md).
 - **Nessuna persona ha ancora giocato il 3.0.** Non è un blocco: si progetta con il ragionamento e con le simulazioni, e le prove con le persone correggono quando arrivano.
 
@@ -29,21 +30,7 @@ I PDF si rifanno da PowerShell, nella cartella `typst/`, con `.\build.ps1`. Serv
 
 ## 1. Subito: la prossima sessione
 
-### 1.1 I prezzi della Santa Rita
-
-**Il problema.** Il *Quasi* è una scelta vera soltanto allo scoperto. Chi gioca bene vince 81 partite su 100 sia scegliendo con i conti, sia prendendo sempre tutto (§54.2, criterio 3). Le regole del §28.3 sono giuste, ma nella Santa Rita le prove decisive hanno prezzi leggeri: una moneta, un'ora, una sbucciatura. Prendere tutto costa troppo poco perché valga la pena di pensarci.
-
-**Che cosa fare.**
-
-1. Trovare le prove decisive, cioè quelle sulle strade più brevi verso la vittoria. Il giocatore con un obiettivo le conosce già: `distanzeDallaVittoria` in `src/simulazione.ts`.
-2. Dare a ciascuna un prezzo che pesi, scritto nella storia (`dati/santa-rita.storia.json`) e credibile nel porto: un legame che si guasta, una notizia che si perde, la Traccia che sale in un'altra zona, la nave che anticipa la partenza, una cosa che si rompe.
-3. Rimisurare con `node src/cli.ts simula --partite 1000`.
-
-**Quando è fatta.** Il giocatore con un obiettivo vince più spesso di ciascuna delle sue tre copie: sempre tutto, sempre la metà, sempre lascio perdere. Poi si aggiornano la tabella del §54.2 e il punto 4 di «Che cosa manca al motore» in `ROADMAP.md`.
-
-**Attenzione.** Il criterio non si sposta per farlo tornare (§54.4). Se i prezzi non bastano, il documento lo dice, e si torna a guardare la regola.
-
-### 1.2 I due criteri che nessuno misura
+### 1.1 I due criteri che nessuno misura
 
 Il §54.2 ha due criteri ancora senza misura.
 
@@ -66,8 +53,7 @@ Tutti e due si aggiungono in `src/simulazione.ts` e nella stampa del comando `si
 ## 3. Piccole cose da sistemare
 
 - `strumento/README.md` rimanda ancora a `../ESPOSIZIONE-DESIGN.md`, che è il 2.0 ed è in archivio: va puntato a `ESPOSIZIONE-DESIGN-3.md`. Quel README, e `strumento/ROADMAP.md`, descrivono ancora InteractiveWriter com'era a luglio 2026. Se il vecchio codice esce (§2), escono anche loro.
-- `ROADMAP.md`, in «Dove siamo», parla di dieci strategie automatiche: dal 29 ottobre sono tredici.
-- **La lingua del documento di design.** Il 29 ottobre sono stati riscritti i passaggi confusi, non tutte le 32.000 parole. Manca una lettura frase per frase, con `archivio/LINGUA-DEL-MANUALE.md` accanto. Conviene farla dopo i prezzi e prima del manuale.
+- **La lingua del documento di design.** Il 29 ottobre sono stati riscritti i passaggi confusi, non tutte le 32.000 parole. Manca una lettura frase per frase, con `archivio/LINGUA-DEL-MANUALE.md` accanto. Conviene farla prima del manuale.
 
 ---
 

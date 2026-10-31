@@ -8,7 +8,7 @@
 import { intero } from "./dadi.ts";
 import { agisci, vista, type Vista, type VistaScelta } from "./motore.ts";
 import { nuovaPartita, scenaDi, type Gioco, type Partita, type DatiEsito } from "./stato.ts";
-import type { Condizione, Fascia, Scena } from "./tipi.ts";
+import type { Condizione, Fascia, Prova, Scena } from "./tipi.ts";
 
 export const POLITICHE = ["casuale", "prudente", "temeraria", "scrupolosa", "opportunista", "sempre-tutto", "sempre-meta", "sempre-lascio", "situazione", "obiettivo", "obiettivo-tutto", "obiettivo-meta", "obiettivo-lascio"] as const;
 export type Politica = (typeof POLITICHE)[number];
@@ -144,6 +144,28 @@ function sceltaObiettivo(g: Gioco, p: Partita, scelte: VistaScelta[], visite: Ma
 }
 
 /**
+ * Quanto pesa un prezzo scritto dall'autore, per chi gioca per vincere. Il gioco lo mostra
+ * prima della scelta, quindi il giocatore lo può contare: uno stato del mondo che rende un
+ * luogo più difficile pesa più di una moneta o di un'ora. Un prezzo non scritto, pescato
+ * dal repertorio, non si conosce prima, e pesa come un'ora.
+ */
+function pesoPrezzo(pr: Prova): number {
+  if (!pr.prezzo) return 1;
+  let n = 0;
+  for (const e of pr.prezzo.effetti) {
+    if ("stato" in e) n += 3;
+    else if ("scadenza" in e || "traccia" in e) n += e.piu * 1.5;
+    else if ("ferita" in e) n += e.ferita.gravita === "lieve" ? 0.5 : 4;
+    else if ("logorio" in e) n += e.piu;
+    else if ("rompi" in e) n += 1;
+    else if ("cosa" in e && e.piu < 0) n += -e.piu * 0.5;
+    else if ("persona" in e) n += 0.5;
+    else if ("tempo" in e) n += e.tempo * 0.25;
+  }
+  return n;
+}
+
+/**
  * Il Quasi del giocatore con un obiettivo: pesa le tre possibilità con gli stessi conti
  * che usa per le altre scelte. Tutto avvicina alla vittoria ma costa Traccia e il prezzo;
  * la metà porta dove porta il ripiego; lasciar perdere costa un'ora e un nuovo tiro, e
@@ -159,9 +181,9 @@ function sceltaQuasiObiettivo(g: Gioco, p: Partita, scelte: VistaScelta[]): stri
   const d = (id: string | undefined) => (id ? dist.get(id) ?? 99 : 99);
   const segno = q.grado >= 1 ? 1.5 : 0;
   const punti: Array<[string | undefined, number]> = [];
-  punti.push([c("tutto"), q.grado < 2 ? d(pr.riesci.vai) + 1.5 + 1 : d(pr.rovescio?.vai) + 1.5 + 8]);
+  punti.push([c("tutto"), q.grado < 2 ? d(pr.riesci.vai) + 1.5 + pesoPrezzo(pr) : d(pr.rovescio?.vai) + 1.5 + 8]);
   const meta = pr.meta ? ("ripiego" in pr.meta ? (scena.scelte ?? []).find((x) => x.id === (pr.meta as { ripiego: string }).ripiego)?.vai : pr.meta.vai) : undefined;
-  if (c("meta")) punti.push([c("meta"), d(meta) + segno + (q.grado === 2 ? 1 : 0)]);
+  if (c("meta")) punti.push([c("meta"), d(meta) + segno + (q.grado === 2 ? pesoPrezzo(pr) : 0)]);
   const giaSa = !!p.notizie[pr.nonRiesci.notizia];
   punti.push([c("lascia"), pr.unColpoSolo ? d(scena.id) + 3 + segno : d(pr.riesci.vai) + 1 + 0.25 + (giaSa ? 1.2 : 0.6) + segno]);
   const validi = punti.filter((x): x is [string, number] => !!x[0]);

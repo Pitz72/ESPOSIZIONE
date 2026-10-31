@@ -133,6 +133,13 @@
         { "id": "sereno", "nome": "sereno" },
         { "id": "nebbia", "nome": "nebbia", "frase": "c'è la nebbia", "aggiungi": ["nebbia"], "dura": 6 }
       ]
+    },
+    {
+      "id": "santa_rita", "nome": "la Santa Rita", "dove": { "luoghi": ["nave"] }, "iniziale": "tranquilla",
+      "valori": [
+        { "id": "tranquilla", "nome": "tranquilla" },
+        { "id": "avvertita", "nome": "avvertita", "frase": "a bordo sono stati avvertiti", "aggiungi": ["guardia_doppia"] }
+      ]
     }
   ],
   "scene": [
@@ -192,7 +199,7 @@
             "nonRiesci": { "vai": "registro_fallito", "notizia": "bressan_armadio" },
             "rovescio": { "vai": "sorpreso" },
             "meta": { "testo": "la nave, non i nomi", "vai": "registro_meta" },
-            "prezzo": { "testo": "un capitano ti vede infilare il registro nella borsa. Non dice niente, ma Bressan lo saprà.", "effetti": [{ "persona": "bressan", "cambia": { "rancore": 1 } }] }
+            "prezzo": { "testo": "un capitano ti vede infilare il registro nella borsa e lo dice a Bressan, che manda un ragazzo da Grimani. Sulla Santa Rita adesso sanno che qualcuno cerca Matteo.", "effetti": [{ "persona": "bressan", "cambia": { "rancore": 1 } }, { "stato": "santa_rita", "valore": "avvertita" }] }
           }
         },
         {
@@ -596,7 +603,8 @@
             "capacita": "muoversi", "soglia": "confondersi", "posta": "Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.", "ottieni": "di scendere nella stiva",
             "riesci": { "vai": "stiva" },
             "nonRiesci": { "vai": "respinto", "notizia": "nostromo_conta" },
-            "rovescio": { "vai": "scoperto_a_bordo" }
+            "rovescio": { "vai": "scoperto_a_bordo" },
+            "prezzo": { "testo": "il nostromo ti guarda un momento di troppo. Quando sei sotto, lo senti dire alla guardia di tenere d'occhio la stiva.", "effetti": [{ "stato": "santa_rita", "valore": "avvertita" }] }
           }
         },
         {
@@ -605,7 +613,8 @@
             "capacita": "mentire", "soglia": "nostromo", "posta": "Se va male: il nostromo ti riconosce, e ti trascina sottocoperta.", "unColpoSolo": true, "ottieni": "di scendere nella stiva",
             "riesci": { "vai": "stiva" },
             "nonRiesci": { "vai": "respinto", "notizia": "nostromo_grimani" },
-            "rovescio": { "vai": "scoperto_a_bordo" }
+            "rovescio": { "vai": "scoperto_a_bordo" },
+            "prezzo": { "testo": "il nostromo ti lascia passare, ma manda un mozzo a chiedere a Grimani se è vero.", "effetti": [{ "stato": "santa_rita", "valore": "avvertita" }] }
           }
         },
         {
@@ -614,7 +623,8 @@
             "capacita": "muoversi", "soglia": "portello", "posta": "Se va male: resti incastrato, e la guardia ti tira fuori per i piedi.", "ottieni": "di arrivare accanto alla stiva",
             "riesci": { "vai": "stiva" },
             "nonRiesci": { "vai": "respinto", "notizia": "portello_vele" },
-            "rovescio": { "vai": "scoperto_a_bordo" }
+            "rovescio": { "vai": "scoperto_a_bordo" },
+            "prezzo": { "testo": "un marinaio vede le tue gambe sparire nel portello, e avverte la guardia.", "effetti": [{ "stato": "santa_rita", "valore": "avvertita" }] }
           }
         },
         { "id": "serra", "testo": "Chiedo di parlare con il capitano Serra", "requisito": { "tutte": [{ "non": { "momento": "notte" } }, { "notizia": "serra_no_morti" }, { "non": { "convinzione": "grimani_nemici" } }] }, "richiede": "sapere qualcosa del capitano, e che sia giorno", "vai": "serra" },
@@ -682,7 +692,8 @@
         { "se": { "fatto": "teodoro_fuori" }, "testo": "Nessuno fa la guardia." },
         { "se": { "fatto": "serra_complice" }, "testo": "Sopra di te, il capitano Serra ha mandato il nostromo a controllare le cime di prua." },
         { "se": { "nonFatto": "teodoro_fuori" }, "testo": "Seduto su una cassa, con un coltello da pesce sulle ginocchia, c'è Teodoro il Pesce." },
-        { "se": { "fatto": "teodoro_comprato" }, "testo": "Ha preso i tuoi soldi e quelli di Grimani. Sorride." }
+        { "se": { "fatto": "teodoro_comprato" }, "testo": "Ha preso i tuoi soldi e quelli di Grimani. Sorride." },
+        { "se": { "stato": "santa_rita", "valore": "avvertita" }, "testo": "Dal ponte arrivano passi e voci: la guardia è raddoppiata, e qui sotto ogni rumore sale fino a loro." }
       ],
       "entrando": [{ "verifica": "matteo_in_stiva" }, { "verifica": "matteo_a_bordo" }],
       "scelte": [
@@ -709,7 +720,8 @@
       "id": "liberare", "luogo": "nave", "titolo": "La catena",
       "testo": [
         { "testo": "Matteo ti guarda come se non fosse sicuro che tu sia vero. La catena gli stringe i polsi, chiusa da un lucchetto vecchio e arrugginito, e inchiodata a una trave." },
-        { "se": { "notizia": "catena_trave" }, "testo": "La trave è marcia: con la forza giusta, verrebbe via." }
+        { "se": { "notizia": "catena_trave" }, "testo": "La trave è marcia: con la forza giusta, verrebbe via." },
+        { "se": { "stato": "santa_rita", "valore": "avvertita" }, "testo": "Sopra di te passano passi pesanti: a bordo sono stati avvertiti. Se qualcuno ti nota quaggiù, la passerella non la scendi più senza che se ne accorgano." }
       ],
       "scelte": [
         {
@@ -751,16 +763,18 @@
       "id": "fuga", "luogo": "nave", "titolo": "Il ponte",
       "testo": [
         { "testo": "Matteo si alza a fatica. Risalite la scala uno dietro l'altro e attraversate il ponte nell'ombra delle vele arrotolate." },
-        { "se": { "traccia": "nave", "almeno": 2 }, "testo": "A poppa, qualcuno grida." }
+        { "se": { "traccia": "nave", "almeno": 2 }, "testo": "A poppa, qualcuno grida." },
+        { "se": { "tutte": [{ "stato": "santa_rita", "valore": "avvertita" }, { "traccia": "nave", "almeno": 1 }, { "non": { "traccia": "nave", "almeno": 2 } }] }, "testo": "La guardia della passerella si è voltata verso la stiva: ha sentito qualcosa, e non torna a guardare il molo." }
       ],
       "scelte": [
-        { "id": "scendi", "testo": "Scendo dalla passerella senza fare rumore", "requisito": { "non": { "traccia": "nave", "almeno": 2 } }, "nascondiSeChiusa": true, "vai": "finale_libero" },
-        { "id": "corri", "testo": "Corro", "requisito": { "traccia": "nave", "almeno": 2 }, "nascondiSeChiusa": true, "vai": "allarme" }
+        { "id": "scendi", "testo": "Scendo dalla passerella senza fare rumore", "requisito": { "tutte": [{ "non": { "traccia": "nave", "almeno": 2 } }, { "una": [{ "non": { "stato": "santa_rita", "valore": "avvertita" } }, { "non": { "traccia": "nave", "almeno": 1 } }] }] }, "nascondiSeChiusa": true, "vai": "finale_libero" },
+        { "id": "corri", "testo": "Corro", "requisito": { "una": [{ "traccia": "nave", "almeno": 2 }, { "tutte": [{ "stato": "santa_rita", "valore": "avvertita" }, { "traccia": "nave", "almeno": 1 }] }] }, "nascondiSeChiusa": true, "vai": "allarme" }
       ]
     },
     {
       "id": "allarme", "luogo": "nave", "titolo": "All'erta",
       "tag": ["sorvegliato"],
+      "entrando": [{ "traccia": "nave", "piu": 2 }],
       "testo": [
         { "testo": "«All'erta! A poppa!» Le lanterne si accendono una dopo l'altra. Il nostromo blocca la passerella con due uomini. Resta il parapetto, e sotto c'è l'acqua nera del porto. A poppa, appesa a due cime, oscilla la lancia della nave." },
         { "se": { "compagno": "lucia" }, "testo": "Lucia è già sul parapetto. «Buttatevi! Vi tengo io!»" }

@@ -66,9 +66,9 @@ Dal 27 settembre il personaggio porta quattro cose a mani vuote, e la borsa da f
 
 Il personaggio non sa nuotare: da solo non può entrare in acqua. Lucia sì, e con lei le vie dell'acqua si aprono. In ogni prova in cui conosce la capacità, il gioco offre di farsi aiutare da lei (+1) o di lasciarla fare al posto tuo, con il suo livello e i suoi tratti.
 
-## Le simulazioni, il 29 ottobre 2026
+## Le simulazioni, il 31 ottobre 2026
 
-Mille partite per ciascuna delle tredici strategie, con `node src/cli.ts simula --partite 1000`. Nessun blocco, nessun errore, tutte le scene raggiunte, le fasce con le frequenze delle tabelle. Il giocatore con un obiettivo vince l'81%, la scrupolosa il 43%, l'opportunista il 36%, la temeraria il 29%, la casuale il 15%, la prudente il 4%. Nel *Quasi*, il giocatore con un obiettivo vince quanto la sua copia che prende sempre tutto (81% e 81%), con meno rovesci (0,12 contro 0,19 a partita); le copie che prendono sempre la metà o lasciano sempre perdere scendono al 59% e al 58%. Il §54.2 del documento racconta che cosa vuol dire, e perché la scadenza resta di ventiquattro ore.
+Mille partite per ciascuna delle tredici strategie, con `node src/cli.ts simula --partite 1000`. Nessun blocco, nessun errore, tutte le scene raggiunte, le fasce con le frequenze delle tabelle. Il giocatore con un obiettivo vince il 79%, la scrupolosa il 32%, l'opportunista il 31%, la temeraria il 23%, la casuale il 13%, la prudente il 4%. Nel *Quasi*, il giocatore con un obiettivo vince più di ciascuna delle sue tre copie: 79% contro il 64% di chi prende sempre tutto, il 59% di chi prende sempre la metà e il 58% di chi lascia sempre perdere. Il §54.2 del documento racconta come ci si è arrivati (i prezzi della Santa Rita, la nave avvertita, il prezzo che si legge prima di scegliere) e perché la scadenza resta di ventiquattro ore.
 
 Fino al 29 ottobre la strategia casuale sceglieva nel *Quasi* con la regola di «situazione», e le due erano lo stesso giocatore: i confronti sul *Quasi* fatti prima di quella data non valgono.
 

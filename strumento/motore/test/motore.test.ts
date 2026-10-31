@@ -252,6 +252,8 @@ test("il Quasi al coperto: tutto costa una tacca di Traccia e il prezzo, la met�
   // Il prezzo della prova del registro (un capitano ti ha visto, e Bressan lo saprà: rancore +1),
   // più la reazione di Bressan al registro sparito con Traccia nell'archivio (rancore +1).
   assert.equal(tutto.persone.bressan.dim.rancore, 2);
+  // E Bressan avvisa Grimani: sulla Santa Rita lo sanno.
+  assert.equal(tutto.mondo.santa_rita?.valore, "avvertita");
   const meta = a(q, "quasi:meta");
   assert.equal(meta.scena, "registro_meta");
   assert.equal(meta.traccia.archivio ?? 0, 0);
@@ -261,6 +263,30 @@ test("il Quasi al coperto: tutto costa una tacca di Traccia e il prezzo, la met�
   // Chi si ritira in tempo non sa meno di chi non riesce.
   assert.equal(lascia.notizie.bressan_armadio, "sentita");
   assert.equal(q.notizie.bressan_armadio, undefined);
+});
+
+test("nel Quasi il prezzo scritto dall'autore si legge prima di scegliere; quello del repertorio no (§28.3)", () => {
+  const q = a(semeCon("archivio", "sottrarre", "quasi"), "sottrarre");
+  const tutto = vista(g, q).scelte.find((s) => s.id === "quasi:tutto")!;
+  assert.match(tutto.costa ?? "", /^\+1 Traccia e il prezzo: un capitano ti vede infilare il registro/);
+  const ql = a(semeCon("liberare", "forza", "quasi"), "forza");
+  assert.ok(ql.quasi && ql.quasi.grado < 2);
+  assert.equal(vista(g, ql).scelte.find((s) => s.id === "quasi:tutto")?.costa, "+1 Traccia e il prezzo");
+});
+
+test("la Santa Rita avvertita: basta che a bordo ti abbiano notato una volta, e la passerella è chiusa; l'allarme accende le lanterne", () => {
+  const p = in_("fuga", 20);
+  p.traccia.nave = 1;
+  const scelte = () => vista(g, p).scelte.filter((s) => s.disponibile && (s.id === "scendi" || s.id === "corri")).map((s) => s.id);
+  assert.deepEqual(scelte(), ["scendi"]);
+  cambiaStato(g, p, "santa_rita", "avvertita", []);
+  assert.deepEqual(scelte(), ["corri"]);
+  p.traccia.nave = 0;
+  assert.deepEqual(scelte(), ["scendi"]);
+  p.traccia.nave = 1;
+  const allarme = a(p, "corri");
+  assert.equal(allarme.scena, "allarme");
+  assert.equal(allarme.traccia.nave, 3);
 });
 
 test("l'allarme del porto fa salpare la nave prima: la scadenza guadagna una casella (§15.4)", () => {

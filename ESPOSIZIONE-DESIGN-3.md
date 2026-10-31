@@ -31,7 +31,7 @@ Il testo dice le regole come sono oggi. Il perché delle scelte meno ovvie sta a
 
 **Provato.** Il motore esiste, in `strumento/motore/`, e fa quello che questo documento descrive. Passa 56 test, che controllano anche che i numeri del documento siano quelli che il motore produce, e i trentasei controlli del §47 sui dati. Una storia di prova di 59 scene, *Il registro della Santa Rita*, si gioca nel terminale, nell'app e sul librogame stampato, e le tre versioni escono dagli stessi dati.
 
-I giocatori automatici del §54.2 giocano mille partite per ciascuna di tredici strategie: nessuna partita resta bloccata, non esce nessun errore, tutte le scene vengono raggiunte, e le fasce escono con le frequenze delle tabelle. Le strategie contano: chi gioca per vincere vince 81 partite su 100, chi si prepara sempre 43, chi sceglie a caso 15. Due cose non vanno ancora come dovrebbero, e il §54.2 le racconta: nel *Quasi* prendere sempre tutto vince quanto scegliere con giudizio, e chi conosce la strada arriva alla nave con molte ore di margine.
+I giocatori automatici del §54.2 giocano mille partite per ciascuna di tredici strategie: nessuna partita resta bloccata, non esce nessun errore, tutte le scene vengono raggiunte, e le fasce escono con le frequenze delle tabelle. Le strategie contano: chi gioca per vincere vince 79 partite su 100, chi si prepara sempre 32, chi sceglie a caso 13. Nel *Quasi* scegliere con giudizio vince 79 partite, prendere sempre tutto 64. Una cosa non va ancora come dovrebbe, e il §54.2 la racconta: chi conosce la strada arriva alla nave con molte ore di margine.
 
 **Non provato.** Nessuno ha ancora giocato questa versione. L'autore ha giocato per intero la precedente, e da quella partita vengono alcune regole di questo documento: le parole, le scelte che spariscono quando non servono più, la struttura della difficoltà. Che le quattro fasce si sentano diverse, che il quadro si legga in pochi secondi, che i tratti e i legami arricchiscano la scheda senza appesantirla: questo lo possono dire soltanto le persone che giocano. Il progetto non le aspetta per andare avanti. Quando arriveranno le loro risposte, il §54.3 dice come leggerle e il §54.4 che cosa farne.
 
@@ -940,6 +940,8 @@ Chi manca la soglia di 1 o 2 sceglie fra tre possibilità, che il gioco gli most
 
 Due ragioni stanno dietro a queste regole. Lasciar perdere dà la notizia perché chi si ritira in tempo non deve sapere meno di chi manca la soglia di tre punti: altrimenti mancare di poco sarebbe peggio che mancare di molto. Prendere tutto costa il prezzo anche al coperto perché una tacca di Traccia, da sola, cala in tre ore e quasi non si sente: con quella soltanto, prendere tutto sarebbe la scelta giusta quasi sempre.
 
+**Il prezzo si legge prima di scegliere.** Se l'autore ha scritto il prezzo della prova, il gioco lo dice accanto a «Tutto», insieme alla tacca di Traccia: «+1 Traccia e il prezzo: un capitano ti vede infilare il registro nella borsa…». Senza, chi sceglie non saprebbe che cosa paga, e il *Quasi* sarebbe una scommessa. Il prezzo pescato dal repertorio della zona, invece, si scopre dopo, come tutto ciò che il repertorio porta.
+
 Il *Quasi* è l'unica fascia in cui chi gioca può scegliere di pagare di più. Per questo non viola la promessa del coperto: al coperto il dado da solo non ti fa mai male, e sei tu a decidere se il prezzo vale il registro.
 
 **Nei confronti e nella difesa** il *Quasi* ha una forma propria, descritta nel §32 e nel §38: contro un punto debole, l'avversario si scopre ma tu sali di un grado; quando ti difendi, il colpo ti prende di striscio, e scegli fra una ferita più lieve e perdere qualcosa.
@@ -1721,35 +1723,47 @@ Criteri, per mille partite di ciascuno:
 
 E un criterio sul lavoro di chi scrive: nella Santa Rita la media dei testi obbligatori per prova non supera tre.
 
-**I risultati, al 29 ottobre 2026.**
+**I risultati, al 31 ottobre 2026.**
 
 | Strategia | Vittorie su 100 | Ore medie | Rovesci per partita |
 |---|---|---|---|
-| con un obiettivo | 81 | 5,7 | 0,12 |
-| con un obiettivo, sempre tutto | 81 | 5,7 | 0,19 |
+| con un obiettivo | 79 | 5,9 | 0,12 |
+| con un obiettivo, sempre tutto | 64 | 5,7 | 0,37 |
 | con un obiettivo, sempre la metà | 59 | 6,4 | 0,24 |
 | con un obiettivo, sempre lascio perdere | 58 | 6,7 | 0,25 |
-| scrupolosa | 43 | 18,4 | 0,49 |
-| opportunista | 36 | 17,9 | 0,26 |
-| temeraria | 29 | 17,6 | 0,65 |
-| sempre tutto | 16 | 20,3 | 0,37 |
-| casuale | 15 | 20,6 | 0,29 |
-| secondo la situazione | 15 | 20,1 | 0,34 |
-| sempre la metà | 13 | 20,4 | 0,21 |
-| sempre lascio perdere | 13 | 20,5 | 0,20 |
+| scrupolosa | 32 | 18,5 | 0,61 |
+| opportunista | 31 | 18,0 | 0,28 |
+| temeraria | 23 | 17,6 | 0,71 |
+| casuale | 13 | 20,6 | 0,30 |
+| sempre tutto | 12 | 20,2 | 0,40 |
+| secondo la situazione | 12 | 20,1 | 0,37 |
+| sempre la metà | 11 | 20,5 | 0,22 |
+| sempre lascio perdere | 11 | 20,5 | 0,21 |
 | prudente | 4 | 22,6 | 0,00 |
 
 **Criterio 1, superato.** Nessuna partita bloccata, nessun errore, tutte le scene raggiunte.
 
 **Criterio 2, superato.** Il giocatore con un obiettivo vince più di tutti e in meno ore, ma subisce più rovesci del prudente. Al primo giro aveva trovato una strada che vinceva sempre: una catena di ripieghi (caricare casse, aspettare che Teodoro si addormenti, spezzare la catena con l'ascia) che finiva in un salto sempre al coperto, perché il buio della nave copriva anche chi aveva dato l'allarme. La correzione è venuta dallo stato dei luoghi: quando sulla nave ti notano, l'equipaggio accende le lanterne, e il buio non copre più nessuno.
 
-**Criterio 3, non ancora superato.** Fino al 29 ottobre la misura non diceva niente: per un errore del codice il casuale sceglieva nel *Quasi* con la stessa regola del giocatore «secondo la situazione», e i due erano lo stesso giocatore. Corretto l'errore, il confronto che conta è fra il giocatore con un obiettivo e le sue tre copie. Prendere sempre tutto vince quanto scegliere con i conti, 81 partite su 100, mentre sempre la metà e sempre lascio perdere ne perdono più di venti. Chi sceglie con i conti subisce un terzo di rovesci in meno, perché allo scoperto non prende tutto. Nella Santa Rita, dunque, il *Quasi* è una scelta vera soltanto allo scoperto. Le due regole del §28.3 (tutto paga il prezzo anche al coperto, lasciar perdere dà la notizia) sono giuste per costruzione, ma qui non hanno spostato le vittorie, perché le prove decisive della storia hanno prezzi leggeri: una moneta, un'ora, una sbucciatura. La prossima correzione riguarda la storia, non il motore: un prezzo che pesi dove la scelta conta.
+**Criterio 3, superato il 31 ottobre.** Il confronto che conta è fra il giocatore con un obiettivo e le sue tre copie, che giocano come lui tranne nel *Quasi*. Scegliendo con i conti vince 79 partite su 100; prendendo sempre tutto 64, sempre la metà 59, sempre lascio perdere 58. Il risultato tiene con quattro serie di dadi diverse: il distacco da «sempre tutto» va da 13 a 16 partite.
+
+Fino al 29 ottobre prendere sempre tutto vinceva quanto scegliere con i conti, 81 partite su 100. (Prima ancora la misura non diceva niente: per un errore del codice il casuale sceglieva nel *Quasi* con la regola del giocatore «secondo la situazione», e i due erano lo stesso giocatore.) Le regole del §28.3 erano giuste, ma le prove decisive della Santa Rita avevano prezzi leggeri: una moneta, un'ora, una sbucciatura. Il 31 ottobre sono cambiate tre cose, due nella storia e una nel motore.
+
+- **Le prove decisive hanno un prezzo che pesa.** Chi prende il registro sotto gli occhi di Bressan, o sale a bordo facendosi notare dal nostromo, paga lo stesso prezzo: la Santa Rita viene avvertita. A bordo la guardia è raddoppiata, un punto di costo in più per il corpo e per le mani. E basta che a bordo ti abbiano notato una volta perché la passerella non si scenda più in silenzio: per portare via Matteo bisogna correre, e si finisce nell'allarme. Restano le vie silenziose: la leva di ferro, che strappa la catena senza rumore, o Teodoro tolto di mezzo e la chiave presa dalla sua giacca.
+- **L'allarme accende le lanterne.** La scena lo diceva, le regole no. Chi ci arrivava con una sola tacca di Traccia restava al buio, e scappava quasi sempre. Adesso, quando scatta l'allarme, a bordo ti vedono tutti.
+- **Il prezzo si legge prima di scegliere** (§28.3). Prima il gioco diceva soltanto «e il prezzo», e il *Quasi* si sceglieva al buio. Il giocatore con un obiettivo adesso conta il prezzo scritto come conta il resto: uno stato del mondo che rende più difficile un luogo pesa più di una moneta o di un'ora.
+
+Così ognuna delle tre possibilità ha il suo posto. All'archivio conviene la metà: per trovare la nave basta la sua riga, e i nomi dell'equipaggio non valgono una nave avvertita. Chi lì prende tutto vince 28 partite su 100, chi si accontenta 81. Sulla passerella conviene lasciar perdere e riprovare, perché chi conosce la strada ha tempo: 67 vittorie contro 25. Alla catena conviene prendere tutto, perché sei già a bordo e il prezzo è una sbucciatura: 94 vittorie contro 26 di chi lascia perdere.
+
+Due avvertenze. La prima: le copie non si adattano. Chi ha pagato all'archivio va alla catena come se niente fosse, forza il lucchetto e finisce nell'allarme. Una persona, avvisata dalla storia («a bordo sono stati avvertiti»), cercherebbe una via silenziosa, e perderebbe meno: il distacco misurato è il più largo possibile. La seconda: fra i giocatori semplici le differenze nel *Quasi* restano dentro il caso, 11 o 12 vittorie su 100. Giocano a caso tutto il resto, e il *Quasi* pesa poco su come finisce la loro partita.
+
+I prezzi nuovi abbassano anche le vittorie di chi esplora: la scrupolosa scende da 43 a 32, la temeraria da 29 a 23. Nel *Quasi* prendono spesso tutto, e finiscono nell'allarme. Le lanterne ne tolgono altre tre alla scrupolosa e due alla temeraria.
 
 **Criterio 5, superato.** Le fasce osservate coincidono con le tabelle.
 
 **Criteri 4 e 6, non ancora misurati.** I giocatori automatici non contano ancora le partite con almeno un rovescio, né le situazioni in cui conviene essere in vista.
 
-**La scadenza.** Chi conosce la strada arriva alla fine in sei ore circa, e alla nave che salpa ne restano diciannove: la scadenza non lo preme. Chi esplora è un altro discorso: la nave che salpa chiude 66 partite su 100 del casuale, 38 della scrupolosa e 41 dell'opportunista. La scadenza resta di ventiquattro ore, per una ragione di progetto: accorciarla toglierebbe la notte, e la notte è dove i costi si rovesciano (§19.4). Il suo compito è premere su chi esplora, e lo fa; chi conosce già la strada, in un librogame, finisce sempre presto. Una regola lega la scadenza a ciò che fai: ogni allarme del porto fa salpare la nave tre ore prima (§15.4), e il rumore costa anche tempo.
+**La scadenza.** Chi conosce la strada arriva alla fine in sei ore circa, e alla nave che salpa ne restano diciotto: la scadenza non lo preme. Chi esplora è un altro discorso: la nave che salpa chiude 67 partite su 100 del casuale, 40 della scrupolosa e 43 dell'opportunista. La scadenza resta di ventiquattro ore, per una ragione di progetto: accorciarla toglierebbe la notte, e la notte è dove i costi si rovesciano (§19.4). Il suo compito è premere su chi esplora, e lo fa; chi conosce già la strada, in un librogame, finisce sempre presto. Una regola lega la scadenza a ciò che fai: ogni allarme del porto fa salpare la nave tre ore prima (§15.4), e il rumore costa anche tempo.
 
 ### 54.3 Le persone
 
@@ -1782,7 +1796,7 @@ Le prove con le persone non fermano il progetto. Le decisioni si prendono con il
 ## 55. Prossimi passi
 
 1. **Lo strumento per chi scrive.** Oggi una storia si scrive a mano, nei file di dati: la Santa Rita sono quasi novecento righe. È il limite più grande del motore, e la Fase 4 della roadmap.
-2. **I prezzi della Santa Rita.** Dare alle prove decisive un prezzo che pesi, e rimisurare il *Quasi* (§54.2).
+2. **I criteri 4 e 6.** Insegnare ai giocatori automatici a contare le situazioni in cui conviene essere in vista, e le partite con almeno un rovescio o una ferita (§54.2).
 3. **La prova dei generi**, partendo dalle tre ambientazioni abbozzate nella Parte X.
 4. **Le persone**, quando arrivano: il §54.3 dice che cosa guardare.
 5. Correggere questo documento con ciò che si impara, dichiarando ogni cambiamento.
@@ -2154,7 +2168,7 @@ Deduzione: *il carico è di Grimani* più *le casse pesano troppo* danno *nelle 
 
 **Il porto.** Con le proprietà, un effetto vale una volta sola: all'alba il Gallo non ha due volte la folla (nel 2.0 mano e voce scendevano a −2), di notte i magazzini non hanno due volte il buio (nel 2.0 il corpo scendeva a −2), e di notte il Gallo non ha il silenzio (nel 2.0 mano e voce tornavano a 0). Il passo di un'ora e mezza diventa l'ora: le scadenze e il logorio sono stati ricalcolati per durare lo stesso tempo di prima.
 
-**Dopo il 3.0.** Il 29 ottobre 2026 sono cambiate alcune regole, e il documento le dice al loro posto. Nel *Quasi* prendere tutto costa il prezzo anche al coperto, e lasciar perdere dà la notizia del *Non riesci* (§28.3). Il quadro non spegne più righe per il Fondo e per il tetto, ma lo dice sotto il totale (§21.3), e nella riuscita scrive la soglia che risulta da uno scatto («→ 10») invece di un «+2» che si confondeva con i bonus (§21.1). Le scadenze possono avanzare per ciò che fai (§15.4). Due parole hanno cambiato nome: il grado di mezzo, che si chiamava *esposto*, è **in vista**, perché «al coperto · in vista · allo scoperto» si legge in ordine da solo e non cambia col genere; lo spostamento della soglia, che si chiamava *gradino*, è lo **scatto**, perché «grado» e «gradino» erano quasi la stessa parola. Sulla carta, le notizie sono voci in fondo al libro che si leggono solo quando le segni (§48.1). Il confronto fra i tre modelli per le fasce, che stava nella Parte V, è passato nell'appendice E; l'elenco del lavoro fatto sul codice per adeguarlo al 3.0 sta in `archivio/ADEGUAMENTO-MOTORE-3.0.md`.
+**Dopo il 3.0.** Il 29 ottobre 2026 sono cambiate alcune regole, e il documento le dice al loro posto. Nel *Quasi* prendere tutto costa il prezzo anche al coperto, e lasciar perdere dà la notizia del *Non riesci* (§28.3). Il quadro non spegne più righe per il Fondo e per il tetto, ma lo dice sotto il totale (§21.3), e nella riuscita scrive la soglia che risulta da uno scatto («→ 10») invece di un «+2» che si confondeva con i bonus (§21.1). Le scadenze possono avanzare per ciò che fai (§15.4). Il 31 ottobre il prezzo scritto dall'autore è diventato visibile prima della scelta del *Quasi* (§28.3), e le prove decisive della Santa Rita hanno avuto un prezzo che pesa (§54.2). Due parole hanno cambiato nome: il grado di mezzo, che si chiamava *esposto*, è **in vista**, perché «al coperto · in vista · allo scoperto» si legge in ordine da solo e non cambia col genere; lo spostamento della soglia, che si chiamava *gradino*, è lo **scatto**, perché «grado» e «gradino» erano quasi la stessa parola. Sulla carta, le notizie sono voci in fondo al libro che si leggono solo quando le segni (§48.1). Il confronto fra i tre modelli per le fasce, che stava nella Parte V, è passato nell'appendice E; l'elenco del lavoro fatto sul codice per adeguarlo al 3.0 sta in `archivio/ADEGUAMENTO-MOTORE-3.0.md`.
 
 ---
 

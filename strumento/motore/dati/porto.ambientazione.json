@@ -60,6 +60,10 @@
       "valori": { "corpo": 1, "mano": 1 }, "cause": { "corpo": "chi gira dove non deve viene notato", "mano": "chi tocca le carte degli altri viene guardato" }
     },
     {
+      "id": "guardia_doppia", "nome": "Guardia raddoppiata",
+      "valori": { "corpo": 1, "mano": 1 }, "cause": { "corpo": "chi si muove viene notato", "mano": "ogni rumore si sente" }
+    },
+    {
       "id": "guardia", "nome": "Una guardia alla porta",
       "valori": { "corpo": 1, "voce": 1 }, "cause": { "corpo": "una guardia sorveglia la porta", "voce": "la guardia ascolta chi parla" }
     },
