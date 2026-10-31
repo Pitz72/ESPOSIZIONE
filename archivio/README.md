@@ -14,6 +14,7 @@ Questi file non si aggiornano più. Restano per chi vuole capire da dove vengono
 | `ISTRUZIONI-riconciliazione.md` | come si portava un progetto dalla 1.1 alla 1.2 |
 | `ROADMAP.md` | il piano per misurare la 1.3, mai eseguito, con l'addendum del ritardo |
 | `ROADMAP-STRUMENTO.md` | il piano per trasformare InteractiveWriter nello strumento della 1.3 |
+| `interactivewriter/` | lo strumento d'origine, uscito dal ramo principale il 31 ottobre 2026: la sua scheda, i documenti, gli esempi e lo schema. Il codice è nel segnalibro `interactivewriter` del repository |
 | `ANALISI-FAVELLA.md` | che cosa il progetto FAVELLA 1 insegnava alla 1.3 |
 | `ANALISI-CRITICITA-1.3.md` | i ventuno rilievi alla 1.3 che hanno portato alla riscrittura |
 | `LINGUA-DEL-MANUALE.md` | le regole di scrittura da cui nasce la lingua del documento 2.0 |

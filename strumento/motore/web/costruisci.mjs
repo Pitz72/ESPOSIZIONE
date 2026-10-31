@@ -7,11 +7,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { createRequire } from "node:module";
+import * as esbuild from "esbuild";
 
 const qui = dirname(fileURLToPath(import.meta.url));
-const require = createRequire(join(qui, "../../editor/package.json"));
-const esbuild = require("esbuild");
 
 const risultato = await esbuild.build({
   entryPoints: [join(qui, "gioco.ts")],

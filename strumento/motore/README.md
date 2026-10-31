@@ -19,8 +19,14 @@ node src/cli.ts gioca --seme 11  # la stessa partita, con gli stessi dadi
 node src/cli.ts controlla        # i controlli del §47 sui dati
 node src/cli.ts libro            # rigenera libro/santa-rita.md
 node src/cli.ts simula           # 500 partite per ciascuna delle tredici strategie automatiche (--partite 1000 per il §54.2)
-node web/costruisci.mjs          # rigenera la versione elettronica, libro/santa-rita.html
 node --test                      # i test
+```
+
+Per giocare, provare e simulare basta Node. Per rigenerare l'app e controllare i tipi servono esbuild e TypeScript, che si installano una volta sola con `npm install`:
+
+```powershell
+npm run app                      # rigenera la versione elettronica, libro/santa-rita.html
+npm run tipi                     # il controllo dei tipi
 ```
 
 Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento di design e il librogame.
@@ -38,7 +44,7 @@ Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento
 | `src/simulazione.ts` | i giocatori automatici: le strategie semplici, quelle per il *Quasi*, e il giocatore con un obiettivo, che cerca la strada più breve verso una vittoria pesando probabilità, rumore e rischio di rovescio, con tre copie che nel *Quasi* scelgono sempre la stessa cosa |
 | `src/libro.ts` | il generatore del librogame |
 | `src/cli.ts` | la riga di comando |
-| `web/` | l'app web: l'interfaccia (`gioco.ts`), il panorama del porto (`panorama.ts`), il suono generato nel browser (`suono.ts`), la pagina (`pagina.html`) e lo script che impacchetta tutto con il motore in un solo file. Il panorama e i colori sono il tema di questa ambientazione: un'altra storia ne avrebbe un altro. Per impacchettare usa esbuild, già presente fra gli strumenti di sviluppo dell'editor; la pagina che ne esce non ha dipendenze |
+| `web/` | l'app web: l'interfaccia (`gioco.ts`), il panorama del porto (`panorama.ts`), il suono generato nel browser (`suono.ts`), la pagina (`pagina.html`) e lo script che impacchetta tutto con il motore in un solo file. Il panorama e i colori sono il tema di questa ambientazione: un'altra storia ne avrebbe un altro. Per impacchettare usa esbuild, uno strumento di sviluppo del motore; la pagina che ne esce non ha dipendenze |
 | `dati/` | l'ambientazione del porto (appendice B del documento) e la storia di prova |
 
 ## Per chi costruisce un'interfaccia
@@ -75,5 +81,5 @@ Fino al 29 ottobre la strategia casuale sceglieva nel *Quasi* con la regola di �
 ## Che cosa manca
 
 - Le storie con più protagonisti non sono ancora nel motore.
-- L'editor grafico di `strumento/editor/` usa ancora il vecchio motore di InteractiveWriter, in `strumento/core/`. Va ricostruito su questo; fino ad allora il vecchio motore resta nel repository soltanto per lui.
+- L'editor per chi scrive non c'è: è la Fase 4. Il vecchio editor di InteractiveWriter è uscito dal repository il 31 ottobre 2026, e la sua scheda è in `archivio/interactivewriter/`.
 - Nessuna persona ha ancora giocato il librogame, né l'app del 3.0.

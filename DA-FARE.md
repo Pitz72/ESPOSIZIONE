@@ -8,6 +8,7 @@
 - **Il documento di design** è stato rivisto il 29 ottobre: davanti le regole come sono oggi, in appendice la storia delle scelte. Gli ultimi due commit sono `4a5da65` (la revisione) e `e33b47d` (i nomi nuovi: il grado di mezzo si chiama «in vista», lo spostamento della soglia «scatto»).
 - **Tre formati dalla stessa fonte**: il librogame in PDF, la partita nel terminale, l'app web.
 - **Il *Quasi* è una scelta vera** dal 31 ottobre: le prove decisive della Santa Rita hanno un prezzo che pesa, e chi sceglie con giudizio vince 79 partite su 100 contro le 64 di chi prende sempre tutto (§54.2).
+- **InteractiveWriter è uscito** dal ramo principale il 31 ottobre: il motore ha i suoi strumenti di costruzione, e la storia del vecchio strumento è in [`archivio/interactivewriter/`](archivio/interactivewriter/LEGGIMI.md), con il codice nel segnalibro `interactivewriter`.
 - **Il logotipo è scelto**: la parola in minuscolo con due dadi al posto dei puntini delle i, il 29 ottobre. Le forme, i colori e le regole sono in [`typst/assets/logo/USO.md`](typst/assets/logo/USO.md).
 - **Nessuna persona ha ancora giocato il 3.0.** Non è un blocco: si progetta con il ragionamento e con le simulazioni, e le prove con le persone correggono quando arrivano.
 
@@ -20,9 +21,11 @@ node --test                              i test
 node src/cli.ts controlla                i controlli della storia
 node src/cli.ts simula --partite 1000    le simulazioni del §54.2
 node src/cli.ts libro                    il librogame, in libro/santa-rita.md
-node web/costruisci.mjs                  l'app, in libro/santa-rita.html
-../editor/node_modules/.bin/tsc.cmd -p tsconfig.json    il controllo dei tipi
+npm run app                              l'app, in libro/santa-rita.html
+npm run tipi                             il controllo dei tipi
 ```
+
+Gli ultimi due chiedono esbuild e TypeScript: la prima volta, nella stessa cartella, `npm install`.
 
 I PDF si rifanno da PowerShell, nella cartella `typst/`, con `.\build.ps1`. Servono Python e Typst 0.14 o successivo; i font sono già nel repository.
 
@@ -45,14 +48,12 @@ Tutti e due si aggiungono in `src/simulazione.ts` e nella stampa del comando `si
 
 | Decisione | Che cosa c'è sul tavolo | Che cosa serve per chiuderla |
 |---|---|---|
-| **Il vecchio InteractiveWriter** | `strumento/core`, `strumento/cli` e `strumento/editor` sono il codice d'origine, superato dal motore. Non seguono più le regole del documento. | Toglierlo alleggerisce il repository. Prima però vanno spostati esbuild e TypeScript in un `package.json` del motore: oggi l'app e il controllo dei tipi usano quelli di `strumento/editor/node_modules`. L'editor nuovo è la Fase 4. |
 | **La lingua delle chiavi nei dati** | Oggi le chiavi dei file JSON sono in italiano (`sposta`, `scatti`, `nonRiesci`…). Era la decisione D-S4 del vecchio piano dello strumento. | Va decisa prima dello schema JSON della 3.1. Le altre decisioni di quel piano (D-S3, D-S5, D-S6, in `archivio/ROADMAP-STRUMENTO.md`) riguardavano il vecchio motore e non valgono più. |
 
 ---
 
 ## 3. Piccole cose da sistemare
 
-- `strumento/README.md` rimanda ancora a `../ESPOSIZIONE-DESIGN.md`, che è il 2.0 ed è in archivio: va puntato a `ESPOSIZIONE-DESIGN-3.md`. Quel README, e `strumento/ROADMAP.md`, descrivono ancora InteractiveWriter com'era a luglio 2026. Se il vecchio codice esce (§2), escono anche loro.
 - **La lingua del documento di design.** Il 29 ottobre sono stati riscritti i passaggi confusi, non tutte le 32.000 parole. Manca una lettura frase per frase, con `archivio/LINGUA-DEL-MANUALE.md` accanto. Conviene farla prima del manuale.
 
 ---
