@@ -19,7 +19,7 @@ import { prepara, nuovaPartita, type Evento, type Partita } from "./stato.ts";
 import { agisci, vista, type Quadro, type Vista } from "./motore.ts";
 import { controlla } from "./controlli.ts";
 import { libro } from "./libro.ts";
-import { POLITICHE, simula } from "./simulazione.ts";
+import { POLITICHE, riassumiBivi, rigiocaBivi, simula } from "./simulazione.ts";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
@@ -179,12 +179,24 @@ switch (comando) {
       const q = (x: number) => `${Math.round((x / totF) * 100)}`;
       console.log(`${pol.padEnd(12)} vittorie ${perc("vittoria")} · sconfitte ${perc("sconfitta")} · morti ${perc("morte")} · ore medie ${r.oreMedie.toFixed(1)} · azioni ${r.azioniMedie.toFixed(1)} · rovesci per partita ${r.rovesciMedi.toFixed(2)}`);
       console.log(`             fasce: in pieno ${q(f.pieno)} · riesci ${q(f.riesci)} · quasi ${q(f.quasi)} · non riesci ${q(f.non)}   quasi scelti: tutto ${r.quasi.tutto} · metà ${r.quasi.meta} · lascio ${r.quasi.lascia}`);
+      console.log(`             partite con un rovescio, una ferita o la morte: ${Math.round((r.colpite / partite) * 100)}%   ai bivi: in vista ${r.bivi.vista} · al coperto ${r.bivi.coperto}`);
       if (r.margineMedio) console.log(`             nelle vittorie restavano in media ${r.margineMedio.toFixed(1)} ore prima della scadenza`);
       if (r.bloccate.length) console.log(`             BLOCCATE: ${r.bloccate.slice(0, 5).join("; ")}`);
       if (r.errori.length) console.log(`             ERRORI: ${r.errori.slice(0, 5).join("; ")}`);
     }
     const mai = storia.scene.filter((s) => !tutte.has(s.id)).map((s) => s.id);
     console.log(`${A_CAPO}Scene mai raggiunte: ${mai.length ? mai.join(", ") : "nessuna"}`);
+
+    // Il criterio 4: i bivi incontrati dai cinque giocatori semplici, rigiocati una volta in vista e una al coperto.
+    const semplici = ["casuale", "prudente", "temeraria", "scrupolosa", "opportunista"] as const;
+    const righe = riassumiBivi(g, semplici.flatMap((pol) => rigiocaBivi(g, pol, partite)));
+    const c = storia.scadenze[0]?.ogniOre ?? 0;
+    const ore = (t: string) => ({ molto: `più di ${5 * c} ore`, medio: `da ${3 * c + 1} a ${5 * c} ore`, poco: `${3 * c} ore o meno` })[t];
+    console.log(`${A_CAPO}I bivi fra una prova in vista e una strada al coperto (criterio 4), vittorie su 100 di chi poi gioca bene:`);
+    for (const b of righe.filter((x) => x.volte >= 20)) {
+      const segno = b.conviene === "vista" ? "   ← conviene in vista" : b.conviene === "coperto" ? "   ← conviene al coperto" : "";
+      console.log(`  ${`${b.scena} → ${b.verso}, ${ore(b.tempo)}`.padEnd(42)} ${String(b.volte).padStart(5)} volte   in vista ${String(b.vista.su100).padStart(3)} (${b.vista.id}) · al coperto ${String(b.coperto.su100).padStart(3)} (${b.coperto.id})${segno}`);
+    }
     break;
   }
   default:

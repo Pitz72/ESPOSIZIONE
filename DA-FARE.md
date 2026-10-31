@@ -1,10 +1,11 @@
 # Che cosa resta da fare
 
-*Scritto il 29 ottobre 2026, alla fine della revisione. La prossima sessione parte da qui. Quando una voce si chiude, la si toglie da questo foglio, e il commit dice com'è stata chiusa.*
+*Scritto il 29 ottobre 2026, alla fine della revisione, e aggiornato il 31 ottobre. La prossima sessione parte da qui. Quando una voce si chiude, la si toglie da questo foglio, e il commit dice com'è stata chiusa.*
 
 ## Dove siamo
 
-- **Il motore 3.0** (`strumento/motore/`, versione 3.0.0-alpha.2) passa tutti i 58 test. I controlli non trovano errori né avvisi nelle 59 scene della Santa Rita, e i tipi sono a posto.
+- **Il motore 3.0** (`strumento/motore/`, versione 3.0.0-alpha.2) passa tutti i 61 test. I controlli non trovano errori né avvisi nelle 59 scene della Santa Rita, e i tipi sono a posto.
+- **Le simulazioni sono chiuse**: dal 31 ottobre tutti e sei i criteri del §54.2 sono misurati e superati. A volte conviene essere in vista: davanti alla guardia del porto, quando la nave sta per salpare, chi convince l'ufficiale vince 91 partite su 100, chi gli lascia la bolla e aspetta 54. E la temeraria si fa male in 67 partite su 100.
 - **Il documento di design** è stato rivisto il 29 ottobre: davanti le regole come sono oggi, in appendice la storia delle scelte. Gli ultimi due commit sono `4a5da65` (la revisione) e `e33b47d` (i nomi nuovi: il grado di mezzo si chiama «in vista», lo spostamento della soglia «scatto»).
 - **Tre formati dalla stessa fonte**: il librogame in PDF, la partita nel terminale, l'app web.
 - **Il *Quasi* è una scelta vera** dal 31 ottobre: le prove decisive della Santa Rita hanno un prezzo che pesa, e chi sceglie con giudizio vince 79 partite su 100 contro le 64 di chi prende sempre tutto (§54.2).
@@ -19,7 +20,7 @@ Dalla cartella `strumento/motore/`:
 ```
 node --test                              i test
 node src/cli.ts controlla                i controlli della storia
-node src/cli.ts simula --partite 1000    le simulazioni del §54.2
+node src/cli.ts simula --partite 1000    le simulazioni del §54.2 (una quarantina di secondi)
 node src/cli.ts libro                    il librogame, in libro/santa-rita.md
 npm run app                              l'app, in libro/santa-rita.html
 npm run tipi                             il controllo dei tipi
@@ -33,14 +34,10 @@ I PDF si rifanno da PowerShell, nella cartella `typst/`, con `.\build.ps1`. Serv
 
 ## 1. Subito: la prossima sessione
 
-### 1.1 I due criteri che nessuno misura
+Le simulazioni non chiedono altro lavoro. Le strade sono due, e la scelta spetta a Simone:
 
-Il §54.2 ha due criteri ancora senza misura.
-
-- **Criterio 4: esiste una situazione in cui conviene essere in vista** invece che al coperto. La simulazione deve contare le prove fatte in vista quando c'era una strada al coperto, e chi ha vinto di più fra chi l'ha presa e chi no.
-- **Criterio 6: il pericolo resta.** Il temerario deve subire almeno un rovescio o una ferita in più di metà delle partite. Oggi la simulazione dà soltanto la media dei rovesci; serve il numero di partite con almeno un rovescio o una ferita.
-
-Tutti e due si aggiungono in `src/simulazione.ts` e nella stampa del comando `simula`.
+- **la lettura frase per frase del documento di design** (§3), che conviene fare prima del manuale;
+- **la 3.1**, cominciando dalla mappa dei luoghi (§4). Prima dello schema dei dati serve la decisione sulla lingua delle chiavi (§2).
 
 ---
 

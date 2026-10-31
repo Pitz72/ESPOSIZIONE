@@ -11,7 +11,7 @@ import { almeno, fasce, fascePercento, fasciaDi, percentuale } from "../src/dadi
 import { applica, avanza, cambiaStato, capienza, forzaPer, haProprieta, occupati, prepara, nuovaPartita, proprietaAttive, type Evento, type Partita } from "../src/stato.ts";
 import { agisci, vista } from "../src/motore.ts";
 import { controlla } from "../src/controlli.ts";
-import { distanzeDallaVittoria, simula } from "../src/simulazione.ts";
+import { bivio, distanzeDallaVittoria, riassumiBivi, rigiocaBivi, simula } from "../src/simulazione.ts";
 import { libro } from "../src/libro.ts";
 import type { Ambientazione, Grado, Storia } from "../src/tipi.ts";
 
@@ -758,6 +758,28 @@ test("il giocatore con un obiettivo: nessuna strada vince sempre, e chi gioca be
   const v = (r: typeof caso) => (r.esiti.vittoria ?? 0) / r.partite;
   assert.ok(v(obiettivo) > v(caso), "giocare per vincere deve pagare");
   assert.ok(v(obiettivo) < 0.97, "se una strategia vince sempre, le scelte sono finte");
+});
+
+test("il bivio del magazzino sette: forzare la porta è in vista, il tetto e l'attesa sono al coperto", () => {
+  const p = in_("magazzini", 4);
+  p.notizie.carico_grimani = "sentita";
+  const scelte = vista(g, p).scelte.flatMap((s) => [s, ...(s.varianti ?? [])]).filter((s) => s.disponibile);
+  const b = bivio(g, p, scelte)!;
+  assert.equal(b.verso, "dentro");
+  assert.deepEqual(b.vista.map((s) => s.id), ["forza"]);
+  assert.deepEqual(b.coperto.map((s) => s.id).sort(), ["aspetta", "tetto"]);
+});
+
+test("conviene essere in vista, a volte, e a volte al coperto (§54.2, criterio 4)", () => {
+  const righe = riassumiBivi(g, rigiocaBivi(g, "temeraria", 300));
+  assert.ok(righe.some((r) => r.conviene === "vista"), "nessun bivio in cui convenga essere in vista");
+  assert.ok(righe.some((r) => r.conviene === "coperto"), "nessun bivio in cui convenga il coperto");
+  assert.equal(simula(g, "prudente", 100).bivi.vista, 0, "il prudente, se c'è una strada al coperto, non è mai in vista");
+});
+
+test("il pericolo resta: la temeraria subisce un rovescio, una ferita o la morte in più di metà delle partite (§54.2, criterio 6)", () => {
+  const r = simula(g, "temeraria", 200);
+  assert.ok(r.colpite / r.partite > 0.5, `${r.colpite} partite su ${r.partite}`);
 });
 
 test("il librogame numera ogni scena e comincia dal paragrafo 1", () => {

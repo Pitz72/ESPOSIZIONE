@@ -1,6 +1,6 @@
 # ESPOSIZIONE in una pagina
 
-*Per chi conosce i giochi di ruolo e vuole darci un parere. 25 settembre 2026, aggiornata il 29 ottobre.*
+*Per chi conosce i giochi di ruolo e vuole darci un parere. 25 settembre 2026, aggiornata il 31 ottobre.*
 
 ESPOSIZIONE è un motore per scrivere e giocare **romanzi di ruolo**: storie lunghe e ramificate, in cui un personaggio esplora, indaga, tratta e sceglie, e il mondo, gli oggetti e le persone reagiscono. Il ritmo è quello della lettura e della scelta, non del combattimento. Il riferimento di gusto è *Disco Elysium*; i debiti dichiarati sono verso *Powered by the Apocalypse*, *Blades in the Dark*, *Genesys*, *Burning Wheel*, *Fallen London* e *Fabled Lands*. Il documento completo è [`ESPOSIZIONE-DESIGN-3.md`](ESPOSIZIONE-DESIGN-3.md).
 
@@ -57,7 +57,7 @@ ESPOSIZIONE è un motore per scrivere e giocare **romanzi di ruolo**: storie lun
 
 ## Dove ci serve un parere
 
-- **Il Quasi:** nelle simulazioni, chi gioca bene vince quanto prende sempre tutto; scegliere con giudizio evita soltanto un terzo dei rovesci. Abbiamo reso più caro prendere tutto; secondo te basta, o la scelta va costruita in un altro modo?
+- **Il Quasi:** nelle simulazioni, chi sceglie con giudizio vince 79 partite su 100, chi prende sempre tutto 64. Ci siamo arrivati dando un prezzo pesante alle prove decisive, e mostrandolo prima della scelta. Al tavolo la scelta si sentirà, o la vedono soltanto i conti?
 - **Il quadro:** quattro sezioni prima di ogni prova sono tante. Si leggono al tavolo? Che cosa taglieresti?
 - **Il costo separato dalla riuscita:** regge, o la separazione si sente artificiale in gioco?
 - **La scadenza:** chi conosce la strada finisce con molto margine, mentre chi esplora perde spesso perché la nave salpa. L'abbiamo lasciata così, e legata al rumore che fai. Va bene, o la scadenza deve premere anche su chi gioca bene?
@@ -66,4 +66,4 @@ ESPOSIZIONE è un motore per scrivere e giocare **romanzi di ruolo**: storie lun
 
 ## Che cosa è provato
 
-Il motore esiste, ha i suoi test e le sue simulazioni. L'autore ha giocato per intero la versione precedente; nessun altro ha ancora giocato. Il progetto non aspetta le prove con le persone per andare avanti, ma è pronto a riceverle: l'app registra quanto tempo resta aperto ogni quadro e che cosa si sceglie nei *Quasi*.
+Il motore esiste, ha i suoi test e le sue simulazioni, che superano tutti i criteri del piano di verifica. L'autore ha giocato per intero la versione precedente; nessun altro ha ancora giocato. Il progetto non aspetta le prove con le persone per andare avanti, ma è pronto a riceverle: l'app registra quanto tempo resta aperto ogni quadro e che cosa si sceglie nei *Quasi*.

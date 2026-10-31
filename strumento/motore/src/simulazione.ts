@@ -27,6 +27,10 @@ export interface Resoconto {
   quasi: { tutto: number; meta: number; lascia: number };
   /** Nelle vittorie: quante ore restavano prima che scadesse la prima scadenza. */
   margineMedio: number;
+  /** Le partite con almeno un rovescio, una ferita o la morte: il criterio 6 (§54.2). */
+  colpite: number;
+  /** Ai bivi fra una prova in vista e una strada al coperto (criterio 4): quante volte ha preso l'una o l'altra. */
+  bivi: { vista: number; coperto: number };
   sceneViste: Set<string>;
 }
 
@@ -108,14 +112,11 @@ function sceltaObiettivo(g: Gioco, p: Partita, scelte: VistaScelta[], visite: Ma
   let migliore = scelte[0].id;
   let punti = Infinity;
   for (const v of scelte) {
-    const base = v.id.split("@")[0];
-    const s = (scena.scelte ?? []).find((x) => x.id === base);
-    let dest = scena.id;
-    if (s?.prova) dest = s.prova.riesci.vai;
-    else if (s?.vai) dest = s.vai;
-    else if (scena.confronto && v.id.startsWith("fine:")) dest = scena.confronto.fini.find((f) => `fine:${f.id}` === v.id)?.vai ?? dest;
-    else if (scena.confronto && v.id === "parlare") dest = scena.confronto.parlare?.riesci.vai ?? dest;
-    else if (scena.confronto && v.id === "andarsene") dest = scena.confronto.andarsene.vai;
+    const s = (scena.scelte ?? []).find((x) => x.id === v.id.split("@")[0]);
+    let dest = doveVa(scena, v.id) ?? scena.id;
+    if (!s && scena.confronto && v.id.startsWith("fine:")) dest = scena.confronto.fini.find((f) => `fine:${f.id}` === v.id)?.vai ?? dest;
+    else if (!s && scena.confronto && v.id === "parlare") dest = scena.confronto.parlare?.riesci.vai ?? dest;
+    else if (!s && scena.confronto && v.id === "andarsene") dest = scena.confronto.andarsene.vai;
     let x = dist.get(dest) ?? 99;
     x += (visite.get(dest) ?? 0) * 1.5;
     if (v.quadro) {
@@ -191,6 +192,41 @@ function sceltaQuasiObiettivo(g: Gioco, p: Partita, scelte: VistaScelta[]): stri
   return validi[0]?.[0];
 }
 
+// ---------------------------------------------------------------------------
+// I bivi del criterio 4 (§54.2): conviene mai essere in vista?
+// ---------------------------------------------------------------------------
+
+/** La scena verso cui porta una scelta della scena, se va bene: quella della prova riuscita, o quella della via. */
+function doveVa(scena: Scena, id: string): string | undefined {
+  const s = (scena.scelte ?? []).find((x) => x.id === id.split("@")[0]);
+  return s?.prova ? s.prova.riesci.vai : s?.vai;
+}
+
+export interface Bivio {
+  /** La scena dove portano tutte e due le strade. */
+  verso: string;
+  vista: VistaScelta[];
+  coperto: VistaScelta[];
+}
+
+/**
+ * Un bivio: una prova in vista e, verso la stessa scena, una strada al coperto. Al coperto
+ * vuol dire una prova al coperto, oppure una via senza tiro che non lascia Traccia (di
+ * solito costa tempo: aspettare che il guardiano si addormenti).
+ */
+export function bivio(g: Gioco, p: Partita, scelte: VistaScelta[]): Bivio | undefined {
+  const scena = scenaDi(g, p.scena);
+  const rumorosa = (id: string) => (scena.scelte ?? []).find((x) => x.id === id)?.effetti?.some((e) => "traccia" in e && e.piu > 0);
+  for (const v of scelte) {
+    if (v.tipo !== "prova" || v.quadro?.grado !== 1) continue;
+    const verso = doveVa(scena, v.id);
+    if (!verso || verso === scena.id) continue;
+    const coperto = scelte.filter((s) => doveVa(scena, s.id) === verso && ((s.tipo === "prova" && s.quadro?.grado === 0) || (s.tipo === "vai" && !rumorosa(s.id))));
+    if (coperto.length) return { verso, vista: scelte.filter((s) => s.tipo === "prova" && s.quadro?.grado === 1 && doveVa(scena, s.id) === verso), coperto };
+  }
+  return undefined;
+}
+
 function aCaso(scelte: VistaScelta[], rng: number): { id: string; rng: number } {
   const i = intero(rng, 0, scelte.length - 1);
   return { id: scelte[i.valore].id, rng: i.stato };
@@ -260,9 +296,113 @@ function scegli(g: Gioco, p: Partita, v: Vista, politica: Politica, scelte: Vist
   return aCaso(candidate, rng);
 }
 
+/** Le scelte che si possono fare adesso, varianti con i compagni comprese. */
+function disponibiliDi(v: Vista): VistaScelta[] {
+  return v.scelte.flatMap((s) => [s, ...(s.varianti ?? [])]).filter((s) => s.disponibile);
+}
+
+/** Quante ore restano prima della prima scadenza, contati gli allarmi che l'hanno avvicinata. */
+function oreCheRestano(g: Gioco, p: Partita): number {
+  const sc = g.storia.scadenze[0];
+  return sc ? (sc.caselle - (p.spinte?.[sc.id] ?? 0)) * sc.ogniOre - p.ora : Infinity;
+}
+
+/** Gioca la partita da qui alla fine con una strategia. `prima`, se c'è, guarda ogni situazione prima della scelta. */
+function finisci(g: Gioco, p: Partita, politica: Politica, rng: number, prima?: (p: Partita, scelte: VistaScelta[]) => void): Partita {
+  const visite = new Map<string, number>();
+  for (let n = 0; !p.finita && n < 600; n++) {
+    const v = vista(g, p);
+    const scelte = disponibiliDi(v);
+    if (!scelte.length) break;
+    prima?.(p, scelte);
+    visite.set(p.scena, (visite.get(p.scena) ?? 0) + 1);
+    const c = scegli(g, p, v, politica, scelte, rng, visite);
+    rng = c.rng;
+    p = agisci(g, p, c.id).partita;
+  }
+  return p;
+}
+
+/** Un bivio rigiocato: le due strade sono prese dallo stesso punto, con gli stessi dadi, e poi la partita continua. */
+export interface BivioRigiocato {
+  scena: string;
+  verso: string;
+  /** Le ore che restavano prima della scadenza. */
+  restano: number;
+  vista: { id: string; vince: boolean };
+  coperto: { id: string; vince: boolean };
+}
+
+/**
+ * Il criterio 4 (§54.2): conviene mai essere in vista? Fa giocare le partite di una
+ * strategia e, al primo bivio di ogni scena, prende due strade a partire dallo stesso
+ * punto e con gli stessi dadi: la migliore in vista e la migliore al coperto, scelte con i
+ * conti del giocatore con un obiettivo. Da lì la partita la finisce lui: la domanda è che
+ * cosa conviene a chi poi gioca bene.
+ */
+export function rigiocaBivi(g: Gioco, politica: Politica, partite: number, semeIniziale = 1): BivioRigiocato[] {
+  const out: BivioRigiocato[] = [];
+  const prova = (p: Partita, scelte: VistaScelta[]) => {
+    const id = sceltaObiettivo(g, p, scelte, new Map());
+    return { id, vince: finisci(g, agisci(g, p, id).partita, "obiettivo", 0).finita?.tipo === "vittoria" };
+  };
+  for (let k = 0; k < partite; k++) {
+    const seme = semeIniziale + k * 7919;
+    const viste = new Set<string>();
+    finisci(g, nuovaPartita(g, seme), politica, seme ^ 0x5bd1e995, (p, scelte) => {
+      const b = viste.has(p.scena) ? undefined : bivio(g, p, scelte);
+      if (!b) return;
+      viste.add(p.scena);
+      out.push({ scena: p.scena, verso: b.verso, restano: oreCheRestano(g, p), vista: prova(p, b.vista), coperto: prova(p, b.coperto) });
+    });
+  }
+  return out;
+}
+
+export interface RigaBivi {
+  scena: string;
+  verso: string;
+  /** Quanto mancava alla scadenza: più di cinque caselle, da quattro a cinque, tre o meno (la scadenza incalza). */
+  tempo: "molto" | "medio" | "poco";
+  volte: number;
+  /** Le vittorie su 100 prendendo la strada in vista e quella al coperto, con la strada presa più spesso. */
+  vista: { id: string; su100: number };
+  coperto: { id: string; su100: number };
+  /** Una delle due conviene se vince almeno 10 partite su 100 più dell'altra, in almeno 50 bivi. */
+  conviene: "vista" | "coperto" | null;
+}
+
+/** Riassume i bivi rigiocati: per ogni bivio, e per quanto tempo restava, quante partite vince ciascuna strada. */
+export function riassumiBivi(g: Gioco, bivi: BivioRigiocato[]): RigaBivi[] {
+  const casella = g.storia.scadenze[0]?.ogniOre ?? Infinity;
+  const tempo = (ore: number): RigaBivi["tempo"] => (ore <= 3 * casella ? "poco" : ore <= 5 * casella ? "medio" : "molto");
+  const gruppi = new Map<string, BivioRigiocato[]>();
+  for (const b of bivi) {
+    const k = `${b.scena}|${b.verso}|${tempo(b.restano)}`;
+    gruppi.set(k, [...(gruppi.get(k) ?? []), b]);
+  }
+  const righe: RigaBivi[] = [];
+  for (const [k, gr] of gruppi) {
+    const [scena, verso, t] = k.split("|");
+    const lato = (quale: "vista" | "coperto") => {
+      const volte = new Map<string, number>();
+      for (const b of gr) volte.set(b[quale].id, (volte.get(b[quale].id) ?? 0) + 1);
+      const id = [...volte.entries()].sort((a, b) => b[1] - a[1])[0][0];
+      return { id, su100: Math.round((gr.filter((b) => b[quale].vince).length / gr.length) * 100) };
+    };
+    const vista = lato("vista");
+    const coperto = lato("coperto");
+    const scarto = vista.su100 - coperto.su100;
+    const conviene = gr.length < 50 || Math.abs(scarto) < 10 ? null : scarto > 0 ? "vista" : "coperto";
+    righe.push({ scena, verso, tempo: t as RigaBivi["tempo"], volte: gr.length, vista, coperto, conviene });
+  }
+  const ordine = { molto: 0, medio: 1, poco: 2 };
+  return righe.sort((a, b) => a.scena.localeCompare(b.scena) || a.verso.localeCompare(b.verso) || ordine[a.tempo] - ordine[b.tempo]);
+}
+
 /** `traccia`, se data, riceve le scelte della prima partita: serve a vedere che strada ha preso una strategia. */
 export function simula(g: Gioco, politica: Politica, partite: number, semeIniziale = 1, traccia?: string[]): Resoconto {
-  const r: Resoconto = { politica, partite, esiti: {}, finali: {}, bloccate: [], errori: [], oreMedie: 0, azioniMedie: 0, rovesciMedi: 0, fasce: { pieno: 0, riesci: 0, quasi: 0, non: 0 }, quasi: { tutto: 0, meta: 0, lascia: 0 }, margineMedio: 0, sceneViste: new Set() };
+  const r: Resoconto = { politica, partite, esiti: {}, finali: {}, bloccate: [], errori: [], oreMedie: 0, azioniMedie: 0, rovesciMedi: 0, fasce: { pieno: 0, riesci: 0, quasi: 0, non: 0 }, quasi: { tutto: 0, meta: 0, lascia: 0 }, margineMedio: 0, colpite: 0, bivi: { vista: 0, coperto: 0 }, sceneViste: new Set() };
   let ore = 0;
   let margine = 0;
   let vittorie = 0;
@@ -273,29 +413,38 @@ export function simula(g: Gioco, politica: Politica, partite: number, semeInizia
     let p = nuovaPartita(g, seme);
     let rng = seme ^ 0x5bd1e995;
     let n = 0;
+    let colpita = false;
     const visite = new Map<string, number>();
     try {
       while (!p.finita && n < 600) {
         r.sceneViste.add(p.scena);
         const v = vista(g, p);
-        const disponibili = v.scelte.flatMap((s) => [s, ...(s.varianti ?? [])]).filter((s) => s.disponibile);
+        const disponibili = disponibiliDi(v);
         if (disponibili.length === 0) {
           r.bloccate.push(`${p.scena} (seme ${seme})`);
           break;
         }
         visite.set(p.scena, (visite.get(p.scena) ?? 0) + 1);
+        const b = bivio(g, p, disponibili);
         const c = scegli(g, p, v, politica, disponibili, rng, visite);
         rng = c.rng;
         if (c.id === "quasi:tutto") r.quasi.tutto++;
         if (c.id === "quasi:meta") r.quasi.meta++;
         if (c.id === "quasi:lascia") r.quasi.lascia++;
+        if (b?.vista.some((s) => s.id === c.id)) r.bivi.vista++;
+        if (b?.coperto.some((s) => s.id === c.id)) r.bivi.coperto++;
         if (traccia && k === 0) traccia.push(`${p.scena} → ${c.id}`);
         const esito = agisci(g, p, c.id);
         for (const e of esito.eventi) {
+          // Le ferite tue, non quelle dei compagni: hanno un testo diverso.
+          if (e.tipo === "ferita" && e.testo.startsWith("Ferita ")) colpita = true;
           if (e.tipo !== "esito" || !e.dati || !("come" in e.dati)) continue;
           const d = e.dati as DatiEsito;
           if (d.come === "scegli tu" || !c.id.startsWith("quasi:")) r.fasce[d.fascia]++;
-          if (/rovescio/.test(d.come)) rovesci++;
+          if (/rovescio/.test(d.come)) {
+            rovesci++;
+            colpita = true;
+          }
         }
         p = esito.partita;
         n++;
@@ -304,10 +453,10 @@ export function simula(g: Gioco, politica: Politica, partite: number, semeInizia
       const fine = p.finita?.tipo ?? (n >= 600 ? "troppo lunga" : "bloccata");
       r.esiti[fine] = (r.esiti[fine] ?? 0) + 1;
       if (p.finita) r.finali[p.scena] = (r.finali[p.scena] ?? 0) + 1;
-      const sc = g.storia.scadenze[0];
-      if (p.finita?.tipo === "vittoria" && sc) {
+      if (colpita || p.finita?.tipo === "morte") r.colpite++;
+      if (p.finita?.tipo === "vittoria" && g.storia.scadenze[0]) {
         vittorie++;
-        margine += (sc.caselle - (p.spinte?.[sc.id] ?? 0)) * sc.ogniOre - p.ora;
+        margine += oreCheRestano(g, p);
       }
       ore += p.ora;
       azioni += n;

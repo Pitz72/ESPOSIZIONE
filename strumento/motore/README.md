@@ -18,7 +18,7 @@ node src/cli.ts gioca            # gioca nel terminale (scrivi "scheda" per vede
 node src/cli.ts gioca --seme 11  # la stessa partita, con gli stessi dadi
 node src/cli.ts controlla        # i controlli del §47 sui dati
 node src/cli.ts libro            # rigenera libro/santa-rita.md
-node src/cli.ts simula           # 500 partite per ciascuna delle tredici strategie automatiche (--partite 1000 per il §54.2)
+node src/cli.ts simula           # 500 partite per ciascuna delle tredici strategie automatiche, e i bivi rigiocati (--partite 1000 per il §54.2)
 node --test                      # i test
 ```
 
@@ -41,7 +41,7 @@ Poi, dalla cartella `typst/` del repository, `.\build.ps1` impagina il documento
 | `src/stato.ts` | lo stato della partita: la memoria della storia, le notizie e le loro smentite, le persone e le loro reazioni, le proprietà dei luoghi, il tempo in ore, le ferite, gli stati d'animo, la Traccia, gli imprevisti; le cose nei luoghi, i posti, la forza e il riconoscere; gli stati del mondo con la loro durata, e l'ambiente che logora |
 | `src/motore.ts` | `vista` (che cosa mostrare) e `agisci` (che cosa succede): il quadro, le fasce, il *Quasi*, il dono, il rovescio, il confronto, le scelte esaurite, «Ci ripenso», «Metto insieme quello che so», gli aiuti, i compagni con le loro varianti, «Prendo…» e che cosa lasciare quando non c'è posto |
 | `src/controlli.ts` | i controlli del §47, più quelli strutturali |
-| `src/simulazione.ts` | i giocatori automatici: le strategie semplici, quelle per il *Quasi*, e il giocatore con un obiettivo, che cerca la strada più breve verso una vittoria pesando probabilità, rumore e rischio di rovescio, con tre copie che nel *Quasi* scelgono sempre la stessa cosa |
+| `src/simulazione.ts` | i giocatori automatici: le strategie semplici, quelle per il *Quasi*, e il giocatore con un obiettivo, che cerca la strada più breve verso una vittoria pesando probabilità, rumore e rischio di rovescio, con tre copie che nel *Quasi* scelgono sempre la stessa cosa; e i bivi fra una prova in vista e una strada al coperto, rigiocati per il criterio 4 |
 | `src/libro.ts` | il generatore del librogame |
 | `src/cli.ts` | la riga di comando |
 | `web/` | l'app web: l'interfaccia (`gioco.ts`), il panorama del porto (`panorama.ts`), il suono generato nel browser (`suono.ts`), la pagina (`pagina.html`) e lo script che impacchetta tutto con il motore in un solo file. Il panorama e i colori sono il tema di questa ambientazione: un'altra storia ne avrebbe un altro. Per impacchettare usa esbuild, uno strumento di sviluppo del motore; la pagina che ne esce non ha dipendenze |
@@ -75,6 +75,8 @@ Il personaggio non sa nuotare: da solo non può entrare in acqua. Lucia sì, e c
 ## Le simulazioni, il 31 ottobre 2026
 
 Mille partite per ciascuna delle tredici strategie, con `node src/cli.ts simula --partite 1000`. Nessun blocco, nessun errore, tutte le scene raggiunte, le fasce con le frequenze delle tabelle. Il giocatore con un obiettivo vince il 79%, la scrupolosa il 32%, l'opportunista il 31%, la temeraria il 23%, la casuale il 13%, la prudente il 4%. Nel *Quasi*, il giocatore con un obiettivo vince più di ciascuna delle sue tre copie: 79% contro il 64% di chi prende sempre tutto, il 59% di chi prende sempre la metà e il 58% di chi lascia sempre perdere. Il §54.2 del documento racconta come ci si è arrivati (i prezzi della Santa Rita, la nave avvertita, il prezzo che si legge prima di scegliere) e perché la scadenza resta di ventiquattro ore.
+
+La stessa stampa misura i criteri 4 e 6. Per il 4, le partite dei cinque giocatori semplici si fermano a ogni bivio fra una prova in vista e una strada al coperto. Da lì si giocano due volte, dallo stesso punto e con gli stessi dadi, e le finisce il giocatore con un obiettivo. Davanti alla guardia del porto, quando alla nave restano nove ore o meno, la strada in vista vince 91 partite su 100 e quella al coperto 54. Al magazzino sette, quando c'è tempo, conviene invece il tetto, al coperto: 78 contro 53. Per il 6 si contano le partite con almeno un rovescio, una ferita o la morte: la temeraria arriva al 67%.
 
 Fino al 29 ottobre la strategia casuale sceglieva nel *Quasi* con la regola di «situazione», e le due erano lo stesso giocatore: i confronti sul *Quasi* fatti prima di quella data non valgono.
 

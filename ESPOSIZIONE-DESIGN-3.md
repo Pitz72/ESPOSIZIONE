@@ -27,11 +27,11 @@ Il testo dice le regole come sono oggi. Il perché delle scelte meno ovvie sta a
 
 ## Che cosa è provato e che cosa no
 
-*Lo stato al 29 ottobre 2026.*
+*Lo stato al 31 ottobre 2026.*
 
-**Provato.** Il motore esiste, in `strumento/motore/`, e fa quello che questo documento descrive. Passa 56 test, che controllano anche che i numeri del documento siano quelli che il motore produce, e i trentasei controlli del §47 sui dati. Una storia di prova di 59 scene, *Il registro della Santa Rita*, si gioca nel terminale, nell'app e sul librogame stampato, e le tre versioni escono dagli stessi dati.
+**Provato.** Il motore esiste, in `strumento/motore/`, e fa quello che questo documento descrive. Passa 61 test, che controllano anche che i numeri del documento siano quelli che il motore produce, e i trentasei controlli del §47 sui dati. Una storia di prova di 59 scene, *Il registro della Santa Rita*, si gioca nel terminale, nell'app e sul librogame stampato, e le tre versioni escono dagli stessi dati.
 
-I giocatori automatici del §54.2 giocano mille partite per ciascuna di tredici strategie: nessuna partita resta bloccata, non esce nessun errore, tutte le scene vengono raggiunte, e le fasce escono con le frequenze delle tabelle. Le strategie contano: chi gioca per vincere vince 79 partite su 100, chi si prepara sempre 32, chi sceglie a caso 13. Nel *Quasi* scegliere con giudizio vince 79 partite, prendere sempre tutto 64. Una cosa non va ancora come dovrebbe, e il §54.2 la racconta: chi conosce la strada arriva alla nave con molte ore di margine.
+I giocatori automatici del §54.2 giocano mille partite per ciascuna di tredici strategie: nessuna partita resta bloccata, non esce nessun errore, tutte le scene vengono raggiunte, e le fasce escono con le frequenze delle tabelle. Le strategie contano: chi gioca per vincere vince 79 partite su 100, chi si prepara sempre 32, chi sceglie a caso 13. Nel *Quasi* scegliere con giudizio vince 79 partite, prendere sempre tutto 64. A volte conviene essere in vista: quando la nave sta per salpare e la strada al coperto costa ore. E chi rischia sempre si fa male in due partite su tre. Tutti e sei i criteri del §54.2 sono superati. Una cosa non va ancora come dovrebbe, e il §54.2 la racconta: chi conosce la strada arriva alla nave con molte ore di margine.
 
 **Non provato.** Nessuno ha ancora giocato questa versione. L'autore ha giocato per intero la precedente, e da quella partita vengono alcune regole di questo documento: le parole, le scelte che spariscono quando non servono più, la struttura della difficoltà. Che le quattro fasce si sentano diverse, che il quadro si legga in pochi secondi, che i tratti e i legami arricchiscano la scheda senza appesantirla: questo lo possono dire soltanto le persone che giocano. Il progetto non le aspetta per andare avanti. Quando arriveranno le loro risposte, il §54.3 dice come leggerle e il §54.4 che cosa farne.
 
@@ -1725,21 +1725,23 @@ E un criterio sul lavoro di chi scrive: nella Santa Rita la media dei testi obbl
 
 **I risultati, al 31 ottobre 2026.**
 
-| Strategia | Vittorie su 100 | Ore medie | Rovesci per partita |
-|---|---|---|---|
-| con un obiettivo | 79 | 5,9 | 0,12 |
-| con un obiettivo, sempre tutto | 64 | 5,7 | 0,37 |
-| con un obiettivo, sempre la metà | 59 | 6,4 | 0,24 |
-| con un obiettivo, sempre lascio perdere | 58 | 6,7 | 0,25 |
-| scrupolosa | 32 | 18,5 | 0,61 |
-| opportunista | 31 | 18,0 | 0,28 |
-| temeraria | 23 | 17,6 | 0,71 |
-| casuale | 13 | 20,6 | 0,30 |
-| sempre tutto | 12 | 20,2 | 0,40 |
-| secondo la situazione | 12 | 20,1 | 0,37 |
-| sempre la metà | 11 | 20,5 | 0,22 |
-| sempre lascio perdere | 11 | 20,5 | 0,21 |
-| prudente | 4 | 22,6 | 0,00 |
+| Strategia | Vittorie su 100 | Ore medie | Rovesci per partita | Partite con un rovescio o una ferita, su 100 |
+|---|---|---|---|---|
+| con un obiettivo | 79 | 5,9 | 0,12 | 53 |
+| con un obiettivo, sempre tutto | 64 | 5,7 | 0,37 | 71 |
+| con un obiettivo, sempre la metà | 59 | 6,4 | 0,24 | 47 |
+| con un obiettivo, sempre lascio perdere | 58 | 6,7 | 0,25 | 47 |
+| scrupolosa | 32 | 18,5 | 0,61 | 63 |
+| opportunista | 31 | 18,0 | 0,28 | 49 |
+| temeraria | 23 | 17,6 | 0,71 | 67 |
+| casuale | 13 | 20,6 | 0,30 | 40 |
+| sempre tutto | 12 | 20,2 | 0,40 | 47 |
+| secondo la situazione | 12 | 20,1 | 0,37 | 46 |
+| sempre la metà | 11 | 20,5 | 0,22 | 33 |
+| sempre lascio perdere | 11 | 20,5 | 0,21 | 33 |
+| prudente | 4 | 22,6 | 0,00 | 8 |
+
+Nell'ultima colonna conta anche la morte.
 
 **Criterio 1, superato.** Nessuna partita bloccata, nessun errore, tutte le scene raggiunte.
 
@@ -1759,9 +1761,37 @@ Due avvertenze. La prima: le copie non si adattano. Chi ha pagato all'archivio v
 
 I prezzi nuovi abbassano anche le vittorie di chi esplora: la scrupolosa scende da 43 a 32, la temeraria da 29 a 23. Nel *Quasi* prendono spesso tutto, e finiscono nell'allarme. Le lanterne ne tolgono altre tre alla scrupolosa e due alla temeraria.
 
+**Criterio 4, superato il 31 ottobre.** Per misurarlo servono dei bivi: punti della storia in cui, per arrivare nello stesso posto, c'è una prova in vista e c'è una strada al coperto, cioè una prova al coperto oppure una via senza tiro che non lascia Traccia. Nella Santa Rita i giocatori automatici ne incontrano sette.
+
+La misura funziona così. I cinque giocatori semplici giocano le loro mille partite. Al primo bivio di ogni scena la partita si ferma e si gioca due volte, dallo stesso punto e con gli stessi dadi: una volta per la strada in vista, una volta per quella al coperto. Tutte e due le volte la partita la finisce il giocatore con un obiettivo, che sceglie anche quale prova fare fra quelle in vista e quale fra quelle al coperto: la domanda è che cosa conviene a chi poi gioca bene. Una strada conviene se vince almeno dieci partite su cento più dell'altra, in almeno cinquanta bivi. Il metodo e la soglia sono stati scritti il 31 ottobre, insieme alla misura. I risultati però sono lontani dalla soglia, e una soglia diversa non li cambierebbe.
+
+| Bivio | Ore alla partenza della nave | Bivi | Vittorie su 100, in vista | Vittorie su 100, al coperto | Conviene |
+|---|---|---|---|---|---|
+| la passerella | più di 15 | 1057 | 85 | 29 | in vista |
+| la passerella | da 10 a 15 | 461 | 41 | 26 | in vista |
+| la passerella | 9 o meno | 285 | 22 | 9 | in vista |
+| la guardia del porto | da 10 a 15 | 67 | 96 | 100 | — |
+| la guardia del porto | 9 o meno | 74 | 91 | 54 | in vista |
+| il magazzino sette | più di 15 | 1802 | 53 | 78 | al coperto |
+| il magazzino sette | da 10 a 15 | 508 | 36 | 38 | — |
+| il magazzino sette | 9 o meno | 201 | 12 | 11 | — |
+| la catena di Matteo | più di 15 | 219 | 53 | 75 | al coperto |
+| la catena di Matteo | da 10 a 15 | 58 | 84 | 97 | al coperto |
+
+Le conclusioni tengono con quattro serie di dadi diverse. Cambia soltanto la riga della catena da 10 a 15 ore: con una delle serie lo scarto scende a 9, sotto la soglia.
+
+- **Dalla guardia del porto succede quello che il criterio prevedeva.** L'ufficiale si può convincere ad abbordare la Santa Rita, in vista, oppure gli si lascia la bolla di carico sperando che si muova in tempo, e ci vogliono sei ore. Finché c'è tempo, le due strade si equivalgono. Quando alla nave ne restano nove o meno, sei ore di attesa sono troppe: chi convince l'ufficiale vince 91 partite, chi aspetta 54.
+- **Sulla passerella conviene sempre essere in vista**: mettersi in fila coi facchini, infilarsi dal portello delle ancore, mentire al nostromo. La strada al coperto è il ripiego, e il ripiego deve costare. Chi lavora come facchino finché non lo lasciano scendere nella stiva perde quattro ore, e la fatica gli sale a «pesante». Alla catena, stanco, forzare il lucchetto non è più in vista ma allo scoperto. Di notte si può aspettare che la guardia si addormenti, ma quando arriva la notte le ore che restano sono poche.
+- **Al magazzino sette e alla catena conviene il coperto, quando c'è tempo**: salire dal tetto vince 78 partite contro le 53 di chi forza la porta, prendere la chiave dalla giacca di Teodoro 75 contro 53. Quando il tempo stringe, al magazzino le due strade si equivalgono.
+- **All'osteria del Gallo** comprare una voce da Zeno vale quanto chiedergliela: le due strade vincono le stesse partite.
+
+Un'osservazione per chi scrive. Nella Santa Rita una prova in vista batte soltanto le strade senza tiro, mai una prova al coperto: il coperto che pesa è il tempo dei ripieghi. Se una storia vuole anche l'altro caso, la prova al coperto deve costare tempo anche lei, come un giro lungo.
+
 **Criterio 5, superato.** Le fasce osservate coincidono con le tabelle.
 
-**Criteri 4 e 6, non ancora misurati.** I giocatori automatici non contano ancora le partite con almeno un rovescio, né le situazioni in cui conviene essere in vista.
+**Criterio 6, superato il 31 ottobre.** La temeraria subisce un rovescio, una ferita o la morte in 67 partite su 100, da 67 a 70 con quattro serie di dadi. Scomposto: 44 partite con almeno un rovescio, 49 con almeno una ferita, 14 con una ferita grave, 2 finite con la morte (una partita può avere più di una di queste cose). Il pericolo resta anche per chi gioca bene: il giocatore con un obiettivo esce con una ferita lieve da metà delle partite, perché alla catena, o saltando dalla nave, si sbuccia le mani. Chi resta sempre al coperto, il prudente, è colpito in 8 partite su 100, ma ne vince 4.
+
+**Il criterio sul lavoro di chi scrive** è rispettato per come è fatto il formato: per ogni prova le cose obbligatorie sono al massimo tre (§45.1), e tutto il resto ha un predefinito.
 
 **La scadenza.** Chi conosce la strada arriva alla fine in sei ore circa, e alla nave che salpa ne restano diciotto: la scadenza non lo preme. Chi esplora è un altro discorso: la nave che salpa chiude 67 partite su 100 del casuale, 40 della scrupolosa e 43 dell'opportunista. La scadenza resta di ventiquattro ore, per una ragione di progetto: accorciarla toglierebbe la notte, e la notte è dove i costi si rovesciano (§19.4). Il suo compito è premere su chi esplora, e lo fa; chi conosce già la strada, in un librogame, finisce sempre presto. Una regola lega la scadenza a ciò che fai: ogni allarme del porto fa salpare la nave tre ore prima (§15.4), e il rumore costa anche tempo.
 
@@ -1796,10 +1826,9 @@ Le prove con le persone non fermano il progetto. Le decisioni si prendono con il
 ## 55. Prossimi passi
 
 1. **Lo strumento per chi scrive.** Oggi una storia si scrive a mano, nei file di dati: la Santa Rita sono quasi novecento righe. È il limite più grande del motore, e la Fase 4 della roadmap.
-2. **I criteri 4 e 6.** Insegnare ai giocatori automatici a contare le situazioni in cui conviene essere in vista, e le partite con almeno un rovescio o una ferita (§54.2).
-3. **La prova dei generi**, partendo dalle tre ambientazioni abbozzate nella Parte X.
-4. **Le persone**, quando arrivano: il §54.3 dice che cosa guardare.
-5. Correggere questo documento con ciò che si impara, dichiarando ogni cambiamento.
+2. **La prova dei generi**, partendo dalle tre ambientazioni abbozzate nella Parte X.
+3. **Le persone**, quando arrivano: il §54.3 dice che cosa guardare.
+4. Correggere questo documento con ciò che si impara, dichiarando ogni cambiamento.
 
 ---
 ---
